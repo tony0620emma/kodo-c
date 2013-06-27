@@ -1,11 +1,11 @@
 #include "ckodo.h"
+#include "encoder_factory_wrapper.hpp"
+#include "decoder_factory_wrapper.hpp"
 
 #include <kodo/rlnc/full_vector_codes.hpp>
 
 
-
-
-/// Initialize the type constants
+// Initialize the type constants
 // Typdefs for the encoder/decoder type we wish to use
 typedef kodo::full_rlnc_encoder<fifi::binary> full_rlnc_encoder;
 typedef kodo::full_rlnc_decoder<fifi::binary> full_rlnc_decoder;
@@ -16,7 +16,6 @@ typedef kodo::full_rlnc_decoder<fifi::binary8> full_rlnc_decoder8;
 typedef kodo::full_rlnc_encoder<fifi::binary16> full_rlnc_encoder16;
 typedef kodo::full_rlnc_decoder<fifi::binary16> full_rlnc_decoder16;
 
-
 const size_t kodo_binary = typeid(fifi::binary).hash_code();
 const size_t kodo_binary8 = typeid(fifi::binary8).hash_code();
 const size_t kodo_binary16 = typeid(fifi::binary16).hash_code();
@@ -24,213 +23,32 @@ const size_t kodo_binary16 = typeid(fifi::binary16).hash_code();
 const size_t kodo_full_rlnc =
     typeid(full_rlnc_encoder).hash_code();
 
-
-
-struct kodo_encoder_
-{
-    virtual uint32_t encode(uint8_t* payload) = 0;
-};
-
-
-
-struct kodo_decoder_
-{
-    virtual void decode(uint8_t* payload) = 0;
-};
-
-template<class KodoEncoder>
-struct kodo_encoder_wrapper : public kodo_encoder_
-{
-    kodo_encoder_wrapper(const typename KodoEncoder::pointer& encoder)
-        : m_encoder(encoder)
-    {
-        assert(m_encoder);
-    }
-
-    virtual uint32_t encode(uint8_t* payload)
-    {
-        assert(payload);
-        assert(m_encoder);
-
-        return m_encoder->encode(payload);
-    }
-
-    typename KodoEncoder::pointer m_encoder;
-};
-
-
-template<class KodoDecoder>
-struct kodo_decoder_wrapper : public kodo_decoder_
-{
-    kodo_decoder_wrapper(const typename KodoDecoder::pointer& decoder)
-        : m_decoder(decoder)
-    {
-        assert(m_decoder);
-    }
-
-    virtual void decode(uint8_t* payload)
-    {
-        assert(payload);
-        assert(m_decoder);
-
-        m_decoder->decode(payload);
-    }
-
-    typename KodoDecoder::pointer m_decoder;
-};
-
-struct kodo_encoder_factory_
-{
-    virtual kodo_encoder_* build() = 0;
-
-    virtual uint32_t max_symbols() const = 0;
-    virtual uint32_t max_symbol_size() const = 0;
-    virtual uint32_t max_block_size() const = 0;
-    virtual uint32_t max_payload_size() const = 0;
-};
-
-
-struct kodo_decoder_factory_
-{
-    virtual kodo_decoder_* build() = 0;
-
-    virtual uint32_t max_symbols() const = 0;
-    virtual uint32_t max_symbol_size() const = 0;
-    virtual uint32_t max_block_size() const = 0;
-    virtual uint32_t max_payload_size() const = 0;
-};
-
-template<class KodoEncoder>
-struct kodo_encoder_factory_wrapper : public kodo_encoder_factory_
-{
-    kodo_encoder_factory_wrapper(uint32_t max_symbols,
-                                 uint32_t max_symbol_size)
-        : m_factory(max_symbols, max_symbol_size)
-    {
-
-    }
-
-    kodo_encoder_* build()
-    {
-        auto encoder = m_factory.build();
-
-        kodo_encoder_* base =
-            new kodo_encoder_wrapper<KodoEncoder>(encoder);
-
-        return base;
-    }
-
-    virtual uint32_t max_symbols() const
-    {
-        return m_factory.max_symbols();
-    }
-
-    virtual uint32_t max_symbol_size() const
-    {
-        return m_factory.max_symbol_size();
-    }
-
-    virtual uint32_t max_block_size() const
-    {
-        return m_factory.max_block_size();
-    }
-
-    virtual uint32_t max_payload_size() const
-    {
-        return m_factory.max_payload_size();
-    }
-
-    typename KodoEncoder::factory m_factory;
-};
-
-
-template<class KodoDecoder>
-struct kodo_decoder_factory_wrapper : public kodo_decoder_factory_
-{
-    kodo_decoder_factory_wrapper(uint32_t max_symbols,
-                                 uint32_t max_symbol_size)
-        : m_factory(max_symbols, max_symbol_size)
-    {
-
-    }
-
-    kodo_decoder_* build()
-    {
-        auto decoder = m_factory.build();
-
-        kodo_decoder_* base =
-            new kodo_decoder_wrapper<KodoDecoder>(decoder);
-
-        return base;
-    }
-
-    virtual uint32_t max_symbols() const
-    {
-        return m_factory.max_symbols();
-    }
-
-    virtual uint32_t max_symbol_size() const
-    {
-        return m_factory.max_symbol_size();
-    }
-
-    virtual uint32_t max_block_size() const
-    {
-        return m_factory.max_block_size();
-    }
-
-    virtual uint32_t max_payload_size() const
-    {
-        return m_factory.max_payload_size();
-    }
-
-
-    typename KodoDecoder::factory m_factory;
-};
-
-
-
-
-
-
-
-// template<class Field>
-// struct kodo_full_rlnc_encoder : public kodo_encoder_
-// {
-// };
-
-
-
-
 //------------------------------------------------------------------
 // FACTORY API
 //------------------------------------------------------------------
 
-kodo_encoder_factory*
-kodo_new_encoder_factory(
-    size_t code_type, size_t field_type,
-    uint32_t max_symbols, uint32_t max_symbol_size)
+void* kodo_new_encoder_factory(size_t code_type, size_t field_type,
+                               uint32_t max_symbols, uint32_t max_symbol_size)
 {
-    kodo_encoder_factory_ *factory = 0;
+    kodo::factory *factory = 0;
 
     if(code_type == kodo_full_rlnc)
     {
         if(field_type == kodo_binary)
         {
-            factory = new kodo_encoder_factory_wrapper<
+            factory = new kodo::encoder_factory_wrapper<
                 full_rlnc_encoder>(max_symbols, max_symbol_size);
         }
         if(field_type == kodo_binary8)
         {
-            factory = new kodo_encoder_factory_wrapper<
+            factory = new kodo::encoder_factory_wrapper<
                 full_rlnc_encoder8>(max_symbols, max_symbol_size);
         }
         if(field_type == kodo_binary16)
         {
-            factory = new kodo_encoder_factory_wrapper<
+            factory = new kodo::encoder_factory_wrapper<
                 full_rlnc_encoder16>(max_symbols, max_symbol_size);
         }
-
     }
 
     assert(factory);
@@ -239,32 +57,28 @@ kodo_new_encoder_factory(
 }
 
 
-kodo_decoder_factory*
-kodo_new_decoder_factory(
-    size_t code_type, size_t field_type,
-    uint32_t max_symbols, uint32_t max_symbol_size)
+void* kodo_new_decoder_factory(size_t code_type, size_t field_type,
+                               uint32_t max_symbols, uint32_t max_symbol_size)
 {
-    kodo_decoder_factory_ *factory = 0;
+    kodo::factory *factory = 0;
 
     if(code_type == kodo_full_rlnc)
     {
         if(field_type == kodo_binary)
         {
-            factory = new kodo_decoder_factory_wrapper<
+            factory = new kodo::decoder_factory_wrapper<
                 full_rlnc_decoder>(max_symbols, max_symbol_size);
         }
         if(field_type == kodo_binary8)
         {
-            factory = new kodo_decoder_factory_wrapper<
+            factory = new kodo::decoder_factory_wrapper<
                 full_rlnc_decoder8>(max_symbols, max_symbol_size);
         }
         if(field_type == kodo_binary16)
         {
-            factory = new kodo_decoder_factory_wrapper<
+            factory = new kodo::decoder_factory_wrapper<
                 full_rlnc_decoder16>(max_symbols, max_symbol_size);
         }
-
-
     }
 
     assert(factory);
@@ -272,45 +86,131 @@ kodo_new_decoder_factory(
     return factory;
 }
 
-kodo_encoder* kodo_new_encoder(kodo_encoder_factory* factory)
+void kodo_delete_encoder_factory(void* factory)
+{
+    assert(factory);
+    kodo::factory* the_factory = (kodo::factory*) factory;
+    delete the_factory;
+}
+
+void kodo_delete_decoder_factory(void* factory)
+{
+    assert(factory);
+    kodo::factory* the_factory = (kodo::factory*) factory;
+    delete the_factory;
+}
+
+
+void* kodo_new_encoder(void* factory)
 {
     assert(factory);
 
-    kodo_encoder *encoder = factory->build();
-    return encoder;
+    kodo::factory* the_factory = (kodo::factory*) factory;
+    return the_factory->build();
 }
 
-kodo_decoder* kodo_new_decoder(kodo_decoder_factory* factory)
+void* kodo_new_decoder(void* factory)
 {
     assert(factory);
 
-    kodo_decoder *decoder = factory->build();
-    return decoder;
+    kodo::factory* the_factory = (kodo::factory*) factory;
+    return the_factory->build();
 }
 
-void kodo_delete_encoder_factory(kodo_encoder_factory* factory)
-{
-    assert(factory);
-    delete factory;
-}
-
-void kodo_delete_decoder_factory(kodo_decoder_factory* factory)
-{
-    assert(factory);
-    delete factory;
-}
-
-void kodo_delete_encoder(kodo_encoder* encoder)
+void kodo_delete_encoder(void* encoder)
 {
     assert(encoder);
-    delete encoder;
+
+    kodo::encoder* the_encoder = (kodo::encoder*) encoder;
+    delete the_encoder;
 }
 
-void kodo_delete_decoder(kodo_decoder* decoder)
+void kodo_delete_decoder(void* decoder)
 {
     assert(decoder);
-    delete decoder;
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    delete the_decoder;
 }
+
+uint32_t kodo_max_symbols(void* factory)
+{
+    kodo::factory* the_factory = (kodo::factory*) factory;
+    return the_factory->max_symbols();
+}
+
+uint32_t kodo_max_symbol_size(void* factory)
+{
+    kodo::factory* the_factory = (kodo::factory*) factory;
+    return the_factory->max_symbol_size();
+}
+
+uint32_t kodo_max_block_size(void* factory)
+{
+    kodo::factory* the_factory = (kodo::factory*) factory;
+    return the_factory->max_block_size();
+}
+
+uint32_t kodo_max_payload_size(void* factory)
+{
+    kodo::factory* the_factory = (kodo::factory*) factory;
+    return the_factory->max_payload_size();
+}
+
+uint32_t kodo_block_size(void* coder)
+{
+    kodo::coder* the_coder = (kodo::coder*) coder;
+    return the_coder->block_size();
+}
+
+uint32_t kodo_payload_size(void* coder)
+{
+    kodo::coder* the_coder = (kodo::coder*) coder;
+    return the_coder->payload_size();
+}
+
+uint32_t kodo_encode(void* encoder, uint8_t* data)
+{
+    kodo::encoder* the_encoder = (kodo::encoder*) encoder;
+    return the_encoder->encode(data);
+}
+
+void kodo_set_symbols(void* encoder, const uint8_t* data, uint32_t size)
+{
+    kodo::encoder* the_encoder = (kodo::encoder*) encoder;
+    the_encoder->set_symbols(data, size);
+}
+
+void kodo_set_symbol(void* encoder, uint32_t index, const uint8_t* data, uint32_t size)
+{
+    kodo::encoder* the_encoder = (kodo::encoder*) encoder;
+    the_encoder->set_symbol(index, data, size);
+}
+
+void kodo_decode(void* decoder, uint8_t *data)
+{
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    the_decoder->decode(data);
+}
+
+uint8_t kodo_is_complete(void* decoder)
+{
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    return (uint8_t)the_decoder->is_complete();
+}
+
+uint32_t kodo_rank(void* decoder)
+{
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    return the_decoder->rank();
+}
+
+void kodo_copy_symbols(void* decoder, uint8_t* data, uint32_t size)
+{
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    the_decoder->copy_symbols(data, size);
+}
+
 
 
 

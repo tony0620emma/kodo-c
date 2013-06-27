@@ -25,18 +25,50 @@ int main()
     // kodo_binary, kodo_binary8, kodo_binary16
     size_t finite_field = kodo_binary;
 
-    kodo_encoder_factory* encoder_factory =
+    void* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size);
 
-    kodo_decoder_factory* decoder_factory =
+    void* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size);
 
-    kodo_encoder* encoder = kodo_new_encoder(encoder_factory);
-    kodo_decoder* decoder = kodo_new_decoder(decoder_factory);
+    void* encoder = kodo_new_encoder(encoder_factory);
+    void* decoder = kodo_new_decoder(decoder_factory);
 
+    uint32_t payload_size = kodo_payload_size(encoder);
+    uint8_t *payload = (uint8_t*) malloc(payload_size);
 
+    uint32_t block_size = kodo_block_size(encoder);
+    uint8_t *data_in = (uint8_t*) malloc(block_size);
+
+    uint32_t i = 0;
+    for(; i < block_size; ++i)
+        data_in[i] = rand() % 256;
+
+    kodo_set_symbols(encoder, data_in, block_size);
+
+    while(!kodo_is_complete(decoder))
+    {
+        kodo_encode(encoder, payload);
+        kodo_decode(decoder, payload);
+    }
+
+    uint8_t *data_out = (uint8_t*) malloc(block_size);
+    kodo_copy_symbols(decoder, data_out, block_size);
+
+    if(memcmp(data_in, data_out, block_size) == 0)
+    {
+        printf("Data decoded correctly\n");
+    }
+    else
+    {
+        printf("Unexpected failure to decode please file a bug report :)\n");
+    }
+
+    free(data_in);
+    free(data_out);
+    free(payload);
 
     kodo_delete_encoder(encoder);
     kodo_delete_decoder(decoder);
