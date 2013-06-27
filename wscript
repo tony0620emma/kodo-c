@@ -63,11 +63,11 @@ def options(opt):
     opt.load('wurf_dependency_resolve')
     opt.load('wurf_tools')
 
-    opt.load('compiler_c')
+    #opt.load('compiler_c')
 
 def configure(conf):
 
-    conf.load('compiler_c')
+    #conf.load('compiler_c')
 
     if conf.is_toplevel():
 
@@ -102,7 +102,7 @@ def build(bld):
         bld.stlib(source = 'src/ckodo/ckodo.cpp',
                   target = 'ckodo',
                   name   = 'ckodo',
-                  cxxflags = ['-static'],
+                  #cxxflags = ['-static-libgcc','-static', '-libstdc++'],
                   export_includes = 'src',
                   use    = ['kodo_includes', 'boost_includes',
                             'fifi_includes', 'sak_includes'])
