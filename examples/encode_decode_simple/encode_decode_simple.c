@@ -76,7 +76,6 @@ int main()
     kodo_delete_encoder_factory(encoder_factory);
     kodo_delete_decoder_factory(decoder_factory);
 
-
     return 0;
 }
 
