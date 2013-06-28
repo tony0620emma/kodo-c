@@ -27,8 +27,9 @@ const size_t kodo_full_rlnc =
 // FACTORY API
 //------------------------------------------------------------------
 
-void* kodo_new_encoder_factory(size_t code_type, size_t field_type,
-                               uint32_t max_symbols, uint32_t max_symbol_size)
+kodo_factory_t*
+kodo_new_encoder_factory(size_t code_type, size_t field_type,
+                         uint32_t max_symbols, uint32_t max_symbol_size)
 {
     kodo::factory *factory = 0;
 
@@ -49,16 +50,22 @@ void* kodo_new_encoder_factory(size_t code_type, size_t field_type,
             factory = new kodo::encoder_factory_wrapper<
                 full_rlnc_encoder16>(max_symbols, max_symbol_size);
         }
+
+        // The field type was unknown
+        assert(factory);
+
     }
 
+    // The code type was unknown
     assert(factory);
 
-    return factory;
+    return (kodo_factory_t*)factory;
 }
 
 
-void* kodo_new_decoder_factory(size_t code_type, size_t field_type,
-                               uint32_t max_symbols, uint32_t max_symbol_size)
+kodo_factory_t*
+kodo_new_decoder_factory(size_t code_type, size_t field_type,
+                         uint32_t max_symbols, uint32_t max_symbol_size)
 {
     kodo::factory *factory = 0;
 
@@ -79,21 +86,26 @@ void* kodo_new_decoder_factory(size_t code_type, size_t field_type,
             factory = new kodo::decoder_factory_wrapper<
                 full_rlnc_decoder16>(max_symbols, max_symbol_size);
         }
+
+        // The field type was unknown
+        assert(factory);
+
     }
 
+    // The code type was unknown
     assert(factory);
 
     return factory;
 }
 
-void kodo_delete_encoder_factory(void* factory)
+void kodo_delete_encoder_factory(kodo_factory_t* factory)
 {
     assert(factory);
     kodo::factory* the_factory = (kodo::factory*) factory;
     delete the_factory;
 }
 
-void kodo_delete_decoder_factory(void* factory)
+void kodo_delete_decoder_factory(kodo_factory_t* factory)
 {
     assert(factory);
     kodo::factory* the_factory = (kodo::factory*) factory;
@@ -156,6 +168,25 @@ uint32_t kodo_max_payload_size(void* factory)
     kodo::factory* the_factory = (kodo::factory*) factory;
     return the_factory->max_payload_size();
 }
+
+void kodo_set_symbols(kodo_factory_t* factory, uint32_t symbols)
+{
+    assert(factory);
+
+    kodo::factory* the_factory = (kodo::factory*) factory;
+    the_factory->set_symbols(symbols);
+}
+
+void kodo_set_symbol_size(kodo_factory_t* factory, uint32_t symbol_size)
+{
+    assert(factory);
+
+    kodo::factory* the_factory = (kodo::factory*) factory;
+    the_factory->set_symbol_size(symbol_size);
+}
+
+
+
 
 uint32_t kodo_block_size(void* coder)
 {

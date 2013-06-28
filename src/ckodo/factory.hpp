@@ -11,6 +11,9 @@ namespace kodo
     {
         virtual void* build() = 0;
 
+        virtual void set_symbols(uint32_t symbols) = 0;
+        virtual void set_symbol_size(uint32_t symbol_size) = 0;
+
         virtual uint32_t max_symbols() const = 0;
         virtual uint32_t max_symbol_size() const = 0;
         virtual uint32_t max_block_size() const = 0;

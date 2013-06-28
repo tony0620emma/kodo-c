@@ -18,6 +18,16 @@ namespace kodo
             : m_factory(max_symbols, max_symbol_size)
         { }
 
+        virtual void set_symbols(uint32_t symbols)
+        {
+            m_factory.set_symbols(symbols);
+        }
+
+        virtual void set_symbol_size(uint32_t symbol_size)
+        {
+            m_factory.set_symbol_size(symbol_size);
+        }
+
         virtual uint32_t max_symbols() const
         {
             return m_factory.max_symbols();
