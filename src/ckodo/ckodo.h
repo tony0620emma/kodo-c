@@ -201,10 +201,11 @@ void kodo_copy_symbols(kodo_coder_t* decoder, uint8_t* data, uint32_t size);
 uint8_t kodo_is_complete(kodo_coder_t* decoder);
 
 /// The rank of a decoder states how many symbols have been decoded
-/// or partially decoded.
-/// @param decoder Pointer to the decoder to query
-/// @return the rank of the decoder
-uint32_t kodo_rank(kodo_coder_t* decoder);
+/// or partially decoded. The rank of an encoder states how many symbols
+/// are available for encoding.
+/// @param coder Pointer to the coder to query
+/// @return the rank of the decoder or encoder
+uint32_t kodo_rank(kodo_coder_t* coder);
 
 #ifdef __cplusplus
 }

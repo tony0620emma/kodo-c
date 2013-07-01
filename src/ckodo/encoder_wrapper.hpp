@@ -52,6 +52,11 @@ namespace kodo
             return m_encoder->block_size();
         }
 
+        virtual uint32_t rank() const
+        {
+            return m_encoder->rank();
+        }
+
 
         typename KodoStack::pointer m_encoder;
 
