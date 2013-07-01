@@ -101,11 +101,11 @@ def build(bld):
 
         bld.stlib(source = 'src/ckodo/ckodo.cpp',
                   target = 'ckodo',
-                  name   = 'ckodo',
-                  #cxxflags = ['-static-libgcc','-static', '-libstdc++'],
+                  name   = 'ckodo_static',
                   export_includes = 'src',
                   use    = ['kodo_includes', 'boost_includes',
                             'fifi_includes', 'sak_includes'])
 
+        bld.recurse('test')
         bld.recurse('examples/encode_decode_simple')
 

@@ -24,6 +24,14 @@ namespace kodo
             assert(m_decoder);
         }
 
+        virtual uint32_t recode(uint8_t *payload)
+        {
+            assert(payload);
+            assert(m_decoder);
+
+            return m_decoder->recode(payload);
+        }
+
         virtual void decode(uint8_t *payload)
         {
             assert(payload);

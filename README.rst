@@ -1,30 +1,51 @@
 About
 =====
 
-This repository C bindings for the Kodo Network Coding library.
+This repository C high-level bindings for the Kodo Network Coding library.
+The bindings provide access to basic functionality provided by Kodo,
+such as encoding and decoding of data. The examples folder provides sample
+applications showing usage of the C API.
 
 Build
 =====
 
+To build the C bindings for Kodo you can follow the steps described in the
+`Kodo manual`_, there you will find a thorough descriptions of the build steps
+in the getting started section. Only difference is that you should clone the
+``kodo-c-bindings`` git repository.
+
+.. _Kodo manual: https://kodo.readthedocs.org/en/latest/
+
+Below we outline the steps needed:
+
 To configure the examples run:
 ::
-  ./waf configure --bundle=ALL --bundle-path=~/dev/bundled_dependencies/
+  python waf configure --bundle=ALL
 
 This will configure the project and download all the dependencies needed.
 
-The ``--bundle-path`` option specifies where to download the
-dependencies (the kodo library + others). If you do not specify a ``--bundle-path``
-the default will be within a folder within the project directory called
-``bundle_dependencies``.
-
-The ``--bundle`` says which dependencies should be downloaded automatically. If
-you do not want to use e.g. the kodo library from the repository you may write
-``--bundle=ALL,-kodo`` and then specify the path to the kodo library you wish to
-use by writing ``--kodo-path=/home/xyz/kodo-lib``.
-
-After configure run the following command to build:
+After configure run the following command to build the static library:
 ::
-  ./waf build
+  python waf build
+
+This will produce a static library in the ``build`` folder called ``libkodo.a``.
+The following section will show you how to link with the library in your
+application.
+
+Linking with an application
+===========================
+Include ``ckodo.h`` in your application and link with ``libckodo``.
+Here is a typical gcc link command:
+
+::
+
+  gcc myapp.c -o myapp -Ipath_to_ckodo_h -Wl,-Bstatic -Lpath_to_libkodo_a -lckodo -Wl,-Bdynamic -lstdc++
+
+Substitute the ``path_to_ckodo_h`` with the path of ``ckodo.h`` similarly
+Substitute the ``path_to_libkodo_a`` with the path of the ``libkodo.a``
+library.
+
+
 
 
 

@@ -11,6 +11,7 @@ namespace kodo
 {
     struct decoder : public coder
     {
+        virtual uint32_t recode(uint8_t *) = 0;
         virtual void decode(uint8_t *) = 0;
         virtual bool is_complete() const = 0;
         virtual uint32_t rank() const = 0;

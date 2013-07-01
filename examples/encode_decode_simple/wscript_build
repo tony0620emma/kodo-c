@@ -4,6 +4,7 @@
 bld.program(features = 'c',
             source   = 'encode_decode_simple.c',
             target   = 'encode_decode_simple',
-            #lib      = ['stdc++'],
-            use      = ['ckodo'])
+            target   = 'encode_decode_simple_static',
+            lib      = ['stdc++'],
+            use      = ['ckodo_static'])
 
