@@ -25,16 +25,16 @@ int main()
     // kodo_binary, kodo_binary8, kodo_binary16
     size_t finite_field = kodo_binary;
 
-    void* encoder_factory =
+    kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size);
 
-    void* decoder_factory =
+    kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size);
 
-    void* encoder = kodo_new_encoder(encoder_factory);
-    void* decoder = kodo_new_decoder(decoder_factory);
+    kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
+    kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
 
     uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t *payload = (uint8_t*) malloc(payload_size);
