@@ -106,5 +106,6 @@ def build(bld):
                   use    = ['kodo_includes', 'boost_includes',
                             'fifi_includes', 'sak_includes'])
 
+        bld.recurse('test')
         bld.recurse('examples/encode_decode_simple')
 
