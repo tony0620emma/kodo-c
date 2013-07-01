@@ -36,6 +36,7 @@ Include ``ckodo.h`` in your application and link with ``libckodo``.
 Here is a typical gcc link command:
 
 ::
+
   gcc myapp.c -o myapp -Ipath-to-ckodo -Wl,-Bstatic -L. -lckodo -Wl,-Bdynamic -lstdc++
 
 
