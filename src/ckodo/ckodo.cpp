@@ -1,9 +1,13 @@
+// Copyright Steinwurf ApS 2011-2013.
+// Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
+// See accompanying file LICENSE.rst or
+// http://www.steinwurf.com/licensing
+
 #include "ckodo.h"
 #include "encoder_factory_wrapper.hpp"
 #include "decoder_factory_wrapper.hpp"
 
 #include <kodo/rlnc/full_vector_codes.hpp>
-
 
 // Initialize the type constants
 // Typdefs for the encoder/decoder type we wish to use
