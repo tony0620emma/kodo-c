@@ -29,6 +29,8 @@ After configure run the following command to build the static library:
   python waf build
 
 This will produce a static library in the ``build`` folder called ``libkodo.a``.
+The following section will show you how to link with the library in your
+application.
 
 Linking with an application
 ===========================
@@ -37,7 +39,11 @@ Here is a typical gcc link command:
 
 ::
 
-  gcc myapp.c -o myapp -Ipath-to-ckodo -Wl,-Bstatic -L. -lckodo -Wl,-Bdynamic -lstdc++
+  gcc myapp.c -o myapp -Ipath-to-ckodo.h -Wl,-Bstatic -Lpath-to-libkodo.a -lckodo -Wl,-Bdynamic -lstdc++
+
+Substitute the ``path-to-ckodo.h`` with the path of ``ckodo.h`` similarly
+Substitute the ``path-to-libkodo.a`` with the path of the ``libkodo.a``
+library.
 
 
 
