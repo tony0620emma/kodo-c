@@ -62,8 +62,8 @@ kodo_new_decoder_factory(size_t code_type, size_t field_type,
 /// @param factory Pointer to the encoder factory which should be deallocated
 void kodo_delete_encoder_factory(kodo_factory_t* factory);
 
-/// Deallocates and releases the memory consumed by the encoder factory
-/// @param factory Pointer to the encoder factory which should be deallocated
+/// Deallocates and releases the memory consumed by the decoder factory
+/// @param factory Pointer to the decoder factory which should be deallocated
 void kodo_delete_decoder_factory(kodo_factory_t* factory);
 
 /// @param factory Pointer to the factory to query
@@ -89,23 +89,29 @@ uint32_t kodo_factory_max_payload_size(kodo_factory_t* factory);
 /// encoders / decoders built with the specified factory. The value must
 /// be below the max symbols used for the specific factory.
 /// @param factory Pointer to the factory which should be configured
+/// @param symbols The number of symbols used for the next encoder/decoder
+///        built with the factory.
 void kodo_factory_set_symbols(kodo_factory_t* factory, uint32_t symbols);
 
 /// Sets the number of symbols which should be used for the subsequent
 /// encoders / decoders built with the specified factory. The value must
 /// be below the max symbols used for the specific factory.
 /// @param factory Pointer to the factory which should be configured
+/// @param symbols_size The symbol size used for the next encoder/decoder
+///        built with the factory.
 void kodo_factory_set_symbol_size(kodo_factory_t* factory,
                                   uint32_t symbol_size);
 
 /// Builds a new encoder using the specified factory
 /// @param factory Pointer to the encoder factory which should be used to
 ///        build the encoder
+/// @return The new encoder built
 kodo_coder_t* kodo_factory_new_encoder(kodo_factory_t* factory);
 
 /// Builds a new encoder using the specified factory
 /// @param factory Pointer to the encoder factory which should be used to
 ///        build the encoder
+/// @return The new decoder built
 kodo_coder_t* kodo_factory_new_decoder(kodo_factory_t* factory);
 
 /// Deallocates and releases the memory consumed by the encoder factory
@@ -141,6 +147,7 @@ void kodo_decode(kodo_coder_t* decoder, uint8_t* payload);
 
 /// Recodes a symbol into the provided buffer. This function is special for
 /// network codes.
+/// @param coder Pointer to the decoder to use.
 /// @param payload The buffer which should contain the recoded
 ///        symbol.
 /// @return the total bytes used from the payload buffer
@@ -150,6 +157,7 @@ uint32_t kodo_recode(kodo_coder_t* decoder, uint8_t* payload);
 // SYMBOL STORAGE API
 //------------------------------------------------------------------
 
+/// @param coder Pointer to the coder to query.
 /// @return the block size i.e. the total size in bytes
 ///         that this coder operates on. Users may
 ///         use the bytes_used() function provided in the
@@ -162,21 +170,25 @@ uint32_t kodo_block_size(kodo_coder_t* coder);
 /// then the symbols should be specified individually. This also
 /// means that it is the responsibility of the user to communicate
 /// how many of the bytes transmitted are application data.
-/// @param symbol_storage A sak::mutable_storage container initialized
-///        with the buffer to be use as encoding / decoding buffer.
+/// @param encoder Pointer to the encoder which will encode the data
+/// @param data The buffer containing the data to be encoded
+/// @param size The size of the buffer to be encoded
 void kodo_set_symbols(kodo_coder_t* encoder, const uint8_t* data,
                       uint32_t size);
 
 /// Sets a data of a symbol.
+/// @param encoder Pointer to the encoder which will encode the data
 /// @param index the index of the symbol into the coding block
-/// @param symbol the actual data of that symbol
+/// @param data The buffer containing the data to be encoded
+/// @param size The size of the buffer to be encoded
 void kodo_set_symbol(kodo_coder_t* encoder, uint32_t index,
                      const uint8_t* data, uint32_t size);
 
-/// Copies the encoded / decoded symbols to the dest buffer.
-/// @param dest The destination buffer where the symbols should be
-///        copied. The function will copy block_size() bytes or until
-///        the dest buffer is full.
+/// Copies the decoded symbols to the dest buffer.
+/// @param decoder Pointer to the decoder which contains the data to be
+///        copied.
+/// @param data The destination buffer to which the data should be copied
+/// @param size The size of the data to be copied
 void kodo_copy_symbols(kodo_coder_t* decoder, uint8_t* data, uint32_t size);
 
 //------------------------------------------------------------------
@@ -184,13 +196,14 @@ void kodo_copy_symbols(kodo_coder_t* decoder, uint8_t* data, uint32_t size);
 //------------------------------------------------------------------
 
 /// Check whether decoding is complete.
+/// @param decoder Pointer to the decoder to query
 /// @return true if the decoding is complete
 uint8_t kodo_is_complete(kodo_coder_t* decoder);
 
 /// The rank of a decoder states how many symbols have been decoded
-/// or partially decoded. The rank of an encoder states how many symbols
-/// are available for encoding.
-/// @return the rank of the decoder or encoder
+/// or partially decoded.
+/// @param decoder Pointer to the decoder to query
+/// @return the rank of the decoder
 uint32_t kodo_rank(kodo_coder_t* decoder);
 
 #ifdef __cplusplus

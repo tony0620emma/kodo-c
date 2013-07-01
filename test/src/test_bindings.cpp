@@ -3,7 +3,7 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-/// @file test_matrix.cpp Unit tests for the kodo::matrix class
+/// @file test_bindings.cpp Unit tests for the Kodo C bindings
 
 #include <gtest/gtest.h>
 
