@@ -41,6 +41,7 @@ int main()
 
     uint32_t block_size = kodo_block_size(encoder);
     uint8_t *data_in = (uint8_t*) malloc(block_size);
+    uint8_t *data_out = (uint8_t*) malloc(block_size);
 
     uint32_t i = 0;
     for(; i < block_size; ++i)
@@ -54,7 +55,6 @@ int main()
         kodo_decode(decoder, payload);
     }
 
-    uint8_t *data_out = (uint8_t*) malloc(block_size);
     kodo_copy_symbols(decoder, data_out, block_size);
 
     if(memcmp(data_in, data_out, block_size) == 0)
@@ -66,9 +66,9 @@ int main()
         printf("Unexpected failure to decode please file a bug report :)\n");
     }
 
-    free(data_in);
-    free(data_out);
-    free(payload);
+    free((void*)data_in);
+    free((void*)data_out);
+    free((void*)payload);
 
     kodo_delete_encoder(encoder);
     kodo_delete_decoder(decoder);
