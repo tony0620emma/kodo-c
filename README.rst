@@ -28,7 +28,8 @@ After configure run the following command to build the static library:
 ::
   python waf build
 
-This will produce a static library in the ``build`` folder called ``libkodo.a``.
+This will produce a static library in the ``build`` folder called
+``libckodo.a`` on Linux and Mac and ``ckodo.lib`` on Windows..
 The following section will show you how to link with the library in your
 application.
 
