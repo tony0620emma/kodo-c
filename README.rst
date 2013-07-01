@@ -39,10 +39,10 @@ Here is a typical gcc link command:
 
 ::
 
-  gcc myapp.c -o myapp -Ipath-to-ckodo.h -Wl,-Bstatic -Lpath-to-libkodo.a -lckodo -Wl,-Bdynamic -lstdc++
+  gcc myapp.c -o myapp -Ipath_to_ckodo_h -Wl,-Bstatic -Lpath_to_libkodo_a -lckodo -Wl,-Bdynamic -lstdc++
 
-Substitute the ``path-to-ckodo.h`` with the path of ``ckodo.h`` similarly
-Substitute the ``path-to-libkodo.a`` with the path of the ``libkodo.a``
+Substitute the ``path_to_ckodo_h`` with the path of ``ckodo.h`` similarly
+Substitute the ``path_to_libkodo_a`` with the path of the ``libkodo.a``
 library.
 
 
