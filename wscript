@@ -59,16 +59,12 @@ def options(opt):
              git_repository = 'github.com/steinwurf/kodo.git',
              major_version = 11))
 
-    opt.load('wurf_dependency_bundle')
-    opt.load('wurf_dependency_resolve')
+    opt.load('wurf_dependency_bundle')    
     opt.load('wurf_tools')
-
-    #opt.load('compiler_c')
+    
 
 def configure(conf):
-
-    #conf.load('compiler_c')
-
+    
     if conf.is_toplevel():
 
         conf.load('wurf_dependency_bundle')
@@ -109,3 +105,8 @@ def build(bld):
         bld.recurse('test')
         bld.recurse('examples/encode_decode_simple')
 
+def dist(ctx):
+
+    ctx.base_name = APPNAME+'-standalone-'+VERSION 
+    ctx.algo      = 'zip'    
+    #ctx.excl      = ' **/.waf-1* **/*~ **/*.pyc **/*.swp **/.lock-w*'
