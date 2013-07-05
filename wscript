@@ -13,6 +13,9 @@ def recurse_helper(ctx, name):
 
 def options(opt):
 
+    opt.load('wurf_tools')
+    opt.load('wurf_dependency_bundle')
+
     import waflib.extras.wurf_dependency_bundle as bundle
     import waflib.extras.wurf_dependency_resolve as resolve
     import waflib.extras.wurf_configure_output
@@ -59,9 +62,6 @@ def options(opt):
              git_repository = 'github.com/steinwurf/kodo.git',
              major_version = 11))
 
-    opt.load('wurf_dependency_bundle')
-    opt.load('wurf_tools')
-    
 
 def configure(conf):
     
