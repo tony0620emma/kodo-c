@@ -59,7 +59,7 @@ def options(opt):
              git_repository = 'github.com/steinwurf/kodo.git',
              major_version = 11))
 
-    opt.load('wurf_dependency_bundle')    
+    opt.load('wurf_dependency_bundle')
     opt.load('wurf_tools')
     
 
@@ -108,5 +108,4 @@ def build(bld):
 def dist(ctx):
 
     ctx.base_name = APPNAME+'-standalone-'+VERSION 
-    ctx.algo      = 'zip'    
-    #ctx.excl      = ' **/.waf-1* **/*~ **/*.pyc **/*.swp **/.lock-w*'
+    ctx.algo      = 'zip'
