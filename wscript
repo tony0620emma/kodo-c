@@ -106,6 +106,8 @@ def build(bld):
         bld.recurse('examples/encode_decode_simple')
 
 def dist(ctx):
-
+    excludes = 'build **/.git **/.gitignore **/*~ **/*.pyc .lock* *.bat ' \
+               'waf-* .waf-* *.zip bundle_dependencies/*/master/*'
     ctx.base_name = APPNAME+'-standalone-'+VERSION 
-    ctx.algo      = 'zip'
+    ctx.algo      = 'zip'    
+    ctx.files     = ctx.path.ant_glob('**/*', dir = True, excl = excludes.split(' '))
