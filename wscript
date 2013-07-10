@@ -105,6 +105,7 @@ def build(bld):
         bld.shlib(source = 'src/ckodo/ckodo.cpp',
                   target = 'ckodo',
                   name   = 'ckodo_shared',
+                  cxxflags = ['-static-libgcc', '-static-libstdc++'],
                   export_includes = 'src',
                   use    = ['kodo_includes', 'boost_includes',
                             'fifi_includes', 'sak_includes'])
