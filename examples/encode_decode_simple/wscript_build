@@ -17,5 +17,6 @@ bld.program(features = 'c',
 
 bld.program(features = 'c',
             source   = 'encode_decode_simple.c',
-            target   = 'encode_decode_simple_shared',            
+            target   = 'encode_decode_simple_shared',
+            rpath    = '.',
             use      = ['ckodo_shared'])
