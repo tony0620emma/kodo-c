@@ -2,12 +2,13 @@
 # encoding: utf-8
 
 static_libs = []
-dynamic_libs = []
+search_path = []
 
 if bld.is_mkspec_platform('windows'):
     static_libs = []
 else:
     static_libs = ['stdc++']
+    search_path = ['.']
 
 bld.program(features = 'c',
             source   = 'encode_decode_simple.c',
@@ -18,5 +19,5 @@ bld.program(features = 'c',
 bld.program(features = 'c',
             source   = 'encode_decode_simple.c',
             target   = 'encode_decode_simple_shared',
-            rpath    = '.',
+            rpath    = search_path,
             use      = ['ckodo_shared'])
