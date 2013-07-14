@@ -30,7 +30,8 @@ FIFI_DIR = bundle_dependencies/fifi-f85dcd/9.1.0/src
 KODO_DIR = bundle_dependencies/kodo-f3a9b9/11.1.0/src
 
 # Flags for C++ compiler
-CXXFLAGS = --std=c++0x -O2 -I $(BOOST_DIR) -I $(SAK_DIR) -I $(FIFI_DIR) -I $(KODO_DIR)
+INCLUDES = -I $(BOOST_DIR) -I $(SAK_DIR) -I $(FIFI_DIR) -I $(KODO_DIR)
+CXXFLAGS = --std=c++0x -O2 -ftree-vectorize
 ARFLAGS = rcs
 
 # Flags for C compiler
@@ -46,14 +47,14 @@ $(STATICLIB): $(OBJDIR)/ckodo.o
 	$(AR) $(ARFLAGS) $@ $^
 
 $(OBJDIR)/ckodo.o: $(STATICLIBSRC)
-	$(CXX) -c $(CXXFLAGS) $< -o $@
+	$(CXX) $< -o $@ -c $(CXXFLAGS) $(INCLUDES)
 
 # Build the example second
 $(EXAMPLE): $(OBJDIR)/$(EXAMPLE).o $(STATICLIB)
 	$(CC) $(LDFLAGS) $< $(CCLIBS) -o $@
 
 $(OBJDIR)/$(EXAMPLE).o: $(EXAMPLESRC)
-	$(CC) -c $(CCFLAGS) $< -o $@
+	$(CC) $< -o $@ -c $(CCFLAGS)
 
 
 .PHONY: clean
