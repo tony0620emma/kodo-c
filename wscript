@@ -64,7 +64,7 @@ def options(opt):
 
 
 def configure(conf):
-    
+
     if conf.is_toplevel():
 
         conf.load('wurf_dependency_bundle')
@@ -101,7 +101,7 @@ def build(bld):
                   export_includes = 'src',
                   use    = ['kodo_includes', 'boost_includes',
                             'fifi_includes', 'sak_includes'])
-                            
+
         bld.shlib(source = 'src/ckodo/ckodo.cpp',
                   target = 'ckodo',
                   name   = 'ckodo_shared',
@@ -117,6 +117,6 @@ def build(bld):
 def dist(ctx):
     excludes = 'build **/.git **/.gitignore **/*~ **/*.pyc .lock* *.bat ' \
                'waf-* .waf-* *.zip bundle_dependencies/*/master/*'
-    ctx.base_name = APPNAME+'-standalone-'+VERSION 
-    ctx.algo      = 'zip'    
+    ctx.base_name = APPNAME+'-standalone-'+VERSION
+    ctx.algo      = 'zip'
     ctx.files     = ctx.path.ant_glob('**/*', dir = True, excl = excludes.split(' '))
