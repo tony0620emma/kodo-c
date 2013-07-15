@@ -15,6 +15,7 @@ def options(opt):
 
     opt.load('wurf_tools')
     opt.load('wurf_dependency_bundle')
+    opt.load('wurf_standalone')
 
     import waflib.extras.wurf_dependency_bundle as bundle
     import waflib.extras.wurf_dependency_resolve as resolve
@@ -61,7 +62,6 @@ def options(opt):
              name = 'kodo',
              git_repository = 'github.com/steinwurf/kodo.git',
              major_version = 11))
-
 
 def configure(conf):
 
@@ -112,11 +112,3 @@ def build(bld):
 
         bld.recurse('test')
         bld.recurse('examples/encode_decode_simple')
-
-
-def dist(ctx):
-    excludes = 'build **/.git **/.gitignore **/*~ **/*.pyc .lock* *.bat ' \
-               'waf-* .waf-* *.zip bundle_dependencies/*/master/*'
-    ctx.base_name = APPNAME+'-standalone-'+VERSION
-    ctx.algo      = 'zip'
-    ctx.files     = ctx.path.ant_glob('**/*', dir = True, excl = excludes.split(' '))
