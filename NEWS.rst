@@ -7,7 +7,7 @@ of every change, see the Git log.
 1.1.0
 -----
 * Added the standalone archiver Waf tool. The tool makes it possible to
-  create self contained archives of the C bindings i.e. it contains all
+  create self contained archives of the Kodo C bindings i.e. it contains all
   needed dependencies.
 
 1.0.0
