@@ -34,7 +34,7 @@ KODO_DIR = ../bundle_dependencies/kodo-f3a9b9/11.1.0/src
 
 # Flags for C++ compiler
 INCLUDES = -I $(BOOST_DIR) -I $(SAK_DIR) -I $(FIFI_DIR) -I $(KODO_DIR)
-CXXFLAGS = --std=c++0x -fPIC -O2 -ftree-vectorize
+CXXFLAGS = -std=c++0x -fPIC -O2 -ftree-vectorize
 ARFLAGS = rcs
 SHAREDLIBFLAGS = -shared -s
 # Produce self-contained shared library
