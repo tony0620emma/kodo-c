@@ -57,6 +57,10 @@ namespace kodo
             return m_encoder->symbol_size();
         }
 
+        virtual uint32_t symbols() const
+        {
+            return m_encoder->symbols();
+        }
 
         virtual uint32_t rank() const
         {

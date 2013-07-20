@@ -196,6 +196,10 @@ void kodo_copy_symbols(kodo_coder_t* decoder, uint8_t* data, uint32_t size);
 /// @return The size of a symbol in bytes
 uint32_t kodo_symbol_size(kodo_coder_t* coder);
 
+/// @param coder Pointer to the encoder/decoder to check
+/// @return The number of symbols in a encoder/decoder
+uint32_t kodo_symbols(kodo_coder_t* coder);
+
 //------------------------------------------------------------------
 // CODEC API
 //------------------------------------------------------------------

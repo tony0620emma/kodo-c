@@ -18,8 +18,8 @@ int main()
 {
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t symbols = 42;
-    uint32_t symbol_size = 160;
+    uint32_t max_symbols = 42;
+    uint32_t max_symbol_size = 160;
 
     // Here we select the coding algorithm we wish to use
     size_t algorithm = kodo_on_the_fly;
@@ -57,7 +57,7 @@ int main()
     while(!kodo_is_complete(decoder))
     {
         uint32_t bytes_used = kodo_encode(encoder, payload);
-        printf("payload encoded, bytes used = %d", bytes_used);
+        printf("payload encoded, bytes used = %d\n", bytes_used);
 
         // Send the data to the decoders, here we just for fun
         // simulate that we are loosing 50% of the packets
@@ -67,17 +67,20 @@ int main()
         // Packet got through - pass that packet to the decoder
         kodo_decode(decoder, payload);
 
-        printf("payload decoded, decoding rank %d", kodo_rank(decoder));
+        printf("payload decoded, decoding rank %d\n", kodo_rank(decoder));
 
         // Randomly choose to insert a symbol (50% of the time)
-        if((rand() % 2) == 0 && kodo_rank(encoder) < symbols)
+        // The rank of an encoder indicates how many symbols have been specified,
+        // whereas the rank of a decoder indicates how many symbols have been
+        // decoded or partially decoded
+        if((rand() % 2) == 0 && kodo_rank(encoder) < kodo_symbols(encoder))
         {
             // For an encoder the rank specifies the number of symbols
             // it has available for encoding
             uint32_t rank = kodo_rank(encoder);
 
             // Calculate the offset to the next symbol to insert
-            uint8_t* symbol = rank * kodo_symbol_size(encoder);
+            uint8_t* symbol = data_in + (rank * kodo_symbol_size(encoder));
             kodo_set_symbol(encoder, rank, symbol, kodo_symbol_size(encoder));
         }
     }

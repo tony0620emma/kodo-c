@@ -39,6 +39,10 @@ const size_t kodo_binary16 = typeid(fifi::binary16).hash_code();
 const size_t kodo_full_rlnc =
     typeid(full_rlnc_encoder).hash_code();
 
+const size_t kodo_on_the_fly =
+    typeid(on_the_fly_encoder).hash_code();
+
+
 //------------------------------------------------------------------
 // FACTORY API
 //------------------------------------------------------------------
@@ -345,6 +349,15 @@ uint32_t kodo_symbol_size(kodo_coder_t* coder)
     kodo::coder* the_coder = (kodo::coder*) coder;
     return the_coder->symbol_size();
 }
+
+uint32_t kodo_symbols(kodo_coder_t* coder)
+{
+    assert(coder);
+
+    kodo::coder* the_coder = (kodo::coder*) coder;
+    return the_coder->symbols();
+}
+
 
 //------------------------------------------------------------------
 // CODEC API
