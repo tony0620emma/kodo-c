@@ -52,6 +52,12 @@ namespace kodo
             return m_encoder->block_size();
         }
 
+        virtual uint32_t symbol_size() const
+        {
+            return m_encoder->symbol_size();
+        }
+
+
         virtual uint32_t rank() const
         {
             return m_encoder->rank();

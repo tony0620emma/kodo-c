@@ -8,6 +8,7 @@
 #include "decoder_factory_wrapper.hpp"
 
 #include <kodo/rlnc/full_vector_codes.hpp>
+#include <kodo/rlnc/on_the_fly_codes.hpp>
 
 // Initialize the type constants
 // Typdefs for the encoder/decoder type we wish to use
@@ -19,6 +20,17 @@ typedef kodo::full_rlnc_decoder<fifi::binary8> full_rlnc_decoder8;
 
 typedef kodo::full_rlnc_encoder<fifi::binary16> full_rlnc_encoder16;
 typedef kodo::full_rlnc_decoder<fifi::binary16> full_rlnc_decoder16;
+
+// Typedefs for the on-the-fly coders
+typedef kodo::on_the_fly_encoder<fifi::binary> on_the_fly_encoder;
+typedef kodo::on_the_fly_decoder<fifi::binary> on_the_fly_decoder;
+
+typedef kodo::on_the_fly_encoder<fifi::binary8> on_the_fly_encoder8;
+typedef kodo::on_the_fly_decoder<fifi::binary8> on_the_fly_decoder8;
+
+typedef kodo::on_the_fly_encoder<fifi::binary16> on_the_fly_encoder16;
+typedef kodo::on_the_fly_decoder<fifi::binary16> on_the_fly_decoder16;
+
 
 const size_t kodo_binary = typeid(fifi::binary).hash_code();
 const size_t kodo_binary8 = typeid(fifi::binary8).hash_code();
@@ -60,6 +72,30 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
 
     }
 
+    if(code_type == kodo_on_the_fly)
+    {
+        if(field_type == kodo_binary)
+        {
+            factory = new kodo::encoder_factory_wrapper<
+                on_the_fly_encoder>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary8)
+        {
+            factory = new kodo::encoder_factory_wrapper<
+                on_the_fly_encoder8>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary16)
+        {
+            factory = new kodo::encoder_factory_wrapper<
+                on_the_fly_encoder16>(max_symbols, max_symbol_size);
+        }
+
+        // The field type was unknown
+        assert(factory);
+
+    }
+
+
     // The code type was unknown
     assert(factory);
 
@@ -95,6 +131,30 @@ kodo_new_decoder_factory(size_t code_type, size_t field_type,
         assert(factory);
 
     }
+
+    if(code_type == kodo_on_the_fly)
+    {
+        if(field_type == kodo_binary)
+        {
+            factory = new kodo::decoder_factory_wrapper<
+                on_the_fly_decoder>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary8)
+        {
+            factory = new kodo::decoder_factory_wrapper<
+                on_the_fly_decoder8>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary16)
+        {
+            factory = new kodo::decoder_factory_wrapper<
+                on_the_fly_decoder16>(max_symbols, max_symbol_size);
+        }
+
+        // The field type was unknown
+        assert(factory);
+
+    }
+
 
     // The code type was unknown
     assert(factory);
@@ -276,6 +336,14 @@ void kodo_copy_symbols(kodo_coder_t* decoder, uint8_t* data, uint32_t size)
 
     kodo::decoder* the_decoder = (kodo::decoder*) decoder;
     the_decoder->copy_symbols(data, size);
+}
+
+uint32_t kodo_symbol_size(kodo_coder_t* coder)
+{
+    assert(coder);
+
+    kodo::coder* the_coder = (kodo::coder*) coder;
+    return the_coder->symbol_size();
 }
 
 //------------------------------------------------------------------

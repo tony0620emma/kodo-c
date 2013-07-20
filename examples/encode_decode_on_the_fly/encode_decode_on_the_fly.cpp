@@ -1,4 +1,4 @@
-// Copyright Steinwurf ApS 2011-2012.
+// Copyright Steinwurf ApS 2011-2013.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
@@ -6,20 +6,23 @@
 #include <ckodo/ckodo.h>
 #include <stdint.h>
 
-/// @example encode_decode_simple.c
+/// @example encode_decode_on_the_fly.c
 ///
-/// Simple example showing how to encode and decode a block
-/// of memory.
+/// This example shows how to use a storage aware encoder which will
+/// allow you to encode from a block before all symbols have been
+/// specified. This can be useful in cases where the symbols that
+/// should be encoded are produced on-the-fly. The decoder will also
+/// allow you to detect whether the symbols have been partially decoded.
 
 int main()
 {
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 42;
-    uint32_t max_symbol_size = 160;
+    uint32_t symbols = 42;
+    uint32_t symbol_size = 160;
 
     // Here we select the coding algorithm we wish to use
-    size_t algorithm = kodo_full_rlnc;
+    size_t algorithm = kodo_on_the_fly;
 
     // Here we select the finite field to use common choices are
     // kodo_binary, kodo_binary8, kodo_binary16
@@ -32,13 +35,6 @@ int main()
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size);
-
-    // If we wanted to build an encoder of decoder with a smaller number of
-    // symbols or a different symbol size, then this can be adjusted using the
-    // following functions:
-    // kodo_factory_set_symbols(...) and kodo_factory_set_symbol_size(...)
-    // We can however not exceed the maximum values which was used when building
-    // the factory.
 
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
@@ -54,15 +50,36 @@ int main()
     for(; i < block_size; ++i)
         data_in[i] = rand() % 256;
 
-    kodo_set_symbols(encoder, data_in, block_size);
+    // Notice that we are starting the encoding / decoding loop without having
+    // added any data to the encoder - we will do this on the fly in the loop
+    // below
 
     while(!kodo_is_complete(decoder))
     {
-        // The encoder will use a certain amount of bytes of the payload
-        // buffer. It will however never use more than payload_size, but
-        // it might use less.
         uint32_t bytes_used = kodo_encode(encoder, payload);
+        printf("payload encoded, bytes used = %d", bytes_used);
+
+        // Send the data to the decoders, here we just for fun
+        // simulate that we are loosing 50% of the packets
+        if((rand() % 2) == 0)
+           continue;
+
+        // Packet got through - pass that packet to the decoder
         kodo_decode(decoder, payload);
+
+        printf("payload decoded, decoding rank %d", kodo_rank(decoder));
+
+        // Randomly choose to insert a symbol (50% of the time)
+        if((rand() % 2) == 0 && kodo_rank(encoder) < symbols)
+        {
+            // For an encoder the rank specifies the number of symbols
+            // it has available for encoding
+            uint32_t rank = kodo_rank(encoder);
+
+            // Calculate the offset to the next symbol to insert
+            uint8_t* symbol = rank * kodo_symbol_size(encoder);
+            kodo_set_symbol(encoder, rank, symbol, kodo_symbol_size(encoder));
+        }
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);

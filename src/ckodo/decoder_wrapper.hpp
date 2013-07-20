@@ -62,6 +62,11 @@ namespace kodo
             return m_decoder->block_size();
         }
 
+        virtual uint32_t symbol_size() const
+        {
+            return m_decoder->symbol_size();
+        }
+
         virtual void copy_symbols(uint8_t* data, uint32_t size) const
         {
             auto storage = sak::mutable_storage(data, size);

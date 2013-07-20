@@ -29,6 +29,7 @@ extern const size_t kodo_binary16;
 
 /// Constants for select in the encoder/decoder
 extern const size_t kodo_full_rlnc;
+extern const size_t kodo_on_the_fly;
 
 /// Builds a new encoder factory
 /// @param code_type This parameter determines the encoding algorithms used.
@@ -190,6 +191,10 @@ void kodo_set_symbol(kodo_coder_t* encoder, uint32_t index,
 /// @param data The destination buffer to which the data should be copied
 /// @param size The size of the data to be copied
 void kodo_copy_symbols(kodo_coder_t* decoder, uint8_t* data, uint32_t size);
+
+/// @param coder Pointer to the encoder/decoder to check
+/// @return The size of a symbol in bytes
+uint32_t kodo_symbol_size(kodo_coder_t* coder);
 
 //------------------------------------------------------------------
 // CODEC API
