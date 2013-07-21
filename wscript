@@ -88,12 +88,6 @@ def build(bld):
 
         bld.load('wurf_dependency_bundle')
 
-        so_flags = []
-        mkspec = bld.get_tool_option('cxx_mkspec')
-        if 'crosslinux' in mkspec:
-            so_flags = ['-static-libgcc', '-static-libstdc++']
-            bld.env['DEFINES_GTEST_SHARED'] = ['GTEST_HAS_PTHREAD=0']
-
         recurse_helper(bld, 'boost')
         recurse_helper(bld, 'gtest')
         recurse_helper(bld, 'sak')
@@ -107,6 +101,12 @@ def build(bld):
                   export_includes = 'src',
                   use    = ['kodo_includes', 'boost_includes',
                             'fifi_includes', 'sak_includes'])
+
+        so_flags = []
+        mkspec = bld.get_tool_option('cxx_mkspec')
+        if 'crosslinux' in mkspec:
+            so_flags = ['-static-libgcc', '-static-libstdc++']
+            bld.env['DEFINES_GTEST_SHARED'] += ['GTEST_HAS_PTHREAD=0']
 
         bld.shlib(source = 'src/ckodo/ckodo.cpp',
                   target = 'ckodo',
