@@ -12,6 +12,11 @@ extern "C" {
 #include <string.h>
 #include <stdio.h>
 
+#ifdef __INTEL_COMPILER
+    #pragma byte_order (push, littleendian)
+    #pragma extern_prefix (push, "")
+#endif
+
 //------------------------------------------------------------------
 // FACTORY API
 //------------------------------------------------------------------
@@ -215,6 +220,11 @@ uint8_t kodo_is_complete(kodo_coder_t* decoder);
 /// @param coder Pointer to the coder to query
 /// @return the rank of the decoder or encoder
 uint32_t kodo_rank(kodo_coder_t* coder);
+
+#ifdef __INTEL_COMPILER
+    #pragma byte_order pop
+    #pragma extern_prefix pop
+#endif
 
 #ifdef __cplusplus
 }
