@@ -8,6 +8,10 @@ Latest
 ------
 * TBD
 
+1.2.1
+-----
+* Bugfix: Allow compilation without using a makespec
+
 1.2.0
 -----
 * Minor: Added support for on-the-fly encoding and a corresponding example.

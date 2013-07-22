@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 APPNAME = 'ckodo'
-VERSION = '1.2.0'
+VERSION = '1.2.1'
 
 def recurse_helper(ctx, name):
     if not ctx.has_dependency_path(name):
