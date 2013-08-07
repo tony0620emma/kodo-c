@@ -48,11 +48,13 @@ int main()
 
     // Keeps track of which symbols have been decoded
     uint8_t* decoded = (uint8_t*)malloc(sizeof(uint8_t)*max_symbols);
-    memset(decoded, '\0', sizeof(uint8_t)*max_symbols);
 
     uint32_t i = 0;
     for (i = 0; i < block_size; ++i)
         data_in[i] = rand() % 256;
+
+    // Zero initialize the decoded array
+    memset(decoded, '\0', sizeof(uint8_t)*max_symbols);
 
     // For on-the-fly decoding the decoder has to support the partial
     // decoding tracker.
