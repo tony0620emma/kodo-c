@@ -56,11 +56,6 @@ int main()
     // Zero initialize the decoded array
     memset(decoded, '\0', sizeof(uint8_t)*max_symbols);
 
-    // For on-the-fly decoding the decoder has to support the partial
-    // decoding tracker.
-    uint8_t support_partial_decoding =
-        kodo_has_partial_decoding_tracker(decoder);
-
     // We are starting the encoding / decoding loop without having
     // added any data to the encoder - we will add symbols on-the-fly
     while (!kodo_is_complete(decoder))
@@ -96,7 +91,11 @@ int main()
         }
 
         // Check the decoder whether it is partially complete
-        if(support_partial_decoding && kodo_is_partial_complete(decoder))
+        // For on-the-fly decoding the decoder has to support the partial
+        // decoding tracker.
+
+        if(kodo_has_partial_decoding_tracker(decoder) &&
+           kodo_is_partial_complete(decoder))
         {
             uint32_t i = 0;
             for(; i < kodo_symbols(decoder); ++i)
