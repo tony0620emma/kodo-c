@@ -6,7 +6,8 @@ of every change, see the Git log.
 
 Latest
 ------
-* TBD
+* Minor: Bump dependency to Kodo version 12.x.y
+* Minor: Improve on-the-fly encoding / decoding support
 
 1.2.1
 -----
