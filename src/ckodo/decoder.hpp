@@ -17,6 +17,11 @@ namespace kodo
 
         virtual void copy_symbols(uint8_t* data, uint32_t size) const = 0;
 
+        virtual void copy_symbol(uint32_t index, uint8_t* data,
+                                 uint32_t size) const = 0;
+
+        virtual bool has_partial_decoding_tracker() const = 0;
+        virtual bool is_partial_complete() const = 0;
 
         virtual ~decoder(){}
     };

@@ -8,6 +8,8 @@
 #include <cassert>
 
 #include <sak/storage.hpp>
+#include <kodo/is_partial_complete.hpp>
+#include <kodo/has_partial_decoding_tracker.hpp>
 
 #include "decoder.hpp"
 
@@ -72,11 +74,35 @@ namespace kodo
             return m_decoder->symbols();
         }
 
+        virtual bool symbol_pivot(uint32_t index) const
+        {
+            return m_decoder->symbol_pivot(index);
+        }
+
         virtual void copy_symbols(uint8_t* data, uint32_t size) const
         {
             auto storage = sak::mutable_storage(data, size);
             m_decoder->copy_symbols(storage);
         }
+
+        virtual void copy_symbol(uint32_t index, uint8_t* data,
+                                 uint32_t size) const
+        {
+            auto storage = sak::mutable_storage(data, size);
+            m_decoder->copy_symbol(index, storage);
+        }
+
+
+        virtual bool has_partial_decoding_tracker() const
+        {
+            return kodo::has_partial_decoding_tracker<KodoStack>::value;
+        }
+
+        virtual bool is_partial_complete() const
+        {
+            return kodo::is_partial_complete(m_decoder);
+        }
+
 
         typename KodoStack::pointer m_decoder;
 

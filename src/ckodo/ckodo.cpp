@@ -342,6 +342,17 @@ void kodo_copy_symbols(kodo_coder_t* decoder, uint8_t* data, uint32_t size)
     the_decoder->copy_symbols(data, size);
 }
 
+void kodo_copy_symbol(kodo_coder_t* decoder, uint32_t index,
+                      uint8_t* data, uint32_t size)
+{
+    assert(decoder);
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    the_decoder->copy_symbol(index, data, size);
+
+}
+
+
 uint32_t kodo_symbol_size(kodo_coder_t* coder)
 {
     assert(coder);
@@ -371,6 +382,15 @@ uint8_t kodo_is_complete(kodo_coder_t* decoder)
     return (uint8_t)the_decoder->is_complete();
 }
 
+uint8_t kodo_is_partial_complete(kodo_coder_t* decoder)
+{
+    assert(decoder);
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    return (uint8_t)the_decoder->is_partial_complete();
+
+}
+
 uint32_t kodo_rank(kodo_coder_t* decoder)
 {
     assert(decoder);
@@ -379,6 +399,25 @@ uint32_t kodo_rank(kodo_coder_t* decoder)
     return the_decoder->rank();
 }
 
+uint8_t kodo_symbol_pivot(kodo_coder_t* coder, uint32_t index)
+{
+    assert(coder);
+
+    kodo::coder* the_coder = (kodo::coder*) coder;
+    return the_coder->symbol_pivot(index);
+}
+
+//------------------------------------------------------------------
+// GENERIC API
+//------------------------------------------------------------------
+
+uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t* decoder)
+{
+    assert(decoder);
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    return (uint8_t)the_decoder->has_partial_decoding_tracker();
+}
 
 
 

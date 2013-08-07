@@ -62,6 +62,11 @@ namespace kodo
             return m_encoder->symbols();
         }
 
+        virtual bool symbol_pivot(uint32_t index) const
+        {
+            return m_encoder->symbol_pivot(index);
+        }
+
         virtual uint32_t rank() const
         {
             return m_encoder->rank();

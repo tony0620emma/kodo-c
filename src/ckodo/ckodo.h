@@ -197,6 +197,15 @@ void kodo_set_symbol(kodo_coder_t* encoder, uint32_t index,
 /// @param size The size of the data to be copied
 void kodo_copy_symbols(kodo_coder_t* decoder, uint8_t* data, uint32_t size);
 
+/// Copies a specific symbol to the data buffer.
+/// @param decoder Pointer to the decoder which contains the data to be
+///        copied.
+/// @param index The index of the symbol to copy
+/// @param data The destination buffer to which the data should be copied
+/// @param size The size of the data to be copied
+void kodo_copy_symbol(kodo_coder_t* decoder, uint32_t index,
+                      uint8_t* data, uint32_t size);
+
 /// @param coder Pointer to the encoder/decoder to check
 /// @return The size of a symbol in bytes
 uint32_t kodo_symbol_size(kodo_coder_t* coder);
@@ -214,12 +223,37 @@ uint32_t kodo_symbols(kodo_coder_t* coder);
 /// @return true if the decoding is complete
 uint8_t kodo_is_complete(kodo_coder_t* decoder);
 
+/// Check whether decoding is partially complete. This means that some
+/// symbols in the decoder has been fully decoded. You can use the
+/// kodo_symbol_pivot(uint32_t) to determine which symbols.
+/// @param decoder Pointer to the decoder to query
+/// @return true if the decoding is partially complete
+uint8_t kodo_is_partial_complete(kodo_coder_t* decoder);
+
 /// The rank of a decoder states how many symbols have been decoded
 /// or partially decoded. The rank of an encoder states how many symbols
 /// are available for encoding.
 /// @param coder Pointer to the coder to query
 /// @return the rank of the decoder or encoder
 uint32_t kodo_rank(kodo_coder_t* coder);
+
+/// The symbol pivot indicates whether a symbol is available to either an
+/// encoder or decoder.
+/// @return 1 if the symbol is available otherwise 0.
+uint8_t kodo_symbol_pivot(kodo_coder_t* coder, uint32_t index);
+
+//------------------------------------------------------------------
+// GENERIC API
+//------------------------------------------------------------------
+
+/// Check whether the decoder has support for partial decoding tracker. This
+/// basically means that the decoder will be able to decode symbols on the fly.
+/// If the decoder supports the partial decoding tracker, then the function
+/// kodo_is_partial_complete() may be used to determine whether some of the
+/// symbols has been fully decoded and therefore can be copied out of the decoder.
+/// @param coder Pointer to the decoder to query
+/// @return Non-zero value if the decoder is partially decoded otherwise zero
+uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t* decoder);
 
 #ifdef __INTEL_COMPILER
     #pragma byte_order pop
