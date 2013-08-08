@@ -4,8 +4,8 @@ News for Kodo C bindings
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
-Latest
-------
+1.3.0
+-----
 * Minor: Bump dependency to Kodo version 12.x.y
 * Minor: Improve on-the-fly encoding / decoding support
 
