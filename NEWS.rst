@@ -4,6 +4,11 @@ News for Kodo C bindings
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+Latest
+------
+* Minor: Added API to control systematic encoding. Systematic encoding means
+  that all source symbols will be sent once un-coded before coding begins.
+
 1.3.0
 -----
 * Minor: Bump dependency to Kodo version 12.x.y

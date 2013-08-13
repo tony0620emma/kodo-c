@@ -56,6 +56,35 @@ int main()
 
     kodo_set_symbols(encoder, data_in, block_size);
 
+    // Most of the network coding algorithms supports a mode of operation
+    // which is known as systematic coding. This basically means that
+    // initially all symbols are sent once un-coded. The rational behind this
+    // is that if no errors occur during the transmission we will not have
+    // performed any unnecessary coding operations. An encoder will exit the
+    // systematic phase automatically once all symbols have been sent un-coded
+    // once.
+    //
+    // With Kodo we can ask an encoder whether it supports systematic encoding
+    // or not using the following functions:
+
+    if(kodo_is_systematic(encoder))
+    {
+        printf("Encoder systematic enabled\n");
+    }
+    else
+    {
+        printf("Encoder systematic disabled\n");
+    }
+
+    // If we do not wish to use systematic encoding, but to do full coding
+    // from the beginning we can turn systematic coding off using the following
+    // API:
+    //
+    // if(kodo_is_systematic(encoder))
+    // {
+    //    kodo_set_systematic_off(encoder);
+    // }
+
     while(!kodo_is_complete(decoder))
     {
         // The encoder will use a certain amount of bytes of the payload

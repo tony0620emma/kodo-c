@@ -255,6 +255,29 @@ uint8_t kodo_symbol_pivot(kodo_coder_t* coder, uint32_t index);
 /// @return Non-zero value if the decoder is partially decoded otherwise zero
 uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t* decoder);
 
+/// Returns whether an encoder has systematic capabilities
+/// @param encoder Pointer to the encoder
+/// @return Non-zero if the encoder supports the systematic operations
+///         otherwise zero
+uint8_t kodo_is_systematic(kodo_coder_t* encoder);
+
+/// Returns whether the encoder is in the systematic mode i.e. it will initially
+/// send the original source symbols
+///
+/// @param encoder Pointer to the encoder
+/// @return Non-zero if the encoder is in the systematic state otherwise zero
+uint8_t kodo_is_systematic_on(kodo_coder_t* encoder);
+
+/// Switches the systematic encoding on
+/// @param encoder Pointer to the encoder
+void kodo_set_systematic_on(kodo_coder_t* encoder);
+
+/// Switches the systematic encoding off
+/// @param encoder Pointer to the encoder
+void kodo_set_systematic_off(kodo_coder_t* encoder);
+
+
+
 #ifdef __INTEL_COMPILER
     #pragma byte_order pop
     #pragma extern_prefix pop

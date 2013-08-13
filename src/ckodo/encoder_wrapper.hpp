@@ -8,6 +8,7 @@
 #include <cassert>
 
 #include <sak/storage.hpp>
+#include <kodo/systematic_operations.hpp>
 
 #include "encoder.hpp"
 
@@ -70,6 +71,26 @@ namespace kodo
         virtual uint32_t rank() const
         {
             return m_encoder->rank();
+        }
+
+        virtual bool is_systematic() const
+        {
+            return kodo::is_systematic_encoder(m_encoder);
+        }
+
+        virtual bool is_systematic_on() const
+        {
+            return kodo::is_systematic_on(m_encoder);
+        }
+
+        virtual void set_systematic_on()
+        {
+            kodo::set_systematic_on(m_encoder);
+        }
+
+        virtual void set_systematic_off()
+        {
+            kodo::set_systematic_off(m_encoder);
         }
 
 

@@ -419,6 +419,38 @@ uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t* decoder)
     return (uint8_t)the_decoder->has_partial_decoding_tracker();
 }
 
+uint8_t kodo_is_systematic(kodo_coder_t* encoder)
+{
+    assert(encoder);
+
+    kodo::encoder* the_encoder = (kodo::encoder*) encoder;
+    return (uint8_t)the_encoder->is_systematic();
+}
+
+uint8_t kodo_is_systematic_on(kodo_coder_t* encoder)
+{
+    assert(encoder);
+
+    kodo::encoder* the_encoder = (kodo::encoder*) encoder;
+    return (uint8_t)the_encoder->is_systematic_on();
+}
+
+void kodo_set_systematic_on(kodo_coder_t* encoder)
+{
+    assert(encoder);
+
+    kodo::encoder* the_encoder = (kodo::encoder*) encoder;
+    the_encoder->set_systematic_on();
+}
+
+void kodo_set_systematic_off(kodo_coder_t* encoder)
+{
+    assert(encoder);
+
+    kodo::encoder* the_encoder = (kodo::encoder*) encoder;
+    the_encoder->set_systematic_off();
+}
+
 
 
 
