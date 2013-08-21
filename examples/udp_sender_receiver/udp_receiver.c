@@ -6,8 +6,13 @@
 #include <stdint.h>
 #include <ckodo/ckodo.h>
 
+#ifdef __WIN32__
+# include <winsock2.h>
+#else
+# include <sys/socket.h>
+#endif
+
 #include <sys/types.h>
-#include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
