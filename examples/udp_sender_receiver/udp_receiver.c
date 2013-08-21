@@ -17,8 +17,7 @@
 #include <signal.h>
 #include <assert.h>
 
-#define MAX_MSG_SIZE 160
-
+// Count the total number of packets received in order to decode
 unsigned int rx_packets;
 
 static void exit_on_sigint(int sig)
@@ -30,15 +29,16 @@ static void exit_on_sigint(int sig)
 
 int main(int argc, char *argv[])
 {
+    // Initialize global variables
+    rx_packets = 0;
 
     // Variables needed for the network / socket usage
-    int socket_descriptor = 0;
-    int return_code = 0;
-    int n, cliLen;
-    struct sockaddr_in client_addresss, server_address;
-
-    unsigned int cnt;
-    char data[MAX_MSG_SIZE];
+    int32_t socket_descriptor = 0;
+    int32_t return_code = 0;
+    int32_t bytes_received = 0;
+    int32_t remote_address_size;
+    struct sockaddr_in remote_address;
+    struct sockaddr_in local_address;
 
     // Variables needed for the coding
     uint32_t max_symbols = 32;
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     kodo_factory_t* decoder_factory = 0;
     kodo_coder_t* decoder = 0;
 
-    // The buffer to be received
+    // The buffer used to receive incoming packets
     uint32_t payload_size = 0;
     uint8_t* payload = 0;
 
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
     uint8_t* data_out = 0;
 
     // Keeps track of which symbols have been decoded
-    uint8_t* decoded = (uint8_t*)malloc(sizeof(uint8_t)*max_symbols);
+    uint8_t* decoded = (uint8_t*) malloc(sizeof(uint8_t) * max_symbols);
 
     if(argc < 3)
     {
@@ -79,23 +79,20 @@ int main(int argc, char *argv[])
     }
 
     // Bind local server port
-    server_address.sin_family = AF_INET;
-    server_address.sin_addr.s_addr = htonl(INADDR_ANY);
-    server_address.sin_port = htons(atoi(argv[1]));
-    return_code = bind (socket_descriptor, (struct sockaddr *) &server_address,sizeof(server_address));
+    local_address.sin_family = AF_INET;
+    local_address.sin_addr.s_addr = htonl(INADDR_ANY);
+    local_address.sin_port = htons(atoi(argv[1]));
+    return_code = bind(socket_descriptor, (struct sockaddr *) &local_address,
+                       sizeof(local_address));
+
     if(return_code < 0)
     {
-        printf("%s: cannot bind port number %d \n",
-               argv[0], atoi(argv[1]));
+        printf("%s: cannot bind port number %d \n", argv[0], atoi(argv[1]));
         exit(1);
     }
 
-    /* Install signal handler */
+    // Install signal handler
     signal(SIGINT, exit_on_sigint);
-
-    printf("%s: waiting for data on port UDP %u\n",
-           argv[0], atoi(argv[1]));
-
 
     // Initialize the factory with the chose symbols and symbol size
     symbols = atoi(argv[2]);
@@ -115,32 +112,33 @@ int main(int argc, char *argv[])
     // Zero initialize the decoded array */
     memset(decoded, '\0', sizeof(uint8_t)*max_symbols);
 
-    // server infinite loop
-    rx_packets = 0;
-    cnt = 0;
+    printf("%s: waiting for data on port UDP %u\n",
+           argv[0], atoi(argv[1]));
+
+    // Receiver loop
     while(!kodo_is_complete(decoder))
     {
-        cnt++;
 
+        // Receive message
+        remote_address_size = sizeof(remote_address);
 
-        /* receive message */
-        cliLen = sizeof(client_addresss);
-        n = recvfrom(socket_descriptor, payload, payload_size, 0,
-                     (struct sockaddr *) &client_addresss, &cliLen);
+        bytes_received = recvfrom(
+            socket_descriptor, payload, payload_size, 0,
+            (struct sockaddr *) &remote_address, &remote_address_size);
 
-        if(n<0)
+        if(bytes_received < 0)
         {
-            printf("o");
+            printf("%s: recvfrom error %d\n", argv[0], bytes_received);
             fflush(stdout);
             continue;
         }
 
-        /* print received message */
-        printf("recv: from %s:UDP%u : %d \n",
-               argv[0],inet_ntoa(client_addresss.sin_addr),
-               ntohs(client_addresss.sin_port),n);
+        // Print received message
+        printf("%s: from %s:UDP%u : %d\n",
+               argv[0],inet_ntoa(remote_address.sin_addr),
+               ntohs(remote_address.sin_port), bytes_received);
 
-        rx_packets++;
+        ++rx_packets;
 
         // Packet got through - pass that packet to the decoder
         kodo_decode(decoder, payload);
@@ -164,11 +162,16 @@ int main(int argc, char *argv[])
                 }
             }
         }
-
-
     }
 
     printf("Data decoded!\n");
+
+    // Cleanup
+    free(payload);
+
+    kodo_delete_decoder(decoder);
+    kodo_delete_decoder_factory(decoder_factory);
+
 
     return 0;
 
