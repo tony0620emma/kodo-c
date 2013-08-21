@@ -28,14 +28,14 @@
 
     #include <windows.h>
 
-    void sleep(uint32_t milliseconds)
+    void sleep_here(uint32_t milliseconds)
     {
         Sleep(milliseconds);
     }
 
 #else
 
-    void sleep(uint32_t milliseconds)
+    void sleep_here(uint32_t milliseconds)
     {
         usleep(milliseconds * 1000); // takes microseconds
     }
@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 
     // Get the delay
     delay = atol(argv[4]);
-    printf("Delay is %ld ms\n", delay);
+    printf("Delay is %u ms\n", delay);
 
     // Get server IP address (no check if input is IP address or DNS name)
     host = gethostbyname(argv[1]);
@@ -203,7 +203,7 @@ int main(int argc, char *argv[])
             exit(1);
         }
 
-        sleep(1000);
+        sleep_here(1000);
     }
 
     ftime(&end_time);
