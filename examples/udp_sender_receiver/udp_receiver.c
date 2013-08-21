@@ -6,18 +6,18 @@
 #include <stdint.h>
 #include <ckodo/ckodo.h>
 
-#ifdef __WIN32__
-# include <winsock2.h>
+#ifdef _WIN32
+    #include <winsock2.h>
 #else
-# include <sys/socket.h>
+    #include <sys/socket.h>
+    #include <netinet/in.h>
+    #include <arpa/inet.h>
+    #include <netdb.h>
+    #include <unistd.h>
 #endif
 
 #include <sys/types.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
 #include <stdio.h>
-#include <unistd.h> /* close() */
 #include <string.h> /* memset() */
 #include <signal.h>
 #include <assert.h>
@@ -34,8 +34,6 @@ static void exit_on_sigint(int sig)
 
 int main(int argc, char *argv[])
 {
-    // Initialize global variables
-    rx_packets = 0;
 
     // Variables needed for the network / socket usage
     int32_t socket_descriptor = 0;
@@ -69,6 +67,27 @@ int main(int argc, char *argv[])
     // Keeps track of which symbols have been decoded
     uint8_t* decoded = (uint8_t*) malloc(sizeof(uint8_t) * max_symbols);
 
+    // Initialize winsock if on Windows
+#ifdef _WIN32
+
+    WORD versionWanted = MAKEWORD(1, 1);
+    WSADATA wsaData;
+
+    return_code = WSAStartup(versionWanted, &wsaData);
+
+    if(return_code != 0)
+    {
+        // Tell the user that we could not find a usable
+        // Winsock DLL.
+        printf("WSAStartup failed with error: %d\n", return_code);
+        exit(1);
+    }
+
+#endif
+
+    // Initialize global variables
+    rx_packets = 0;
+
     if(argc < 3)
     {
         printf("usage : %s <port> <symbols>\n", argv[0]);
@@ -77,8 +96,9 @@ int main(int argc, char *argv[])
 
     // Socket creation
     socket_descriptor = socket(AF_INET, SOCK_DGRAM, 0);
-    if(socket_descriptor<0)
+    if(socket_descriptor < 0)
     {
+
         printf("%s: cannot open socket \n",argv[0]);
         exit(1);
     }
@@ -139,7 +159,7 @@ int main(int argc, char *argv[])
         }
 
         // Print received message
-        printf("%s: from %s:UDP%u : %d\n",
+        printf("%s: UDP from %s:%u : %d\n",
                argv[0],inet_ntoa(remote_address.sin_addr),
                ntohs(remote_address.sin_port), bytes_received);
 

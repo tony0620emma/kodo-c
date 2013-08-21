@@ -5,7 +5,7 @@ static_libs = []
 search_path = []
 
 if bld.is_mkspec_platform('windows'):
-    static_libs = []
+    static_libs = ['Ws2_32']
 else:
     static_libs = ['stdc++']
     search_path = ['.']
@@ -22,9 +22,3 @@ bld.program(features = 'c',
             lib      = static_libs,
             use      = ['ckodo_static'])
 
-
-# bld.program(features = 'c',
-#             source   = 'encode_decode_on_the_fly.c',
-#             target   = 'encode_decode_on_the_fly_shared',
-#             rpath    = search_path,
-#             use      = ['ckodo_shared'])
