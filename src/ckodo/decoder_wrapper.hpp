@@ -10,6 +10,12 @@
 #include <sak/storage.hpp>
 #include <kodo/is_partial_complete.hpp>
 #include <kodo/has_partial_decoding_tracker.hpp>
+#include <kodo/print_decoder_state.hpp>
+#include <kodo/has_print_cached_symbol_coefficients.hpp>
+#include <kodo/has_print_cached_symbol_data.hpp>
+#include <kodo/print_cached_symbol_coefficients.hpp>
+#include <kodo/print_cached_symbol_data.hpp>
+
 
 #include "decoder.hpp"
 
@@ -103,6 +109,36 @@ namespace kodo
             return kodo::is_partial_complete(m_decoder);
         }
 
+        // Debugging support
+        virtual bool has_print_decoder_state() const
+        {
+            return kodo::has_debug_linear_block_decoder<KodoStack>::value;
+        }
+
+        virtual void print_decoder_state() const
+        {
+            kodo::print_decoder_state(m_decoder, std::cout);
+        }
+
+        virtual bool has_print_cached_symbol_coefficients() const
+        {
+            return kodo::has_print_cached_symbol_coefficients<KodoStack>::value;
+        }
+
+        virtual void print_cached_symbol_coefficients() const
+        {
+            kodo::print_cached_symbol_coefficients(m_decoder, std::cout);
+        }
+
+        virtual bool has_print_cached_symbol_data() const
+        {
+            return kodo::has_print_cached_symbol_data<KodoStack>::value;
+        }
+
+        virtual void print_cached_symbol_data() const
+        {
+            kodo::print_cached_symbol_data(m_decoder, std::cout);
+        }
 
         typename KodoStack::pointer m_decoder;
 

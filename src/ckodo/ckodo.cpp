@@ -14,22 +14,31 @@
 // Typdefs for the encoder/decoder type we wish to use
 typedef kodo::full_rlnc_encoder<fifi::binary> full_rlnc_encoder;
 typedef kodo::full_rlnc_decoder<fifi::binary> full_rlnc_decoder;
+typedef kodo::debug_full_rlnc_decoder<fifi::binary> debug_full_rlnc_decoder;
 
 typedef kodo::full_rlnc_encoder<fifi::binary8> full_rlnc_encoder8;
 typedef kodo::full_rlnc_decoder<fifi::binary8> full_rlnc_decoder8;
+typedef kodo::debug_full_rlnc_decoder<fifi::binary8> debug_full_rlnc_decoder8;
 
 typedef kodo::full_rlnc_encoder<fifi::binary16> full_rlnc_encoder16;
 typedef kodo::full_rlnc_decoder<fifi::binary16> full_rlnc_decoder16;
+typedef kodo::debug_full_rlnc_decoder<fifi::binary16>
+    debug_full_rlnc_decoder16;
 
 // Typedefs for the on-the-fly coders
 typedef kodo::on_the_fly_encoder<fifi::binary> on_the_fly_encoder;
 typedef kodo::on_the_fly_decoder<fifi::binary> on_the_fly_decoder;
+typedef kodo::debug_on_the_fly_decoder<fifi::binary> debug_on_the_fly_decoder;
 
 typedef kodo::on_the_fly_encoder<fifi::binary8> on_the_fly_encoder8;
 typedef kodo::on_the_fly_decoder<fifi::binary8> on_the_fly_decoder8;
+typedef kodo::debug_on_the_fly_decoder<fifi::binary8>
+    debug_on_the_fly_decoder8;
 
 typedef kodo::on_the_fly_encoder<fifi::binary16> on_the_fly_encoder16;
 typedef kodo::on_the_fly_decoder<fifi::binary16> on_the_fly_decoder16;
+typedef kodo::debug_on_the_fly_decoder<fifi::binary16>
+    debug_on_the_fly_decoder16;
 
 
 const size_t kodo_binary = typeid(fifi::binary).hash_code();
@@ -39,8 +48,14 @@ const size_t kodo_binary16 = typeid(fifi::binary16).hash_code();
 const size_t kodo_full_rlnc =
     typeid(full_rlnc_encoder).hash_code();
 
+const size_t kodo_debug_full_rlnc =
+    typeid(debug_full_rlnc_decoder).hash_code();
+
 const size_t kodo_on_the_fly =
     typeid(on_the_fly_encoder).hash_code();
+
+const size_t kodo_debug_on_the_fly =
+    typeid(debug_on_the_fly_decoder).hash_code();
 
 
 //------------------------------------------------------------------
@@ -76,7 +91,55 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
 
     }
 
+    // We have not added any debug layers on the encoder yet, but we
+    // just prepare here
+    if(code_type == kodo_debug_full_rlnc)
+    {
+        if(field_type == kodo_binary)
+        {
+            factory = new kodo::encoder_factory_wrapper<
+                full_rlnc_encoder>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary8)
+        {
+            factory = new kodo::encoder_factory_wrapper<
+                full_rlnc_encoder8>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary16)
+        {
+            factory = new kodo::encoder_factory_wrapper<
+                full_rlnc_encoder16>(max_symbols, max_symbol_size);
+        }
+
+        // The field type was unknown
+        assert(factory);
+
+    }
+
     if(code_type == kodo_on_the_fly)
+    {
+        if(field_type == kodo_binary)
+        {
+            factory = new kodo::encoder_factory_wrapper<
+                on_the_fly_encoder>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary8)
+        {
+            factory = new kodo::encoder_factory_wrapper<
+                on_the_fly_encoder8>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary16)
+        {
+            factory = new kodo::encoder_factory_wrapper<
+                on_the_fly_encoder16>(max_symbols, max_symbol_size);
+        }
+
+        // The field type was unknown
+        assert(factory);
+
+    }
+
+    if(code_type == kodo_debug_on_the_fly)
     {
         if(field_type == kodo_binary)
         {
@@ -136,6 +199,29 @@ kodo_new_decoder_factory(size_t code_type, size_t field_type,
 
     }
 
+    if(code_type == kodo_debug_full_rlnc)
+    {
+        if(field_type == kodo_binary)
+        {
+            factory = new kodo::decoder_factory_wrapper<
+                debug_full_rlnc_decoder>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary8)
+        {
+            factory = new kodo::decoder_factory_wrapper<
+                debug_full_rlnc_decoder8>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary16)
+        {
+            factory = new kodo::decoder_factory_wrapper<
+                debug_full_rlnc_decoder16>(max_symbols, max_symbol_size);
+        }
+
+        // The field type was unknown
+        assert(factory);
+
+    }
+
     if(code_type == kodo_on_the_fly)
     {
         if(field_type == kodo_binary)
@@ -159,6 +245,28 @@ kodo_new_decoder_factory(size_t code_type, size_t field_type,
 
     }
 
+    if(code_type == kodo_debug_on_the_fly)
+    {
+        if(field_type == kodo_binary)
+        {
+            factory = new kodo::decoder_factory_wrapper<
+                debug_on_the_fly_decoder>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary8)
+        {
+            factory = new kodo::decoder_factory_wrapper<
+                debug_on_the_fly_decoder8>(max_symbols, max_symbol_size);
+        }
+        if(field_type == kodo_binary16)
+        {
+            factory = new kodo::decoder_factory_wrapper<
+                debug_on_the_fly_decoder16>(max_symbols, max_symbol_size);
+        }
+
+        // The field type was unknown
+        assert(factory);
+
+    }
 
     // The code type was unknown
     assert(factory);
@@ -451,6 +559,57 @@ void kodo_set_systematic_off(kodo_coder_t* encoder)
     the_encoder->set_systematic_off();
 }
 
+//------------------------------------------------------------------
+// DEBUG API
+//------------------------------------------------------------------
+
+uint8_t kodo_has_print_decoder_state(kodo_coder_t* decoder)
+{
+    assert(decoder);
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    return (uint8_t)the_decoder->has_print_decoder_state();
+}
+
+void kodo_print_decoder_state(kodo_coder_t* decoder)
+{
+    assert(decoder);
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    the_decoder->print_decoder_state();
+}
+
+uint8_t kodo_has_print_cached_symbol_coefficients(kodo_coder_t* decoder)
+{
+    assert(decoder);
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    return (uint8_t)the_decoder->has_print_cached_symbol_coefficients();
+}
+
+void kodo_print_cached_symbol_coefficients(kodo_coder_t* decoder)
+{
+    assert(decoder);
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    the_decoder->print_cached_symbol_coefficients();
+}
+
+uint8_t kodo_has_print_cached_symbol_data(kodo_coder_t* decoder)
+{
+    assert(decoder);
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    return (uint8_t)the_decoder->has_print_cached_symbol_data();
+}
+
+void kodo_print_cached_symbol_data(kodo_coder_t* decoder)
+{
+    assert(decoder);
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    the_decoder->print_cached_symbol_data();
+}
 
 
 

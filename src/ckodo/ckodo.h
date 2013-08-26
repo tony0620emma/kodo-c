@@ -34,7 +34,9 @@ extern const size_t kodo_binary16;
 
 /// Constants for select in the encoder/decoder
 extern const size_t kodo_full_rlnc;
+extern const size_t kodo_debug_full_rlnc;
 extern const size_t kodo_on_the_fly;
+extern const size_t kodo_debug_on_the_fly;
 
 /// Builds a new encoder factory
 /// @param code_type This parameter determines the encoding algorithms used.
@@ -250,7 +252,8 @@ uint8_t kodo_symbol_pivot(kodo_coder_t* coder, uint32_t index);
 /// basically means that the decoder will be able to decode symbols on the fly.
 /// If the decoder supports the partial decoding tracker, then the function
 /// kodo_is_partial_complete() may be used to determine whether some of the
-/// symbols has been fully decoded and therefore can be copied out of the decoder.
+/// symbols has been fully decoded and therefore can be copied out of the
+/// decoder.
 /// @param coder Pointer to the decoder to query
 /// @return Non-zero value if the decoder is partially decoded otherwise zero
 uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t* decoder);
@@ -275,6 +278,39 @@ void kodo_set_systematic_on(kodo_coder_t* encoder);
 /// Switches the systematic encoding off
 /// @param encoder Pointer to the encoder
 void kodo_set_systematic_off(kodo_coder_t* encoder);
+
+//------------------------------------------------------------------
+// DEBUG API
+//------------------------------------------------------------------
+
+/// Check whether the decoder has support for printing the decoder state
+/// @param decoder Pointer to the decoder to query
+/// @return Non-zero value if the decoder supports printing otherwise zero
+uint8_t kodo_has_print_decoder_state(kodo_coder_t* decoder);
+
+/// Print decoder state
+/// @param decoder Pointer to the decoder
+void kodo_print_decoder_state(kodo_coder_t* decoder);
+
+/// Check whether the decoder has support for printing the last seen symbol
+/// coefficients
+/// @param decoder Pointer to the decoder to query
+/// @return Non-zero value if the decoder supports printing otherwise zero
+uint8_t kodo_has_print_cached_symbol_coefficients(kodo_coder_t* decoder);
+
+/// Print last decoder symbol coefficients
+/// @param decoder Pointer to the decoder
+void kodo_print_cached_symbol_coefficients(kodo_coder_t* decoder);
+
+/// Check whether the decoder has support for printing the last seen symbol
+/// data
+/// @param decoder Pointer to the decoder to query
+/// @return Non-zero value if the decoder supports printing otherwise zero
+uint8_t kodo_has_print_cached_symbol_data(kodo_coder_t* decoder);
+
+/// Print last decoder symbol data
+/// @param decoder Pointer to the decoder
+void kodo_print_cached_symbol_data(kodo_coder_t* decoder);
 
 
 
