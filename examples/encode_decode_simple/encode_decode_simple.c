@@ -43,6 +43,7 @@ int main()
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
 
+    uint32_t bytes_used = 0U;
     uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
@@ -91,7 +92,7 @@ int main()
         // buffer. It will however never use more than payload_size, but
         // it might use less.
         printf("Encode packet\n");
-        uint32_t bytes_used = kodo_encode(encoder, payload);
+        bytes_used = kodo_encode(encoder, payload);
         kodo_decode(decoder, payload);
 
         if(kodo_has_print_decoder_state(decoder))
