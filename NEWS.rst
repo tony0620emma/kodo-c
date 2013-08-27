@@ -4,8 +4,8 @@ News for Kodo C bindings
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
-Latest
-------
+1.5.0
+-----
 * Minor: Added API for creating debug stacks and printing debug information.
 
 1.4.0
