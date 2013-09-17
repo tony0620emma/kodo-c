@@ -4,8 +4,8 @@ News for Kodo C bindings
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
-Latest
-------
+1.7.0
+-----
 * Minor: Bump dependency to Kodo version 14.x.y
 
 1.6.0
