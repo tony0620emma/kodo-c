@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 APPNAME = 'ckodo'
-VERSION = '1.4.0'
+VERSION = '1.5.0'
 
 def recurse_helper(ctx, name):
     if not ctx.has_dependency_path(name):
@@ -12,10 +12,6 @@ def recurse_helper(ctx, name):
         ctx.recurse(p)
 
 def options(opt):
-
-    opt.load('wurf_tools')
-    opt.load('wurf_dependency_bundle')
-    opt.load('wurf_standalone')
 
     import waflib.extras.wurf_dependency_bundle as bundle
     import waflib.extras.wurf_dependency_resolve as resolve
@@ -62,6 +58,10 @@ def options(opt):
              name = 'kodo',
              git_repository = 'github.com/steinwurf/kodo.git',
              major_version = 13))
+
+    opt.load('wurf_tools')
+    opt.load('wurf_dependency_bundle')
+    opt.load('wurf_standalone')
 
 def configure(conf):
 

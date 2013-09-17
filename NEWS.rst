@@ -8,6 +8,10 @@ Latest
 ------
 * Minor: Bump dependency to Kodo version 13.x.y
 
+1.5.0
+-----
+* Minor: Added API for creating debug stacks and printing debug information.
+
 1.4.0
 -----
 * Minor: Added API to control systematic encoding. Systematic encoding means

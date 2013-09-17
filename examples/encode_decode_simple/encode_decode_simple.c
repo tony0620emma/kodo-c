@@ -19,7 +19,7 @@ int main()
     uint32_t max_symbol_size = 160;
 
     // Here we select the coding algorithm we wish to use
-    size_t algorithm = kodo_full_rlnc;
+    size_t algorithm = kodo_debug_full_rlnc;
 
     // Here we select the finite field to use common choices are
     // kodo_binary, kodo_binary8, kodo_binary16
@@ -43,6 +43,7 @@ int main()
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
 
+    uint32_t bytes_used = 0U;
     uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
@@ -90,8 +91,13 @@ int main()
         // The encoder will use a certain amount of bytes of the payload
         // buffer. It will however never use more than payload_size, but
         // it might use less.
-        uint32_t bytes_used = kodo_encode(encoder, payload);
+        printf("Encode packet\n");
+        bytes_used = kodo_encode(encoder, payload);
         kodo_decode(decoder, payload);
+
+        if(kodo_has_print_decoder_state(decoder))
+            kodo_print_decoder_state(decoder);
+
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);
