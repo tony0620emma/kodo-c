@@ -61,7 +61,7 @@ def options(opt):
         resolve.ResolveGitMajorVersion(
              name = 'kodo',
              git_repository = 'github.com/steinwurf/kodo.git',
-             major_version = 12))
+             major_version = 13))
 
 def configure(conf):
 
