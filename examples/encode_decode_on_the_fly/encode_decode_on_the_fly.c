@@ -26,7 +26,7 @@ int main()
 
     // Here we select the finite field to use common choices are
     // kodo_binary, kodo_binary8, kodo_binary16
-    size_t finite_field = kodo_binary;
+    size_t finite_field = kodo_binary8;
 
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
@@ -67,7 +67,10 @@ int main()
         // Send the data to the decoders, here we just for fun
         // simulate that we are loosing 50% of the packets
         if (rand() % 2)
-           continue;
+        {
+            printf("packet dropped\n");
+            continue;
+        }
 
         // Packet got through - pass that packet to the decoder
         kodo_decode(decoder, payload);
