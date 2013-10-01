@@ -515,6 +515,14 @@ uint8_t kodo_symbol_pivot(kodo_coder_t* coder, uint32_t index)
     return the_coder->symbol_pivot(index);
 }
 
+uint8_t kodo_is_symbol_decoded(kodo_coder_t* decoder, uint32_t index)
+{
+    assert(decoder);
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    return the_decoder->symbol_pivot(index);
+}
+
 //------------------------------------------------------------------
 // GENERIC API
 //------------------------------------------------------------------

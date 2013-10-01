@@ -82,7 +82,12 @@ namespace kodo
 
         virtual bool symbol_pivot(uint32_t index) const
         {
-            return m_decoder->symbol_pivot(index);
+            return m_decoder->is_symbol_pivot(index);
+        }
+
+        virtual bool is_symbol_decoded(uint32_t index) const
+        {
+            return m_decoder->is_symbol_decoded(index);
         }
 
         virtual void copy_symbols(uint8_t* data, uint32_t size) const

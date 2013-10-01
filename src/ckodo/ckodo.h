@@ -244,6 +244,10 @@ uint32_t kodo_rank(kodo_coder_t* coder);
 /// @return 1 if the symbol is available otherwise 0.
 uint8_t kodo_symbol_pivot(kodo_coder_t* coder, uint32_t index);
 
+/// @param index Index of the symbol whose state should be checked
+/// @return 1 if the symbol is decoded otherwise 0
+uint8_t kodo_is_symbol_decoded(kodo_coder_t* coder, uint32_t index);
+
 //------------------------------------------------------------------
 // GENERIC API
 //------------------------------------------------------------------

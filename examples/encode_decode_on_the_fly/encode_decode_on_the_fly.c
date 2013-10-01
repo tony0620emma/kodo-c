@@ -100,7 +100,7 @@ int main()
             uint32_t i = 0;
             for(; i < kodo_symbols(decoder); ++i)
             {
-                if(!kodo_symbol_pivot(decoder, i))
+                if(!kodo_is_symbol_decoded(decoder, i))
                     continue;
 
                 if(!decoded[i])
