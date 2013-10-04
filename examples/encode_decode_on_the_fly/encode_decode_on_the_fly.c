@@ -98,16 +98,16 @@ int main()
         // For on-the-fly decoding the decoder has to support the partial
         // decoding tracker.
 
-        if(kodo_has_partial_decoding_tracker(decoder) &&
-           kodo_is_partial_complete(decoder))
+        if (kodo_has_partial_decoding_tracker(decoder) &&
+            kodo_is_partial_complete(decoder))
         {
             uint32_t i = 0;
-            for(; i < kodo_symbols(decoder); ++i)
+            for (; i < kodo_symbols(decoder); ++i)
             {
-                if(!kodo_is_symbol_decoded(decoder, i))
+                if (!kodo_is_symbol_decoded(decoder, i))
                     continue;
 
-                if(!decoded[i])
+                if (!decoded[i])
                 {
                     uint32_t size = kodo_symbol_size(encoder);
                     uint8_t* original = data_in + i * size;
@@ -127,7 +127,7 @@ int main()
                     }
                     else
                     {
-                        printf("  Symbol %d DECODING FAILED\n", i);
+                        printf("  SYMBOL %d DECODING FAILED\n", i);
                     }
                 }
             }
