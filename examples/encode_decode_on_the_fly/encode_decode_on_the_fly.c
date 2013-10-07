@@ -18,7 +18,7 @@ int main()
 {
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 32;
+    uint32_t max_symbols = 8;
     uint32_t max_symbol_size = 160;
 
     // Here we select the coding algorithm we wish to use

@@ -520,7 +520,7 @@ uint8_t kodo_is_symbol_decoded(kodo_coder_t* decoder, uint32_t index)
     assert(decoder);
 
     kodo::decoder* the_decoder = (kodo::decoder*) decoder;
-    return the_decoder->symbol_pivot(index);
+    return the_decoder->is_symbol_decoded(index);
 }
 
 //------------------------------------------------------------------
