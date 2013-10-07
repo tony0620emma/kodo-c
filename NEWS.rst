@@ -6,6 +6,8 @@ of every change, see the Git log.
 
 Latest
 ------
+* Bug: When calling the kodo_is_symbol_decoded(kodo_coder_t*,uint32_t) function
+  the call was forward to the wrong C++ Kodo function.
 * Minor: Bump dependency to Kodo version 15.x.y
 
 1.7.0
