@@ -1,11 +1,10 @@
 About
 -----
-In this folder you will find an example Makefile for building
-and using the Kodo C bindings. The Makefile can be used in
-cases where you wish to build the Kodo C bindings without using
-the provided Waf build scripts.
+This folder contains an example Makefile for building and using the
+Kodo C bindings. The Makefile can be useful if you wish to build the
+Kodo C bindings without the provided Waf build scripts.
 
-To use the Makefile you might have to update the variables to
+To use the Makefile, you might have to update the variables
 according to your directory layout and build system.
 
 The Makefile builds two targets:
