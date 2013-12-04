@@ -36,7 +36,7 @@ def build(bld):
         fifi_dir = os.path.join(bld.dependency_path('fifi'),'src')
         args += ['FIFI_DIR=' + fifi_dir]
         kodo_dir = os.path.join(bld.dependency_path('kodo'),'src')
-        args += ['KODO_DIR=' + fifi_dir]
+        args += ['KODO_DIR=' + kodo_dir]
         boost_dir = bld.dependency_path('boost')
         args += ['BOOST_DIR=' + boost_dir]
 
