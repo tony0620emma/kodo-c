@@ -43,6 +43,9 @@ def build(bld):
         # Get the current directory
         current_dir = task.generator.path.abspath()
 
+        # Make sure to clean everything before building
+        bld.exec_command('make clean', cwd=current_dir)
+
         ret = bld.exec_command(['make'] + args, cwd=current_dir)
 
         if ret:
