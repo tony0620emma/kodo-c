@@ -83,6 +83,8 @@ def configure(conf):
         recurse_helper(conf, 'gauge')
         recurse_helper(conf, 'kodo')
 
+        conf.recurse('makefile')
+
 def build(bld):
 
     if bld.is_toplevel():
@@ -121,5 +123,6 @@ def build(bld):
         bld.recurse('examples/encode_decode_simple')
         bld.recurse('examples/encode_decode_on_the_fly')
         bld.recurse('examples/udp_sender_receiver')
+        bld.recurse('makefile')
 
 
