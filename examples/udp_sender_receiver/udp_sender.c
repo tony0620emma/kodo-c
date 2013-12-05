@@ -101,7 +101,7 @@ int main(int argc, char* argv[])
 #endif
 
     // Check command line args
-    if (argc != 5)
+    if (argc != 6)
     {
         printf("usage : %s <server> <port> <symbols> <packets> <delay_ms>\n",
                argv[0]);
@@ -160,14 +160,14 @@ int main(int argc, char* argv[])
     if (symbols > max_symbols)
     {
         printf("%s: number of symbols cannot be higher than %d \n",
-            argv[0], max_symbols);
+               argv[0], max_symbols);
         exit(1);
     }
     packets = atoi(argv[4]);
     if (packets < symbols)
     {
         printf("%s: number of packets should be higher than %d \n",
-            argv[0], symbols);
+               argv[0], symbols);
     }
 
     kodo_factory_set_symbols(encoder_factory, symbols);
