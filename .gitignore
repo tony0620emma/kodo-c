@@ -14,6 +14,12 @@
 # Python
 *.pyc
 
+# Binaries compiled by make
+/makefile/encode_decode_on_the_fly
+/makefile/encode_decode_simple
+/makefile/udp_receiver
+/makefile/udp_sender
+
 # Compiled Doxygen documentation
 /doxygen/html
 
@@ -55,3 +61,4 @@ local.properties
 *.opensdf
 *.log
 VSProjects
+

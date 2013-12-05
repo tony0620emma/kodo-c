@@ -42,8 +42,8 @@ SHAREDLIB-FLAGS = -shared -s
 CINCLUDES= -I ../src
 CFLAGS = -O2 -ftree-vectorize
 # Static linking with the C++ standard library (for embedded platforms)
-LINKFLAGS = -s -static-libstdc++ -static-libgcc
-CLIBS = -Wl,-Bstatic -L. -lckodo -lstdc++
+LINKFLAGS = -s -static-libstdc++
+CLIBS = -Wl,-Bstatic -L. -lckodo
 # Dynamic linking with the C++ standard library (where the stdc++ is available)
 #CLIBS = -Wl,-Bstatic -L. -lckodo -Wl,-Bdynamic -lstdc++
 
@@ -75,10 +75,13 @@ endif
 ifeq ($(UNAME_S),Darwin)
     ifneq (,$(findstring clang++,$(CXX)))
         CXXFLAGS = -std=c++0x -fPIC -O2 -stdlib=libc++ -lc++
+        LINKFLAGS =
     endif
     ifneq (,$(findstring c++,$(CXX)))
         CXXFLAGS = -std=c++0x -fPIC -O2 -stdlib=libc++ -lc++
+        LINKFLAGS =
     endif
+    CLIBS = -L. -lckodo
 endif
 
 
@@ -125,25 +128,25 @@ $(OBJDIR)/ckodo.o: $(LIBRARY-SRC)
 
 # Build the examples
 $(EXAMPLE1): $(OBJDIR)/$(EXAMPLE1).o $(STATICLIB)
-	$(CC) $(LINKFLAGS) $< -o $@ $(CLIBS)
+	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
 $(OBJDIR)/$(EXAMPLE1).o: $(EXAMPLE1-SRC)
 	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
 $(EXAMPLE2): $(OBJDIR)/$(EXAMPLE2).o $(STATICLIB)
-	$(CC) $(LINKFLAGS) $< -o $@ $(CLIBS)
+	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
 $(OBJDIR)/$(EXAMPLE2).o: $(EXAMPLE2-SRC)
 	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
 $(EXAMPLE3A): $(OBJDIR)/$(EXAMPLE3A).o $(STATICLIB)
-	$(CC) $(LINKFLAGS) $< -o $@ $(CLIBS)
+	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
 $(OBJDIR)/$(EXAMPLE3A).o: $(EXAMPLE3A-SRC)
 	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
 $(EXAMPLE3B): $(OBJDIR)/$(EXAMPLE3B).o $(STATICLIB)
-	$(CC) $(LINKFLAGS) $< -o $@ $(CLIBS)
+	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
 $(OBJDIR)/$(EXAMPLE3B).o: $(EXAMPLE3B-SRC)
 	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
