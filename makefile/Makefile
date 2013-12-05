@@ -74,11 +74,13 @@ endif
 # Set C++ flags for clang on Mac OSX
 ifeq ($(UNAME_S),Darwin)
     ifneq (,$(findstring clang++,$(CXX)))
-        CXXFLAGS = -std=c++0x -fPIC -O2 -stdlib=libc++ -lc++
+        CXXFLAGS = -std=c++0x -fPIC -O2 -stdlib=libc++
+        SHAREDLIB-FLAGS = -shared -lc++
         LINKFLAGS =
     endif
     ifneq (,$(findstring c++,$(CXX)))
-        CXXFLAGS = -std=c++0x -fPIC -O2 -stdlib=libc++ -lc++
+        CXXFLAGS = -std=c++0x -fPIC -O2 -stdlib=libc++
+        SHAREDLIB-FLAGS = -shared -lc++
         LINKFLAGS =
     endif
     CLIBS = -L. -lckodo

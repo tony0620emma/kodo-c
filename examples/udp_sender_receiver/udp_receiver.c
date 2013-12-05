@@ -8,6 +8,7 @@
 
 #ifdef _WIN32
     #include <winsock2.h>
+    typedef int socklen_t;
 #else
     #include <sys/socket.h>
     #include <netinet/in.h>
@@ -38,7 +39,7 @@ int main(int argc, char* argv[])
     int32_t socket_descriptor = 0;
     int32_t return_code = 0;
     int32_t bytes_received = 0;
-    int32_t remote_address_size;
+    socklen_t remote_address_size;
     struct sockaddr_in remote_address;
     struct sockaddr_in local_address;
 
