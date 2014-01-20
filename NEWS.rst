@@ -1,4 +1,4 @@
-News for Kodo C bindings
+News for Kodo C Bindings
 ========================
 
 This file lists the major changes between versions. For a more detailed list
@@ -6,11 +6,11 @@ of every change, see the Git log.
 
 Latest
 ------
-* Minor: Bump dependency to Fifi version 10.x.y
-* Minor: Bump dependency to Gauge version 7.x.y
+* Major: Bump dependency to Fifi version 10.x.y
+* Major: Bump dependency to Gauge version 7.x.y
 * Bug: When calling the kodo_is_symbol_decoded(kodo_coder_t*,uint32_t) function
   the call was forward to the wrong C++ Kodo function.
-* Minor: Bump dependency to Kodo version 15.x.y
+* Major: Bump dependency to Kodo version 15.x.y
 
 1.7.0
 -----
