@@ -72,6 +72,12 @@ def options(opt):
 
 def configure(conf):
 
+    # Only build the shared library with the compatibility toolchains
+    if conf.has_tool_option('cxx_mkspec'):
+        mkspec = conf.get_tool_option('cxx_mkspec')
+        if mkspec in ['cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64']:
+            conf.env.BUILD_CKODO_SHARED_LIBRARY = True
+
     if conf.is_toplevel():
 
         conf.load('wurf_dependency_bundle')
@@ -113,19 +119,15 @@ def build(bld):
                   use    = ['kodo_includes', 'boost_includes',
                             'fifi_includes', 'sak_includes'])
 
-        so_flags = []
-        if bld.has_tool_option('cxx_mkspec') and \
-            'crosslinux' in bld.get_tool_option('cxx_mkspec'):
-            so_flags = ['-static-libgcc', '-static-libstdc++']
+        if 'BUILD_CKODO_SHARED_LIBRARY' in bld.env:
 
-        bld.shlib(source = 'src/ckodo/ckodo.cpp',
-                  target = 'ckodo',
-                  name   = 'ckodo_shared',
-                  linkflags = so_flags,
-                  install_path = None,
-                  export_includes = 'src',
-                  use    = ['kodo_includes', 'boost_includes',
-                            'fifi_includes', 'sak_includes'])
+            bld.shlib(source = 'src/ckodo/ckodo.cpp',
+                      target = 'ckodo',
+                      name   = 'ckodo_shared',
+                      install_path = None,
+                      export_includes = 'src',
+                      use    = ['kodo_includes', 'boost_includes',
+                                'fifi_includes', 'sak_includes'])
 
         bld.recurse('test')
         bld.recurse('examples/encode_decode_simple')

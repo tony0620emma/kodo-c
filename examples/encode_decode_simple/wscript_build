@@ -16,8 +16,10 @@ bld.program(features = 'c',
             lib      = static_libs,
             use      = ['ckodo_static'])
 
-bld.program(features = 'c',
-            source   = 'encode_decode_simple.c',
-            target   = 'encode_decode_simple_shared',
-            rpath    = search_path,
-            use      = ['ckodo_shared'])
+if 'BUILD_CKODO_SHARED_LIBRARY' in bld.env:
+
+    bld.program(features = 'c',
+                source   = 'encode_decode_simple.c',
+                target   = 'encode_decode_simple_shared',
+                rpath    = search_path,
+                use      = ['ckodo_shared'])

@@ -326,7 +326,3 @@ void kodo_print_cached_symbol_data(kodo_coder_t* decoder);
 #ifdef __cplusplus
 }
 #endif
-
-
-
-

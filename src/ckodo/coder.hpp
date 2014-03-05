@@ -19,5 +19,3 @@ namespace kodo
         virtual ~coder(){}
     };
 }
-
-

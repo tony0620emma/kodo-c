@@ -45,11 +45,10 @@
 
 int main(int argc, char* argv[])
 {
-
     // Variables needed for the network / socket usage
     int32_t socket_descriptor;
     int32_t return_code;
-    int32_t i;
+    uint32_t i;
 
     struct sockaddr_in local_address;
     struct sockaddr_in remote_address;
@@ -64,7 +63,6 @@ int main(int argc, char* argv[])
     uint32_t max_symbol_size = 160;
 
     uint32_t symbols = 0;
-    uint32_t symbols_size = 0;
     uint32_t packets = 0;
 
     size_t algorithm = kodo_on_the_fly;

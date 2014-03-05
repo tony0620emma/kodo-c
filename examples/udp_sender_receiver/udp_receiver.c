@@ -28,6 +28,7 @@ unsigned int rx_packets;
 
 static void exit_on_sigint(int sig)
 {
+    (void) sig;
     printf("\nTotal number of received packets: %d\n", rx_packets);
     exit(0);
 }
@@ -48,7 +49,6 @@ int main(int argc, char* argv[])
     uint32_t max_symbol_size = 160;
 
     uint32_t symbols = 0;
-    uint32_t symbols_size = 0;
 
     size_t algorithm = kodo_on_the_fly;
     size_t finite_field = kodo_binary8;
@@ -59,10 +59,6 @@ int main(int argc, char* argv[])
     // The buffer used to receive incoming packets
     uint32_t payload_size = 0;
     uint8_t* payload = 0;
-
-    // The data to be decoded
-    uint32_t block_size = 0;
-    uint8_t* data_out = 0;
 
     // Keeps track of which symbols have been decoded
     uint8_t* decoded = (uint8_t*) malloc(sizeof(uint8_t) * max_symbols);
