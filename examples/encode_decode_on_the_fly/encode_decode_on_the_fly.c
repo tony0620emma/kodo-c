@@ -60,7 +60,7 @@ int main()
     // added any data to the encoder - we will add symbols on-the-fly
     while (!kodo_is_complete(decoder))
     {
-        uint32_t bytes_used = 0;
+        uint32_t bytes_used;
         // Randomly choose to add a new symbol (with 50% probability)
         // if the encoder rank is less than the maximum number of symbols
         if ((rand() % 2) && kodo_rank(encoder) < kodo_symbols(encoder))

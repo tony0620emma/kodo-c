@@ -43,7 +43,7 @@ int main()
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
 
-    uint32_t bytes_used = 0U;
+    uint32_t bytes_used;
     uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
@@ -97,7 +97,6 @@ int main()
 
         if(kodo_has_print_decoder_state(decoder))
             kodo_print_decoder_state(decoder);
-
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);
@@ -123,4 +122,3 @@ int main()
 
     return 0;
 }
-
