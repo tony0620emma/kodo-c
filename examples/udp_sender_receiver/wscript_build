@@ -10,15 +10,14 @@ else:
     static_libs = ['stdc++']
     search_path = ['.']
 
-bld.program(features = 'c',
-            source   = 'udp_sender.c',
-            target   = 'udp_sender',
-            lib      = static_libs,
-            use      = ['ckodo_static'])
+bld.program(features='c',
+            source='udp_sender.c',
+            target='udp_sender',
+            lib=static_libs,
+            use=['ckodo_static'])
 
-bld.program(features = 'c',
-            source   = 'udp_receiver.c',
-            target   = 'udp_receiver',
-            lib      = static_libs,
-            use      = ['ckodo_static'])
-
+bld.program(features='c',
+            source='udp_receiver.c',
+            target='udp_receiver',
+            lib=static_libs,
+            use=['ckodo_static'])

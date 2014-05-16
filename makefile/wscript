@@ -5,23 +5,21 @@
 # The only purpose of this file is to ensure that the make works as intended
 
 import os
-import types
 
-from waflib import Task
 
 def configure(conf):
     # Check if make is installed on the system
     try:
         conf.find_program('make')
         conf.env.MAKE_INSTALLED = True
-    except conf.errors.ConfigurationError as e:
+    except conf.errors.ConfigurationError:
         conf.env.MAKE_INSTALLED = False
+
 
 def build(bld):
 
     # Call make with special arguments
     def invoke_make(task):
-
         args = []
         bld = task.generator.bld
 
@@ -31,11 +29,11 @@ def build(bld):
         args += ['CXX=' + bld.env.get_flat('CXX')]
 
         # Set the path for the dependencies
-        sak_dir = os.path.join(bld.dependency_path('sak'),'src')
+        sak_dir = os.path.join(bld.dependency_path('sak'), 'src')
         args += ['SAK_DIR=' + sak_dir]
-        fifi_dir = os.path.join(bld.dependency_path('fifi'),'src')
+        fifi_dir = os.path.join(bld.dependency_path('fifi'), 'src')
         args += ['FIFI_DIR=' + fifi_dir]
-        kodo_dir = os.path.join(bld.dependency_path('kodo'),'src')
+        kodo_dir = os.path.join(bld.dependency_path('kodo'), 'src')
         args += ['KODO_DIR=' + kodo_dir]
         boost_dir = bld.dependency_path('boost')
         args += ['BOOST_DIR=' + boost_dir]
@@ -56,9 +54,7 @@ def build(bld):
     # Build the example with make (only if make is installed)
     if bld.env.MAKE_INSTALLED:
         # Get the task generator
-        bld(rule     = invoke_make,
-            name     = 'sample_makefile',
-            always   = True,
-            source   = 'Makefile')
-
-
+        bld(rule=invoke_make,
+            name='sample_makefile',
+            always=True,
+            source='Makefile')
