@@ -28,11 +28,27 @@ SAK_DIR ?= ../../sak/src
 # The include path to the fifi sources
 FIFI_DIR ?= ../../fifi/src
 
+# Fifi is a library but instead of compiling the library we just
+# compile all the .cpp files. Note that compiling Fifi this way will
+# disable all hardware SIMD accelerations.
+FIFI_CPP_FILES := $(wildcard $(FIFI_DIR)/fifi/*.cpp)
+
 # The include path to the boost sources
 BOOST_DIR ?= ../../external-boost-light
 
+# The include path for the platform sources
+PLATFORM_DIR ?= ../../platform/src
+
+# The include path for the cpuid sources
+CPUID_DIR ?= ../../cpuid/src
+
+# cpuid is also a library but instead of compiling the library we just
+# compile all the .cpp files.
+CPUID_CPP_FILES := $(wildcard $(CPUID_DIR)/cpuid/*.cpp)
+
 # Set C++ flags for the library
-INCLUDES = -I $(BOOST_DIR) -I $(SAK_DIR) -I $(FIFI_DIR) -I $(KODO_DIR)
+INCLUDES = -I $(BOOST_DIR) -I $(SAK_DIR) -I $(FIFI_DIR) -I $(KODO_DIR)\
+	   -I $(PLATFORM_DIR) -I $(CPUID_DIR)
 CXXFLAGS = -std=c++0x -fPIC -O2 -ftree-vectorize
 SHAREDLIB-FLAGS = -shared -s
 # Produce self-contained shared library (only if stdc++ was compiled with -fPIC)
@@ -130,7 +146,7 @@ $(OBJDIR)/ckodo.o: $(LIBRARY-SRC)
 
 # Build the examples
 $(EXAMPLE1): $(OBJDIR)/$(EXAMPLE1).o $(STATICLIB)
-	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
+	$(CXX) $(CPUID_CPP_FILES) $(FIFI_CPP_FILES) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
 $(OBJDIR)/$(EXAMPLE1).o: $(EXAMPLE1-SRC)
 	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
@@ -141,17 +157,17 @@ $(EXAMPLE2): $(OBJDIR)/$(EXAMPLE2).o $(STATICLIB)
 $(OBJDIR)/$(EXAMPLE2).o: $(EXAMPLE2-SRC)
 	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
-$(EXAMPLE3A): $(OBJDIR)/$(EXAMPLE3A).o $(STATICLIB)
-	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
+#$(EXAMPLE3A): $(OBJDIR)/$(EXAMPLE3A).o $(STATICLIB)
+#	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
-$(OBJDIR)/$(EXAMPLE3A).o: $(EXAMPLE3A-SRC)
-	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
+#$(OBJDIR)/$(EXAMPLE3A).o: $(EXAMPLE3A-SRC)
+#	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
-$(EXAMPLE3B): $(OBJDIR)/$(EXAMPLE3B).o $(STATICLIB)
-	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
+#$(EXAMPLE3B): $(OBJDIR)/$(EXAMPLE3B).o $(STATICLIB)
+#	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
-$(OBJDIR)/$(EXAMPLE3B).o: $(EXAMPLE3B-SRC)
-	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
+#$(OBJDIR)/$(EXAMPLE3B).o: $(EXAMPLE3B-SRC)
+#	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
 $.PHONY: clean
 clean:

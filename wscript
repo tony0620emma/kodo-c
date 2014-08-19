@@ -145,5 +145,5 @@ def build(bld):
         bld.recurse('examples/encode_decode_on_the_fly')
         bld.recurse('examples/encode_decode_simple')
         bld.recurse('examples/udp_sender_receiver')
- #       bld.recurse('makefile')
+        bld.recurse('makefile')
         bld.recurse('test')
