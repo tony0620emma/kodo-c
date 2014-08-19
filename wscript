@@ -142,8 +142,8 @@ def build(bld):
                 use=['kodo_includes', 'boost_includes', 'fifi_includes',
                      'sak_includes'])
 
-#        bld.recurse('examples/encode_decode_on_the_fly')
-#        bld.recurse('examples/encode_decode_simple')
-#        bld.recurse('examples/udp_sender_receiver')
-#        bld.recurse('makefile')
+        bld.recurse('examples/encode_decode_on_the_fly')
+        bld.recurse('examples/encode_decode_simple')
+        bld.recurse('examples/udp_sender_receiver')
+ #       bld.recurse('makefile')
         bld.recurse('test')

@@ -153,7 +153,7 @@ $(EXAMPLE3B): $(OBJDIR)/$(EXAMPLE3B).o $(STATICLIB)
 $(OBJDIR)/$(EXAMPLE3B).o: $(EXAMPLE3B-SRC)
 	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
-.PHONY: clean
+$.PHONY: clean
 clean:
 	rm -f $(OBJDIR)/*.o *~ $(STATICLIB) $(SHAREDLIB) \
 		$(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B)

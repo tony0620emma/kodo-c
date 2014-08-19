@@ -19,7 +19,7 @@ int main()
     uint32_t max_symbol_size = 160;
 
     // Here we select the coding algorithm we wish to use
-    size_t algorithm = kodo_debug_full_rlnc;
+    size_t algorithm = kodo_full_rlnc;
 
     // Here we select the finite field to use common choices are
     // kodo_binary, kodo_binary8, kodo_binary16
@@ -68,14 +68,14 @@ int main()
     // With Kodo we can ask an encoder whether it supports systematic encoding
     // or not using the following functions:
 
-    if(kodo_is_systematic(encoder))
-    {
-        printf("Encoder systematic enabled\n");
-    }
-    else
-    {
-        printf("Encoder systematic disabled\n");
-    }
+    //if(kodo_is_systematic(encoder))
+    //{
+    //    printf("Encoder systematic enabled\n");
+    //}
+    //else
+    //{
+    //    printf("Encoder systematic disabled\n");
+    //}
 
     // If we do not wish to use systematic encoding, but to do full coding
     // from the beginning we can turn systematic coding off using the following
@@ -100,8 +100,8 @@ int main()
         printf("Payload processed by decoder, current rank = %d\n",
                kodo_rank(decoder));
 
-        if(kodo_has_print_decoder_state(decoder))
-            kodo_print_decoder_state(decoder);
+        //        if(kodo_has_print_decoder_state(decoder))
+        //    kodo_print_decoder_state(decoder);
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);
