@@ -10,13 +10,9 @@
 #include <sak/storage.hpp>
 #include <kodo/is_partial_complete.hpp>
 #include <kodo/has_partial_decoding_tracker.hpp>
-#include <kodo/print_decoder_state.hpp>
-#include <kodo/has_print_cached_symbol_coefficients.hpp>
-#include <kodo/has_print_cached_symbol_data.hpp>
-#include <kodo/print_cached_symbol_coefficients.hpp>
-#include <kodo/print_cached_symbol_data.hpp>
 
-
+#include <kodo/trace_decode_symbol.hpp>
+#include <kodo/trace_linear_block_decoder.hpp>
 #include "decoder.hpp"
 
 
@@ -85,11 +81,11 @@ namespace kodo
             return m_decoder->is_symbol_pivot(index);
         }
 
-        virtual bool is_symbol_decoded(uint32_t index) const
+/*        virtual bool is_symbol_decoded(uint32_t index) const
         {
             return m_decoder->is_symbol_decoded(index);
         }
-
+*/
         virtual void copy_symbols(uint8_t* data, uint32_t size) const
         {
             auto storage = sak::mutable_storage(data, size);
@@ -114,37 +110,23 @@ namespace kodo
             return kodo::is_partial_complete(m_decoder);
         }
 
-        // Debugging support
-        virtual bool has_print_decoder_state() const
-        {
-            return kodo::has_debug_linear_block_decoder<KodoStack>::value;
-        }
 
-        virtual void print_decoder_state() const
+/*      virtual void print_decoder_state() const
         {
             kodo::print_decoder_state(m_decoder, std::cout);
         }
 
-        virtual bool has_print_cached_symbol_coefficients() const
-        {
-            return kodo::has_print_cached_symbol_coefficients<KodoStack>::value;
-        }
 
         virtual void print_cached_symbol_coefficients() const
         {
             kodo::print_cached_symbol_coefficients(m_decoder, std::cout);
         }
 
-        virtual bool has_print_cached_symbol_data() const
-        {
-            return kodo::has_print_cached_symbol_data<KodoStack>::value;
-        }
-
         virtual void print_cached_symbol_data() const
         {
             kodo::print_cached_symbol_data(m_decoder, std::cout);
         }
-
+*/
         typename KodoStack::pointer m_decoder;
 
     };

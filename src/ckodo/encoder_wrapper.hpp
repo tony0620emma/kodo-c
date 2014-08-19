@@ -8,7 +8,14 @@
 #include <cassert>
 
 #include <sak/storage.hpp>
-#include <kodo/systematic_operations.hpp>
+//#include <kodo/systematic_operations.hpp>
+// TEST should be one header file
+#include <kodo/is_systematic_on.hpp>
+#include <kodo/systematic_encoder.hpp>
+#include <kodo/set_systematic_on.hpp>
+#include <kodo/set_systematic_off.hpp>
+
+#include <kodo/trace_decode_symbol.hpp>
 
 #include "encoder.hpp"
 
@@ -73,10 +80,10 @@ namespace kodo
             return m_encoder->rank();
         }
 
-        virtual bool is_systematic() const
+        /*        virtual bool is_systematic() const
         {
             return kodo::is_systematic_encoder(m_encoder);
-        }
+            }*/
 
         virtual bool is_systematic_on() const
         {

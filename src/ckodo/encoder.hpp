@@ -23,7 +23,7 @@ namespace kodo
 
         virtual ~encoder(){}
 
-        virtual bool is_systematic() const = 0;
+        //        virtual bool is_systematic() const = 0;
         virtual bool is_systematic_on() const = 0;
         virtual void set_systematic_on() = 0;
         virtual void set_systematic_off() = 0;
