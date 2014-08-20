@@ -14,7 +14,6 @@
 #include <kodo/trace_decode_symbol.hpp>
 #include <kodo/trace_linear_block_decoder.hpp>
 #include <kodo/symbol_decoding_status_tracker.hpp>
-#include <kodo/trace_decode_symbol.hpp>
 
 #include "decoder.hpp"
 
@@ -84,11 +83,6 @@ namespace kodo
             return m_decoder->is_symbol_pivot(index);
         }
 
-/*        virtual bool is_symbol_decoded(uint32_t index) const
-        {
-            return m_decoder->is_symbol_decoded(index);
-        }
-*/
         virtual void copy_symbols(uint8_t* data, uint32_t size) const
         {
             auto storage = sak::mutable_storage(data, size);
@@ -112,12 +106,11 @@ namespace kodo
         {
             return kodo::is_partial_complete(m_decoder);
         }
-        
-        virtual bool is_symbol_uncoded(uint32_t index)
-        {
-            return kodo::is_symbol_uncoded(index)
-        }
 
+        virtual bool is_symbol_uncoded(uint32_t index) const
+        {
+            return m_decoder->is_symbol_uncoded(index);
+        }
 
 /*      virtual void print_decoder_state() const
         {
