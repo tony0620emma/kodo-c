@@ -22,7 +22,7 @@ namespace kodo
 
         virtual bool has_partial_decoding_tracker() const = 0;
         virtual bool is_partial_complete() const = 0;
-        //        virtual bool is_symbol_decoded(uint32_t) const = 0;
+        virtual bool is_symbol_uncoded(uint32_t) const = 0;
 
         // Debugging support
         /* virtual bool has_print_decoder_state() const = 0;

@@ -13,6 +13,9 @@
 
 #include <kodo/trace_decode_symbol.hpp>
 #include <kodo/trace_linear_block_decoder.hpp>
+#include <kodo/symbol_decoding_status_tracker.hpp>
+#include <kodo/trace_decode_symbol.hpp>
+
 #include "decoder.hpp"
 
 
@@ -108,6 +111,11 @@ namespace kodo
         virtual bool is_partial_complete() const
         {
             return kodo::is_partial_complete(m_decoder);
+        }
+        
+        virtual bool is_symbol_uncoded(uint32_t index)
+        {
+            return kodo::is_symbol_uncoded(index)
         }
 
 
