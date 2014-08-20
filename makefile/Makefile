@@ -1,16 +1,17 @@
 # Makefile for building the Kodo C bindings and the associated examples
 
-# Note that the paths to the libraries depend
-# on your specific machine and will need to be updated.
+# Note that the paths to the libraries depend on your specific machine and will
+# need to be updated.
 
-# By default, we assume that the required libraries (sak, fifi, kodo and boost)
-# are cloned side-by-side with the kodo-c-bindings folder.
+# By default, we assume that the required libraries are cloned side-by-side with
+# the kodo-c-bindings folder.
 # You can clone the projects like this:
 # git clone https://github.com/steinwurf/sak.git
 # git clone https://github.com/steinwurf/fifi.git
+# git clone https://github.com/steinwurf/platform.git
+# git clone https://github.com/steinwurf/cpuid.git
 # git clone https://github.com/steinwurf/external-boost-light.git
 # git clone https://github.com/steinwurf/kodo.git
-# git clone https://github.com/steinwurf/kodo-c-bindings.git
 # Then build the C bindings with this makefile:
 # cd kodo-c-bindings/makefile
 # make
@@ -47,8 +48,9 @@ CPUID_DIR ?= ../../cpuid/src
 CPUID_CPP_FILES := $(wildcard $(CPUID_DIR)/cpuid/*.cpp)
 
 # Set C++ flags for the library
-INCLUDES = -I $(BOOST_DIR) -I $(SAK_DIR) -I $(FIFI_DIR) -I $(KODO_DIR)\
-	   -I $(PLATFORM_DIR) -I $(CPUID_DIR)
+INCLUDES = -I$(BOOST_DIR) -I$(SAK_DIR) -I$(FIFI_DIR) -I$(KODO_DIR) \
+           -I$(PLATFORM_DIR) -I$(CPUID_DIR)
+
 CXXFLAGS = -std=c++0x -fPIC -O2 -ftree-vectorize
 SHAREDLIB-FLAGS = -shared -s
 # Produce self-contained shared library (only if stdc++ was compiled with -fPIC)
@@ -112,8 +114,8 @@ STATICLIB = libckodo.a
 
 # The ckodo shared library
 SHAREDLIB = libckodo.so
-LIBRARY-SRC = ../src/ckodo/ckodo.cpp
-
+SOURCES = ../src/ckodo/ckodo.cpp $(CPUID_CPP_FILES) $(FIFI_CPP_FILES)
+OBJECTS = $(SOURCES:.cpp=.o)
 
 # The examples are statically linked with libckodo.a
 EXAMPLE1 = encode_decode_simple
@@ -131,28 +133,25 @@ EXAMPLE3A-SRC = $(EXAMPLE3-DIR)/udp_sender.c
 EXAMPLE3B-SRC = $(EXAMPLE3-DIR)/udp_receiver.c
 
 .PHONY: all
-all: $(STATICLIB) $(SHAREDLIB) $(EXAMPLE1) 
-#$(EXAMPLE2) 
-
-#$(EXAMPLE3A) $(EXAMPLE3B)
+all: $(STATICLIB) $(SHAREDLIB) $(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B)
 
 # Build the static library
-$(STATICLIB): $(OBJDIR)/ckodo.o
+$(STATICLIB): $(OBJECTS)
 	$(AR) $(ARFLAGS) $@ $^
 
 # Build the shared library
-$(SHAREDLIB): $(OBJDIR)/ckodo.o
+$(SHAREDLIB): $(OBJECTS)
 	$(CXX) $< -o $@ $(SHAREDLIB-FLAGS)
 
-$(OBJDIR)/ckodo.o: $(LIBRARY-SRC)
+.cpp.o: $(OBJDIR)/$(OBJECTS)
 	$(CXX) $< -o $@ -c $(CXXFLAGS) $(INCLUDES)
 
 # Build the examples
 $(EXAMPLE1): $(OBJDIR)/$(EXAMPLE1).o $(STATICLIB)
-	$(CXX) $(CPUID_CPP_FILES) $(FIFI_CPP_FILES) $(LINKFLAGS) $< -o $@ $(CLIBS)
+	$(CXX)  $(LINKFLAGS) $< -o $@ $(CLIBS)
 
 $(OBJDIR)/$(EXAMPLE1).o: $(EXAMPLE1-SRC)
-	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES) 
+	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
 $(EXAMPLE2): $(OBJDIR)/$(EXAMPLE2).o $(STATICLIB)
 	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)

@@ -68,9 +68,6 @@ def options(opt):
         git_repository='github.com/steinwurf/cpuid.git',
         major_version=3))
 
-
-
-
     opt.load('wurf_configure_output')
     opt.load('wurf_dependency_bundle')
     opt.load('wurf_standalone')
