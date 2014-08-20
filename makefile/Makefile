@@ -12,6 +12,7 @@
 # git clone https://github.com/steinwurf/cpuid.git
 # git clone https://github.com/steinwurf/external-boost-light.git
 # git clone https://github.com/steinwurf/kodo.git
+# git clone https://github.com/steinwurf/kodo-c-bindings.git
 # Then build the C bindings with this makefile:
 # cd kodo-c-bindings/makefile
 # make
