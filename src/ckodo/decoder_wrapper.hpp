@@ -96,7 +96,6 @@ namespace kodo
             m_decoder->copy_symbol(index, storage);
         }
 
-
         virtual bool has_partial_decoding_tracker() const
         {
             return kodo::has_partial_decoding_tracker<KodoStack>::value;
