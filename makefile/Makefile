@@ -37,10 +37,10 @@ FIFI_CPP_FILES := $(wildcard $(FIFI_DIR)/fifi/*.cpp)
 BOOST_DIR ?= ../../external-boost-light
 
 # The include path for the platform sources
-PLATFORM_DIR ?= ../../../platform/src
+PLATFORM_DIR ?= ../../platform/src
 
 # The include path for the cpuid sources
-CPUID_DIR ?= ../../../cpuid/src
+CPUID_DIR ?= ../../cpuid/src
 
 # cpuid is also a library but instead of compiling the library we just
 # compile all the .cpp files.
@@ -131,8 +131,10 @@ EXAMPLE3A-SRC = $(EXAMPLE3-DIR)/udp_sender.c
 EXAMPLE3B-SRC = $(EXAMPLE3-DIR)/udp_receiver.c
 
 .PHONY: all
-all: $(STATICLIB) $(SHAREDLIB)
-# $(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B)
+all: $(STATICLIB) $(SHAREDLIB) $(EXAMPLE1) 
+#$(EXAMPLE2) 
+
+#$(EXAMPLE3A) $(EXAMPLE3B)
 
 # Build the static library
 $(STATICLIB): $(OBJDIR)/ckodo.o
@@ -147,10 +149,10 @@ $(OBJDIR)/ckodo.o: $(LIBRARY-SRC)
 
 # Build the examples
 $(EXAMPLE1): $(OBJDIR)/$(EXAMPLE1).o $(STATICLIB)
-	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
+	$(CXX) $(CPUID_CPP_FILES) $(FIFI_CPP_FILES) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
 $(OBJDIR)/$(EXAMPLE1).o: $(EXAMPLE1-SRC)
-	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
+	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES) 
 
 $(EXAMPLE2): $(OBJDIR)/$(EXAMPLE2).o $(STATICLIB)
 	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
@@ -158,17 +160,17 @@ $(EXAMPLE2): $(OBJDIR)/$(EXAMPLE2).o $(STATICLIB)
 $(OBJDIR)/$(EXAMPLE2).o: $(EXAMPLE2-SRC)
 	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
-#$(EXAMPLE3A): $(OBJDIR)/$(EXAMPLE3A).o $(STATICLIB)
-#	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
+$(EXAMPLE3A): $(OBJDIR)/$(EXAMPLE3A).o $(STATICLIB)
+	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
-#$(OBJDIR)/$(EXAMPLE3A).o: $(EXAMPLE3A-SRC)
-#	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
+$(OBJDIR)/$(EXAMPLE3A).o: $(EXAMPLE3A-SRC)
+	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
-#$(EXAMPLE3B): $(OBJDIR)/$(EXAMPLE3B).o $(STATICLIB)
-#	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
+$(EXAMPLE3B): $(OBJDIR)/$(EXAMPLE3B).o $(STATICLIB)
+	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
-#$(OBJDIR)/$(EXAMPLE3B).o: $(EXAMPLE3B-SRC)
-#	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
+$(OBJDIR)/$(EXAMPLE3B).o: $(EXAMPLE3B-SRC)
+	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
 $.PHONY: clean
 clean:

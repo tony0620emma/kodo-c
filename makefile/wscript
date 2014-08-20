@@ -37,6 +37,10 @@ def build(bld):
         args += ['KODO_DIR=' + kodo_dir]
         boost_dir = bld.dependency_path('boost')
         args += ['BOOST_DIR=' + boost_dir]
+        platform_dir = bld.dependency_path('platform')
+        args += ['PLATFORM_DIR=' + platform_dir]
+        cpuid_dir = bld.dependency_path('cpuid')
+        args += ['CPUID_DIR=' + cpuid_dir]
 
         # Get the current directory
         current_dir = task.generator.path.abspath()

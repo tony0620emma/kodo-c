@@ -129,7 +129,7 @@ def build(bld):
             name='ckodo_static',
             export_includes='src',
             use=['kodo_includes', 'boost_includes', 'fifi_includes',
-                 'sak_includes'])
+                 'sak_includes', 'platform_includes'])
 
         if 'BUILD_CKODO_SHARED_LIBRARY' in bld.env:
 
@@ -140,7 +140,7 @@ def build(bld):
                 install_path=None,
                 export_includes='src',
                 use=['kodo_includes', 'boost_includes', 'fifi_includes',
-                     'sak_includes'])
+                     'sak_includes', 'platform_includes'])
 
         bld.recurse('examples/encode_decode_on_the_fly')
         bld.recurse('examples/encode_decode_simple')
