@@ -2,9 +2,13 @@
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
+#include <iostream>
+#include <string.h>
+#include <stdint.h>
 
 #include <kodo/rlnc/full_rlnc_codes.hpp>
 #include <kodo/rlnc/on_the_fly_codes.hpp>
+#include <kodo/trace.hpp>
 
 #include "encoder_factory_wrapper.hpp"
 #include "decoder_factory_wrapper.hpp"
@@ -423,6 +427,13 @@ uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t* decoder)
     return (uint8_t)the_decoder->has_partial_decoding_tracker();
 }
 
+uint8_t kodo_has_trace(kodo_coder_t* decoder)
+{
+    assert(decoder);
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    return (uint8_t)the_decoder->has_trace();
+}
+
 uint8_t kodo_is_systematic_on(kodo_coder_t* encoder)
 {
     assert(encoder);
@@ -445,6 +456,47 @@ void kodo_set_systematic_off(kodo_coder_t* encoder)
 
     kodo::encoder* the_encoder = (kodo::encoder*) encoder;
     the_encoder->set_systematic_off();
+}
+
+/*
+uint8_t kodo_is_complete(kodo_coder_t* decoder)
+{
+    assert(decoder);
+
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    return (uint8_t)the_decoder->is_complete();
+}
+*/
+
+//KODO 17 Trace methods
+void kodo_trace_debugger_state(kodo_coder_t* decoder, 
+                               kodo_coder_t* encoder)
+{
+    assert(decoder);
+    assert(encoder);
+
+    std::vector<uint8_t> payload(encoder->payload_size());
+
+    while(!kodo_is_complete(decoder))
+    {
+
+        decoder-> decode(payload.data());
+
+        if (kodo_has_trace(decoder))
+        {  
+            auto filter = [](const std::string& zone)
+            {
+                std::set<std::string> filters = 
+                {"decoder_state"}; //currenty only for test 
+                    
+                return filters.count(zone);
+            }
+            
+            std::cout << "Trace decoder:" << std::endl;
+            
+            kodo::trace(decoder, std::cout, filter);
+        }
+    }
 }
 
 

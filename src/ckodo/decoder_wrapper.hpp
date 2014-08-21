@@ -101,6 +101,11 @@ namespace kodo
             return kodo::has_partial_decoding_tracker<KodoStack>::value;
         }
 
+        virtual bool has_trace() const
+        {
+            return kodo::has_trace<KodoStack>::value;
+        }
+
         virtual bool is_partial_complete() const
         {
             return kodo::is_partial_complete(m_decoder);

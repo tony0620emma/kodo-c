@@ -262,6 +262,8 @@ uint8_t kodo_is_symbol_uncoded(kodo_coder_t* coder, uint32_t index);
 /// @return Non-zero value if the decoder is partially decoded otherwise zero
 uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t* decoder);
 
+uint8_t kodo_has_trace(kodo_coder_t* decoder); //kodo 17 add for trace 
+
 /// Returns whether an encoder has systematic capabilities
 /// @param encoder Pointer to the encoder
 /// @return Non-zero if the encoder supports the systematic operations
@@ -326,6 +328,9 @@ void kodo_set_systematic_off(kodo_coder_t* encoder);
 
 //void kodo_print_cached_symbol_data(kodo_coder_t* decoder);
 
+
+//KODO 17 Trace methods
+void kodo_trace_debugger_state(kodo_coder_t* decoder); 
 
 
 #ifdef __INTEL_COMPILER

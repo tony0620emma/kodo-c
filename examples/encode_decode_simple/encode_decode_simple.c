@@ -2,6 +2,7 @@
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
+#include <stdio.h>
 
 #include <ckodo/ckodo.h>
 #include <stdint.h>
@@ -102,6 +103,7 @@ int main()
 
         //if (kodo_has_print_decoder_state(decoder))
         //    kodo_print_decoder_state(decoder);
+        kodo_trace_debugger_state(decoder);
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);
