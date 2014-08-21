@@ -100,7 +100,7 @@ int main()
         printf("Payload processed by decoder, current rank = %d\n",
                kodo_rank(decoder));
 
-        //        if(kodo_has_print_decoder_state(decoder))
+        //if (kodo_has_print_decoder_state(decoder))
         //    kodo_print_decoder_state(decoder);
     }
 

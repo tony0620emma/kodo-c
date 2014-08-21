@@ -111,12 +111,13 @@ namespace kodo
             return m_decoder->is_symbol_uncoded(index);
         }
 
-/*      virtual void print_decoder_state() const
+        /*
+        virtual void print_decoder_state() const
         {
             kodo::print_decoder_state(m_decoder, std::cout);
         }
 
-
+       
         virtual void print_cached_symbol_coefficients() const
         {
             kodo::print_cached_symbol_coefficients(m_decoder, std::cout);

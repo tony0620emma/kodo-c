@@ -34,9 +34,9 @@ extern const size_t kodo_binary16;
 
 /// Constants for select in the encoder/decoder
 extern const size_t kodo_full_rlnc;
-extern const size_t kodo_debug_full_rlnc;
+    //extern const size_t kodo_debug_full_rlnc;
 extern const size_t kodo_on_the_fly;
-extern const size_t kodo_debug_on_the_fly;
+    //extern const size_t kodo_debug_on_the_fly;
 
 /// Builds a new encoder factory
 /// @param code_type This parameter determines the encoding algorithms used.
@@ -246,7 +246,7 @@ uint8_t kodo_symbol_pivot(kodo_coder_t* coder, uint32_t index);
 
 /// @param index Index of the symbol whose state should be checked
 /// @return 1 if the symbol is decoded otherwise 0
-uint8_t kodo_is_symbol_decoded(kodo_coder_t* coder, uint32_t index);
+uint8_t kodo_is_symbol_uncoded(kodo_coder_t* coder, uint32_t index);
 
 //------------------------------------------------------------------
 // GENERIC API
@@ -266,7 +266,8 @@ uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t* decoder);
 /// @param encoder Pointer to the encoder
 /// @return Non-zero if the encoder supports the systematic operations
 ///         otherwise zero
-uint8_t kodo_is_systematic(kodo_coder_t* encoder);
+
+//uint8_t kodo_is_systematic(kodo_coder_t* encoder);
 
 /// Returns whether the encoder is in the systematic mode i.e. it will initially
 /// send the original source symbols
@@ -283,6 +284,9 @@ void kodo_set_systematic_on(kodo_coder_t* encoder);
 /// @param encoder Pointer to the encoder
 void kodo_set_systematic_off(kodo_coder_t* encoder);
 
+
+//REMOVE BELOW NO LONGER RELEVANT 
+
 //------------------------------------------------------------------
 // DEBUG API
 //------------------------------------------------------------------
@@ -290,31 +294,37 @@ void kodo_set_systematic_off(kodo_coder_t* encoder);
 /// Check whether the decoder has support for printing the decoder state
 /// @param decoder Pointer to the decoder to query
 /// @return Non-zero value if the decoder supports printing otherwise zero
-uint8_t kodo_has_print_decoder_state(kodo_coder_t* decoder);
+
+//uint8_t kodo_has_print_decoder_state(kodo_coder_t* decoder);
 
 /// Print decoder state
 /// @param decoder Pointer to the decoder
-void kodo_print_decoder_state(kodo_coder_t* decoder);
+
+//void kodo_print_decoder_state(kodo_coder_t* decoder);
 
 /// Check whether the decoder has support for printing the last seen symbol
 /// coefficients
 /// @param decoder Pointer to the decoder to query
 /// @return Non-zero value if the decoder supports printing otherwise zero
-uint8_t kodo_has_print_cached_symbol_coefficients(kodo_coder_t* decoder);
+
+//uint8_t kodo_has_print_cached_symbol_coefficients(kodo_coder_t* decoder);
 
 /// Print last decoder symbol coefficients
 /// @param decoder Pointer to the decoder
-void kodo_print_cached_symbol_coefficients(kodo_coder_t* decoder);
+
+//void kodo_print_cached_symbol_coefficients(kodo_coder_t* decoder);
 
 /// Check whether the decoder has support for printing the last seen symbol
 /// data
 /// @param decoder Pointer to the decoder to query
 /// @return Non-zero value if the decoder supports printing otherwise zero
-uint8_t kodo_has_print_cached_symbol_data(kodo_coder_t* decoder);
+
+//uint8_t kodo_has_print_cached_symbol_data(kodo_coder_t* decoder);
 
 /// Print last decoder symbol data
 /// @param decoder Pointer to the decoder
-void kodo_print_cached_symbol_data(kodo_coder_t* decoder);
+
+//void kodo_print_cached_symbol_data(kodo_coder_t* decoder);
 
 
 
