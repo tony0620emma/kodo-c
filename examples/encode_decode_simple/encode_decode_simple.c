@@ -11,6 +11,20 @@
 ///
 /// Simple example showing how to encode and decode a block
 /// of memory.
+uint8_t filter_function(const char* zone)
+{
+    char* zones[] = {"decoder_state", NULL};
+    char** cmp = zones;
+
+    while (*cmp)
+    {
+        if (!strcmp(zone, *cmp))
+            return 1;
+        cmp++;
+    }
+
+    return 0;
+}
 
 int main()
 {
@@ -101,16 +115,11 @@ int main()
         printf("Payload processed by decoder, current rank = %d\n",
                kodo_rank(decoder));
 
-        //if (kodo_has_print_decoder_state(decoder))
-        //    kodo_print_decoder_state(decoder);
-        auto filter = [](const std::string& zone)
+        if (kodo_has_trace(decoder))
         {
-            std::set<std::string> filters =
-            {"decoder_state", "input_symbol_coefficients"};
-            
-            return filters.count(zone);
-        };
-        kodo_trace_filter(decoder, filter);
+            printf("has trace\n");
+            kodo_trace_filter(decoder, &filter_function);
+        }
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);

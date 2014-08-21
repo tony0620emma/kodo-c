@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "ckodo.h"
+
 namespace kodo
 {
     struct coder
@@ -16,6 +18,7 @@ namespace kodo
         virtual uint32_t rank() const = 0;
         virtual bool symbol_pivot(uint32_t) const = 0;
         virtual bool has_trace() const = 0;
+        virtual void trace(kodo_filter_function_t) = 0;
 
         virtual ~coder(){}
     };

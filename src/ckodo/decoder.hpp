@@ -25,14 +25,13 @@ namespace kodo
         virtual bool is_partial_complete() const = 0;
         virtual bool is_symbol_uncoded(uint32_t) const = 0;
 
-
         // Debugging support
 
-        /* 
-           virtual bool has_print_decoder_state() const = 0;       
+        /*
+           virtual bool has_print_decoder_state() const = 0;
            virtual bool has_print_cached_symbol_coefficients() const = 0;
            virtual void print_cached_symbol_coefficients() const = 0;
-           virtual void print_decoder_state() const = 0;        
+           virtual void print_decoder_state() const = 0;
            virtual bool has_print_cached_symbol_data() const = 0;
            virtual void print_cached_symbol_data() const = 0;
         */

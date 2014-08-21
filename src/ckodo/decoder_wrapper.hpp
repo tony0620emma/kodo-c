@@ -14,6 +14,7 @@
 #include <kodo/trace_decode_symbol.hpp>
 #include <kodo/trace_linear_block_decoder.hpp>
 #include <kodo/symbol_decoding_status_tracker.hpp>
+#include <kodo/trace.hpp>
 
 #include "decoder.hpp"
 
@@ -106,6 +107,15 @@ namespace kodo
             return kodo::has_trace<KodoStack>::value;
         }
 
+        virtual void trace(kodo_filter_function_t filter_function)
+        {
+            auto filter = [&filter_function](const std::string& zone)
+            {
+                return bool(filter_function(zone.c_str()));
+            };
+            kodo::trace<KodoStack>(m_decoder, std::cout, filter);
+        }
+
         virtual bool is_partial_complete() const
         {
             return kodo::is_partial_complete(m_decoder);
@@ -122,7 +132,7 @@ namespace kodo
             kodo::print_decoder_state(m_decoder, std::cout);
         }
 
-       
+
         virtual void print_cached_symbol_coefficients() const
         {
             kodo::print_cached_symbol_coefficients(m_decoder, std::cout);

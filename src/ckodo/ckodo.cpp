@@ -8,7 +8,6 @@
 
 #include <kodo/rlnc/full_rlnc_codes.hpp>
 #include <kodo/rlnc/on_the_fly_codes.hpp>
-#include <kodo/trace.hpp>
 
 #include "encoder_factory_wrapper.hpp"
 #include "decoder_factory_wrapper.hpp"
@@ -18,6 +17,9 @@
 // Typdefs for the encoder/decoder type we wish to use
 typedef kodo::full_rlnc_encoder<fifi::binary> full_rlnc_encoder;
 typedef kodo::full_rlnc_decoder<fifi::binary> full_rlnc_decoder;
+
+typedef kodo::full_rlnc_decoder<fifi::binary, kodo::enable_trace>
+    full_rlnc_decoder_trace;
 
 typedef kodo::full_rlnc_encoder<fifi::binary8> full_rlnc_encoder8;
 typedef kodo::full_rlnc_decoder<fifi::binary8> full_rlnc_decoder8;
@@ -119,7 +121,7 @@ kodo_new_decoder_factory(size_t code_type, size_t field_type,
         if(field_type == kodo_binary)
         {
             factory = new kodo::decoder_factory_wrapper<
-                full_rlnc_decoder>(max_symbols, max_symbol_size);
+                full_rlnc_decoder_trace>(max_symbols, max_symbol_size);
         }
         if(field_type == kodo_binary8)
         {
@@ -469,10 +471,8 @@ uint8_t kodo_is_complete(kodo_coder_t* decoder)
 */
 
 //KODO 17 Trace methods
-void kodo_trace_filter(kodo_coder_t* coder, filter_func_t filter)
+void kodo_trace_filter(kodo_coder_t* coder, kodo_filter_function_t filter)
 {
     kodo::coder* the_coder = (kodo::coder*) coder;
-    kodo::trace(the_coder, std::cout, filter);
+    the_coder->trace(filter);
 }
-
-

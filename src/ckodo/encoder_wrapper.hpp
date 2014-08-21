@@ -16,6 +16,7 @@
 #include <kodo/set_systematic_off.hpp>
 
 #include <kodo/trace_decode_symbol.hpp>
+#include <kodo/trace.hpp>
 
 #include "encoder.hpp"
 
@@ -103,6 +104,15 @@ namespace kodo
         virtual bool has_trace() const
         {
             return kodo::has_trace<KodoStack>::value;
+        }
+
+        virtual void trace(kodo_filter_function_t filter_function)
+        {
+            auto filter = [&filter_function](const std::string& zone)
+            {
+                return bool(filter_function(zone.c_str()));
+            };
+            kodo::trace<KodoStack>(m_encoder, std::cout, filter);
         }
 
 
