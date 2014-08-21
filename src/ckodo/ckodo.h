@@ -27,6 +27,9 @@ typedef struct _kodo_factory_t kodo_factory_t;
 /// Opaque class structures for the encoders and decoders
 typedef struct _kodo_coder_t kodo_coder_t;
 
+/// 
+typedef int (filter_func_t)(char*);
+
 /// Constants for selecting the finite field
 extern const size_t kodo_binary;
 extern const size_t kodo_binary8;
@@ -262,7 +265,7 @@ uint8_t kodo_is_symbol_uncoded(kodo_coder_t* coder, uint32_t index);
 /// @return Non-zero value if the decoder is partially decoded otherwise zero
 uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t* decoder);
 
-uint8_t kodo_has_trace(kodo_coder_t* decoder); //kodo 17 add for trace 
+uint8_t kodo_has_trace(kodo_coder_t* coder); //kodo 17 add for trace 
 
 /// Returns whether an encoder has systematic capabilities
 /// @param encoder Pointer to the encoder
@@ -330,7 +333,7 @@ void kodo_set_systematic_off(kodo_coder_t* encoder);
 
 
 //KODO 17 Trace methods
-void kodo_trace_debugger_state(kodo_coder_t* decoder); 
+    void kodo_trace_filter(kodo_coder_t* decoder, filter_func_t filter); 
 
 
 #ifdef __INTEL_COMPILER

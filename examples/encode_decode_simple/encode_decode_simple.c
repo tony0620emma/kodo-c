@@ -103,7 +103,14 @@ int main()
 
         //if (kodo_has_print_decoder_state(decoder))
         //    kodo_print_decoder_state(decoder);
-        kodo_trace_debugger_state(decoder);
+        auto filter = [](const std::string& zone)
+        {
+            std::set<std::string> filters =
+            {"decoder_state", "input_symbol_coefficients"};
+            
+            return filters.count(zone);
+        };
+        kodo_trace_filter(decoder, filter);
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);

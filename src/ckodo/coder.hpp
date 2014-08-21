@@ -15,6 +15,7 @@ namespace kodo
         virtual uint32_t symbols() const = 0;
         virtual uint32_t rank() const = 0;
         virtual bool symbol_pivot(uint32_t) const = 0;
+        virtual bool has_trace() const = 0;
 
         virtual ~coder(){}
     };

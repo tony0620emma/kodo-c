@@ -427,11 +427,11 @@ uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t* decoder)
     return (uint8_t)the_decoder->has_partial_decoding_tracker();
 }
 
-uint8_t kodo_has_trace(kodo_coder_t* decoder)
+uint8_t kodo_has_trace(kodo_coder_t* coder)
 {
-    assert(decoder);
-    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
-    return (uint8_t)the_decoder->has_trace();
+    assert(coder);
+    kodo::coder* the_coder = (kodo::coder*) coder;
+    return (uint8_t)the_coder->has_trace();
 }
 
 uint8_t kodo_is_systematic_on(kodo_coder_t* encoder)
@@ -469,34 +469,10 @@ uint8_t kodo_is_complete(kodo_coder_t* decoder)
 */
 
 //KODO 17 Trace methods
-void kodo_trace_debugger_state(kodo_coder_t* decoder, 
-                               kodo_coder_t* encoder)
+void kodo_trace_filter(kodo_coder_t* coder, filter_func_t filter)
 {
-    assert(decoder);
-    assert(encoder);
-
-    std::vector<uint8_t> payload(encoder->payload_size());
-
-    while(!kodo_is_complete(decoder))
-    {
-
-        decoder-> decode(payload.data());
-
-        if (kodo_has_trace(decoder))
-        {  
-            auto filter = [](const std::string& zone)
-            {
-                std::set<std::string> filters = 
-                {"decoder_state"}; //currenty only for test 
-                    
-                return filters.count(zone);
-            }
-            
-            std::cout << "Trace decoder:" << std::endl;
-            
-            kodo::trace(decoder, std::cout, filter);
-        }
-    }
+    kodo::coder* the_coder = (kodo::coder*) coder;
+    kodo::trace(the_coder, std::cout, filter);
 }
 
 

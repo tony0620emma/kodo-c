@@ -100,6 +100,11 @@ namespace kodo
             kodo::set_systematic_off(m_encoder);
         }
 
+        virtual bool has_trace() const
+        {
+            return kodo::has_trace<KodoStack>::value;
+        }
+
 
         typename KodoStack::pointer m_encoder;
 

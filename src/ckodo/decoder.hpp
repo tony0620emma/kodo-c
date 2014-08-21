@@ -21,7 +21,6 @@ namespace kodo
                                  uint32_t size) const = 0;
 
         virtual bool has_partial_decoding_tracker() const = 0;
-        virtual bool has_trace() const = 0;
 
         virtual bool is_partial_complete() const = 0;
         virtual bool is_symbol_uncoded(uint32_t) const = 0;
