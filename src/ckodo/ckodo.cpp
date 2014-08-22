@@ -9,6 +9,9 @@
 #include <kodo/rlnc/full_rlnc_codes.hpp>
 #include <kodo/rlnc/on_the_fly_codes.hpp>
 
+#include <kodo/rlnc/sliding_window_encoder.hpp>
+#include <kodo/rlnc/sliding_window_decoder.hpp>
+
 #include "encoder_factory_wrapper.hpp"
 #include "decoder_factory_wrapper.hpp"
 #include "ckodo.h"
@@ -70,6 +73,32 @@ typedef kodo::on_the_fly_decoder<fifi::binary16, kodo::enable_trace>
     on_the_fly_decoder_trace16;
 
 
+typedef kodo::sliding_window_encoder<fifi::binary> sliding_window_encoder;
+typedef kodo::sliding_window_decoder<fifi::binary> sliding_window_decoder;
+
+typedef kodo::sliding_window_encoder<fifi::binary, kodo::enable_trace>
+    sliding_window_encoder_trace;
+typedef kodo::sliding_window_decoder<fifi::binary, kodo::enable_trace> 
+    sliding_window_decoder_trace;
+
+
+typedef kodo::sliding_window_encoder<fifi::binary8> sliding_window_encoder8;
+typedef kodo::sliding_window_decoder<fifi::binary8> sliding_window_decoder8;
+
+typedef kodo::sliding_window_encoder<fifi::binary8, kodo::enable_trace>
+    sliding_window_encoder_trace8;
+typedef kodo::sliding_window_decoder<fifi::binary8, kodo::enable_trace> 
+    sliding_window_decoder_trace8;
+
+typedef kodo::sliding_window_encoder<fifi::binary16> sliding_window_encoder16;
+typedef kodo::sliding_window_decoder<fifi::binary16> sliding_window_decoder16;
+
+typedef kodo::sliding_window_encoder<fifi::binary, kodo::enable_trace>
+    sliding_window_encoder_trace16;
+typedef kodo::sliding_window_decoder<fifi::binary, kodo::enable_trace> 
+    sliding_window_decoder_trace16;
+
+
 const size_t kodo_binary = typeid(fifi::binary).hash_code();
 const size_t kodo_binary8 = typeid(fifi::binary8).hash_code();
 const size_t kodo_binary16 = typeid(fifi::binary16).hash_code();
@@ -79,6 +108,9 @@ const size_t kodo_full_rlnc =
 
 const size_t kodo_on_the_fly =
     typeid(on_the_fly_encoder).hash_code();
+
+const size_t sliding_window =
+    typeid(sliding_window).hash_code();
 
 //------------------------------------------------------------------
 // FACTORY API
@@ -93,22 +125,44 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
 
     if(code_type == kodo_full_rlnc)
     {
-        if(field_type == kodo_binary)
+        
+        if(!trace_enabled)
         {
-            factory = new kodo::encoder_factory_wrapper<
-                full_rlnc_encoder>(max_symbols, max_symbol_size);
+            if(field_type == kodo_binary)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    full_rlnc_encoder>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary8)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    full_rlnc_encoder8>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary16)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    full_rlnc_encoder16>(max_symbols, max_symbol_size);
+            }
         }
-        if(field_type == kodo_binary8)
+        else
         {
-            factory = new kodo::encoder_factory_wrapper<
-                full_rlnc_encoder8>(max_symbols, max_symbol_size);
-        }
-        if(field_type == kodo_binary16)
-        {
-            factory = new kodo::encoder_factory_wrapper<
-                full_rlnc_encoder16>(max_symbols, max_symbol_size);
-        }
+            if(field_type == kodo_binary)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    full_rlnc_encoder_trace>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary8)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    full_rlnc_encoder_trace8>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary16)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    full_rlnc_encoder_trace16>(max_symbols, max_symbol_size);
+            }
 
+        }
         // The field type was unknown
         assert(factory);
 
@@ -116,22 +170,42 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
 
     if(code_type == kodo_on_the_fly)
     {
-        if(field_type == kodo_binary)
+        if(!trace_enabled)
         {
-            factory = new kodo::encoder_factory_wrapper<
-                on_the_fly_encoder>(max_symbols, max_symbol_size);
+            if(field_type == kodo_binary)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    on_the_fly_encoder>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary8)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    on_the_fly_encoder8>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary16)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    on_the_fly_encoder16>(max_symbols, max_symbol_size);
+            }
         }
-        if(field_type == kodo_binary8)
+        else
         {
-            factory = new kodo::encoder_factory_wrapper<
-                on_the_fly_encoder8>(max_symbols, max_symbol_size);
+            if(field_type == kodo_binary)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    on_the_fly_encoder_trace>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary8)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    on_the_fly_encoder_trace8>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary16)
+            {
+                factory = new kodo::encoder_factory_wrapper<
+                    on_the_fly_encoder_trace16>(max_symbols, max_symbol_size);
+            }
         }
-        if(field_type == kodo_binary16)
-        {
-            factory = new kodo::encoder_factory_wrapper<
-                on_the_fly_encoder16>(max_symbols, max_symbol_size);
-        }
-
         // The field type was unknown
         assert(factory);
 
@@ -194,8 +268,7 @@ kodo_new_decoder_factory(size_t code_type, size_t field_type,
         assert(factory);
 
     }
-
-    if(code_type == kodo_on_the_fly)
+    else if(code_type == kodo_on_the_fly)
     {
         if(!trace_enabled)
         {
@@ -237,6 +310,48 @@ kodo_new_decoder_factory(size_t code_type, size_t field_type,
             // The field type was unknown
             assert(factory);
 
+    }
+    else if(code_type == sliding_window)
+    {
+                if(!trace_enabled)
+        {
+            if(field_type == kodo_binary)
+            {
+                factory = new kodo::decoder_factory_wrapper<
+                    sliding_window_decoder>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary8)
+            {
+                factory = new kodo::decoder_factory_wrapper<
+                sliding_window_decoder8>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary16)
+            {
+                factory = new kodo::decoder_factory_wrapper<
+                    sliding_window_decoder16>(max_symbols, max_symbol_size);
+            }
+        }
+        else
+        {
+            if(field_type == kodo_binary)
+            {
+                factory = new kodo::decoder_factory_wrapper<
+                    sliding_window_decoder_trace>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary8)
+            {
+                factory = new kodo::decoder_factory_wrapper<
+                sliding_window_decoder_trace8>(max_symbols, max_symbol_size);
+            }
+            else if(field_type == kodo_binary16)
+            {
+                factory = new kodo::decoder_factory_wrapper<
+                    sliding_window_decoder_trace16>(max_symbols, max_symbol_size);
+            }
+        }
+
+            // The field type was unknown
+            assert(factory);        
     }
 
     // The code type was unknown
