@@ -12,13 +12,17 @@
 void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
                      size_t algorithm, size_t finite_field)
 {
+    uint32_t trace_enabled = 0;
+
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size);
+                                 max_symbols, max_symbol_size,
+                                 trace_enabled);
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size);
+                                 max_symbols, max_symbol_size,
+                                 trace_enabled);
 
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
