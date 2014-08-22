@@ -111,6 +111,7 @@ const size_t kodo_on_the_fly =
 
 const size_t sliding_window =
     typeid(sliding_window).hash_code();
+//
 
 //------------------------------------------------------------------
 // FACTORY API
