@@ -4,20 +4,18 @@
 // http://www.steinwurf.com/licensing
 #include <stdint.h>
 
-#include <kodo/rlnc/sliding_window_encoder.hpp>
-#include <kodo/rlnc/sliding_window_decoder.hpp>
-#include <kodo/trace.hpp>
-
 #include<ckodo/ckodo.h>
 
 
 int main(){
 
-    uint8_t symbols = 16;
-    uint8_t symbols_size = 160;
+    uint8_t max_symbols = 16;
+    uint8_t max_symbol_size = 160;
 
     size_t algorithm = sliding_window;
-    size_t finit_field = kodo_binary8;
+    size_t finite_field = kodo_binary8;
+
+    uint8_t trace_enabled = 1;
 
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
@@ -39,7 +37,12 @@ int main(){
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
 
-    uint8_t* payload = malloc(encoder.payload_size() * sizeof(uint8_t));
+    //uint8_t* payload = malloc(encoder->payload_size() * sizeof(uint8_t));
+
+    while(!kodo_is_complete(decoder))
+    {
+
+    }
   
 
 
