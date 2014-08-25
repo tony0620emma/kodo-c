@@ -13,8 +13,8 @@
 
 int main(){
 
-    uint32_t symbols = 16;
-    uint32_t symbols_size = 160;
+    uint8_t symbols = 16;
+    uint8_t symbols_size = 160;
 
     size_t algorithm = sliding_window;
     size_t finit_field = kodo_binary8;
@@ -39,6 +39,7 @@ int main(){
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
 
+    uint8_t* payload = malloc(encoder.payload_size() * sizeof(uint8_t));
   
 
 
