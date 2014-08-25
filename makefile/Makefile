@@ -136,9 +136,9 @@ EXAMPLE3B-SRC = $(EXAMPLE3-DIR)/udp_receiver.c
 EXAMPLE4 = sliding_window
 EXAMPLE4-DIR ?= ../examples/sliding_window
 EXAMPLE4-SRC = $(EXAMPLE4-DIR)/$(EXAMPLE4).c
+
 .PHONY: all
-all: $(STATICLIB) $(SHAREDLIB) $(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B) 
-#$(EXAMPLE4)
+all: $(STATICLIB) $(SHAREDLIB) $(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B) $(EXAMPLE4)
 
 # Build the static library
 $(STATICLIB): $(OBJECTS)
