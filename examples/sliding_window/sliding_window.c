@@ -77,7 +77,7 @@ int main(){
     uint32_t block_size = kodo_block_size(encoder);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
 
-    //uint8_t feedback = (uint8_t) kodo_feedback_size(encoder);
+    uint8_t feedback = (uint8_t) kodo_feedback_size(encoder);
 
     uint32_t i = 0;
 
@@ -98,7 +98,7 @@ int main(){
 	uint32_t rank = kodo_rank(encoder);
 	uint8_t* symbol = data_in + (rank * max_symbol_size);
 	kodo_set_symbol(encoder, rank, symbol, max_symbol_size);
-	//	printf("Symbol %d added to the encoder\n", symbol);
+	printf("Symbol %d added to the encoder\n", (int)*symbol);
       }
 
       kodo_encode(encoder, payload);
@@ -106,11 +106,11 @@ int main(){
 
       if (rand() % 2)
       {
-	printf("Packet dropped on channel");
+	printf("Packet dropped on channel\n");
 	continue;
       }
       
-      printf("Decoder received packaget");
+      printf("Decoder received packaget\n");
 
       kodo_decode(decoder, payload);
       
@@ -118,18 +118,18 @@ int main(){
       printf("Decoder rank = %d\n", kodo_rank(decoder));
 
       //Outcoment functions not implemented yet
-      //printf("Decoder uncoded = %d", kodo_symbols_uncoded());
-      //printf("Decoder seen = %d", kodo_symbols_seen());
+      printf("Decoder uncoded = %d\n", kodo_symbols_uncoded(decoder));
+      printf("Decoder seen = %d\n", kodo_symbols_seen(decoder));
 
       //kodo_write_feedback(decoder);
 
       if (rand() % 2)
       {
-	printf("Lost feed back from decoder");
+	printf("Lost feed back from decoder\n");
 	continue;
       }
       
-      printf("Recevied feedback from decoder");
+      printf("Recevied feedback from decoder\n");
 
       //kodo_read_feedback(encoder);
 	
@@ -140,15 +140,12 @@ int main(){
 
     if (data_out == data_in)
     {
-      printf("Data decoeded correctly");
+      printf("Data decoeded correctly\n");
     }
     else
     {
       printf("Unexpected failure to decode ");
-      printf("please file a bug reort :)");
+      printf("please file a bug reort :)\n");
     }
-  
-
-
     return 0;
 }

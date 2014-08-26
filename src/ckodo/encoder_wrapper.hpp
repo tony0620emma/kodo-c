@@ -61,6 +61,11 @@ namespace kodo
             return m_encoder->block_size();
         }
 
+        virtual uint32_t feedback_size() const
+        {
+          return m_encoder->feedback_size();
+        }
+
         virtual uint32_t symbol_size() const
         {
             return m_encoder->symbol_size();

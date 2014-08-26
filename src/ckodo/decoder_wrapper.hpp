@@ -69,6 +69,11 @@ namespace kodo
             return m_decoder->block_size();
         }
 
+        virtual uint32_t feedback_size() const
+        {
+          return m_decoder->feedback_size();
+        }
+
         virtual uint32_t symbol_size() const
         {
             return m_decoder->symbol_size();
@@ -128,8 +133,13 @@ namespace kodo
 
         virtual uint32_t symbols_uncoded() const
         {
-	  return m_decoder->symbols_uncoded();
+            return m_decoder->symbols_uncoded();
 	}
+
+        virtual uint32_t symbols_seen() const
+        {
+            return m_decoder->symbols_seen();
+        }
 
         typename KodoStack::pointer m_decoder;
 

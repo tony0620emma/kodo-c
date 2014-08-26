@@ -244,6 +244,7 @@ uint8_t kodo_is_partial_complete(kodo_coder_t* decoder);
 /// @return the rank of the decoder or encoder
 uint32_t kodo_rank(kodo_coder_t* coder);
 
+uint8_t kodo_feedback_size(kodo_coder_t* encoder);
 /// The symbol pivot indicates whether a symbol is available to either an
 /// encoder or decoder.
 /// @return 1 if the symbol is available otherwise 0.
@@ -253,6 +254,10 @@ uint8_t kodo_symbol_pivot(kodo_coder_t* coder, uint32_t index);
 /// @return 1 if the symbol is decoded otherwise 0
 uint8_t kodo_is_symbol_uncoded(kodo_coder_t* coder, uint32_t index);
 
+/// @return the amount of uncoded symbols
+uint32_t kodo_symbols_uncoded(kodo_coder_t* decoder);
+
+uint32_t kodo_symbols_seen(kodo_coder_t* decoder);
 //------------------------------------------------------------------
 // GENERIC API
 //------------------------------------------------------------------
