@@ -126,6 +126,11 @@ namespace kodo
             return m_decoder->is_symbol_uncoded(index);
         }
 
+      //        virtual uint32_t symbols_uncoded()
+      //        {
+      //	  return m_decoder->symbols_uncoded();
+      //	}
+
         /*
         virtual void print_decoder_state() const
         {

@@ -660,12 +660,14 @@ void kodo_trace(kodo_coder_t* coder)
 {
     kodo::coder* the_coder = (kodo::coder*) coder;
     //SEND NULL TO Trace
-    //    the_coder->trace();
+    the_coder->trace(NULL);
 }
 
 uint8_t kodo_has_trace(kodo_coder_t* coder)
 {
     assert(coder);
     kodo::coder* the_coder = (kodo::coder*) coder;
-    //return (uint8_t)the_coder->has_trace();
+    return (uint8_t)the_coder->has_trace();
 }
+
+
