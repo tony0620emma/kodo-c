@@ -126,28 +126,11 @@ namespace kodo
             return m_decoder->is_symbol_uncoded(index);
         }
 
-      //        virtual uint32_t symbols_uncoded()
-      //        {
-      //	  return m_decoder->symbols_uncoded();
-      //	}
-
-        /*
-        virtual void print_decoder_state() const
+        virtual uint32_t symbols_uncoded() const
         {
-            kodo::print_decoder_state(m_decoder, std::cout);
-        }
+	  return m_decoder->symbols_uncoded();
+	}
 
-
-        virtual void print_cached_symbol_coefficients() const
-        {
-            kodo::print_cached_symbol_coefficients(m_decoder, std::cout);
-        }
-
-        virtual void print_cached_symbol_data() const
-        {
-            kodo::print_cached_symbol_data(m_decoder, std::cout);
-        }
-*/
         typename KodoStack::pointer m_decoder;
 
     };

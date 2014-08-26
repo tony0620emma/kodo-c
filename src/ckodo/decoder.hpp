@@ -25,7 +25,7 @@ namespace kodo
         virtual bool is_partial_complete() const = 0;
         virtual bool is_symbol_uncoded(uint32_t) const = 0;
       
-      //        virtual uint32_t symbols_uncoded() const = 0;
+        virtual uint32_t symbols_uncoded() const = 0;
 
         virtual ~decoder(){}
     };
