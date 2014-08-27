@@ -220,7 +220,7 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
             }
             else if(field_type == kodo_binary8)
             {
-                factory = new kodo::encoder_factory_wrapper<
+                factory = new kodo::feedback_encoder_factory_wrapper<
                   sliding_window_encoder8>(max_symbols, max_symbol_size);
             }
             else if(field_type == kodo_binary16)
@@ -622,9 +622,11 @@ uint8_t kodo_is_partial_complete(kodo_coder_t* decoder)
 
 }
 
-uint8_t kodo_feedback_size(kodo_coder_t* coder){
+uint8_t kodo_feedback_size(kodo_coder_t* coder)
+{
     kodo::coder* the_coder = (kodo::coder*) coder;
-    return the_coder->feedback_size();
+    //    return (uint8_t)the_coder->feedback_size();
+    return -1;
 }
 
 uint32_t kodo_rank(kodo_coder_t* decoder)
