@@ -62,7 +62,6 @@ int main(){
     // kodo_factory_set_symbols(...) and kodo_factory_set_symbol_size(...)
     // We can however not exceed the maximum values which was used when building
     // the factory.
-
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
 
