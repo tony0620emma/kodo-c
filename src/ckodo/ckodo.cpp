@@ -51,7 +51,7 @@ typedef kodo::on_the_fly_decoder<fifi::binary> on_the_fly_decoder;
 
 typedef kodo::on_the_fly_encoder<fifi::binary, kodo::enable_trace>
     on_the_fly_encoder_trace;
-typedef kodo::on_the_fly_decoder<fifi::binary, kodo::enable_trace> 
+typedef kodo::on_the_fly_decoder<fifi::binary, kodo::enable_trace>
     on_the_fly_decoder_trace;
 
 
@@ -60,7 +60,7 @@ typedef kodo::on_the_fly_decoder<fifi::binary8> on_the_fly_decoder8;
 
 typedef kodo::on_the_fly_encoder<fifi::binary8, kodo::enable_trace>
     on_the_fly_encoder_trace8;
-typedef kodo::on_the_fly_decoder<fifi::binary8, kodo::enable_trace> 
+typedef kodo::on_the_fly_decoder<fifi::binary8, kodo::enable_trace>
     on_the_fly_decoder_trace8;
 
 
@@ -69,7 +69,7 @@ typedef kodo::on_the_fly_decoder<fifi::binary16> on_the_fly_decoder16;
 
 typedef kodo::on_the_fly_encoder<fifi::binary16, kodo::enable_trace>
     on_the_fly_encoder_trace16;
-typedef kodo::on_the_fly_decoder<fifi::binary16, kodo::enable_trace> 
+typedef kodo::on_the_fly_decoder<fifi::binary16, kodo::enable_trace>
     on_the_fly_decoder_trace16;
 
 
@@ -78,7 +78,7 @@ typedef kodo::sliding_window_decoder<fifi::binary> sliding_window_decoder;
 
 typedef kodo::sliding_window_encoder<fifi::binary, kodo::enable_trace>
     sliding_window_encoder_trace;
-typedef kodo::sliding_window_decoder<fifi::binary, kodo::enable_trace> 
+typedef kodo::sliding_window_decoder<fifi::binary, kodo::enable_trace>
     sliding_window_decoder_trace;
 
 
@@ -87,7 +87,7 @@ typedef kodo::sliding_window_decoder<fifi::binary8> sliding_window_decoder8;
 
 typedef kodo::sliding_window_encoder<fifi::binary8, kodo::enable_trace>
     sliding_window_encoder_trace8;
-typedef kodo::sliding_window_decoder<fifi::binary8, kodo::enable_trace> 
+typedef kodo::sliding_window_decoder<fifi::binary8, kodo::enable_trace>
     sliding_window_decoder_trace8;
 
 typedef kodo::sliding_window_encoder<fifi::binary16> sliding_window_encoder16;
@@ -95,7 +95,7 @@ typedef kodo::sliding_window_decoder<fifi::binary16> sliding_window_decoder16;
 
 typedef kodo::sliding_window_encoder<fifi::binary, kodo::enable_trace>
     sliding_window_encoder_trace16;
-typedef kodo::sliding_window_decoder<fifi::binary, kodo::enable_trace> 
+typedef kodo::sliding_window_decoder<fifi::binary, kodo::enable_trace>
     sliding_window_decoder_trace16;
 
 
@@ -126,13 +126,14 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
 
     if(code_type == kodo_full_rlnc)
     {
-        
+
         if(!trace_enabled)
         {
             if(field_type == kodo_binary)
             {
                 factory = new kodo::encoder_factory_wrapper<
-                    full_rlnc_encoder>(max_symbols, max_symbol_size);
+                    full_rlnc_encoder, encoder_wrapper>(
+                        max_symbols, max_symbol_size);
             }
             else if(field_type == kodo_binary8)
             {
@@ -227,7 +228,7 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
             {
                 factory = new kodo::encoder_factory_wrapper<
                     sliding_window_encoder16>(max_symbols, max_symbol_size);
-            }        
+            }
       }
       else
       {
@@ -388,7 +389,7 @@ kodo_new_decoder_factory(size_t code_type, size_t field_type,
         }
 
             // The field type was unknown
-            assert(factory);        
+            assert(factory);
     }
 
     // The code type was unknown

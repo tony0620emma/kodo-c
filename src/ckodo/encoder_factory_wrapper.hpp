@@ -11,7 +11,7 @@
 namespace kodo
 {
 
-    template<class KodoStack>
+    template<class KodoStack, template<class> class Wrapper>
     struct encoder_factory_wrapper : public factory_wrapper<KodoStack>
     {
         encoder_factory_wrapper(uint32_t max_symbols,
@@ -24,7 +24,7 @@ namespace kodo
         virtual void* build()
         {
             auto encoder = m_factory.build();
-            auto wrapper = new encoder_wrapper<KodoStack>(encoder);
+            auto wrapper = new Wrapper<KodoStack>(encoder);
 
             return wrapper;
         }
