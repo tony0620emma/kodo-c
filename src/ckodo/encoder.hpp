@@ -9,10 +9,15 @@
 
 namespace kodo
 {
-
     /// Base class for an encoder implementation
-    struct encoder : public coder
+    template<class KodoStack>
+    struct encoder : public coder<KodoStack>
     {
+      encoder(const typename KodoStack::pointer& encoder)
+          : m_encoder(encoder)
+      {
+        coder<KodoStack>(m_encoder);
+      }
         virtual uint32_t encode(uint8_t *) = 0;
 
         virtual void set_symbols(
@@ -27,6 +32,8 @@ namespace kodo
         virtual bool is_systematic_on() const = 0;
         virtual void set_systematic_on() = 0;
         virtual void set_systematic_off() = 0;
+
+        typename KodoStack::pointer m_encoder;
     };
 }
 

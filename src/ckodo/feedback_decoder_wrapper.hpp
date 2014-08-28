@@ -19,5 +19,10 @@ namespace kodo
         {
             return m_decoder->feedback_size();
         }
+
+        virtual void write_feedback()
+        {
+        
+        }
     };
 }

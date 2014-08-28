@@ -23,12 +23,13 @@ namespace kodo
 {
 
     template<class KodoStack>
-    struct decoder_wrapper : public decoder
+    struct decoder_wrapper : public decoder<KodoStack>
     {
         decoder_wrapper(const typename KodoStack::pointer& decoder)
             : m_decoder(decoder)
         {
             assert(m_decoder);
+            decoder(m_decoder);
         }
 
         virtual uint32_t recode(uint8_t *payload)
@@ -53,42 +54,6 @@ namespace kodo
             return m_decoder->is_complete();
         }
 
-        virtual uint32_t rank() const
-        {
-            assert(m_decoder);
-            return m_decoder->rank();
-        }
-
-        virtual uint32_t payload_size() const
-        {
-            return m_decoder->payload_size();
-        }
-
-        virtual uint32_t block_size() const
-        {
-            return m_decoder->block_size();
-        }
-
-      //virtual uint32_t feedback_size() const
-      //{
-      //  return m_decoder->feedback_size();
-      //}
-
-        virtual uint32_t symbol_size() const
-        {
-            return m_decoder->symbol_size();
-        }
-
-        virtual uint32_t symbols() const
-        {
-            return m_decoder->symbols();
-        }
-
-        virtual bool symbol_pivot(uint32_t index) const
-        {
-            return m_decoder->is_symbol_pivot(index);
-        }
-
         virtual void copy_symbols(uint8_t* data, uint32_t size) const
         {
             auto storage = sak::mutable_storage(data, size);
@@ -105,20 +70,6 @@ namespace kodo
         virtual bool has_partial_decoding_tracker() const
         {
             return kodo::has_partial_decoding_tracker<KodoStack>::value;
-        }
-
-        virtual bool has_trace() const
-        {
-            return kodo::has_trace<KodoStack>::value;
-        }
-
-        virtual void trace(kodo_filter_function_t filter_function)
-        {
-            auto filter = [&filter_function](const std::string& zone)
-            {
-                return bool(filter_function(zone.c_str()));
-            };
-            kodo::trace<KodoStack>(m_decoder, std::cout, filter);
         }
 
         virtual bool is_partial_complete() const
