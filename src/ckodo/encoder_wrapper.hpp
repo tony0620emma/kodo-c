@@ -24,13 +24,12 @@ namespace kodo
 {
 
     template<class KodoStack>
-    struct encoder_wrapper : public encoder<KodoStack>
+    struct encoder_wrapper : public encoder
     {
         encoder_wrapper(const typename KodoStack::pointer& encoder)
             : m_encoder(encoder)
         {
             assert(m_encoder);
-            encoder(m_encoder);
         }
 
         virtual uint32_t encode(uint8_t *payload)
@@ -50,8 +49,47 @@ namespace kodo
         {
             auto storage = sak::const_storage(data, size);
             m_encoder->set_symbol(index, storage);
-       }
+        }
 
+        virtual uint32_t payload_size() const
+        {
+            return m_encoder->payload_size();
+        }
+
+        virtual uint32_t block_size() const
+        {
+            return m_encoder->block_size();
+        }
+
+      //virtual uint32_t feedback_size() const
+      //{
+      //  return m_encoder->feedback_size();
+      //}
+
+        virtual uint32_t symbol_size() const
+        {
+            return m_encoder->symbol_size();
+        }
+
+        virtual uint32_t symbols() const
+        {
+            return m_encoder->symbols();
+        }
+
+        virtual bool symbol_pivot(uint32_t index) const
+        {
+            return m_encoder->is_symbol_pivot(index);
+        }
+
+        virtual uint32_t rank() const
+        {
+            return m_encoder->rank();
+        }
+
+        /*        virtual bool is_systematic() const
+        {
+            return kodo::is_systematic_encoder(m_encoder);
+            }*/
 
         virtual bool is_systematic_on() const
         {
@@ -68,9 +106,36 @@ namespace kodo
             kodo::set_systematic_off(m_encoder);
         }
 
+        virtual bool has_trace() const
+        {
+            return kodo::has_trace<KodoStack>::value;
+        }
+
+        virtual void trace(kodo_filter_function_t filter_function)
+        {
+            auto filter = [&filter_function](const std::string& zone)
+            {
+                return bool(filter_function(zone.c_str()));
+            };
+            kodo::trace<KodoStack>(m_encoder, std::cout, filter);
+        }
+
+      bool has_feedback_size() const;
+
         typename KodoStack::pointer m_encoder;
 
     };
-}
 
+    template<class KodoStack>
+    bool encoder_wrapper<KodoStack> has_feedback_size() const
+    {
+        return false;
+    }
+  
+    template<>
+    bool encoder_wrapper<sliding_window>has_feedback_size() const 
+    {
+        return true;
+    }
+}
 

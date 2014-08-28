@@ -545,7 +545,7 @@ uint32_t kodo_payload_size(kodo_coder_t* coder)
     assert(coder);
 
     kodo::coder* the_coder = (kodo::coder*) coder;
-    return coder->payload_size();
+    return the_coder->payload_size();
 }
 
 void kodo_decode(kodo_coder_t* decoder, uint8_t* payload)
@@ -663,7 +663,8 @@ uint8_t kodo_is_partial_complete(kodo_coder_t* decoder)
 uint8_t kodo_feedback_size(kodo_coder_t* decoder)
 {
     kodo::decoder* the_decoder = (kodo::decoder*) decoder;
-    return (uint8_t)the_decoder->feedback_size();
+    //    return (uint8_t)the_decoder->feedback_size();
+    return -1;
 
 }
 

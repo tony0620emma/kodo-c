@@ -5,73 +5,24 @@
 
 #pragma once
 
-#include <cassert>
-
-
 #include "ckodo.h"
 
 namespace kodo
 {
-    template<class KodoStack>
     struct coder
     {
-        coder(const typename KodoStack::pointer& coder)
-            : m_coder(coder)
-        {
-            assert(m_coder);
-        }
-        virtual uint32_t payload_size() const
-        {
-            return m_coder->payload_size();
-        }
-
-        virtual uint32_t block_size() const
-        {
-            return m_coder->block_size();
-        }
-
-        virtual uint32_t symbol_size() const
-        {
-            return m_coder->symbol_size();
-        }
-
-        virtual uint32_t symbols() const
-        {
-            return m_coder->symbols();
-        }
-
+        virtual uint32_t payload_size() const = 0;
+        virtual uint32_t block_size() const = 0;
       //        virtual uint32_t feedback_size() const = 0;
+        virtual uint32_t symbol_size() const = 0;
+        virtual uint32_t symbols() const = 0;
+        virtual uint32_t rank() const = 0;
+        virtual bool symbol_pivot(uint32_t) const = 0;
+        virtual bool has_trace() const = 0;
+        virtual void trace(kodo_filter_function_t) = 0;
 
-        virtual bool symbol_pivot(uint32_t index) const
-        {
-            return m_coder->is_symbol_pivot(index);
-        }
-
-
-        virtual uint32_t rank() const
-        {
-            return m_coder->rank();
-        }
-
-
-        virtual bool has_trace() const
-        {
-            return kodo::has_trace<KodoStack>::value;
-        }
-
-        virtual void trace(kodo_filter_function_t filter_function)
-        {
-            auto filter = [&filter_function](const std::string& zone)
-            {
-                return bool(filter_function(zone.c_str()));
-            };
-            kodo::trace<KodoStack>(m_coder, std::cout, filter);
-        }
-
-
+        virtual bool has_feedback_size() const = 0;
 
         virtual ~coder(){}
-
-      typename KodoStack::pointer m_coder;
     };
 }
