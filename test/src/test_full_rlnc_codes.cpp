@@ -21,16 +21,18 @@ void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size, 
+                                 max_symbols, max_symbol_size,
                                  trace_enabled);
 
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
 
     uint32_t payload_size = kodo_payload_size(encoder);
+    EXPECT_TRUE(payload_size > 0);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
     uint32_t block_size = kodo_block_size(encoder);
+    EXPECT_TRUE(block_size > 0);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
     uint8_t* data_out = (uint8_t*) malloc(block_size);
 
@@ -40,11 +42,14 @@ void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
 
     kodo_set_symbols(encoder, data_in, block_size);
 
+    ASSERT_FALSE(kodo_is_complete(decoder));
+
     while(!kodo_is_complete(decoder))
     {
         kodo_encode(encoder, payload);
         kodo_decode(decoder, payload);
     }
+    EXPECT_TRUE(kodo_is_complete(decoder));
 
     kodo_copy_symbols(decoder, data_out, block_size);
 

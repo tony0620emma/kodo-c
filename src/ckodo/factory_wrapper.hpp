@@ -11,8 +11,9 @@ namespace kodo
 {
 
     template<class KodoStack>
-    struct factory_wrapper : public factory
+    class factory_wrapper : public factory
     {
+    public:
         factory_wrapper(uint32_t max_symbols,
                         uint32_t max_symbol_size)
             : m_factory(max_symbols, max_symbol_size)
@@ -48,6 +49,7 @@ namespace kodo
             return m_factory.max_payload_size();
         }
 
+    protected:
         typename KodoStack::factory m_factory;
     };
 }

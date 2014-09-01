@@ -68,7 +68,7 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
 ///         selected parameters.
 kodo_factory_t*
 kodo_new_decoder_factory(size_t code_type, size_t field_type,
-                         uint32_t max_symbols, uint32_t max_symbol_size, 
+                         uint32_t max_symbols, uint32_t max_symbol_size,
                          uint32_t trace_enabled);
 
 /// Deallocates and releases the memory consumed by the encoder factory
@@ -297,49 +297,6 @@ void kodo_set_systematic_on(kodo_coder_t* encoder);
 void kodo_set_systematic_off(kodo_coder_t* encoder);
 
 
-//REMOVE BELOW NO LONGER RELEVANT
-
-//------------------------------------------------------------------
-// DEBUG API
-//------------------------------------------------------------------
-
-/// Check whether the decoder has support for printing the decoder state
-/// @param decoder Pointer to the decoder to query
-/// @return Non-zero value if the decoder supports printing otherwise zero
-
-//uint8_t kodo_has_print_decoder_state(kodo_coder_t* decoder);
-
-/// Print decoder state
-/// @param decoder Pointer to the decoder
-
-//void kodo_print_decoder_state(kodo_coder_t* decoder);
-
-/// Check whether the decoder has support for printing the last seen symbol
-/// coefficients
-/// @param decoder Pointer to the decoder to query
-/// @return Non-zero value if the decoder supports printing otherwise zero
-
-//uint8_t kodo_has_print_cached_symbol_coefficients(kodo_coder_t* decoder);
-
-/// Print last decoder symbol coefficients
-/// @param decoder Pointer to the decoder
-
-//void kodo_print_cached_symbol_coefficients(kodo_coder_t* decoder);
-
-/// Check whether the decoder has support for printing the last seen symbol
-/// data
-/// @param decoder Pointer to the decoder to query
-/// @return Non-zero value if the decoder supports printing otherwise zero
-
-//uint8_t kodo_has_print_cached_symbol_data(kodo_coder_t* decoder);
-
-/// Print last decoder symbol data
-/// @param decoder Pointer to the decoder
-
-//void kodo_print_cached_symbol_data(kodo_coder_t* decoder);
-
-
-//KODO 17 Trace methods
 void kodo_trace_filter(kodo_coder_t* decoder, kodo_filter_function_t filter);
 
 

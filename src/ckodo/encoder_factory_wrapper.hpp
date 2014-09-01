@@ -11,25 +11,25 @@
 namespace kodo
 {
 
-    template<class KodoStack, template<class> class Wrapper>
-    struct encoder_factory_wrapper : public factory_wrapper<KodoStack>
+    template<class KodoStack>
+    class encoder_factory_wrapper : public factory_wrapper<KodoStack>
     {
+    public:
         encoder_factory_wrapper(uint32_t max_symbols,
                                uint32_t max_symbol_size)
             : factory_wrapper<KodoStack>(max_symbols, max_symbol_size)
         { }
 
-        using factory_wrapper<KodoStack>::m_factory;
-
         virtual void* build()
         {
             auto encoder = m_factory.build();
-            auto wrapper = new Wrapper<KodoStack>(encoder);
+            auto wrapper = new encoder_wrapper<KodoStack>(encoder);
 
             return wrapper;
         }
 
+    private:
+        using factory_wrapper<KodoStack>::m_factory;
+
     };
 }
-
-

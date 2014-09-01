@@ -5,13 +5,12 @@
 
 #pragma once
 
-#include "coder.hpp"
-
 namespace kodo
 {
     /// Base class for an encoder implementation
-    struct encoder : public coder
+    class encoder
     {
+    public:
         virtual uint32_t encode(uint8_t *) = 0;
 
         virtual void set_symbols(

@@ -5,13 +5,12 @@
 
 #pragma once
 
-#include "coder.hpp"
-
 namespace kodo
 {
-    ///Base class for decoder implementation 
-    struct decoder : public coder
+    ///Base class for decoder implementation
+    class decoder
     {
+    public:
         virtual uint32_t recode(uint8_t *) = 0;
         virtual void decode(uint8_t *) = 0;
         virtual bool is_complete() const = 0;
@@ -25,7 +24,7 @@ namespace kodo
 
         virtual bool is_partial_complete() const = 0;
         virtual bool is_symbol_uncoded(uint32_t) const = 0;
-      
+
         virtual uint32_t symbols_uncoded() const = 0;
         virtual uint32_t symbols_seen() const = 0;
         virtual ~decoder(){}
