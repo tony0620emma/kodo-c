@@ -2,15 +2,18 @@
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
+
 #include <stdio.h>
+#include <stdint.h>
+#include <string.h>
 
 #include <ckodo/ckodo.h>
-#include <stdint.h>
 
 /// @example encode_decode_simple.c
 ///
 /// Simple example showing how to encode and decode a block
 /// of memory.
+
 uint8_t filter_function(const char* zone)
 {
     char* zones[] = {"decoder_state", NULL};
@@ -30,7 +33,7 @@ int main()
 {
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 42;
+    uint32_t max_symbols = 5;
     uint32_t max_symbol_size = 160;
 
     // Here we select the coding algorithm we wish to use
@@ -49,7 +52,7 @@ int main()
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size, 
+                                 max_symbols, max_symbol_size,
                                  trace_enabled);
 
     // If we wanted to build an encoder of decoder with a smaller number of
@@ -87,25 +90,25 @@ int main()
     // With Kodo we can ask an encoder whether it supports systematic encoding
     // or not using the following functions:
 
-    //if(kodo_is_systematic(encoder))
-    //{
-    //    printf("Encoder systematic enabled\n");
-    //}
-    //else
-    //{
-    //    printf("Encoder systematic disabled\n");
-    //}
+    if (kodo_has_systematic_encoder(encoder) && kodo_is_systematic_on(encoder))
+    {
+        printf("Systematic encoding enabled\n");
+    }
+    else
+    {
+        printf("Systematic encoding disabled\n");
+    }
 
     // If we do not wish to use systematic encoding, but to do full coding
     // from the beginning we can turn systematic coding off using the following
     // API:
     //
-    // if(kodo_is_systematic(encoder))
+    // if (kodo_has_systematic_encoder(encoder))
     // {
     //    kodo_set_systematic_off(encoder);
     // }
 
-    while(!kodo_is_complete(decoder))
+    while (!kodo_is_complete(decoder))
     {
         // The encoder will use a certain amount of bytes of the payload
         // buffer. It will never use more than payload_size, but it might
@@ -121,20 +124,19 @@ int main()
 
         if (kodo_has_trace(decoder))
         {
-            printf("has trace\n");
             kodo_trace_filter(decoder, &filter_function);
         }
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);
 
-    if(memcmp(data_in, data_out, block_size) == 0)
+    if (memcmp(data_in, data_out, block_size) == 0)
     {
         printf("Data decoded correctly\n");
     }
     else
     {
-        printf("Unexpected failure to decode please file a bug report :)\n");
+        printf("Unexpected failure to decode, please file a bug report :)\n");
     }
 
     free(data_in);

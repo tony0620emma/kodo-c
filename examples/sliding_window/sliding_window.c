@@ -2,20 +2,21 @@
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
-#include <stdint.h>
 
-#include<ckodo/ckodo.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+
+#include <ckodo/ckodo.h>
 
 /// @example sliding_window.c
 ///
-/// This example shows how to use sliding window encoder and decoder
+/// This example shows how to use the sliding window encoder and decoder
 /// stacks. The sliding window is special in that it does not require
 /// that all symbols are available at the encoder before encoding can
-/// start. In addition it uses feedback beteen the decoder and encoder
+/// start. In addition, it uses feedback between the decoder and encoder
 /// such that symbols that have already been received at the decoder
 /// are not included in the encoding again (saving computations).
-
-
 
 uint8_t filter_function(const char* zone)
 {
@@ -32,8 +33,8 @@ uint8_t filter_function(const char* zone)
     return 0;
 }
 
-int main(){
-
+int main()
+{
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
     uint8_t max_symbols = 16;
@@ -53,14 +54,15 @@ int main(){
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size, 
+                                 max_symbols, max_symbol_size,
                                  trace_enabled);
 
-    // If we wanted to build an encoder of decoder with a smaller number of
+    // If we wanted to build an encoder or decoder with a smaller number of
     // symbols or a different symbol size, then this can be adjusted using the
     // following functions:
-    // kodo_factory_set_symbols(...) and kodo_factory_set_symbol_size(...)
-    // We can however not exceed the maximum values which was used when building
+    //      kodo_factory_set_symbols(...)
+    //      kodo_factory_set_symbol_size(...)
+    // We cannot exceed the maximum values which was used when building
     // the factory.
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
@@ -81,70 +83,80 @@ int main(){
     uint32_t i = 0;
 
     //Just for fun - fill data with random data
-    for(; i < block_size; ++i)
+    for (; i < block_size; ++i)
     {
-      data_in[i] = rand() % 256;
+        data_in[i] = rand() % 256;
     }
 
-    while(!kodo_is_complete(decoder))
+    while (!kodo_is_complete(decoder))
     {
-      if (kodo_has_trace(decoder)){
-	kodo_trace_filter(decoder, &filter_function);
-      }
+        if (kodo_has_trace(decoder))
+        {
+            kodo_trace_filter(decoder, &filter_function);
+        }
 
-      if(rand() % 2 && kodo_rank(encoder) < max_symbols)
-      {
-	uint32_t rank = kodo_rank(encoder);
-	uint8_t* symbol = data_in + (rank * max_symbol_size);
-	kodo_set_symbol(encoder, rank, symbol, max_symbol_size);
-	printf("Symbol %d added to the encoder\n", (int)*symbol);
-      }
+        if ((rand() % 2) && kodo_rank(encoder) < max_symbols)
+        {
+            uint32_t rank = kodo_rank(encoder);
+            uint8_t* symbol = data_in + (rank * max_symbol_size);
+            kodo_set_symbol(encoder, rank, symbol, max_symbol_size);
+            printf("Symbol %d added to the encoder\n", rank);
+        }
 
-      kodo_encode(encoder, payload);
-      printf("Packet encoded\n");
+        kodo_encode(encoder, payload);
+        printf("Packet encoded\n");
 
-      if (rand() % 2)
-      {
-	printf("Packet dropped on channel\n");
-	continue;
-      }
-      
-      printf("Decoder received packaget\n");
+        if (rand() % 2)
+        {
+            printf("Packet dropped on channel\n");
+            continue;
+        }
 
-      kodo_decode(decoder, payload);
-      
-      printf("Encoder rank = %d\n", kodo_rank(encoder));
-      printf("Decoder rank = %d\n", kodo_rank(decoder));
+        printf("Decoder received package\n");
 
-      //Outcoment functions not implemented yet
-      printf("Decoder uncoded = %d\n", kodo_symbols_uncoded(decoder));
-      printf("Decoder seen = %d\n", kodo_symbols_seen(decoder));
+        kodo_decode(decoder, payload);
 
-      //kodo_write_feedback(decoder);
+        printf("Encoder rank = %d\n", kodo_rank(encoder));
+        printf("Decoder rank = %d\n", kodo_rank(decoder));
 
-      if (rand() % 2)
-      {
-	printf("Lost feed back from decoder\n");
-	continue;
-      }
-      
-      printf("Recevied feedback from decoder\n");
+        printf("Decoder uncoded = %d\n", kodo_symbols_uncoded(decoder));
+        printf("Decoder seen = %d\n", kodo_symbols_seen(decoder));
 
-      //kodo_read_feedback(encoder);
-	
+        // TODO: Enable feedback functions
+        //kodo_write_feedback(decoder);
+
+        if (rand() % 2)
+        {
+            printf("Lost feedback from decoder\n");
+            continue;
+        }
+
+        printf("Received feedback from decoder\n");
+
+        //kodo_read_feedback(encoder);
     }
 
     uint8_t* data_out = (uint8_t*) malloc(kodo_block_size(decoder));
     kodo_copy_symbols(decoder, data_out, kodo_block_size(decoder));
 
-    if (data_out == data_in)
+    if (memcmp(data_in, data_out, block_size) == 0)
     {
-      printf("Data decoeded correctly\n");
+        printf("Data decoded correctly\n");
     }
     else
     {
-      printf("Unexpected failure to decode ");
-      printf("please file a bug reort :)\n");
+        printf("Unexpected failure to decode, please file a bug report :)\n");
     }
+
+    free(data_in);
+    free(data_out);
+    free(payload);
+
+    kodo_delete_encoder(encoder);
+    kodo_delete_decoder(decoder);
+
+    kodo_delete_encoder_factory(encoder_factory);
+    kodo_delete_decoder_factory(decoder_factory);
+
     return 0;
 }

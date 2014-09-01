@@ -3,8 +3,10 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include <string.h>
+#include <stdio.h>
 #include <stdint.h>
+#include <string.h>
+
 #include <ckodo/ckodo.h>
 
 /// @example encode_decode_on_the_fly.c
@@ -135,7 +137,6 @@ int main()
                 }
             }
         }
-
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);
