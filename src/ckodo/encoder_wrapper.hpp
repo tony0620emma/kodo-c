@@ -8,10 +8,9 @@
 #include <cassert>
 
 #include <sak/storage.hpp>
-//#include <kodo/systematic_operations.hpp>
-// TEST should be one header file
+
+#include <kodo/has_systematic_encoder.hpp>
 #include <kodo/is_systematic_on.hpp>
-#include <kodo/systematic_encoder.hpp>
 #include <kodo/set_systematic_on.hpp>
 #include <kodo/set_systematic_off.hpp>
 
@@ -22,22 +21,81 @@
 #include <kodo/feedback_size.hpp>
 
 #include "encoder.hpp"
-#include "coder_wrapper.hpp"
 
 namespace kodo
 {
-
     template<class KodoStack>
-    class encoder_wrapper : public encoder, public coder_wrapper<KodoStack>
+    class encoder_wrapper : public encoder
     {
     public:
 
         encoder_wrapper(const typename KodoStack::pointer& encoder) :
-            coder_wrapper<KodoStack>(encoder),
             m_encoder(encoder)
         {
             assert(m_encoder);
         }
+
+        //------------------------------------------------------------------
+        // CODER INTERFACE
+        //------------------------------------------------------------------
+
+        virtual uint32_t block_size() const
+        {
+            return m_encoder->block_size();
+        }
+
+        virtual uint32_t payload_size() const
+        {
+            return m_encoder->payload_size();
+        }
+
+        virtual uint32_t rank() const
+        {
+            return m_encoder->rank();
+        }
+
+        virtual uint32_t symbol_size() const
+        {
+            return m_encoder->symbol_size();
+        }
+
+        virtual uint32_t symbols() const
+        {
+            return m_encoder->symbols();
+        }
+
+        virtual bool symbol_pivot(uint32_t index) const
+        {
+            return m_encoder->is_symbol_pivot(index);
+        }
+
+        virtual bool has_trace() const
+        {
+            return kodo::has_trace<KodoStack>::value;
+        }
+
+        virtual void trace(kodo_filter_function_t filter_function)
+        {
+            auto filter = [&filter_function](const std::string& zone)
+            {
+                return (filter_function(zone.c_str()) != 0);
+            };
+            kodo::trace<KodoStack>(m_encoder, std::cout, filter);
+        }
+
+        virtual bool has_feedback_size() const
+        {
+            return kodo::has_feedback_size<KodoStack>::value;
+        }
+
+        virtual uint32_t feedback_size() const
+        {
+            return kodo::feedback_size(m_encoder);
+        }
+
+        //------------------------------------------------------------------
+        // ENCODER INTERFACE
+        //------------------------------------------------------------------
 
         virtual uint32_t encode(uint8_t* payload)
         {
@@ -46,7 +104,6 @@ namespace kodo
 
         virtual void set_symbols(const uint8_t* data, uint32_t size)
         {
-            printf("encoder_wrapper: kodo_set_symbols\n");
             auto storage = sak::const_storage(data, size);
             m_encoder->set_symbols(storage);
         }
@@ -58,12 +115,10 @@ namespace kodo
             m_encoder->set_symbol(index, storage);
         }
 
-        /*
-        virtual bool is_systematic() const
+        virtual bool has_systematic_encoder() const
         {
-            return kodo::is_systematic_encoder(m_encoder);
+            return kodo::has_systematic_encoder<KodoStack>::value;
         }
-        */
 
         virtual bool is_systematic_on() const
         {

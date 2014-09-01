@@ -35,11 +35,10 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
     uint8_t* data_in = (uint8_t*) malloc(block_size);
     uint8_t* data_out = (uint8_t*) malloc(block_size);
 
-    uint32_t i = 0;
-    for (; i < block_size; ++i)
+    for (uint32_t i = 0; i < block_size; ++i)
         data_in[i] = rand() % 256;
 
-    ASSERT_FALSE(kodo_is_complete(decoder));
+    ASSERT_TRUE(kodo_is_complete(decoder) == 0);
 
     while (!kodo_is_complete(decoder))
     {
@@ -73,20 +72,19 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
         if (kodo_has_partial_decoding_tracker(decoder) &&
             kodo_is_partial_complete(decoder))
         {
-            uint32_t i = 0;
-            for (; i < kodo_symbols(decoder); ++i)
+            for (uint32_t i = 0; i < kodo_symbols(decoder); ++i)
             {
                 // Go through all symbols that are already decoded
-                //        if (kodo_is_symbol_decoded(decoder, i))
-                //{
-                //   uint8_t* original = data_in + i * symbol_size;
-                //    uint8_t* target = data_out + i * symbol_size;
+                if (kodo_is_symbol_uncoded(decoder, i))
+                {
+                    uint8_t* original = data_in + i * symbol_size;
+                    uint8_t* target = data_out + i * symbol_size;
 
                     // Copy the decoded symbol and verify it against the
                     // original data
-                //                    kodo_copy_symbol(decoder, i, target, symbol_size);
-                //  EXPECT_EQ(memcmp(original, target, symbol_size), 0);
-                //}
+                    kodo_copy_symbol(decoder, i, target, symbol_size);
+                    EXPECT_EQ(memcmp(original, target, symbol_size), 0);
+                }
             }
         }
     }
@@ -109,16 +107,16 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
 TEST(TestOnTheFlyRlncCodes, invoke_api_32)
 {
-//     uint32_t symbols = 32;
-//     test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary);
-//     test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary8);
-//     test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary16);
+    uint32_t symbols = 32;
+    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary);
+    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary8);
+    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary16);
 }
 
 TEST(TestOnTheFlyRlncCodes, invoke_api_128)
 {
-//     uint32_t symbols = 128;
-//     test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary);
-//     test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary8);
-//     test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary16);
+    uint32_t symbols = 128;
+    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary);
+    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary8);
+    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary16);
 }

@@ -27,8 +27,7 @@ typedef uint8_t (*kodo_filter_function_t)(const char*);
 typedef struct _kodo_factory_t kodo_factory_t;
 
 /// Opaque class structures for the encoders and decoders
-//typedef struct _kodo_coder_t kodo_coder_t;
-typedef void kodo_coder_t;
+typedef struct _kodo_coder_t kodo_coder_t;
 
 /// Constants for selecting the finite field
 extern const size_t kodo_binary;
@@ -259,6 +258,7 @@ uint8_t kodo_is_symbol_uncoded(kodo_coder_t* coder, uint32_t index);
 uint32_t kodo_symbols_uncoded(kodo_coder_t* decoder);
 
 uint32_t kodo_symbols_seen(kodo_coder_t* decoder);
+
 //------------------------------------------------------------------
 // GENERIC API
 //------------------------------------------------------------------
@@ -273,14 +273,11 @@ uint32_t kodo_symbols_seen(kodo_coder_t* decoder);
 /// @return Non-zero value if the decoder is partially decoded otherwise zero
 uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t* decoder);
 
-uint8_t kodo_has_trace(kodo_coder_t* coder); //kodo 17 add for trace
-
 /// Returns whether an encoder has systematic capabilities
 /// @param encoder Pointer to the encoder
 /// @return Non-zero if the encoder supports the systematic operations
 ///         otherwise zero
-
-//uint8_t kodo_is_systematic(kodo_coder_t* encoder);
+uint8_t kodo_has_systematic_encoder(kodo_coder_t* encoder);
 
 /// Returns whether the encoder is in the systematic mode i.e. it will initially
 /// send the original source symbols
@@ -297,8 +294,15 @@ void kodo_set_systematic_on(kodo_coder_t* encoder);
 /// @param encoder Pointer to the encoder
 void kodo_set_systematic_off(kodo_coder_t* encoder);
 
+//------------------------------------------------------------------
+// TRACE API
+//------------------------------------------------------------------
 
-void kodo_trace_filter(kodo_coder_t* decoder, kodo_filter_function_t filter);
+uint8_t kodo_has_trace(kodo_coder_t* coder);
+
+void kodo_trace_filter(kodo_coder_t* coder, kodo_filter_function_t filter);
+
+void kodo_trace(kodo_coder_t* coder);
 
 
 #ifdef __INTEL_COMPILER
