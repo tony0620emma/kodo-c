@@ -53,8 +53,6 @@ namespace kodo
         virtual bool is_complete() const
         {
             assert(m_decoder);
-            printf("OMGOMGOMGOMGOMOGMOGMOGMOGMO\n");
-            std::cout << "OMGOMGOMG" <<  m_decoder->is_complete() << std::endl;
             return m_decoder->is_complete();
         }
 
