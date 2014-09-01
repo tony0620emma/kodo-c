@@ -1,4 +1,4 @@
-// Copyright Steinwurf ApS 2011-2013.
+kodo_new_decoder_factory// Copyright Steinwurf ApS 2011-2013.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
@@ -643,13 +643,8 @@ uint32_t kodo_symbols(kodo_coder_t* coder)
 uint8_t kodo_is_complete(kodo_coder_t* decoder)
 {
     assert(decoder);
-
     kodo::decoder* the_decoder = (kodo::decoder*) decoder;
-    printf("test\n");
-    uint8_t result = (uint8_t)the_decoder->is_complete();
-    printf("%d", result);
-    printf(result ? "\ntrue\n" : "\nfalse\n");
-    return result;
+    return (uint8_t)the_decoder->is_complete();
 }
 
 uint8_t kodo_is_partial_complete(kodo_coder_t* decoder)
