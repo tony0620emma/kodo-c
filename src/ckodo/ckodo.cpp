@@ -2,9 +2,10 @@
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
+
 #include <iostream>
-#include <string.h>
-#include <stdint.h>
+#include <cstring>
+#include <cstdint>
 
 #include <kodo/rlnc/full_rlnc_codes.hpp>
 #include <kodo/rlnc/on_the_fly_codes.hpp>
@@ -540,8 +541,9 @@ void kodo_delete_decoder(kodo_coder_t* decoder)
 uint32_t kodo_payload_size(kodo_coder_t* coder)
 {
     assert(coder);
-
+    printf("C API: kodo_set_symbols\n");
     kodo::coder* the_coder = (kodo::coder*) coder;
+    printf("cast complete\n");
     return the_coder->payload_size();
 }
 
@@ -582,12 +584,13 @@ uint32_t kodo_block_size(kodo_coder_t* coder)
 }
 
 
-void kodo_set_symbols(kodo_coder_t* encoder, const uint8_t* data,
+void kodo_set_symbols(void* encoder, const uint8_t* data,
                       uint32_t size)
 {
     assert(encoder);
-
+    printf("C API: kodo_set_symbols\n");
     kodo::encoder* the_encoder = (kodo::encoder*) encoder;
+    printf("cast complete\n");
     the_encoder->set_symbols(data, size);
 }
 
@@ -643,13 +646,10 @@ uint32_t kodo_symbols(kodo_coder_t* coder)
 uint8_t kodo_is_complete(kodo_coder_t* decoder)
 {
     assert(decoder);
-
+    printf("C API: kodo_is_complete\n");
     kodo::decoder* the_decoder = (kodo::decoder*) decoder;
-    printf("test\n");
-    uint8_t result = (uint8_t)the_decoder->is_complete();
-    printf("%d", result);
-    printf(result ? "\ntrue\n" : "\nfalse\n");
-    return result;
+    printf("cast complete\n");
+    return (uint8_t)the_decoder->is_complete();
 }
 
 uint8_t kodo_is_partial_complete(kodo_coder_t* decoder)
@@ -773,5 +773,3 @@ uint8_t kodo_has_trace(kodo_coder_t* coder)
     kodo::coder* the_coder = (kodo::coder*) coder;
     return (uint8_t)the_coder->has_trace();
 }
-
-

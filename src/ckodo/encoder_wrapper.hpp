@@ -28,24 +28,25 @@ namespace kodo
 {
 
     template<class KodoStack>
-    class encoder_wrapper : public coder_wrapper<KodoStack>, public encoder
+    class encoder_wrapper : public encoder, public coder_wrapper<KodoStack>
     {
     public:
-        encoder_wrapper(const typename KodoStack::pointer& encoder):
+
+        encoder_wrapper(const typename KodoStack::pointer& encoder) :
             coder_wrapper<KodoStack>(encoder),
             m_encoder(encoder)
         {
             assert(m_encoder);
         }
 
-        virtual uint32_t encode(uint8_t *payload)
+        virtual uint32_t encode(uint8_t* payload)
         {
             return m_encoder->encode(payload);
         }
 
-        virtual void set_symbols(
-            const uint8_t* data, uint32_t size)
+        virtual void set_symbols(const uint8_t* data, uint32_t size)
         {
+            printf("encoder_wrapper: kodo_set_symbols\n");
             auto storage = sak::const_storage(data, size);
             m_encoder->set_symbols(storage);
         }
@@ -78,7 +79,9 @@ namespace kodo
         {
             kodo::set_systematic_off(m_encoder);
         }
+
     private:
+
         typename KodoStack::pointer m_encoder;
     };
 }

@@ -11,7 +11,7 @@ namespace kodo
     class encoder
     {
     public:
-        virtual uint32_t encode(uint8_t *) = 0;
+        virtual uint32_t encode(uint8_t* data) = 0;
 
         virtual void set_symbols(
             const uint8_t* data, uint32_t size) = 0;
@@ -19,7 +19,7 @@ namespace kodo
         virtual void set_symbol(
             uint32_t index, const uint8_t* data, uint32_t size) = 0;
 
-        virtual ~encoder(){}
+        virtual ~encoder() {}
 
         //        virtual bool is_systematic() const = 0;
         virtual bool is_systematic_on() const = 0;
@@ -27,5 +27,3 @@ namespace kodo
         virtual void set_systematic_off() = 0;
     };
 }
-
-

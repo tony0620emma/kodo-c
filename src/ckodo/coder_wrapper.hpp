@@ -24,8 +24,8 @@ namespace kodo
     class coder_wrapper : public coder
     {
     public:
-        coder_wrapper(const typename KodoStack::pointer& coder)
-            : m_coder(coder)
+        coder_wrapper(const typename KodoStack::pointer& coder) :
+            m_coder(coder)
         {
             assert(m_coder);
         }
@@ -38,6 +38,7 @@ namespace kodo
 
         virtual uint32_t payload_size() const
         {
+            printf("coder_wrapper: payload_size\n");
             return m_coder->payload_size();
         }
 
@@ -70,7 +71,7 @@ namespace kodo
         {
             auto filter = [&filter_function](const std::string& zone)
             {
-                return bool(filter_function(zone.c_str()));
+                return (filter_function(zone.c_str()) != 0);
             };
             kodo::trace<KodoStack>(m_coder, std::cout, filter);
         }
@@ -84,6 +85,7 @@ namespace kodo
         {
             return kodo::feedback_size(m_coder);
         }
+
     private:
         typename KodoStack::pointer m_coder;
     };

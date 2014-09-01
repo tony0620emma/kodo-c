@@ -24,10 +24,10 @@
 namespace kodo
 {
     template<class KodoStack>
-    class decoder_wrapper : public coder_wrapper<KodoStack>, public decoder
+    class decoder_wrapper : public decoder, public coder_wrapper<KodoStack>
     {
     public:
-        decoder_wrapper(const typename KodoStack::pointer& decoder):
+        decoder_wrapper(const typename KodoStack::pointer& decoder) :
             coder_wrapper<KodoStack>(decoder),
             m_decoder(decoder)
         {
@@ -95,6 +95,7 @@ namespace kodo
         {
             return m_decoder->symbols_seen();
         }
+
     private:
         typename KodoStack::pointer m_decoder;
     };

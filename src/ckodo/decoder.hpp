@@ -11,8 +11,9 @@ namespace kodo
     class decoder
     {
     public:
-        virtual uint32_t recode(uint8_t *) = 0;
-        virtual void decode(uint8_t *) = 0;
+
+        virtual uint32_t recode(uint8_t* data) = 0;
+        virtual void decode(uint8_t* data) = 0;
         virtual bool is_complete() const = 0;
 
         virtual void copy_symbols(uint8_t* data, uint32_t size) const = 0;
@@ -30,5 +31,3 @@ namespace kodo
         virtual ~decoder(){}
     };
 }
-
-

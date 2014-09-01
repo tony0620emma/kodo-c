@@ -27,7 +27,8 @@ typedef uint8_t (*kodo_filter_function_t)(const char*);
 typedef struct _kodo_factory_t kodo_factory_t;
 
 /// Opaque class structures for the encoders and decoders
-typedef struct _kodo_coder_t kodo_coder_t;
+//typedef struct _kodo_coder_t kodo_coder_t;
+typedef void kodo_coder_t;
 
 /// Constants for selecting the finite field
 extern const size_t kodo_binary;
