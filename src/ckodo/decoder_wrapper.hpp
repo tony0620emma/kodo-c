@@ -143,9 +143,6 @@ namespace kodo
         bool has_feedback_size() const;
 
         typename KodoStack::pointer m_decoder;
-
-
-
     };
 
     template<class KodoStack>

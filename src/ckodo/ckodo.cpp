@@ -660,11 +660,20 @@ uint8_t kodo_is_partial_complete(kodo_coder_t* decoder)
 
 }
 
-uint8_t kodo_feedback_size(kodo_coder_t* decoder)
+uint8_t kodo_has_feedback_size(kodo_coder_t* coder)
 {
-    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
-    //    return (uint8_t)the_decoder->feedback_size();
-    return -1;
+    assert(coder);
+
+    kodo::coder* the_coder = (kodo::coder*) coder;
+    return (uint8_t)the_coder->has_feedback_size();
+}
+
+uint8_t kodo_feedback_size(kodo_coder_t* coder)
+{
+    assert(coder);
+
+    kodo::coder* the_coder = (kodo::coder*) coder;
+    return (uint8_t)the_coder->feedback_size();
 
 }
 
