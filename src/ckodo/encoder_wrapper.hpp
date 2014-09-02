@@ -21,81 +21,21 @@
 #include <kodo/feedback_size.hpp>
 
 #include "encoder.hpp"
+#include "coder_wrapper.hpp"
 
 namespace kodo
 {
     template<class KodoStack>
-    class encoder_wrapper : public encoder
+    class encoder_wrapper : public coder_wrapper<KodoStack, encoder>
     {
     public:
 
-        encoder_wrapper(const typename KodoStack::pointer& encoder) :
-            m_encoder(encoder)
+        encoder_wrapper(const typename KodoStack::pointer& coder) :
+            coder_wrapper<KodoStack, encoder>(coder),
+            m_encoder(coder)
         {
             assert(m_encoder);
         }
-
-        //------------------------------------------------------------------
-        // CODER INTERFACE
-        //------------------------------------------------------------------
-
-        virtual uint32_t block_size() const
-        {
-            return m_encoder->block_size();
-        }
-
-        virtual uint32_t payload_size() const
-        {
-            return m_encoder->payload_size();
-        }
-
-        virtual uint32_t rank() const
-        {
-            return m_encoder->rank();
-        }
-
-        virtual uint32_t symbol_size() const
-        {
-            return m_encoder->symbol_size();
-        }
-
-        virtual uint32_t symbols() const
-        {
-            return m_encoder->symbols();
-        }
-
-        virtual bool symbol_pivot(uint32_t index) const
-        {
-            return m_encoder->is_symbol_pivot(index);
-        }
-
-        virtual bool has_trace() const
-        {
-            return kodo::has_trace<KodoStack>::value;
-        }
-
-        virtual void trace(kodo_filter_function_t filter_function)
-        {
-            auto filter = [&filter_function](const std::string& zone)
-            {
-                return (filter_function(zone.c_str()) != 0);
-            };
-            kodo::trace<KodoStack>(m_encoder, std::cout, filter);
-        }
-
-        virtual bool has_feedback_size() const
-        {
-            return kodo::has_feedback_size<KodoStack>::value;
-        }
-
-        virtual uint32_t feedback_size() const
-        {
-            return kodo::feedback_size(m_encoder);
-        }
-
-        //------------------------------------------------------------------
-        // ENCODER INTERFACE
-        //------------------------------------------------------------------
 
         virtual uint32_t encode(uint8_t* payload)
         {

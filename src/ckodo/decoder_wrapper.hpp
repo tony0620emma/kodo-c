@@ -16,82 +16,22 @@
 #include <kodo/symbol_decoding_status_tracker.hpp>
 #include <kodo/trace.hpp>
 
+#include "coder_wrapper.hpp"
 #include "decoder.hpp"
 
 namespace kodo
 {
     template<class KodoStack>
-    class decoder_wrapper : public decoder
+    class decoder_wrapper : public coder_wrapper<KodoStack, decoder>
     {
     public:
 
-        decoder_wrapper(const typename KodoStack::pointer& decoder) :
-            m_decoder(decoder)
+        decoder_wrapper(const typename KodoStack::pointer& coder) :
+            coder_wrapper<KodoStack, decoder>(coder),
+            m_decoder(coder)
         {
             assert(m_decoder);
         }
-
-        //------------------------------------------------------------------
-        // CODER INTERFACE
-        //------------------------------------------------------------------
-
-        virtual uint32_t block_size() const
-        {
-            return m_decoder->block_size();
-        }
-
-        virtual uint32_t payload_size() const
-        {
-            return m_decoder->payload_size();
-        }
-
-        virtual uint32_t rank() const
-        {
-            return m_decoder->rank();
-        }
-
-        virtual uint32_t symbol_size() const
-        {
-            return m_decoder->symbol_size();
-        }
-
-        virtual uint32_t symbols() const
-        {
-            return m_decoder->symbols();
-        }
-
-        virtual bool symbol_pivot(uint32_t index) const
-        {
-            return m_decoder->is_symbol_pivot(index);
-        }
-
-        virtual bool has_trace() const
-        {
-            return kodo::has_trace<KodoStack>::value;
-        }
-
-        virtual void trace(kodo_filter_function_t filter_function)
-        {
-            auto filter = [&filter_function](const std::string& zone)
-            {
-                return (filter_function(zone.c_str()) != 0);
-            };
-            kodo::trace<KodoStack>(m_decoder, std::cout, filter);
-        }
-
-        virtual bool has_feedback_size() const
-        {
-            return kodo::has_feedback_size<KodoStack>::value;
-        }
-
-        virtual uint32_t feedback_size() const
-        {
-            return kodo::feedback_size(m_decoder);
-        }
-
-        //------------------------------------------------------------------
-        // DECODER INTERFACE
-        //------------------------------------------------------------------
 
         virtual uint32_t recode(uint8_t *payload)
         {
