@@ -9,7 +9,7 @@
 
 namespace kodo
 {
-    ///Base class for decoder implementation
+    /// Base class for decoder implementation
     class decoder : public coder
     {
     public:

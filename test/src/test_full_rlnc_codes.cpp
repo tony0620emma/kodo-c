@@ -28,11 +28,10 @@ void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
 
     uint32_t payload_size = kodo_payload_size(encoder);
-    EXPECT_TRUE(payload_size > 0);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
     uint32_t block_size = kodo_block_size(encoder);
-    EXPECT_TRUE(block_size > 0);
+    EXPECT_EQ(max_symbols * max_symbol_size, block_size);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
     uint8_t* data_out = (uint8_t*) malloc(block_size);
 

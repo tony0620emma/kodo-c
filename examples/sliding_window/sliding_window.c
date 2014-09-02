@@ -122,8 +122,7 @@ int main()
         printf("Decoder uncoded = %d\n", kodo_symbols_uncoded(decoder));
         printf("Decoder seen = %d\n", kodo_symbols_seen(decoder));
 
-        // TODO: Enable feedback functions
-        //kodo_write_feedback(decoder);
+        kodo_write_feedback(decoder);
 
         if (rand() % 2)
         {
@@ -133,7 +132,7 @@ int main()
 
         printf("Received feedback from decoder\n");
 
-        //kodo_read_feedback(encoder);
+        kodo_read_feedback(encoder);
     }
 
     uint8_t* data_out = (uint8_t*) malloc(kodo_block_size(decoder));

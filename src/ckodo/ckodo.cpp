@@ -414,6 +414,10 @@ kodo_new_decoder_factory(size_t code_type, size_t field_type,
     return (kodo_factory_t*)factory;
 }
 
+//------------------------------------------------------------------
+// FACTORY API
+//------------------------------------------------------------------
+
 void kodo_delete_encoder_factory(kodo_factory_t* factory)
 {
     assert(factory);
@@ -429,7 +433,6 @@ void kodo_delete_decoder_factory(kodo_factory_t* factory)
     kodo::factory* the_factory = (kodo::factory*) factory;
     delete the_factory;
 }
-
 
 uint32_t kodo_factory_max_symbols(kodo_factory_t* factory)
 {

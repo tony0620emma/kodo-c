@@ -9,6 +9,14 @@
 
 namespace kodo
 {
+    /// Base class for both encoder and decoder implementations.
+    /// The implementation of these functions are duplicated in both
+    /// encoder_wrapper and decoder_wrapper.
+    /// We have tried solving this using a coder_wrapper and multiple
+    /// inheritance, because we erase the C++ type information when we return a
+    /// kodo_coder_t* (i.e. void*).
+    /// The problem can be seen here in a boiled down example:
+    /// http://ideone.com/EzD5l2
     class coder
     {
     public:
