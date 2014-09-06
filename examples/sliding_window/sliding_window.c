@@ -2,7 +2,6 @@
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
-
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -104,6 +103,7 @@ int main()
         }
 
         kodo_encode(encoder, payload);
+
         printf("Packet encoded\n");
 
         if (rand() % 2)
