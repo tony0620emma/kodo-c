@@ -11,15 +11,15 @@ else:
     search_path = ['.']
 
 bld.program(features='c',
-            source='sliding_window.c',
-            target='sliding_window_static',
+            source='switch_systematic_on_off.c',
+            target='switch_systematic_on_off_static',
             lib=static_libs,
             use=['ckodo_static'])
 
 if 'BUILD_CKODO_SHARED_LIBRARY' in bld.env:
 
     bld.program(features='c',
-                source='sliding_window.c',
-                target='sliding_window_shared',
+                source='switch_systematic_on_off.c',
+                target='switch_systematic_on_off_shared',
                 rpath=search_path,
                 use=['ckodo_shared'])

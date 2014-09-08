@@ -41,8 +41,8 @@ int main()
     //      kodo_factory_set_symbol_size(...)
     // We cannot exceed the maximum values which was used when building
     // the factory.
-    kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
-    kodo_coder_t decoder = kodo_new_decoder_factory(decoder_factory);
+    kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
+    kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
 
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network
@@ -53,7 +53,7 @@ int main()
     // with the same size as the encoder's block size (the max.
     // amount a single encoder can encode)
     uint32_t block_size = kodo_block_size(encoder);
-    uint8_t* data_in = (uint8_t) malloc(block_size);
+    uint8_t* data_in = (uint8_t*) malloc(block_size);
 
     // Just for fun - fill the data with random data
     uint32_t i = 0;
@@ -65,6 +65,7 @@ int main()
     kodo_set_symbols(encoder, data_in, block_size);
 
 
+    printf("Starting encoding / decoding\n");
     while (!kodo_is_complete(decoder))
     {
         // If the chosen codec stack supports systematic coding
@@ -80,7 +81,7 @@ int main()
                   }
                   else
                   {
-                       printf("Turn systematic ON");
+                       printf("Turn systematic ON\n");
                        kodo_set_systematic_on(encoder);
                   }
              }
@@ -91,7 +92,7 @@ int main()
 
         if ((rand() % 2) == 0)
         {
-            printf("Drop packaet\n");
+            printf("Drop packet\n");
             continue;
         }
 

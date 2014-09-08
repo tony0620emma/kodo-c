@@ -145,3 +145,4 @@ def build(bld):
         bld.recurse('examples/encode_decode_simple')
         bld.recurse('examples/udp_sender_receiver')
         bld.recurse('examples/sliding_window')
+        bld.recurse('examples/switch_systematic_on_off')
