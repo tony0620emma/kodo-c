@@ -10,16 +10,15 @@
 
 namespace kodo
 {
-
     template<class KodoStack>
-    struct encoder_factory_wrapper : public factory_wrapper<KodoStack>
+    class encoder_factory_wrapper : public factory_wrapper<KodoStack>
     {
-        encoder_factory_wrapper(uint32_t max_symbols,
-                               uint32_t max_symbol_size)
-            : factory_wrapper<KodoStack>(max_symbols, max_symbol_size)
-        { }
+    public:
 
-        using factory_wrapper<KodoStack>::m_factory;
+        encoder_factory_wrapper(uint32_t max_symbols,
+                                uint32_t max_symbol_size) :
+            factory_wrapper<KodoStack>(max_symbols, max_symbol_size)
+        { }
 
         virtual void* build()
         {
@@ -29,7 +28,8 @@ namespace kodo
             return wrapper;
         }
 
+    private:
+
+        using factory_wrapper<KodoStack>::m_factory;
     };
 }
-
-

@@ -149,9 +149,11 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
+    uint32_t trace_enabled = 0;
     // Create the encoder factory
-    encoder_factory = kodo_new_encoder_factory(
-        algorithm, finite_field, max_symbols, max_symbol_size);
+    encoder_factory = kodo_new_encoder_factory(algorithm, finite_field,
+                                               max_symbols, max_symbol_size,
+                                               trace_enabled);
 
     // Initialize the factory with the chosen symbols and symbol size
     symbols = atoi(argv[3]);
@@ -221,5 +223,12 @@ int main(int argc, char* argv[])
            (end_time.time * 1000 + end_time.millitm) -
            (start_time.time * 1000 + start_time.millitm));
 
-    return 1;
+    // Clean up
+    free(data_in);
+    free(payload);
+
+    kodo_delete_encoder(encoder);
+    kodo_delete_encoder_factory(encoder_factory);
+
+    return 0;
 }
