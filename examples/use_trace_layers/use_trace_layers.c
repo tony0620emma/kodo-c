@@ -2,27 +2,18 @@
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
+
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
 
-
 #include <ckodo/ckodo.h>
-
-/// @example sliding_window.c
-///
-/// This example shows how to use the sliding window encoder and decoder
-/// stacks. The sliding window is special in that it does not require
-/// that all symbols are available at the encoder before encoding can
-/// start. In addition, it uses feedback between the decoder and encoder
-/// such that symbols that have already been received at the decoder
-/// are not included in the encoding again (saving computations).
 
 uint8_t filter_function(const char* zone)
 {
-    char* zones[] = {"decoder_state", NULL};
+  char* zones[] = {"decoder_state", "input_symbol_coefficients", NULL};
     char** cmp = zones;
 
     while (*cmp)
@@ -34,28 +25,31 @@ uint8_t filter_function(const char* zone)
 
     return 0;
 }
-
 int main()
 {
+
     //seed rand
     srand(time(NULL));
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint8_t max_symbols = 16;
-    uint8_t max_symbol_size = 160;
+    uint32_t max_symbols = 8;
+    uint32_t max_symbol_size = 33;
 
-    size_t algorithm = sliding_window;
+
+    size_t algorithm = kodo_full_rlnc;
     size_t finite_field = kodo_binary8;
 
-    uint8_t trace_enabled = 1;
+    uint8_t trace_enabled = 0; //trace is not enabled
 
     // In the following we will make an encoder/decoder factory.
-    // The factories are used to build actual encoders/decoders
+    // The factories are used to build actual encoders/decoder
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size,
-                                 trace_enabled);
+                                   max_symbols, max_symbol_size,
+                                   trace_enabled);
+
+    trace_enabled = 1; //trace is enabled
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
@@ -83,62 +77,37 @@ int main()
     uint32_t block_size = kodo_block_size(encoder);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
 
-    uint8_t feedback = (uint8_t) kodo_feedback_size(encoder);
-
+    // Just for fun - fill the data with random data
     uint32_t i = 0;
-
-    //Just for fun - fill data with random data
     for (; i < block_size; ++i)
     {
         data_in[i] = rand() % 256;
     }
 
-    while (!kodo_is_complete(decoder))
+    kodo_set_symbols(encoder, data_in, block_size);
+
+    while(!kodo_is_complete(decoder))
     {
-        if (kodo_has_trace(decoder))
-        {
-            kodo_trace_filter(decoder, &filter_function);
-        }
-
-        if ((rand() % 2) && kodo_rank(encoder) < max_symbols)
-        {
-            uint32_t rank = kodo_rank(encoder);
-            uint8_t* symbol = data_in + (rank * max_symbol_size);
-            kodo_set_symbol(encoder, rank, symbol, max_symbol_size);
-            printf("Symbol %d added to the encoder\n", rank);
-        }
-
         kodo_encode(encoder, payload);
-
-        printf("Packet encoded\n");
-
-        if (rand() % 2)
+        if(kodo_has_trace(encoder))
         {
-            printf("Packet dropped on channel\n");
-            continue;
+          printf("Trace encoder:\n");
+          kodo_trace(encoder);
         }
 
-        printf("Decoder received package\n");
+        if ((rand() % 2) == 0)
+        {
+          continue;
+        }
 
         kodo_decode(decoder, payload);
 
-        printf("Encoder rank = %d\n", kodo_rank(encoder));
-        printf("Decoder rank = %d\n", kodo_rank(decoder));
-
-        printf("Decoder uncoded = %d\n", kodo_symbols_uncoded(decoder));
-        printf("Decoder seen = %d\n", kodo_symbols_seen(decoder));
-
-        //kodo_write_feedback(decoder);
-
-        if (rand() % 2)
+        printf("Trace decoder:\n");
+        if (kodo_has_trace(decoder))
         {
-            printf("Lost feedback from decoder\n");
-            continue;
+          kodo_trace_filter(decoder, &filter_function);
         }
 
-        printf("Received feedback from decoder\n");
-
-        //kodo_read_feedback(encoder);
     }
 
     uint8_t* data_out = (uint8_t*) malloc(kodo_block_size(decoder));
