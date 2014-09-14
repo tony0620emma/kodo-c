@@ -83,7 +83,6 @@ namespace kodo
         }
 
     private:
-
         typename KodoStack::pointer m_coder;
     };
 }
