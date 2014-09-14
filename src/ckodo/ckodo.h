@@ -39,7 +39,7 @@ extern const size_t kodo_full_rlnc;
     //extern const size_t kodo_debug_full_rlnc;
 extern const size_t kodo_on_the_fly;
     //extern const size_t kodo_debug_on_the_fly;
-extern const size_t sliding_window;
+extern const size_t kodo_sliding_window;
 
 /// Builds a new encoder factory
 /// @param code_type This parameter determines the encoding algorithms used.

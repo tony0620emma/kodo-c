@@ -45,7 +45,7 @@ int main()
     uint8_t max_symbols = 16;
     uint8_t max_symbol_size = 160;
 
-    size_t algorithm = sliding_window;
+    size_t algorithm = kodo_sliding_window;
     size_t finite_field = kodo_binary8;
 
     uint8_t trace_enabled = 1;

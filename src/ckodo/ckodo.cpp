@@ -110,8 +110,8 @@ const size_t kodo_full_rlnc =
 const size_t kodo_on_the_fly =
     typeid(on_the_fly_encoder).hash_code();
 
-const size_t sliding_window =
-    typeid(sliding_window).hash_code();
+const size_t kodo_sliding_window =
+    typeid(sliding_window_encoder).hash_code();
 
 //------------------------------------------------------------------
 // FACTORY API
@@ -207,7 +207,7 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
         // The field type was unknown
         assert(factory);
     }
-    else if (code_type == sliding_window)
+    else if (code_type == kodo_sliding_window)
     {
         if (!trace_enabled)
         {
@@ -359,7 +359,7 @@ kodo_new_decoder_factory(size_t code_type, size_t field_type,
         // The field type was unknown
         assert(factory);
     }
-    else if (code_type == sliding_window)
+    else if (code_type == kodo_sliding_window)
     {
         if (!trace_enabled)
         {
