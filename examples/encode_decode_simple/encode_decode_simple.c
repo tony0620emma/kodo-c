@@ -43,17 +43,15 @@ int main()
     // kodo_binary, kodo_binary8, kodo_binary16
     size_t finite_field = kodo_binary;
 
-    uint8_t trace_enabled = 1;
-
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size,
-                                 trace_enabled);
+                                 kodo_trace_enabled);
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size,
-                                 trace_enabled);
+                                 kodo_trace_enabled);
 
     // If we wanted to build an encoder of decoder with a smaller number of
     // symbols or a different symbol size, then this can be adjusted using the

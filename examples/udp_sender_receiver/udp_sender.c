@@ -149,11 +149,10 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    uint8_t trace_enabled = 0;
     // Create the encoder factory
     encoder_factory = kodo_new_encoder_factory(algorithm, finite_field,
                                                max_symbols, max_symbol_size,
-                                               trace_enabled);
+                                               kodo_trace_enabled);
 
     // Initialize the factory with the chosen symbols and symbol size
     symbols = atoi(argv[3]);

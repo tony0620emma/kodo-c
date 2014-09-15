@@ -44,21 +44,18 @@ int main()
     size_t algorithm = kodo_full_rlnc;
     size_t finite_field = kodo_binary8;
 
-    uint8_t trace_enabled = 0; //trace is not enabled
 
     // In the following we will make an encoder/decoder factory.
     // The factories are used to build actual encoders/decoder
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
                                    max_symbols, max_symbol_size,
-                                   trace_enabled);
-
-    trace_enabled = 1; //trace is enabled
+                                   kodo_trace_disabled);
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size,
-                                 trace_enabled);
+                                 kodo_trace_enabled);
 
     // If we wanted to build an encoder or decoder with a smaller number of
     // symbols or a different symbol size, then this can be adjusted using the

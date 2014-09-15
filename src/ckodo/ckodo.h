@@ -36,11 +36,11 @@ extern const size_t kodo_binary16;
 
 /// Constants for select in the encoder/decoder
 extern const size_t kodo_full_rlnc;
-    //extern const size_t kodo_debug_full_rlnc;
 extern const size_t kodo_on_the_fly;
-    //extern const size_t kodo_debug_on_the_fly;
 extern const size_t kodo_sliding_window;
 
+extern const size_t kodo_trace_enabled;
+extern const size_t kodo_trace_disabled;
 /// Builds a new encoder factory
 /// @param code_type This parameter determines the encoding algorithms used.
 /// @param field_type This parameter determines the finite field type
@@ -298,10 +298,16 @@ void kodo_set_systematic_off(kodo_coder_t* encoder);
 // TRACE API
 //------------------------------------------------------------------
 
+/// Returns whether an coder has trace capabilities
+/// @param coder Pointer to the coder
 uint8_t kodo_has_trace(kodo_coder_t* coder);
 
+/// @param filter The "zone" filter which allows control over what
+///        output will be produced by the trace.
 void kodo_trace_filter(kodo_coder_t* coder, kodo_filter_function_t filter);
 
+/// Prints the trace output std out
+/// @param coder Pointer to the coder
 void kodo_trace(kodo_coder_t* coder);
 
 

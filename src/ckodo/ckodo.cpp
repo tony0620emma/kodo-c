@@ -99,7 +99,6 @@ typedef kodo::sliding_window_encoder<fifi::binary, kodo::enable_trace>
 typedef kodo::sliding_window_decoder<fifi::binary, kodo::enable_trace>
     sliding_window_decoder_trace16;
 
-
 const size_t kodo_binary = typeid(fifi::binary).hash_code();
 const size_t kodo_binary8 = typeid(fifi::binary8).hash_code();
 const size_t kodo_binary16 = typeid(fifi::binary16).hash_code();
@@ -113,6 +112,8 @@ const size_t kodo_on_the_fly =
 const size_t kodo_sliding_window =
     typeid(sliding_window_encoder).hash_code();
 
+const size_t kodo_trace_enabled = 1;
+const size_t kodo_trace_disabled = 0;
 //------------------------------------------------------------------
 // FACTORY API
 //------------------------------------------------------------------
@@ -120,7 +121,7 @@ const size_t kodo_sliding_window =
 kodo_factory_t*
 kodo_new_encoder_factory(size_t code_type, size_t field_type,
                          uint32_t max_symbols, uint32_t max_symbol_size,
-                         uint32_t trace_enabled)
+                         size_t trace_enabled)
 {
     kodo::factory *factory = 0;
 
@@ -261,7 +262,7 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
 kodo_factory_t*
 kodo_new_decoder_factory(size_t code_type, size_t field_type,
                          uint32_t max_symbols, uint32_t max_symbol_size,
-                         uint32_t trace_enabled)
+                         size_t trace_enabled)
 {
     kodo::factory *factory = 0;
     if (code_type == kodo_full_rlnc)

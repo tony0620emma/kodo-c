@@ -23,7 +23,6 @@ int main()
     // terminology) and the size of a symbol in bytes
     uint32_t max_symbols = 42;
     uint32_t max_symbol_size = 160;
-    uint8_t trace_enabled = 1;
     // Here we select the coding algorithm we wish to use
     size_t algorithm = kodo_on_the_fly;
 
@@ -34,12 +33,12 @@ int main()
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size,
-                                 trace_enabled);
+                                 kodo_trace_enabled);
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size,
-                                 trace_enabled);
+                                 kodo_trace_enabled);
 
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
