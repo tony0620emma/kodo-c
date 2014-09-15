@@ -31,8 +31,7 @@ uint8_t filter_function(const char* zone)
 
 int main()
 {
-
-    //seed rand
+    // Seed random number generator to produce different results every time
     srand(time(NULL));
 
     // Set the number of symbols (i.e. the generation size in RLNC
@@ -40,10 +39,8 @@ int main()
     uint32_t max_symbols = 8;
     uint32_t max_symbol_size = 33;
 
-
     size_t algorithm = kodo_full_rlnc;
     size_t finite_field = kodo_binary8;
-
 
     // In the following we will make an encoder/decoder factory.
     // The factories are used to build actual encoders/decoder
@@ -90,7 +87,7 @@ int main()
     while(!kodo_is_complete(decoder))
     {
         kodo_encode(encoder, payload);
-        if(kodo_has_trace(encoder))
+        if (kodo_has_trace(encoder))
         {
             printf("Trace encoder:\n");
             kodo_trace(encoder);
@@ -108,7 +105,6 @@ int main()
         {
             kodo_trace_filter(decoder, &filter_function);
         }
-
     }
 
     uint8_t* data_out = (uint8_t*) malloc(kodo_block_size(decoder));

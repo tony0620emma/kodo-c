@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <time.h>
 
 #include <ckodo/ckodo.h>
 
@@ -20,6 +21,9 @@
 
 int main()
 {
+    // Seed random number generator to produce different results every time
+    srand(time(NULL));
+
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
     uint8_t max_symbols = 16;
@@ -70,7 +74,6 @@ int main()
 
     kodo_set_symbols(encoder, data_in, block_size);
 
-
     printf("Starting encoding / decoding\n");
     while (!kodo_is_complete(decoder))
     {
@@ -90,8 +93,8 @@ int main()
                     printf("Turn systematic ON\n");
                     kodo_set_systematic_on(encoder);
                 }
-             }
-         }
+            }
+        }
 
         // Encode a packet into the payload buffer
         kodo_encode(encoder, payload);
@@ -106,7 +109,6 @@ int main()
         kodo_decode(decoder, payload);
 
         printf("Rank of decoder %d\n", kodo_rank(decoder));
-
 
         // Symbols that were received in the systematic phase correspond
         // to the original source symbols and are therefore marked as

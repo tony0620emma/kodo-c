@@ -2,12 +2,12 @@
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
+
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-
 
 #include <ckodo/ckodo.h>
 
@@ -37,7 +37,7 @@ uint8_t filter_function(const char* zone)
 
 int main()
 {
-    //seed rand
+    // Seed random number generator to produce different results every time
     srand(time(NULL));
 
     // Set the number of symbols (i.e. the generation size in RLNC

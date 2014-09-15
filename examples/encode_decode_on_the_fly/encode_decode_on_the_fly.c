@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <time.h>
 
 #include <ckodo/ckodo.h>
 
@@ -19,6 +20,9 @@
 
 int main()
 {
+    // Seed random number generator to produce different results every time
+    srand(time(NULL));
+
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
     uint32_t max_symbols = 42;
