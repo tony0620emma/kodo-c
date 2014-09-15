@@ -138,15 +138,15 @@ EXAMPLE4-DIR ?= ../examples/sliding_window
 EXAMPLE4-SRC = $(EXAMPLE4-DIR)/sliding_window.c
 
 .PHONY: all
-all: $(STATICLIB) $(SHAREDLIB) $(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B) $(EXAMPLE4)
+all: $(STATICLIB) $(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B) $(EXAMPLE4)
 
 # Build the static library
 $(STATICLIB): $(OBJECTS)
 	$(AR) $(ARFLAGS) $@ $^
 
 # Build the shared library
-$(SHAREDLIB): $(OBJECTS)
-	$(CXX) $< -o $@ $(SHAREDLIB-FLAGS)
+#$(SHAREDLIB): $(OBJECTS)
+#	$(CXX) $< -o $@ $(SHAREDLIB-FLAGS)
 
 .cpp.o: $(OBJDIR)/$(OBJECTS)
 	$(CXX) $< -o $@ -c $(CXXFLAGS) $(INCLUDES)
@@ -185,5 +185,5 @@ $(OBJDIR)/$(EXAMPLE4).o: $(EXAMPLE4-SRC)
 
 $.PHONY: clean
 clean:
-	rm -f $(OBJDIR)/*.o *~ $(STATICLIB) $(SHAREDLIB) \
-		$(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B)
+	rm -f $(OBJDIR)/*.o *~ $(STATICLIB) \
+		$(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B) $(EXAMPLE4)
