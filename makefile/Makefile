@@ -115,8 +115,8 @@ STATICLIB = libckodo.a
 
 # The ckodo shared library
 SHAREDLIB = libckodo.so
-SOURCES = ../src/ckodo/ckodo.cpp $(CPUID_CPP_FILES) $(FIFI_CPP_FILES)
-OBJECTS = $(SOURCES:.cpp=.o)
+CPPSOURCES = ../src/ckodo/ckodo.cpp $(CPUID_CPP_FILES) $(FIFI_CPP_FILES)
+CPPOBJECTS = $(patsubst %.cpp,obj/%.o,$(notdir $(CPPSOURCES)))
 
 # The examples are statically linked with libckodo.a
 EXAMPLE1 = encode_decode_simple
@@ -137,53 +137,47 @@ EXAMPLE4 = sliding_window
 EXAMPLE4-DIR ?= ../examples/sliding_window
 EXAMPLE4-SRC = $(EXAMPLE4-DIR)/sliding_window.c
 
+VPATH := $(dir $(CPPSOURCES)) $(EXAMPLE1-DIR) $(EXAMPLE2-DIR) $(EXAMPLE3-DIR) $(EXAMPLE4-DIR)
+
 .PHONY: all
 all: $(STATICLIB) $(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B) $(EXAMPLE4)
 
+
+# Add rules to place object files only in the OBJDIR folder
+$(OBJDIR)/%.o : %.cpp
+	@echo $<
+	$(CXX) $< -o $@ -c $(CXXFLAGS) $(INCLUDES)
+
+$(OBJDIR)/%.o : %.c
+	@echo $<
+	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
+
 # Build the static library
-$(STATICLIB): $(OBJECTS)
+$(STATICLIB): $(CPPOBJECTS)
 	$(AR) $(ARFLAGS) $@ $^
 
 # Build the shared library
 #$(SHAREDLIB): $(OBJECTS)
 #	$(CXX) $< -o $@ $(SHAREDLIB-FLAGS)
 
-.cpp.o: $(OBJDIR)/$(OBJECTS)
-	$(CXX) $< -o $@ -c $(CXXFLAGS) $(INCLUDES)
-
 # Build the examples
 $(EXAMPLE1): $(OBJDIR)/$(EXAMPLE1).o $(STATICLIB)
 	$(CXX)  $(LINKFLAGS) $< -o $@ $(CLIBS)
 
-$(OBJDIR)/$(EXAMPLE1).o: $(EXAMPLE1-SRC)
-	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
-
 $(EXAMPLE2): $(OBJDIR)/$(EXAMPLE2).o $(STATICLIB)
 	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
-
-$(OBJDIR)/$(EXAMPLE2).o: $(EXAMPLE2-SRC)
-	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
 $(EXAMPLE3A): $(OBJDIR)/$(EXAMPLE3A).o $(STATICLIB)
 	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
-$(OBJDIR)/$(EXAMPLE3A).o: $(EXAMPLE3A-SRC)
-	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
-
 $(EXAMPLE3B): $(OBJDIR)/$(EXAMPLE3B).o $(STATICLIB)
 	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
-
-$(OBJDIR)/$(EXAMPLE3B).o: $(EXAMPLE3B-SRC)
-	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
 $(EXAMPLE4): $(OBJDIR)/$(EXAMPLE4).o $(STATICLIB)
 	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
-$(OBJDIR)/$(EXAMPLE4).o: $(EXAMPLE4-SRC)
-	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
-
-$.PHONY: clean
+.PHONY: clean
 clean:
 	rm -f $(OBJDIR)/*.o *~ $(STATICLIB) \
 		$(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B) $(EXAMPLE4)
