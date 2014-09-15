@@ -105,8 +105,7 @@ ifeq ($(UNAME_S),Darwin)
     CLIBS = -L. -lckodo
 endif
 
-
-# Put the created object files in OBJDIR
+# Put all created object files to OBJDIR
 OBJDIR ?= obj
 $(shell   mkdir -p $(OBJDIR))
 
@@ -114,8 +113,14 @@ $(shell   mkdir -p $(OBJDIR))
 STATICLIB = libckodo.a
 
 # The ckodo shared library
-SHAREDLIB = libckodo.so
+#SHAREDLIB = libckodo.so
+
+# Define the required cpp source files
 CPPSOURCES = ../src/ckodo/ckodo.cpp $(CPUID_CPP_FILES) $(FIFI_CPP_FILES)
+# Strip path from source files and only use their basename when generating
+# the corresponding object files
+# Caveat: the names of these source files must be unique (for example,
+# we cannot have two files named "main.cpp")
 CPPOBJECTS = $(patsubst %.cpp,obj/%.o,$(notdir $(CPPSOURCES)))
 
 # The examples are statically linked with libckodo.a
@@ -137,13 +142,15 @@ EXAMPLE4 = sliding_window
 EXAMPLE4-DIR ?= ../examples/sliding_window
 EXAMPLE4-SRC = $(EXAMPLE4-DIR)/sliding_window.c
 
-VPATH := $(dir $(CPPSOURCES)) $(EXAMPLE1-DIR) $(EXAMPLE2-DIR) $(EXAMPLE3-DIR) $(EXAMPLE4-DIR)
+# VPATH defines where the source files are located (as the path was stripped)
+VPATH := $(dir $(CPPSOURCES)) $(EXAMPLE1-DIR) $(EXAMPLE2-DIR) $(EXAMPLE3-DIR) \
+         $(EXAMPLE4-DIR)
 
 .PHONY: all
 all: $(STATICLIB) $(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B) $(EXAMPLE4)
 
 
-# Add rules to place object files only in the OBJDIR folder
+# Define rules to generate object files in the OBJDIR folder
 $(OBJDIR)/%.o : %.cpp
 	@echo $<
 	$(CXX) $< -o $@ -c $(CXXFLAGS) $(INCLUDES)
