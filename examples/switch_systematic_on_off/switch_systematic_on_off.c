@@ -128,7 +128,6 @@ int main()
         printf("Unexpected failure to decode, please file a bug report :)\n");
     }
 
-    //Clean up
     free(data_in);
     free(payload);
 
