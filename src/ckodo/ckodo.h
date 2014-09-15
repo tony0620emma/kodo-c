@@ -54,7 +54,7 @@ extern const size_t kodo_trace_disabled;
 kodo_factory_t*
 kodo_new_encoder_factory(size_t code_type, size_t field_type,
                          uint32_t max_symbols, uint32_t max_symbol_size,
-                         uint32_t trace_enabled);
+                         size_t trace_enabled);
 
 /// Builds a new decoder factory
 /// @param code_type This parameter determines the decoding algorithms used.
@@ -69,7 +69,7 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
 kodo_factory_t*
 kodo_new_decoder_factory(size_t code_type, size_t field_type,
                          uint32_t max_symbols, uint32_t max_symbol_size,
-                         uint32_t trace_enabled);
+                         size_t trace_enabled);
 
 /// Deallocates and releases the memory consumed by the encoder factory
 /// @param factory Pointer to the encoder factory which should be deallocated
