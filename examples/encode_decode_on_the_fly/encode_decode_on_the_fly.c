@@ -21,9 +21,9 @@ int main()
 {
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 8;
+    uint32_t max_symbols = 42;
     uint32_t max_symbol_size = 160;
-    uint32_t trace_enabled = 1;
+    uint8_t trace_enabled = 1;
     // Here we select the coding algorithm we wish to use
     size_t algorithm = kodo_on_the_fly;
 

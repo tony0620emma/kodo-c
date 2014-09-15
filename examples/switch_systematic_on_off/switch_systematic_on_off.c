@@ -1,4 +1,4 @@
-// Copyright Steinwurf ApS 2011-2012.
+g// Copyright Steinwurf ApS 2011-2012.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
@@ -9,6 +9,14 @@
 
 #include <ckodo/ckodo.h>
 
+/// @example switch_systematic_on_off.c
+///
+/// This example shows how to enable or disable systematic coding for
+/// coding stacks that support it.
+/// Systematic coding is used to reduce the amount of work done by an
+/// encoder and a decoder. This is achieved by initially sending all
+/// symbols which has not previously been sent uncoded. Kodo allows this
+/// feature to be optionally turn of or off.
 
 int main()
 {
@@ -71,19 +79,19 @@ int main()
         // If the chosen codec stack supports systematic coding
         if (kodo_has_systematic_encoder(encoder))
         {
-          // With 50% probability toggle systematic
-          if ((rand() % 2) == 0)
-             {
-                  if (kodo_is_systematic_on(encoder))
-                  {
-                       printf("Turning systematic OFF\n");
-                       kodo_set_systematic_off(encoder);
-                  }
-                  else
-                  {
-                       printf("Turn systematic ON\n");
-                       kodo_set_systematic_on(encoder);
-                  }
+            // With 50% probability toggle systematic
+            if ((rand() % 2) == 0)
+            {
+                if (kodo_is_systematic_on(encoder))
+                {
+                    printf("Turning systematic OFF\n");
+                    kodo_set_systematic_off(encoder);
+                }
+                else
+                {
+                    printf("Turn systematic ON\n");
+                    kodo_set_systematic_on(encoder);
+                }
              }
          }
 
@@ -119,7 +127,6 @@ int main()
     {
         printf("Unexpected failure to decode, please file a bug report :)\n");
     }
-
 
     //Clean up
     free(data_in);

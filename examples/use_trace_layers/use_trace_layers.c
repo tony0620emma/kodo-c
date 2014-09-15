@@ -11,20 +11,24 @@
 
 #include <ckodo/ckodo.h>
 
+/// @example use_trace_layers.c
+///
+/// Simple example showing how to use some of the trace layers defined
+/// in Kodo.
+
 uint8_t filter_function(const char* zone)
 {
-  char* zones[] = {"decoder_state", "input_symbol_coefficients", NULL};
+    char* zones[] = {"decoder_state", "input_symbol_coefficients", NULL};
     char** cmp = zones;
-
     while (*cmp)
     {
         if (!strcmp(zone, *cmp))
             return 1;
         cmp++;
     }
-
     return 0;
 }
+
 int main()
 {
 
@@ -91,13 +95,13 @@ int main()
         kodo_encode(encoder, payload);
         if(kodo_has_trace(encoder))
         {
-          printf("Trace encoder:\n");
-          kodo_trace(encoder);
+            printf("Trace encoder:\n");
+            kodo_trace(encoder);
         }
 
         if ((rand() % 2) == 0)
         {
-          continue;
+            continue;
         }
 
         kodo_decode(decoder, payload);
@@ -105,7 +109,7 @@ int main()
         printf("Trace decoder:\n");
         if (kodo_has_trace(decoder))
         {
-          kodo_trace_filter(decoder, &filter_function);
+            kodo_trace_filter(decoder, &filter_function);
         }
 
     }

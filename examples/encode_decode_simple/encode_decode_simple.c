@@ -33,7 +33,7 @@ int main()
 {
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 5;
+    uint32_t max_symbols = 42;
     uint32_t max_symbol_size = 160;
 
     // Here we select the coding algorithm we wish to use
@@ -43,7 +43,7 @@ int main()
     // kodo_binary, kodo_binary8, kodo_binary16
     size_t finite_field = kodo_binary;
 
-    uint32_t trace_enabled = 1;
+    uint8_t trace_enabled = 1;
 
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,

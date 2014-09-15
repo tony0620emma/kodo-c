@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
     size_t algorithm = kodo_on_the_fly;
     size_t finite_field = kodo_binary8;
 
-    uint32_t trace_enabled = 0;
+    uint8_t trace_enabled = 0;
 
     kodo_factory_t* decoder_factory = 0;
     kodo_coder_t* decoder = 0;
