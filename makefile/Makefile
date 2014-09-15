@@ -138,8 +138,7 @@ EXAMPLE4-DIR ?= ../examples/sliding_window
 EXAMPLE4-SRC = $(EXAMPLE4-DIR)/sliding_window.c
 
 .PHONY: all
-all: $(STATICLIB) $(SHAREDLIB) $(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B)
-#$(EXAMPLE4)
+all: $(STATICLIB) $(SHAREDLIB) $(EXAMPLE1) $(EXAMPLE2) $(EXAMPLE3A) $(EXAMPLE3B) $(EXAMPLE4)
 
 # Build the static library
 $(STATICLIB): $(OBJECTS)
@@ -180,8 +179,8 @@ $(OBJDIR)/$(EXAMPLE3B).o: $(EXAMPLE3B-SRC)
 $(EXAMPLE4): $(OBJDIR)/$(EXAMPLE4).o $(STATICLIB)
 	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
 
-$(OBJDIR)/$(EXAMPLE4).o: $(STATICLIB)
-	$(CXX) $(LINKFLAGS) $< -o $@ $(CLIBS)
+$(OBJDIR)/$(EXAMPLE4).o: $(EXAMPLE4-SRC)
+	$(CC) $< -o $@ -c $(CFLAGS) $(CINCLUDES)
 
 
 $.PHONY: clean
