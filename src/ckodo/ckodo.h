@@ -245,6 +245,8 @@ uint8_t kodo_is_partial_complete(kodo_coder_t* decoder);
 uint32_t kodo_rank(kodo_coder_t* coder);
 
 uint8_t kodo_feedback_size(kodo_coder_t* encoder);
+
+void kodo_read_feedback(uint8_t* feedback);
 /// The symbol pivot indicates whether a symbol is available to either an
 /// encoder or decoder.
 /// @return 1 if the symbol is available otherwise 0.
