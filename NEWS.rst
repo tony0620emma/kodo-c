@@ -13,6 +13,18 @@ Latest
 * Bug: When calling the kodo_is_symbol_decoded(kodo_coder_t*,uint32_t) function
   the call was forward to the wrong C++ Kodo function.
 * Major: Bump dependency to Kodo version 15.x.y
+* Major: Bump dependency to Kodo version 16.x.y
+* Major: Removed debug functions (Replaced by trace layers)
+* Minor: Add trace layer functions
+* Minor: Added algorithm Sliding window
+* Minor: Added examples for: Sliding window, Switch systematic on and of
+  and use trace layers
+* Minor: Updated examples for: encode decode on the fly, encode decode simpel
+  and udp sender and receiver
+* Minor: Implemented method kodo_read_feedback
+* Minor: Implemented method kodo_write_feedback
+
+
 
 1.7.0
 -----
@@ -54,4 +66,3 @@ Latest
 1.0.0
 -----
 * Major: Initial version of the Kodo C bindings based on Kodo version 11.x.y.
-
