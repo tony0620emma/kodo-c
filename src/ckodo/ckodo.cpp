@@ -658,11 +658,18 @@ uint8_t kodo_feedback_size(kodo_coder_t* coder)
 
 }
 
-void kodo_read_feedback(kodo_coder_t* decoder, uint8_t* feedback)
+void kodo_read_feedback(kodo_coder_t* encoder, uint8_t* feedback)
+{
+    assert(encoder);
+    kodo::encoder* the_encoder = (kodo::encoder*) encoder;
+    the_encoder->read_feedback(feedback);
+}
+
+void kodo_write_feedback(kodo_coder_t* decoder, uint8_t* feedback)
 {
     assert(decoder);
-    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
-    the_decoder->read_feedback(feedback);
+       kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    the_decoder->write_feedback(feedback);
 }
 
 uint32_t kodo_rank(kodo_coder_t* coder)

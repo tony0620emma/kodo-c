@@ -9,7 +9,7 @@
 
 #include <sak/storage.hpp>
 
-#include <kodo/read_feedback.hpp>
+#include <kodo/write_feedback.hpp>
 
 #include <kodo/is_partial_complete.hpp>
 #include <kodo/has_partial_decoding_tracker.hpp>
@@ -96,10 +96,11 @@ namespace kodo
             return m_decoder->symbols_seen();
         }
 
-        virtual void read_feadback(uint8_t* feedback) const
+        virtual void write_feedback(uint8_t* feedback)
         {
-          kodo::read_feedback(m_decoder, feedback);
+            kodo::write_feedback(m_decoder, feedback);
         }
+
 
     private:
 
