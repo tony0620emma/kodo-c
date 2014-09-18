@@ -12,8 +12,6 @@
 #include <kodo/rlnc/sliding_window_encoder.hpp>
 #include <kodo/rlnc/sliding_window_decoder.hpp>
 
-#include <kodo/read_feedback.hpp>
-
 #include "encoder_factory_wrapper.hpp"
 #include "decoder_factory_wrapper.hpp"
 
@@ -660,10 +658,11 @@ uint8_t kodo_feedback_size(kodo_coder_t* coder)
 
 }
 
-void kodo_read_feedback(uint8_t* feedback)
+void kodo_read_feedback(kodo_coder_t* decoder, uint8_t* feedback)
 {
-    //read_feedback(feedback);
-    kodo::read_feedback(feedback);
+    assert(decoder);
+    kodo::decoder* the_decoder = (kodo::decoder*) decoder;
+    the_decoder->read_feedback(feedback);
 }
 
 uint32_t kodo_rank(kodo_coder_t* coder)

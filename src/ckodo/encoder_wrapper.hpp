@@ -9,6 +9,8 @@
 
 #include <sak/storage.hpp>
 
+#include <kodo/write_feedback.hpp>
+
 #include <kodo/has_systematic_encoder.hpp>
 #include <kodo/is_systematic_on.hpp>
 #include <kodo/set_systematic_on.hpp>
@@ -73,6 +75,11 @@ namespace kodo
         virtual void set_systematic_off()
         {
             kodo::set_systematic_off(m_encoder);
+        }
+
+        virtual void write_feedback(uint8_t* feedback)
+        {
+            kodo::write_feedback(m_encoder, feedback);
         }
 
     private:

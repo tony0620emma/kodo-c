@@ -28,5 +28,6 @@ namespace kodo
         virtual bool is_systematic_on() const = 0;
         virtual void set_systematic_on() = 0;
         virtual void set_systematic_off() = 0;
+        virtual void write_feedback(uint8_t* feedback) = 0;
     };
 }
