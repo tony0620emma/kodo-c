@@ -101,7 +101,8 @@ def configure(conf):
         recurse_helper(conf, 'tables')
         recurse_helper(conf, 'platform')
         recurse_helper(conf, 'cpuid')
-        conf.recurse('makefile')
+
+        conf.recurse('examples/sample_makefile')
 
 
 def build(bld):
