@@ -46,8 +46,8 @@ int main()
     // The factories are used to build actual encoders/decoder
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
-                                   max_symbols, max_symbol_size,
-                                   kodo_trace_disabled);
+                                 max_symbols, max_symbol_size,
+                                 kodo_trace_disabled);
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
@@ -84,9 +84,10 @@ int main()
 
     kodo_set_symbols(encoder, data_in, block_size);
 
-    while(!kodo_is_complete(decoder))
+    while (!kodo_is_complete(decoder))
     {
         kodo_encode(encoder, payload);
+
         if (kodo_has_trace(encoder))
         {
             printf("Trace encoder:\n");
@@ -100,9 +101,9 @@ int main()
 
         kodo_decode(decoder, payload);
 
-        printf("Trace decoder:\n");
         if (kodo_has_trace(decoder))
         {
+            printf("Trace decoder:\n");
             kodo_trace_filter(decoder, &filter_function);
         }
     }
