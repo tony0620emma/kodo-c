@@ -4,15 +4,15 @@
 static_libs = []
 search_path = []
 
-if bld.is_mkspec_platform('windows'):
-    static_libs = []
-else:
+if bld.is_mkspec_platform('linux'):
     static_libs = ['stdc++']
+
+if not bld.is_mkspec_platform('windows'):
     search_path = ['.']
 
 bld.program(features='c',
             source='encode_decode_simple.c',
-            target='encode_decode_simple_static',
+            target='encode_decode_simple',
             lib=static_libs,
             use=['ckodo_static'])
 
