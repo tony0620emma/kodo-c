@@ -22,8 +22,8 @@
 
 uint8_t filter_function(const char* zone)
 {
-    char* zones[] = {"decoder_state", "input_symbol_coefficients", NULL};
-    char** cmp = zones;
+    const char* zones[] = {"decoder_state", "input_symbol_coefficients", NULL};
+    const char** cmp = zones;
     while (*cmp)
     {
         if (!strcmp(zone, *cmp))

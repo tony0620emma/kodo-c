@@ -4,7 +4,8 @@
 static_libs = []
 search_path = []
 
-if bld.is_mkspec_platform('linux'):
+# The C++ standard library must be added on Linux and Android
+if bld.get_mkspec_platform() in ['linux', 'android']:
     static_libs = ['stdc++']
 
 if not bld.is_mkspec_platform('windows'):
