@@ -6,6 +6,7 @@
 #pragma once
 
 #include "ckodo.h"
+
 namespace kodo
 {
     /// Base class for both encoder and decoder implementations.

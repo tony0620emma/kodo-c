@@ -101,7 +101,6 @@ namespace kodo
             kodo::write_feedback(m_decoder, feedback);
         }
 
-
     private:
 
         typename KodoStack::pointer m_decoder;
