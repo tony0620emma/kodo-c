@@ -5,6 +5,9 @@
 # The only purpose of this file is to ensure that the make works as intended
 
 import os
+import types
+
+from waflib import Task
 
 
 def configure(conf):
@@ -18,10 +21,23 @@ def configure(conf):
 
 def build(bld):
 
+    # We assume that the "encode_decode_simple" example is built with waf
+    # and we have a corresponding build task
+
+    # Add a manual dependency to rebuild the example if the makefile changes
+    bld.add_manual_dependency(
+        bld.path.find_node('../encode_decode_simple/encode_decode_simple.c'),
+        bld.path.find_node('makefile'))
+
     # Call make with special arguments
     def invoke_make(task):
+
         args = []
         bld = task.generator.bld
+
+        # Set the target path
+        tgt = task.outputs[0].abspath()
+        args += ['TARGET=' + tgt]
 
         # Set the C compiler
         args += ['CC=' + bld.env.get_flat('CC')]
@@ -52,10 +68,28 @@ def build(bld):
 
         return ret
 
+    # Run the make task if the example's build task was executed
+    # Waf will detect changes in the included headers, but make cannot do that
+    def runnable_status(self):
+        tg = bld.get_tgen_by_name('encode_decode_simple')
+        waf_task = tg.link_task
+        if not waf_task.hasrun:
+            return Task.ASK_LATER
+        if waf_task.hasrun == Task.SUCCESS:
+            return Task.RUN_ME
+        return Task.SKIP_ME
+
     # Build the example with make (only if make is installed)
     if bld.env.MAKE_INSTALLED:
         # Get the task generator
-        bld(rule=invoke_make,
-            name='sample_makefile',
-            always=True,
-            source='Makefile')
+        tgen = bld(rule=invoke_make,
+                   name='sample_makefile',
+                   #always=True,
+                   source='../encode_decode_simple/encode_decode_simple.c',
+                   target='encode_decode_simple_make')
+        # Make sure that the tasks are generated
+        tgen.post()
+        # Get the first task
+        tsk = tgen.tasks[0]
+        # Redefine the runnable_status method for that task
+        tsk.runnable_status = types.MethodType(runnable_status, tsk)

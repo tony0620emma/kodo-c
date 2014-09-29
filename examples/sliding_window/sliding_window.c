@@ -22,8 +22,8 @@
 
 uint8_t filter_function(const char* zone)
 {
-    char* zones[] = {"decoder_state", NULL};
-    char** cmp = zones;
+    const char* zones[] = {"decoder_state", "input_symbol_coefficients", NULL};
+    const char** cmp = zones;
 
     while (*cmp)
     {
@@ -42,7 +42,7 @@ int main()
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint8_t max_symbols = 16;
+    uint8_t max_symbols = 6;
     uint8_t max_symbol_size = 160;
 
     size_t algorithm = kodo_sliding_window;
@@ -53,7 +53,7 @@ int main()
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size,
-                                 kodo_trace_enabled);
+                                 kodo_trace_disabled);
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
@@ -94,10 +94,7 @@ int main()
 
     while (!kodo_is_complete(decoder))
     {
-        if (kodo_has_trace(decoder))
-        {
-            kodo_trace_filter(decoder, &filter_function);
-        }
+        printf("\n");
 
         if ((rand() % 2) && kodo_rank(encoder) < max_symbols)
         {
@@ -105,6 +102,11 @@ int main()
             uint8_t* symbol = data_in + (rank * max_symbol_size);
             kodo_set_symbol(encoder, rank, symbol, max_symbol_size);
             printf("Symbol %d added to the encoder\n", rank);
+        }
+
+        if (kodo_rank(encoder) == 0)
+        {
+            continue;
         }
 
         kodo_encode(encoder, payload);
@@ -117,9 +119,15 @@ int main()
             continue;
         }
 
-        printf("Decoder received package\n");
+        printf("Decoder received packet\n");
 
         kodo_decode(decoder, payload);
+
+        if (kodo_has_trace(decoder))
+        {
+            printf("Trace decoder:\n");
+            kodo_trace_filter(decoder, &filter_function);
+        }
 
         printf("Encoder rank = %d\n", kodo_rank(encoder));
         printf("Decoder rank = %d\n", kodo_rank(decoder));

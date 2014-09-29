@@ -2,24 +2,13 @@
 # encoding: utf-8
 
 static_libs = []
-search_path = []
 
-if bld.is_mkspec_platform('windows'):
-    static_libs = []
-else:
+# The C++ standard library must be added on Linux and Android
+if bld.get_mkspec_platform() in ['linux', 'android']:
     static_libs = ['stdc++']
-    search_path = ['.']
 
 bld.program(features='c',
             source='use_trace_layers.c',
-            target='use_trace_layers_static',
+            target='use_trace_layers',
             lib=static_libs,
             use=['ckodo_static'])
-
-if 'BUILD_CKODO_SHARED_LIBRARY' in bld.env:
-
-    bld.program(features='c',
-                source='use_trace_layers.c',
-                target='use_trace_layers_shared',
-                rpath=search_path,
-                use=['ckodo_shared'])

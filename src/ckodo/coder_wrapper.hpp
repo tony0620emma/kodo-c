@@ -65,11 +65,18 @@ namespace kodo
 
         virtual void trace(kodo_filter_function_t filter_function)
         {
-            auto filter = [&filter_function](const std::string& zone)
+            if (filter_function)
             {
-                return (filter_function(zone.c_str()) != 0);
-            };
-            kodo::trace<KodoStack>(m_coder, std::cout, filter);
+                auto filter = [&filter_function](const std::string& zone)
+                {
+                    return (filter_function(zone.c_str()) != 0);
+                };
+                kodo::trace<KodoStack>(m_coder, std::cout, filter);
+            }
+            else
+            {
+                kodo::trace<KodoStack>(m_coder, std::cout);
+            }
         }
 
         virtual bool has_feedback_size() const
