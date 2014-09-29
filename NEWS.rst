@@ -13,7 +13,7 @@ Latest
 * Bug: When calling the kodo_is_symbol_decoded(kodo_coder_t*,uint32_t) function
   the call was forward to the wrong C++ Kodo function.
 * Major: Bump dependency to Kodo version 15.x.y
-* Major: Bump dependency to Kodo version 16.x.y
+	* Major: Bump dependency to Kodo version 17.x.y
 * Major: Removed debug functions (Replaced by trace layers)
 * Minor: Add trace layer functions
 * Minor: Added algorithm Sliding window
