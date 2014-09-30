@@ -7,8 +7,9 @@
 
 namespace kodo
 {
-    struct factory
+    class factory
     {
+    public:
         virtual void* build() = 0;
 
         virtual void set_symbols(uint32_t symbols) = 0;

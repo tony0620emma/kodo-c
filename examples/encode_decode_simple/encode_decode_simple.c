@@ -3,23 +3,45 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include <ckodo/ckodo.h>
+#include <stdio.h>
 #include <stdint.h>
+#include <string.h>
+#include <time.h>
+
+#include <ckodo/ckodo.h>
 
 /// @example encode_decode_simple.c
 ///
 /// Simple example showing how to encode and decode a block
 /// of memory.
 
+uint8_t filter_function(const char* zone)
+{
+    const char* zones[] = {"decoder_state", NULL};
+    const char** cmp = zones;
+
+    while (*cmp)
+    {
+        if (!strcmp(zone, *cmp))
+            return 1;
+        cmp++;
+    }
+
+    return 0;
+}
+
 int main()
 {
+    // Seed random number generator to produce different results every time
+    srand(time(NULL));
+
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
     uint32_t max_symbols = 42;
     uint32_t max_symbol_size = 160;
 
     // Here we select the coding algorithm we wish to use
-    size_t algorithm = kodo_debug_full_rlnc;
+    size_t algorithm = kodo_full_rlnc;
 
     // Here we select the finite field to use common choices are
     // kodo_binary, kodo_binary8, kodo_binary16
@@ -27,11 +49,13 @@ int main()
 
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size);
+                                 max_symbols, max_symbol_size,
+                                 kodo_trace_enabled);
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size);
+                                 max_symbols, max_symbol_size,
+                                 kodo_trace_enabled);
 
     // If we wanted to build an encoder of decoder with a smaller number of
     // symbols or a different symbol size, then this can be adjusted using the
@@ -68,25 +92,25 @@ int main()
     // With Kodo we can ask an encoder whether it supports systematic encoding
     // or not using the following functions:
 
-    if(kodo_is_systematic(encoder))
+    if (kodo_has_systematic_encoder(encoder) && kodo_is_systematic_on(encoder))
     {
-        printf("Encoder systematic enabled\n");
+        printf("Systematic encoding enabled\n");
     }
     else
     {
-        printf("Encoder systematic disabled\n");
+        printf("Systematic encoding disabled\n");
     }
 
     // If we do not wish to use systematic encoding, but to do full coding
     // from the beginning we can turn systematic coding off using the following
     // API:
     //
-    // if(kodo_is_systematic(encoder))
+    // if (kodo_has_systematic_encoder(encoder))
     // {
     //    kodo_set_systematic_off(encoder);
     // }
 
-    while(!kodo_is_complete(decoder))
+    while (!kodo_is_complete(decoder))
     {
         // The encoder will use a certain amount of bytes of the payload
         // buffer. It will never use more than payload_size, but it might
@@ -100,19 +124,21 @@ int main()
         printf("Payload processed by decoder, current rank = %d\n",
                kodo_rank(decoder));
 
-        if(kodo_has_print_decoder_state(decoder))
-            kodo_print_decoder_state(decoder);
+        if (kodo_has_trace(decoder))
+        {
+            kodo_trace_filter(decoder, &filter_function);
+        }
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);
 
-    if(memcmp(data_in, data_out, block_size) == 0)
+    if (memcmp(data_in, data_out, block_size) == 0)
     {
         printf("Data decoded correctly\n");
     }
     else
     {
-        printf("Unexpected failure to decode please file a bug report :)\n");
+        printf("Unexpected failure to decode, please file a bug report :)\n");
     }
 
     free(data_in);

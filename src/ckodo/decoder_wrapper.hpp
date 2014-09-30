@@ -8,26 +8,30 @@
 #include <cassert>
 
 #include <sak/storage.hpp>
+
+#include <kodo/write_feedback.hpp>
+
 #include <kodo/is_partial_complete.hpp>
 #include <kodo/has_partial_decoding_tracker.hpp>
-#include <kodo/print_decoder_state.hpp>
-#include <kodo/has_print_cached_symbol_coefficients.hpp>
-#include <kodo/has_print_cached_symbol_data.hpp>
-#include <kodo/print_cached_symbol_coefficients.hpp>
-#include <kodo/print_cached_symbol_data.hpp>
 
+#include <kodo/trace_decode_symbol.hpp>
+#include <kodo/trace_linear_block_decoder.hpp>
+#include <kodo/symbol_decoding_status_tracker.hpp>
+#include <kodo/trace.hpp>
 
+#include "coder_wrapper.hpp"
 #include "decoder.hpp"
-
 
 namespace kodo
 {
-
     template<class KodoStack>
-    struct decoder_wrapper : public decoder
+    class decoder_wrapper : public coder_wrapper<KodoStack, decoder>
     {
-        decoder_wrapper(const typename KodoStack::pointer& decoder)
-            : m_decoder(decoder)
+    public:
+
+        decoder_wrapper(const typename KodoStack::pointer& coder) :
+            coder_wrapper<KodoStack, decoder>(coder),
+            m_decoder(coder)
         {
             assert(m_decoder);
         }
@@ -54,42 +58,6 @@ namespace kodo
             return m_decoder->is_complete();
         }
 
-        virtual uint32_t rank() const
-        {
-            assert(m_decoder);
-            return m_decoder->rank();
-        }
-
-        virtual uint32_t payload_size() const
-        {
-            return m_decoder->payload_size();
-        }
-
-        virtual uint32_t block_size() const
-        {
-            return m_decoder->block_size();
-        }
-
-        virtual uint32_t symbol_size() const
-        {
-            return m_decoder->symbol_size();
-        }
-
-        virtual uint32_t symbols() const
-        {
-            return m_decoder->symbols();
-        }
-
-        virtual bool symbol_pivot(uint32_t index) const
-        {
-            return m_decoder->is_symbol_pivot(index);
-        }
-
-        virtual bool is_symbol_decoded(uint32_t index) const
-        {
-            return m_decoder->is_symbol_decoded(index);
-        }
-
         virtual void copy_symbols(uint8_t* data, uint32_t size) const
         {
             auto storage = sak::mutable_storage(data, size);
@@ -103,7 +71,6 @@ namespace kodo
             m_decoder->copy_symbol(index, storage);
         }
 
-
         virtual bool has_partial_decoding_tracker() const
         {
             return kodo::has_partial_decoding_tracker<KodoStack>::value;
@@ -114,41 +81,28 @@ namespace kodo
             return kodo::is_partial_complete(m_decoder);
         }
 
-        // Debugging support
-        virtual bool has_print_decoder_state() const
+        virtual bool is_symbol_uncoded(uint32_t index) const
         {
-            return kodo::has_debug_linear_block_decoder<KodoStack>::value;
+            return m_decoder->is_symbol_uncoded(index);
         }
 
-        virtual void print_decoder_state() const
+        virtual uint32_t symbols_uncoded() const
         {
-            kodo::print_decoder_state(m_decoder, std::cout);
+            return m_decoder->symbols_uncoded();
         }
 
-        virtual bool has_print_cached_symbol_coefficients() const
+        virtual uint32_t symbols_seen() const
         {
-            return kodo::has_print_cached_symbol_coefficients<KodoStack>::value;
+            return m_decoder->symbols_seen();
         }
 
-        virtual void print_cached_symbol_coefficients() const
+        virtual void write_feedback(uint8_t* feedback)
         {
-            kodo::print_cached_symbol_coefficients(m_decoder, std::cout);
+            kodo::write_feedback(m_decoder, feedback);
         }
 
-        virtual bool has_print_cached_symbol_data() const
-        {
-            return kodo::has_print_cached_symbol_data<KodoStack>::value;
-        }
-
-        virtual void print_cached_symbol_data() const
-        {
-            kodo::print_cached_symbol_data(m_decoder, std::cout);
-        }
+    private:
 
         typename KodoStack::pointer m_decoder;
-
     };
-
 }
-
-

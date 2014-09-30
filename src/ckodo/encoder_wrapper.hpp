@@ -8,29 +8,43 @@
 #include <cassert>
 
 #include <sak/storage.hpp>
-#include <kodo/systematic_operations.hpp>
+
+#include <kodo/read_feedback.hpp>
+
+#include <kodo/has_systematic_encoder.hpp>
+#include <kodo/is_systematic_on.hpp>
+#include <kodo/set_systematic_on.hpp>
+#include <kodo/set_systematic_off.hpp>
+
+#include <kodo/trace_decode_symbol.hpp>
+#include <kodo/trace.hpp>
+
+#include <kodo/has_feedback_size.hpp>
+#include <kodo/feedback_size.hpp>
 
 #include "encoder.hpp"
+#include "coder_wrapper.hpp"
 
 namespace kodo
 {
-
     template<class KodoStack>
-    struct encoder_wrapper : public encoder
+    class encoder_wrapper : public coder_wrapper<KodoStack, encoder>
     {
-        encoder_wrapper(const typename KodoStack::pointer& encoder)
-            : m_encoder(encoder)
+    public:
+
+        encoder_wrapper(const typename KodoStack::pointer& coder) :
+            coder_wrapper<KodoStack, encoder>(coder),
+            m_encoder(coder)
         {
             assert(m_encoder);
         }
 
-        virtual uint32_t encode(uint8_t *payload)
+        virtual uint32_t encode(uint8_t* payload)
         {
             return m_encoder->encode(payload);
         }
 
-        virtual void set_symbols(
-            const uint8_t* data, uint32_t size)
+        virtual void set_symbols(const uint8_t* data, uint32_t size)
         {
             auto storage = sak::const_storage(data, size);
             m_encoder->set_symbols(storage);
@@ -43,39 +57,9 @@ namespace kodo
             m_encoder->set_symbol(index, storage);
         }
 
-        virtual uint32_t payload_size() const
+        virtual bool has_systematic_encoder() const
         {
-            return m_encoder->payload_size();
-        }
-
-        virtual uint32_t block_size() const
-        {
-            return m_encoder->block_size();
-        }
-
-        virtual uint32_t symbol_size() const
-        {
-            return m_encoder->symbol_size();
-        }
-
-        virtual uint32_t symbols() const
-        {
-            return m_encoder->symbols();
-        }
-
-        virtual bool symbol_pivot(uint32_t index) const
-        {
-            return m_encoder->is_symbol_pivot(index);
-        }
-
-        virtual uint32_t rank() const
-        {
-            return m_encoder->rank();
-        }
-
-        virtual bool is_systematic() const
-        {
-            return kodo::is_systematic_encoder(m_encoder);
+            return kodo::has_systematic_encoder<KodoStack>::value;
         }
 
         virtual bool is_systematic_on() const
@@ -93,10 +77,12 @@ namespace kodo
             kodo::set_systematic_off(m_encoder);
         }
 
+        virtual void read_feedback(uint8_t* feedback)
+        {
+            kodo::read_feedback(m_encoder, feedback);
+        }
 
+    private:
         typename KodoStack::pointer m_encoder;
-
     };
 }
-
-

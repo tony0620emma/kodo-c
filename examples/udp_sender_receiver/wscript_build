@@ -2,13 +2,14 @@
 # encoding: utf-8
 
 static_libs = []
-search_path = []
+
+# The C++ standard library must be added on Linux and Android
+if bld.get_mkspec_platform() in ['linux', 'android']:
+    static_libs = ['stdc++']
 
 if bld.is_mkspec_platform('windows'):
     static_libs = ['Ws2_32']
-else:
-    static_libs = ['stdc++']
-    search_path = ['.']
+
 
 bld.program(features='c',
             source='udp_sender.c',

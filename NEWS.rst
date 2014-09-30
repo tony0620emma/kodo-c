@@ -8,11 +8,23 @@ Latest
 ------
 * Minor: Update to waf 1.8.0-pre1
 * Minor: Made python files comply with pep8
-* Major: Bump dependency to Fifi version 10.x.y
-* Major: Bump dependency to Gauge version 7.x.y
+* Major: Upgrade to Kodo 17
+* Major: Upgrade to Fifi 11
 * Bug: When calling the kodo_is_symbol_decoded(kodo_coder_t*,uint32_t) function
-  the call was forward to the wrong C++ Kodo function.
-* Major: Bump dependency to Kodo version 15.x.y
+  the call was forwarded to the wrong C++ Kodo function.
+* Major: Removed debug functions (Replaced by trace layers)
+* Minor: Add trace layer functions
+* Minor: Added the sliding window algorithm
+* Minor: Added new examples:
+    sliding_window,
+    switch_systematic_on_off
+    use_trace_layers
+* Minor: Updated examples:
+    encode_decode_simple
+    encode_decode_on_the_fly
+    udp_sender_receiver
+* Minor: Implemented method kodo_read_feedback
+* Minor: Implemented method kodo_write_feedback
 
 1.7.0
 -----
@@ -54,4 +66,3 @@ Latest
 1.0.0
 -----
 * Major: Initial version of the Kodo C bindings based on Kodo version 11.x.y.
-

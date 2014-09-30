@@ -3,7 +3,11 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#include <stdio.h>
 #include <stdint.h>
+#include <string.h>
+#include <time.h>
+
 #include <ckodo/ckodo.h>
 
 /// @example encode_decode_on_the_fly.c
@@ -16,11 +20,13 @@
 
 int main()
 {
+    // Seed random number generator to produce different results every time
+    srand(time(NULL));
+
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 8;
+    uint32_t max_symbols = 42;
     uint32_t max_symbol_size = 160;
-
     // Here we select the coding algorithm we wish to use
     size_t algorithm = kodo_on_the_fly;
 
@@ -30,11 +36,13 @@ int main()
 
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size);
+                                 max_symbols, max_symbol_size,
+                                 kodo_trace_enabled);
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size);
+                                 max_symbols, max_symbol_size,
+                                 kodo_trace_enabled);
 
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
@@ -104,7 +112,7 @@ int main()
             uint32_t i = 0;
             for (; i < kodo_symbols(decoder); ++i)
             {
-                if (!kodo_is_symbol_decoded(decoder, i))
+                if (!kodo_is_symbol_uncoded(decoder, i))
                     continue;
 
                 if (!decoded[i])
@@ -132,7 +140,6 @@ int main()
                 }
             }
         }
-
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);

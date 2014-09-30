@@ -9,11 +9,14 @@
 
 namespace kodo
 {
-
     /// Base class for an encoder implementation
-    struct encoder : public coder
+    class encoder : public coder
     {
-        virtual uint32_t encode(uint8_t *) = 0;
+    public:
+
+        virtual ~encoder() {}
+
+        virtual uint32_t encode(uint8_t* data) = 0;
 
         virtual void set_symbols(
             const uint8_t* data, uint32_t size) = 0;
@@ -21,13 +24,10 @@ namespace kodo
         virtual void set_symbol(
             uint32_t index, const uint8_t* data, uint32_t size) = 0;
 
-        virtual ~encoder(){}
-
-        virtual bool is_systematic() const = 0;
+        virtual bool has_systematic_encoder() const = 0;
         virtual bool is_systematic_on() const = 0;
         virtual void set_systematic_on() = 0;
         virtual void set_systematic_off() = 0;
+        virtual void read_feedback(uint8_t* feedback) = 0;
     };
 }
-
-

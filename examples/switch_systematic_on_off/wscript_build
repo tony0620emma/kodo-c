@@ -8,7 +8,7 @@ if bld.get_mkspec_platform() in ['linux', 'android']:
     static_libs = ['stdc++']
 
 bld.program(features='c',
-            source='encode_decode_simple.c',
-            target='encode_decode_simple',
+            source='switch_systematic_on_off.c',
+            target='switch_systematic_on_off',
             lib=static_libs,
             use=['ckodo_static'])

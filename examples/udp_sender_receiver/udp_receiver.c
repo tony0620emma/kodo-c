@@ -124,8 +124,9 @@ int main(int argc, char* argv[])
     }
 
     // Create the encoder factory
-    decoder_factory = kodo_new_decoder_factory(
-        algorithm, finite_field, max_symbols, max_symbol_size);
+    decoder_factory = kodo_new_decoder_factory(algorithm, finite_field,
+                                               max_symbols, max_symbol_size,
+                                               kodo_trace_enabled);
 
     kodo_factory_set_symbols(decoder_factory, symbols);
     decoder = kodo_factory_new_decoder(decoder_factory);
@@ -192,6 +193,7 @@ int main(int argc, char* argv[])
     printf("Data decoded!\n");
 
     // Cleanup
+    free(decoded);
     free(payload);
 
     kodo_delete_decoder(decoder);

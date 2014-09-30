@@ -12,13 +12,17 @@
 void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
                     size_t algorithm, size_t finite_field)
 {
+    uint32_t trace_enabled = 0;
+
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size);
+                                 max_symbols, max_symbol_size,
+                                 trace_enabled);
 
     kodo_factory_t* decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
-                                 max_symbols, max_symbol_size);
+                                 max_symbols, max_symbol_size,
+                                 trace_enabled);
 
     kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
@@ -27,20 +31,24 @@ void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
     uint32_t block_size = kodo_block_size(encoder);
+    EXPECT_EQ(max_symbols * max_symbol_size, block_size);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
     uint8_t* data_out = (uint8_t*) malloc(block_size);
 
-    uint32_t i = 0;
-    for(; i < block_size; ++i)
+    for(uint32_t i = 0; i < block_size; ++i)
         data_in[i] = rand() % 256;
 
     kodo_set_symbols(encoder, data_in, block_size);
 
-    while(!kodo_is_complete(decoder))
+    ASSERT_TRUE(kodo_is_complete(decoder) == 0);
+
+    while (!kodo_is_complete(decoder))
     {
         kodo_encode(encoder, payload);
         kodo_decode(decoder, payload);
     }
+
+    EXPECT_TRUE(kodo_is_complete(decoder) != 0);
 
     kodo_copy_symbols(decoder, data_out, block_size);
 
@@ -64,5 +72,3 @@ TEST(TestFullRlncCodes, invoke_api)
     test_basic_api(42, 160, kodo_full_rlnc, kodo_binary8);
     test_basic_api(42, 160, kodo_full_rlnc, kodo_binary16);
 }
-
-

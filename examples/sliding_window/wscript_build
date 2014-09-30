@@ -8,7 +8,7 @@ if bld.get_mkspec_platform() in ['linux', 'android']:
     static_libs = ['stdc++']
 
 bld.program(features='c',
-            source='encode_decode_simple.c',
-            target='encode_decode_simple',
+            source='sliding_window.c',
+            target='sliding_window',
             lib=static_libs,
             use=['ckodo_static'])

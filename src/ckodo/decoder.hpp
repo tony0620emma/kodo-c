@@ -9,10 +9,15 @@
 
 namespace kodo
 {
-    struct decoder : public coder
+    /// Base class for decoder implementation
+    class decoder : public coder
     {
-        virtual uint32_t recode(uint8_t *) = 0;
-        virtual void decode(uint8_t *) = 0;
+    public:
+
+        virtual ~decoder() {}
+
+        virtual uint32_t recode(uint8_t* data) = 0;
+        virtual void decode(uint8_t* data) = 0;
         virtual bool is_complete() const = 0;
 
         virtual void copy_symbols(uint8_t* data, uint32_t size) const = 0;
@@ -21,21 +26,12 @@ namespace kodo
                                  uint32_t size) const = 0;
 
         virtual bool has_partial_decoding_tracker() const = 0;
+
         virtual bool is_partial_complete() const = 0;
-        virtual bool is_symbol_decoded(uint32_t) const = 0;
+        virtual bool is_symbol_uncoded(uint32_t) const = 0;
 
-        // Debugging support
-        virtual bool has_print_decoder_state() const = 0;
-        virtual void print_decoder_state() const = 0;
-
-        virtual bool has_print_cached_symbol_coefficients() const = 0;
-        virtual void print_cached_symbol_coefficients() const = 0;
-
-        virtual bool has_print_cached_symbol_data() const = 0;
-        virtual void print_cached_symbol_data() const = 0;
-
-        virtual ~decoder(){}
+        virtual uint32_t symbols_uncoded() const = 0;
+        virtual uint32_t symbols_seen() const = 0;
+        virtual void write_feedback(uint8_t* feedback) = 0;
     };
 }
-
-

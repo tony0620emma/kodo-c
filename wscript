@@ -26,7 +26,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='fifi',
         git_repository='github.com/steinwurf/fifi.git',
-        major_version=10))
+        major_version=11))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='gtest',
@@ -34,14 +34,9 @@ def options(opt):
         major_version=2))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
-        name='gauge',
-        git_repository='github.com/steinwurf/cxx-gauge.git',
-        major_version=7))
-
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='kodo',
         git_repository='github.com/steinwurf/kodo.git',
-        major_version=15))
+        major_version=17))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='sak',
@@ -49,14 +44,19 @@ def options(opt):
         major_version=10))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
-        name='tables',
-        git_repository='github.com/steinwurf/tables.git',
-        major_version=4))
-
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='waf-tools',
         git_repository='github.com/steinwurf/external-waf-tools.git',
         major_version=2))
+
+    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+        name='platform',
+        git_repository='github.com/steinwurf/platform.git',
+        major_version=1))
+
+    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+        name='cpuid',
+        git_repository='github.com/steinwurf/cpuid.git',
+        major_version=3))
 
     opt.load('wurf_configure_output')
     opt.load('wurf_dependency_bundle')
@@ -84,13 +84,13 @@ def configure(conf):
 
         recurse_helper(conf, 'boost')
         recurse_helper(conf, 'fifi')
-        recurse_helper(conf, 'gauge')
         recurse_helper(conf, 'gtest')
         recurse_helper(conf, 'kodo')
         recurse_helper(conf, 'sak')
-        recurse_helper(conf, 'tables')
+        recurse_helper(conf, 'platform')
+        recurse_helper(conf, 'cpuid')
 
-        conf.recurse('makefile')
+        conf.recurse('examples/sample_makefile')
 
 
 def build(bld):
@@ -101,11 +101,11 @@ def build(bld):
 
         recurse_helper(bld, 'boost')
         recurse_helper(bld, 'fifi')
-        recurse_helper(bld, 'gauge')
         recurse_helper(bld, 'gtest')
         recurse_helper(bld, 'kodo')
         recurse_helper(bld, 'sak')
-        recurse_helper(bld, 'tables')
+        recurse_helper(bld, 'platform')
+        recurse_helper(bld, 'cpuid')
 
         bld.stlib(
             source='src/ckodo/ckodo.cpp',
@@ -113,7 +113,7 @@ def build(bld):
             name='ckodo_static',
             export_includes='src',
             use=['kodo_includes', 'boost_includes', 'fifi_includes',
-                 'sak_includes'])
+                 'sak_includes', 'platform_includes'])
 
         if 'BUILD_CKODO_SHARED_LIBRARY' in bld.env:
 
@@ -124,10 +124,13 @@ def build(bld):
                 install_path=None,
                 export_includes='src',
                 use=['kodo_includes', 'boost_includes', 'fifi_includes',
-                     'sak_includes'])
+                     'sak_includes', 'platform_includes'])
 
+        bld.recurse('test')
         bld.recurse('examples/encode_decode_on_the_fly')
         bld.recurse('examples/encode_decode_simple')
+        bld.recurse('examples/sample_makefile')
+        bld.recurse('examples/sliding_window')
+        bld.recurse('examples/switch_systematic_on_off')
         bld.recurse('examples/udp_sender_receiver')
-        bld.recurse('makefile')
-        bld.recurse('test')
+        bld.recurse('examples/use_trace_layers')
