@@ -17,8 +17,8 @@ library. The bindings provide access to the basic functionality provided by
 Kodo, such as encoding and decoding of data. The examples folder provides
 sample applications that demonstrate the usage of the C API.
 
-.. image:: http://buildbot.steinwurf.dk/svgstatus?project=kodo-c-bindings
-    :target: http://buildbot.steinwurf.dk/stats?projects=kodo-c-bindings
+.. image:: http://buildbot.steinwurf.dk/svgstatus?project=kodo-c
+    :target: http://buildbot.steinwurf.dk/stats?projects=kodo-c
 
 
 Building and Using the C bindings

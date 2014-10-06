@@ -4,7 +4,7 @@
 # need to be updated.
 
 # By default, we assume that the required libraries are cloned side-by-side with
-# the kodo-c-bindings folder.
+# the kodo-c folder.
 # You can clone the projects like this:
 # git clone https://github.com/steinwurf/sak.git
 # git clone https://github.com/steinwurf/fifi.git
@@ -12,10 +12,10 @@
 # git clone https://github.com/steinwurf/cpuid.git
 # git clone https://github.com/steinwurf/boost.git
 # git clone https://github.com/steinwurf/kodo.git
-# git clone https://github.com/steinwurf/kodo-c-bindings.git
+# git clone https://github.com/steinwurf/kodo-c.git
 #
 # Then build the C bindings with this makefile:
-# cd kodo-c-bindings/examples/sample_makefile
+# cd kodo-c/examples/sample_makefile
 # make
 
 UNAME_S := $(shell uname -s)
