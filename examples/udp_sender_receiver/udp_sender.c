@@ -65,8 +65,8 @@ int main(int argc, char* argv[])
     uint32_t symbols = 0;
     uint32_t packets = 0;
 
-    size_t algorithm = kodo_on_the_fly;
-    size_t finite_field = kodo_binary8;
+    int32_t algorithm = kodo_on_the_fly;
+    int32_t finite_field = kodo_binary8;
 
     kodo_factory_t* encoder_factory = 0;
     kodo_coder_t* encoder = 0;

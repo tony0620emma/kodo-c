@@ -28,11 +28,11 @@ int main()
     uint32_t max_symbols = 42;
     uint32_t max_symbol_size = 160;
     // Here we select the coding algorithm we wish to use
-    size_t algorithm = kodo_on_the_fly;
+    int32_t algorithm = kodo_on_the_fly;
 
     // Here we select the finite field to use common choices are
     // kodo_binary, kodo_binary8, kodo_binary16
-    size_t finite_field = kodo_binary8;
+    int32_t finite_field = kodo_binary8;
 
     kodo_factory_t* encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,

@@ -36,8 +36,8 @@ int main()
     uint32_t max_symbols = 8;
     uint32_t max_symbol_size = 33;
 
-    size_t algorithm = kodo_full_rlnc;
-    size_t finite_field = kodo_binary8;
+    int32_t algorithm = kodo_full_rlnc;
+    int32_t finite_field = kodo_binary8;
 
     // In the following we will make an encoder/decoder factory.
     // The factories are used to build actual encoders/decoder

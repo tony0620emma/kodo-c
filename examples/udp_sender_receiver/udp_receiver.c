@@ -50,8 +50,8 @@ int main(int argc, char* argv[])
 
     uint32_t symbols = 0;
 
-    size_t algorithm = kodo_on_the_fly;
-    size_t finite_field = kodo_binary8;
+    int32_t algorithm = kodo_on_the_fly;
+    int32_t finite_field = kodo_binary8;
 
     kodo_factory_t* decoder_factory = 0;
     kodo_coder_t* decoder = 0;
@@ -144,7 +144,6 @@ int main(int argc, char* argv[])
     // Receiver loop
     while (!kodo_is_complete(decoder))
     {
-
         // Receive message
         remote_address_size = sizeof(remote_address);
 
