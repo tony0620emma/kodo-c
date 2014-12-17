@@ -24,7 +24,7 @@ namespace kodo
         virtual bool symbol_pivot(uint32_t) const = 0;
 
         virtual bool has_trace() const = 0;
-        virtual void trace(kodo_filter_function_t) = 0;
+        virtual void trace(kodo_trace_callback_t) = 0;
 
         virtual bool has_feedback_size() const = 0;
         virtual uint32_t feedback_size() const = 0;

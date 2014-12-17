@@ -3,6 +3,8 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -17,7 +19,7 @@ extern "C" {
     #pragma extern_prefix (push, "")
 #endif
 
-typedef uint8_t (*kodo_filter_function_t)(const char*);
+typedef void (*kodo_trace_callback_t)(const char*, const char*);
 
 //------------------------------------------------------------------
 // FACTORY API
@@ -29,18 +31,34 @@ typedef struct _kodo_factory_t kodo_factory_t;
 /// Opaque class structures for the encoders and decoders
 typedef struct _kodo_coder_t kodo_coder_t;
 
-/// Constants for selecting the finite field
-extern const size_t kodo_binary;
-extern const size_t kodo_binary8;
-extern const size_t kodo_binary16;
+/// Enum specifying the different kinds of finite fields
+typedef enum
+{
+    kodo_binary,
+    kodo_binary4,
+    kodo_binary8,
+    kodo_binary16,
+    kodo_prime2325
+}
+kodo_finite_field;
 
-/// Constants for select in the encoder/decoder
-extern const size_t kodo_full_rlnc;
-extern const size_t kodo_on_the_fly;
-extern const size_t kodo_sliding_window;
+/// Enum specifying the available code types
+typedef enum
+{
+    kodo_full_rlnc,
+    kodo_on_the_fly,
+    kodo_sliding_window
+}
+kodo_code_type;
 
-extern const size_t kodo_trace_enabled;
-extern const size_t kodo_trace_disabled;
+/// Enum specifying the available trace modes
+typedef enum
+{
+    kodo_trace_disabled,
+    kodo_trace_enabled
+}
+kodo_trace_mode;
+
 /// Builds a new encoder factory
 /// @param code_type This parameter determines the encoding algorithms used.
 /// @param field_type This parameter determines the finite field type
@@ -52,9 +70,9 @@ extern const size_t kodo_trace_disabled;
 /// @return A new factory capable of building encoders using for the
 ///         selected parameters.
 kodo_factory_t*
-kodo_new_encoder_factory(size_t code_type, size_t field_type,
+kodo_new_encoder_factory(int32_t code_type, int32_t field_type,
                          uint32_t max_symbols, uint32_t max_symbol_size,
-                         size_t trace_enabled);
+                         int32_t trace_mode);
 
 /// Builds a new decoder factory
 /// @param code_type This parameter determines the decoding algorithms used.
@@ -67,9 +85,9 @@ kodo_new_encoder_factory(size_t code_type, size_t field_type,
 /// @return A new factory capable of building decoders using for the
 ///         selected parameters.
 kodo_factory_t*
-kodo_new_decoder_factory(size_t code_type, size_t field_type,
+kodo_new_decoder_factory(int32_t code_type, int32_t field_type,
                          uint32_t max_symbols, uint32_t max_symbol_size,
-                         size_t trace_enabled);
+                         int32_t trace_mode);
 
 /// Deallocates and releases the memory consumed by the encoder factory
 /// @param factory Pointer to the encoder factory which should be deallocated
@@ -305,13 +323,13 @@ void kodo_set_systematic_off(kodo_coder_t* encoder);
 /// @param coder Pointer to the coder
 uint8_t kodo_has_trace(kodo_coder_t* coder);
 
-/// @param filter The "zone" filter which allows control over what
-///        output will be produced by the trace.
-void kodo_trace_filter(kodo_coder_t* coder, kodo_filter_function_t filter);
-
-/// Prints the trace output std out
+/// Prints the trace output to the standard output
 /// @param coder Pointer to the coder
 void kodo_trace(kodo_coder_t* coder);
+
+/// Forwards the trace output to a custom callback
+/// @param callback The callback that processes the trace output
+void kodo_trace_callback(kodo_coder_t* coder, kodo_trace_callback_t callback);
 
 
 #ifdef __INTEL_COMPILER

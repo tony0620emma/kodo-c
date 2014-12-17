@@ -16,19 +16,14 @@
 /// Simple example showing how to use some of the trace layers defined
 /// in Kodo.
 
-uint8_t filter_function(const char* zone)
+void trace_callback(const char* zone, const char* data)
 {
-    const char* zones[] = {"decoder_state", "input_symbol_coefficients", NULL};
-    const char** cmp = zones;
-
-    while (*cmp)
+    if (strcmp(zone, "decoder_state") == 0 ||
+        strcmp(zone, "input_symbol_coefficients") == 0)
     {
-        if (!strcmp(zone, *cmp))
-            return 1;
-        cmp++;
+        printf("%s:\n", zone);
+        printf("%s\n", data);
     }
-
-    return 0;
 }
 
 int main()
@@ -106,7 +101,7 @@ int main()
         if (kodo_has_trace(decoder))
         {
             printf("Trace decoder:\n");
-            kodo_trace_filter(decoder, &filter_function);
+            kodo_trace_callback(decoder, trace_callback);
         }
     }
 
