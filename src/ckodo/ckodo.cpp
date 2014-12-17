@@ -23,7 +23,7 @@
 //------------------------------------------------------------------
 
 kodo_factory_t*
-kodo_new_encoder_factory(int32_t code_type, int32_t field_type,
+kodo_new_encoder_factory(int32_t code_type, int32_t finite_field,
                          uint32_t max_symbols, uint32_t max_symbol_size,
                          int32_t trace_mode)
 {
@@ -36,25 +36,25 @@ kodo_new_encoder_factory(int32_t code_type, int32_t field_type,
     {
         if (trace_mode == kodo_trace_disabled)
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new encoder_factory_wrapper<
                     full_vector_encoder<fifi::binary,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new encoder_factory_wrapper<
                     full_vector_encoder<fifi::binary4,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new encoder_factory_wrapper<
                     full_vector_encoder<fifi::binary8,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new encoder_factory_wrapper<
                     full_vector_encoder<fifi::binary16,
@@ -63,25 +63,25 @@ kodo_new_encoder_factory(int32_t code_type, int32_t field_type,
         }
         else
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new encoder_factory_wrapper<
                     full_vector_encoder<fifi::binary,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new encoder_factory_wrapper<
                     full_vector_encoder<fifi::binary4,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new encoder_factory_wrapper<
                     full_vector_encoder<fifi::binary8,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new encoder_factory_wrapper<
                     full_vector_encoder<fifi::binary16,
@@ -93,25 +93,25 @@ kodo_new_encoder_factory(int32_t code_type, int32_t field_type,
     {
         if (trace_mode == kodo_trace_disabled)
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new encoder_factory_wrapper<
                     on_the_fly_encoder<fifi::binary,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new encoder_factory_wrapper<
                     on_the_fly_encoder<fifi::binary4,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new encoder_factory_wrapper<
                     on_the_fly_encoder<fifi::binary8,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new encoder_factory_wrapper<
                     on_the_fly_encoder<fifi::binary16,
@@ -120,25 +120,25 @@ kodo_new_encoder_factory(int32_t code_type, int32_t field_type,
         }
         else
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new encoder_factory_wrapper<
                     on_the_fly_encoder<fifi::binary,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new encoder_factory_wrapper<
                     on_the_fly_encoder<fifi::binary4,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new encoder_factory_wrapper<
                     on_the_fly_encoder<fifi::binary8,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new encoder_factory_wrapper<
                     on_the_fly_encoder<fifi::binary16,
@@ -150,25 +150,25 @@ kodo_new_encoder_factory(int32_t code_type, int32_t field_type,
     {
         if (trace_mode == kodo_trace_disabled)
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new encoder_factory_wrapper<
                     sliding_window_encoder<fifi::binary,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new encoder_factory_wrapper<
                     sliding_window_encoder<fifi::binary4,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new encoder_factory_wrapper<
                     sliding_window_encoder<fifi::binary8,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new encoder_factory_wrapper<
                     sliding_window_encoder<fifi::binary16,
@@ -177,25 +177,25 @@ kodo_new_encoder_factory(int32_t code_type, int32_t field_type,
         }
         else
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new encoder_factory_wrapper<
                     sliding_window_encoder<fifi::binary,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new encoder_factory_wrapper<
                     sliding_window_encoder<fifi::binary4,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new encoder_factory_wrapper<
                     sliding_window_encoder<fifi::binary8,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new encoder_factory_wrapper<
                     sliding_window_encoder<fifi::binary16,
@@ -212,7 +212,7 @@ kodo_new_encoder_factory(int32_t code_type, int32_t field_type,
 
 
 kodo_factory_t*
-kodo_new_decoder_factory(int32_t code_type, int32_t field_type,
+kodo_new_decoder_factory(int32_t code_type, int32_t finite_field,
                          uint32_t max_symbols, uint32_t max_symbol_size,
                          int32_t trace_mode)
 {
@@ -225,25 +225,25 @@ kodo_new_decoder_factory(int32_t code_type, int32_t field_type,
     {
         if (trace_mode == kodo_trace_disabled)
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new decoder_factory_wrapper<
                     full_vector_decoder<fifi::binary,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new decoder_factory_wrapper<
                     full_vector_decoder<fifi::binary4,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new decoder_factory_wrapper<
                     full_vector_decoder<fifi::binary8,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new decoder_factory_wrapper<
                     full_vector_decoder<fifi::binary16,
@@ -252,25 +252,25 @@ kodo_new_decoder_factory(int32_t code_type, int32_t field_type,
         }
         else
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new decoder_factory_wrapper<
                     full_vector_decoder<fifi::binary,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new decoder_factory_wrapper<
                     full_vector_decoder<fifi::binary4,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new decoder_factory_wrapper<
                     full_vector_decoder<fifi::binary8,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new decoder_factory_wrapper<
                     full_vector_decoder<fifi::binary16,
@@ -282,25 +282,25 @@ kodo_new_decoder_factory(int32_t code_type, int32_t field_type,
     {
         if (trace_mode == kodo_trace_disabled)
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new decoder_factory_wrapper<
                     on_the_fly_decoder<fifi::binary,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new decoder_factory_wrapper<
                     on_the_fly_decoder<fifi::binary4,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new decoder_factory_wrapper<
                     on_the_fly_decoder<fifi::binary8,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new decoder_factory_wrapper<
                     on_the_fly_decoder<fifi::binary16,
@@ -309,25 +309,25 @@ kodo_new_decoder_factory(int32_t code_type, int32_t field_type,
         }
         else
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new decoder_factory_wrapper<
                     on_the_fly_decoder<fifi::binary,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new decoder_factory_wrapper<
                     on_the_fly_decoder<fifi::binary4,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new decoder_factory_wrapper<
                     on_the_fly_decoder<fifi::binary8,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new decoder_factory_wrapper<
                     on_the_fly_decoder<fifi::binary16,
@@ -339,25 +339,25 @@ kodo_new_decoder_factory(int32_t code_type, int32_t field_type,
     {
         if (trace_mode == kodo_trace_disabled)
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new decoder_factory_wrapper<
                     sliding_window_decoder<fifi::binary,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new decoder_factory_wrapper<
                     sliding_window_decoder<fifi::binary4,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new decoder_factory_wrapper<
                     sliding_window_decoder<fifi::binary8,
                         disable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new decoder_factory_wrapper<
                     sliding_window_decoder<fifi::binary16,
@@ -366,25 +366,25 @@ kodo_new_decoder_factory(int32_t code_type, int32_t field_type,
         }
         else
         {
-            if (field_type == kodo_binary)
+            if (finite_field == kodo_binary)
             {
                 factory = new decoder_factory_wrapper<
                     sliding_window_decoder<fifi::binary,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary4)
+            else if (finite_field == kodo_binary4)
             {
                 factory = new decoder_factory_wrapper<
                     sliding_window_decoder<fifi::binary4,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary8)
+            else if (finite_field == kodo_binary8)
             {
                 factory = new decoder_factory_wrapper<
                     sliding_window_decoder<fifi::binary8,
                         enable_trace>>(max_symbols, max_symbol_size);
             }
-            else if (field_type == kodo_binary16)
+            else if (finite_field == kodo_binary16)
             {
                 factory = new decoder_factory_wrapper<
                     sliding_window_decoder<fifi::binary16,

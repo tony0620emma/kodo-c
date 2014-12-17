@@ -61,7 +61,7 @@ kodo_trace_mode;
 
 /// Builds a new encoder factory
 /// @param code_type This parameter determines the encoding algorithms used.
-/// @param field_type This parameter determines the finite field type
+/// @param finite_field This parameter determines the finite field type
 ///        that should be used for the encoding.
 /// @param max_symbols The maximum number of symbols supported by encoders
 ///        built with this factory.
@@ -70,13 +70,13 @@ kodo_trace_mode;
 /// @return A new factory capable of building encoders using for the
 ///         selected parameters.
 kodo_factory_t*
-kodo_new_encoder_factory(int32_t code_type, int32_t field_type,
+kodo_new_encoder_factory(int32_t code_type, int32_t finite_field,
                          uint32_t max_symbols, uint32_t max_symbol_size,
                          int32_t trace_mode);
 
 /// Builds a new decoder factory
 /// @param code_type This parameter determines the decoding algorithms used.
-/// @param field_type This parameter determines the finite field type
+/// @param finite_field This parameter determines the finite field type
 ///        that should be used for the decoding.
 /// @param max_symbols The maximum number of symbols supported by decoders
 ///        built with this factory.
@@ -85,7 +85,7 @@ kodo_new_encoder_factory(int32_t code_type, int32_t field_type,
 /// @return A new factory capable of building decoders using for the
 ///         selected parameters.
 kodo_factory_t*
-kodo_new_decoder_factory(int32_t code_type, int32_t field_type,
+kodo_new_decoder_factory(int32_t code_type, int32_t finite_field,
                          uint32_t max_symbols, uint32_t max_symbol_size,
                          int32_t trace_mode);
 
