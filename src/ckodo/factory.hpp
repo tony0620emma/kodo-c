@@ -5,11 +5,10 @@
 
 #pragma once
 
-namespace kodo
+extern "C"
 {
-    class factory
+    struct kodo_factory
     {
-    public:
         virtual void* build() = 0;
 
         virtual void set_symbols(uint32_t symbols) = 0;
@@ -20,8 +19,6 @@ namespace kodo
         virtual uint32_t max_block_size() const = 0;
         virtual uint32_t max_payload_size() const = 0;
 
-        virtual ~factory(){}
+        virtual ~kodo_factory() {}
     };
 }
-
-

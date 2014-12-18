@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
     int32_t algorithm = kodo_on_the_fly;
     int32_t finite_field = kodo_binary8;
 
-    kodo_factory_t* encoder_factory = 0;
+    kodo_factory_t encoder_factory = 0;
     kodo_coder_t* encoder = 0;
 
     // The buffer sent to the receiver

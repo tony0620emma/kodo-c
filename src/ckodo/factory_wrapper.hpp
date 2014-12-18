@@ -9,14 +9,13 @@
 
 namespace kodo
 {
-
     template<class KodoStack>
-    class factory_wrapper : public factory
+    class factory_wrapper : public kodo_factory
     {
     public:
         factory_wrapper(uint32_t max_symbols,
-                        uint32_t max_symbol_size)
-            : m_factory(max_symbols, max_symbol_size)
+                        uint32_t max_symbol_size) :
+            m_factory(max_symbols, max_symbol_size)
         { }
 
         virtual void set_symbols(uint32_t symbols)
@@ -53,5 +52,3 @@ namespace kodo
         typename KodoStack::factory m_factory;
     };
 }
-
-

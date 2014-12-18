@@ -12,12 +12,12 @@
 void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
                     int32_t algorithm, int32_t finite_field)
 {
-    kodo_factory_t* encoder_factory =
+    kodo_factory_t encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size,
                                  kodo_trace_disabled);
 
-    kodo_factory_t* decoder_factory =
+    kodo_factory_t decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size,
                                  kodo_trace_disabled);

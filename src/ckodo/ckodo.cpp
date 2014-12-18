@@ -22,7 +22,7 @@
 // FACTORY API
 //------------------------------------------------------------------
 
-kodo_factory_t*
+kodo_factory_t
 kodo_new_encoder_factory(int32_t code_type, int32_t finite_field,
                          uint32_t max_symbols, uint32_t max_symbol_size,
                          int32_t trace_mode)
@@ -30,7 +30,7 @@ kodo_new_encoder_factory(int32_t code_type, int32_t finite_field,
     using namespace kodo;
     using namespace kodo::rlnc;
 
-    kodo::factory* factory = 0;
+    kodo_factory_t factory = 0;
 
     if (code_type == kodo_full_rlnc)
     {
@@ -207,11 +207,11 @@ kodo_new_encoder_factory(int32_t code_type, int32_t finite_field,
     // Unknown code type or field type
     assert(factory);
 
-    return (kodo_factory_t*)factory;
+    return factory;
 }
 
 
-kodo_factory_t*
+kodo_factory_t
 kodo_new_decoder_factory(int32_t code_type, int32_t finite_field,
                          uint32_t max_symbols, uint32_t max_symbol_size,
                          int32_t trace_mode)
@@ -219,7 +219,7 @@ kodo_new_decoder_factory(int32_t code_type, int32_t finite_field,
     using namespace kodo;
     using namespace kodo::rlnc;
 
-    kodo::factory* factory = 0;
+    kodo_factory_t factory = 0;
 
     if (code_type == kodo_full_rlnc)
     {
@@ -396,94 +396,82 @@ kodo_new_decoder_factory(int32_t code_type, int32_t finite_field,
     // Unknown code type or field type
     assert(factory);
 
-    return (kodo_factory_t*)factory;
+    return factory;
 }
 
 //------------------------------------------------------------------
 // FACTORY API
 //------------------------------------------------------------------
 
-void kodo_delete_encoder_factory(kodo_factory_t* factory)
+void kodo_delete_encoder_factory(kodo_factory_t factory)
 {
     assert(factory);
 
-    kodo::factory* the_factory = (kodo::factory*) factory;
-    delete the_factory;
+    delete factory;
 }
 
-void kodo_delete_decoder_factory(kodo_factory_t* factory)
+void kodo_delete_decoder_factory(kodo_factory_t factory)
 {
     assert(factory);
 
-    kodo::factory* the_factory = (kodo::factory*) factory;
-    delete the_factory;
+    delete factory;
 }
 
-uint32_t kodo_factory_max_symbols(kodo_factory_t* factory)
+uint32_t kodo_factory_max_symbols(kodo_factory_t factory)
 {
     assert(factory);
 
-    kodo::factory* the_factory = (kodo::factory*) factory;
-    return the_factory->max_symbols();
+    return factory->max_symbols();
 }
 
-uint32_t kodo_factory_max_symbol_size(kodo_factory_t* factory)
+uint32_t kodo_factory_max_symbol_size(kodo_factory_t factory)
 {
     assert(factory);
 
-    kodo::factory* the_factory = (kodo::factory*) factory;
-    return the_factory->max_symbol_size();
+    return factory->max_symbol_size();
 }
 
-uint32_t kodo_factory_max_block_size(kodo_factory_t* factory)
+uint32_t kodo_factory_max_block_size(kodo_factory_t factory)
 {
     assert(factory);
 
-    kodo::factory* the_factory = (kodo::factory*) factory;
-    return the_factory->max_block_size();
+    return factory->max_block_size();
 }
 
-uint32_t kodo_factory_max_payload_size(kodo_factory_t* factory)
+uint32_t kodo_factory_max_payload_size(kodo_factory_t factory)
 {
     assert(factory);
 
-    kodo::factory* the_factory = (kodo::factory*) factory;
-    return the_factory->max_payload_size();
+    return factory->max_payload_size();
 }
 
-void kodo_factory_set_symbols(kodo_factory_t* factory, uint32_t symbols)
+void kodo_factory_set_symbols(kodo_factory_t factory, uint32_t symbols)
 {
     assert(factory);
 
-    kodo::factory* the_factory = (kodo::factory*) factory;
-    the_factory->set_symbols(symbols);
+    factory->set_symbols(symbols);
 }
 
-void kodo_factory_set_symbol_size(kodo_factory_t* factory,
-                                  uint32_t symbol_size)
+void kodo_factory_set_symbol_size(kodo_factory_t factory, uint32_t symbol_size)
 {
     assert(factory);
 
-    kodo::factory* the_factory = (kodo::factory*) factory;
-    the_factory->set_symbol_size(symbol_size);
+    factory->set_symbol_size(symbol_size);
 }
 
-
-kodo_coder_t* kodo_factory_new_encoder(kodo_factory_t* factory)
+kodo_coder_t* kodo_factory_new_encoder(kodo_factory_t factory)
 {
     assert(factory);
 
-    kodo::factory* the_factory = (kodo::factory*) factory;
-    void* encoder = the_factory->build();
+    void* encoder = factory->build();
     return (kodo_coder_t*) encoder;
 }
 
-kodo_coder_t* kodo_factory_new_decoder(kodo_factory_t* factory)
+kodo_coder_t* kodo_factory_new_decoder(kodo_factory_t factory)
 {
     assert(factory);
 
-    kodo::factory* the_factory = (kodo::factory*) factory;
-    void* decoder = the_factory->build();
+    void* decoder = factory->build();
     return (kodo_coder_t*) decoder;
 }
 

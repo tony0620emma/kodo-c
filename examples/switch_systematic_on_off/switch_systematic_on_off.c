@@ -34,12 +34,12 @@ int main()
 
     // In the following we will make an encoder/decoder factory.
     // The factories are used to build actual encoders/decoder
-    kodo_factory_t* encoder_factory =
+    kodo_factory_t encoder_factory =
         kodo_new_encoder_factory(algorithm, finite_field,
-                                   max_symbols, max_symbol_size,
-                                   kodo_trace_enabled);
+                                 max_symbols, max_symbol_size,
+                                 kodo_trace_enabled);
 
-    kodo_factory_t* decoder_factory =
+    kodo_factory_t decoder_factory =
         kodo_new_decoder_factory(algorithm, finite_field,
                                  max_symbols, max_symbol_size,
                                  kodo_trace_enabled);
