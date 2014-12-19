@@ -10,4 +10,5 @@ bld.program(
     features='cxx test',
     source=['kodoc_tests.cpp'] + bld.path.ant_glob('src/*.cpp'),
     target='../kodoc_tests',
+    rpath=search_path,
     use=['kodoc', 'gtest'])
