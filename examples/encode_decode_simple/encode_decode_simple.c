@@ -8,7 +8,7 @@
 #include <string.h>
 #include <time.h>
 
-#include <ckodo/ckodo.h>
+#include <kodoc/kodoc.h>
 
 /// @example encode_decode_simple.c
 ///

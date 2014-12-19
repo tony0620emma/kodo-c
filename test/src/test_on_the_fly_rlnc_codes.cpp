@@ -7,7 +7,7 @@
 
 #include <gtest/gtest.h>
 
-#include <ckodo/ckodo.h>
+#include <kodoc/kodoc.h>
 
 void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
                      int32_t algorithm, int32_t finite_field)

@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <ckodo/ckodo.h>
+#include <kodoc/kodoc.h>
 
 /// @example sliding_window.c
 ///

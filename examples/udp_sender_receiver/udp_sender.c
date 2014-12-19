@@ -4,7 +4,7 @@
 // http://www.steinwurf.com/licensing
 
 #include <stdint.h>
-#include <ckodo/ckodo.h>
+#include <kodoc/kodoc.h>
 
 #ifdef _WIN32
     #include <winsock2.h>

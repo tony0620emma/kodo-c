@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-APPNAME = 'ckodo'
+APPNAME = 'kodoc'
 VERSION = '1.7.0'
 
 
@@ -72,10 +72,10 @@ def options(opt):
 def configure(conf):
 
     # Only build the shared library with the compatibility toolchains
-    if conf.has_tool_option('cxx_mkspec'):
-        mkspec = conf.get_tool_option('cxx_mkspec')
-        if mkspec in ['cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64']:
-            conf.env.BUILD_CKODO_SHARED_LIBRARY = True
+#    if conf.has_tool_option('cxx_mkspec'):
+#        mkspec = conf.get_tool_option('cxx_mkspec')
+#        if mkspec in ['cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64']:
+#            conf.env.BUILD_CKODO_SHARED_LIBRARY = True
 
     if conf.is_toplevel():
 
@@ -120,25 +120,25 @@ def build(bld):
         if 'CL.exe' in CXX or 'cl.exe' in CXX:
             extra_cxxflags = ['/bigobj']
 
-        bld.stlib(
-            source='src/ckodo/ckodo.cpp',
-            target='ckodo',
-            name='ckodo_static',
+#        bld.stlib(
+#            source='src/kodoc/kodoc.cpp',
+#            target='kodoc',
+#            name='kodoc_static',
+#            cxxflags=extra_cxxflags,
+#            export_includes='src',
+#            use=['kodo_includes', 'boost_includes', 'fifi_includes',
+#                 'recycle_includes', 'sak_includes', 'platform_includes'])
+
+        bld.shlib(
+            source='src/kodoc/kodoc.cpp',
+            target='kodoc',
+            name='kodoc',
             cxxflags=extra_cxxflags,
+            defines=['KODOC_DLL_EXPORTS'],
+            install_path=None,
             export_includes='src',
             use=['kodo_includes', 'boost_includes', 'fifi_includes',
                  'recycle_includes', 'sak_includes', 'platform_includes'])
-
-        if 'BUILD_CKODO_SHARED_LIBRARY' in bld.env:
-
-            bld.shlib(
-                source='src/ckodo/ckodo.cpp',
-                target='ckodo',
-                name='ckodo_shared',
-                install_path=None,
-                export_includes='src',
-                use=['kodo_includes', 'boost_includes', 'fifi_includes',
-                     'recycle_includes', 'sak_includes', 'platform_includes'])
 
         bld.recurse('test')
         bld.recurse('examples/encode_decode_on_the_fly')
