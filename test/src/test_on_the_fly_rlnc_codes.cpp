@@ -22,8 +22,8 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
                                  max_symbols, max_symbol_size,
                                  kodo_trace_disabled);
 
-    kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
-    kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
+    kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
+    kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
 
     uint32_t symbol_size = kodo_symbol_size(encoder);
     uint32_t payload_size = kodo_payload_size(encoder);

@@ -7,14 +7,14 @@
 
 #include "coder.hpp"
 
-namespace kodo
+extern "C"
 {
     /// Base class for an encoder implementation
-    class encoder : public coder
+    struct kodo_encoder : public kodo_coder
     {
     public:
 
-        virtual ~encoder() {}
+        virtual ~kodo_encoder() {}
 
         virtual uint32_t encode(uint8_t* data) = 0;
 

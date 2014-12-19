@@ -44,8 +44,8 @@ int main()
                                  max_symbols, max_symbol_size,
                                  kodo_trace_enabled);
 
-    kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
-    kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
+    kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
+    kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
 
     uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t* payload = (uint8_t*)malloc(payload_size);

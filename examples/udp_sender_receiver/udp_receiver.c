@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
     int32_t finite_field = kodo_binary8;
 
     kodo_factory_t decoder_factory = 0;
-    kodo_coder_t* decoder = 0;
+    kodo_coder_t decoder = 0;
 
     // The buffer used to receive incoming packets
     uint32_t payload_size = 0;

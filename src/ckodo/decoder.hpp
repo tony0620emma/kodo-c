@@ -7,14 +7,14 @@
 
 #include "coder.hpp"
 
-namespace kodo
+extern "C"
 {
     /// Base class for decoder implementation
-    class decoder : public coder
+    class kodo_decoder : public kodo_coder
     {
     public:
 
-        virtual ~decoder() {}
+        virtual ~kodo_decoder() {}
 
         virtual uint32_t recode(uint8_t* data) = 0;
         virtual void decode(uint8_t* data) = 0;

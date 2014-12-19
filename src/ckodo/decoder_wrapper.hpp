@@ -25,11 +25,11 @@
 namespace kodo
 {
     template<class KodoStack>
-    class decoder_wrapper : public coder_wrapper<KodoStack, decoder>
+    class decoder_wrapper : public coder_wrapper<KodoStack, kodo_decoder>
     {
     public:
 
-        using Super = coder_wrapper<KodoStack, decoder>;
+        using Super = coder_wrapper<KodoStack, kodo_decoder>;
 
         using coder_type = typename Super::coder_type;
 

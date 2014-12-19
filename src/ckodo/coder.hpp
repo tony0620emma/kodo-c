@@ -7,14 +7,12 @@
 
 #include "ckodo.h"
 
-namespace kodo
+extern "C"
 {
     /// Base class for both encoder and decoder implementations.
-    class coder
+    struct kodo_coder
     {
-    public:
-
-        virtual ~coder() {}
+        virtual ~kodo_coder() {}
 
         virtual uint32_t block_size() const = 0;
         virtual uint32_t payload_size() const = 0;
