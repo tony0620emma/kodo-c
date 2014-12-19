@@ -71,12 +71,6 @@ def options(opt):
 
 def configure(conf):
 
-    # Only build the shared library with the compatibility toolchains
-#    if conf.has_tool_option('cxx_mkspec'):
-#        mkspec = conf.get_tool_option('cxx_mkspec')
-#        if mkspec in ['cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64']:
-#            conf.env.BUILD_CKODO_SHARED_LIBRARY = True
-
     if conf.is_toplevel():
 
         conf.load('wurf_dependency_bundle')
@@ -101,6 +95,13 @@ def configure(conf):
 
 def build(bld):
 
+    # The -fPIC is required for all underlying static libraries that will be
+    # included in the shared library
+    CXX = bld.env.get_flat("CXX")
+    # Matches both g++ and clang++
+    if 'g++' in CXX or 'clang' in CXX:
+        bld.env.append_value('CXXFLAGS', '-fPIC')
+
     if bld.is_toplevel():
 
         bld.load('wurf_dependency_bundle')
@@ -115,14 +116,14 @@ def build(bld):
         recurse_helper(bld, 'cpuid')
 
         extra_cxxflags = []
-        CXX = bld.env.get_flat("CXX")
+
         # Matches MSVC
         if 'CL.exe' in CXX or 'cl.exe' in CXX:
             extra_cxxflags = ['/bigobj']
 
 #        bld.stlib(
 #            source='src/kodoc/kodoc.cpp',
-#            target='kodoc',
+#            target='kodoc_static',
 #            name='kodoc_static',
 #            cxxflags=extra_cxxflags,
 #            export_includes='src',
