@@ -95,12 +95,15 @@ def configure(conf):
 
 def build(bld):
 
-    # The -fPIC is required for all underlying static libraries that will be
-    # included in the shared library
     CXX = bld.env.get_flat("CXX")
     # Matches both g++ and clang++
     if 'g++' in CXX or 'clang' in CXX:
+        # The -fPIC is required for all underlying static libraries that
+        # will be included in the shared library
         bld.env.append_value('CXXFLAGS', '-fPIC')
+        # Hide most of the ELF symbols in the shared library to decrease
+        # its size and improve its load time
+        bld.env.append_value('CXXFLAGS', '-fvisibility=hidden')
 
     #Load the dependencies first
     if bld.is_toplevel():
@@ -121,10 +124,6 @@ def build(bld):
     # Matches MSVC
     if 'CL.exe' in CXX or 'cl.exe' in CXX:
         extra_cxxflags = ['/bigobj']
-    # Hide most of the ELF symbols in the shared library to decrease its size
-    # and improve its load time
-    if 'g++' in CXX or 'clang' in CXX:
-        extra_cxxflags = ['-fvisibility=hidden']
 
 #        bld.stlib(
 #            source='src/kodoc/kodoc.cpp',
