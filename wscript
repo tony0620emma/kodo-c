@@ -102,6 +102,7 @@ def build(bld):
     if 'g++' in CXX or 'clang' in CXX:
         bld.env.append_value('CXXFLAGS', '-fPIC')
 
+    #Load the dependencies first
     if bld.is_toplevel():
 
         bld.load('wurf_dependency_bundle')
@@ -115,11 +116,11 @@ def build(bld):
         recurse_helper(bld, 'platform')
         recurse_helper(bld, 'cpuid')
 
-        extra_cxxflags = []
+    extra_cxxflags = []
 
-        # Matches MSVC
-        if 'CL.exe' in CXX or 'cl.exe' in CXX:
-            extra_cxxflags = ['/bigobj']
+    # Matches MSVC
+    if 'CL.exe' in CXX or 'cl.exe' in CXX:
+        extra_cxxflags = ['/bigobj']
 
 #        bld.stlib(
 #            source='src/kodoc/kodoc.cpp',
@@ -130,16 +131,23 @@ def build(bld):
 #            use=['kodo_includes', 'boost_includes', 'fifi_includes',
 #                 'recycle_includes', 'sak_includes', 'platform_includes'])
 
-        bld.shlib(
-            source='src/kodoc/kodoc.cpp',
-            target='kodoc',
-            name='kodoc',
-            cxxflags=extra_cxxflags,
-            defines=['KODOC_DLL_EXPORTS'],
-            install_path=None,
-            export_includes='src',
-            use=['kodo_includes', 'boost_includes', 'fifi_includes',
-                 'recycle_includes', 'sak_includes', 'platform_includes'])
+    # Define the task generator that will build the kodoc shared library
+    gen = bld.shlib(
+        source='src/kodoc/kodoc.cpp',
+        target='kodoc',
+        name='kodoc',
+        cxxflags=extra_cxxflags,
+        defines=['KODOC_DLL_EXPORTS'],
+        install_path=None,
+        export_includes='src',
+        use=['kodo_includes', 'boost_includes', 'fifi_includes',
+             'recycle_includes', 'sak_includes', 'platform_includes'])
+
+    # Make sure that the task generator is activated
+    gen.post()
+
+    # Define the applications after the 'kodoc' task generator is posted
+    if bld.is_toplevel():
 
         bld.recurse('test')
         bld.recurse('examples/encode_decode_on_the_fly')
