@@ -121,6 +121,10 @@ def build(bld):
     # Matches MSVC
     if 'CL.exe' in CXX or 'cl.exe' in CXX:
         extra_cxxflags = ['/bigobj']
+    # Hide most of the ELF symbols in the shared library to decrease its size
+    # and improve its load time
+    if 'g++' in CXX or 'clang' in CXX:
+        extra_cxxflags = ['-fvisibility=hidden']
 
 #        bld.stlib(
 #            source='src/kodoc/kodoc.cpp',
