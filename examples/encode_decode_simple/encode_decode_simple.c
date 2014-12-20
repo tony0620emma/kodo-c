@@ -34,20 +34,20 @@ int main()
     uint32_t max_symbols = 42;
     uint32_t max_symbol_size = 160;
 
-    // Here we select the coding algorithm we wish to use
-    int32_t algorithm = kodo_full_rlnc;
+    // Here we select the coding code_type we wish to use
+    int32_t code_type = kodo_full_rlnc;
 
     // Here we select the finite field to use common choices are
     // kodo_binary, kodo_binary8, kodo_binary16
     int32_t finite_field = kodo_binary;
 
     kodo_factory_t encoder_factory =
-        kodo_new_encoder_factory(algorithm, finite_field,
+        kodo_new_encoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size,
                                  kodo_trace_enabled);
 
     kodo_factory_t decoder_factory =
-        kodo_new_decoder_factory(algorithm, finite_field,
+        kodo_new_decoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size,
                                  kodo_trace_enabled);
 

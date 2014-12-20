@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
     uint32_t symbols = 0;
     uint32_t packets = 0;
 
-    int32_t algorithm = kodo_on_the_fly;
+    int32_t code_type = kodo_on_the_fly;
     int32_t finite_field = kodo_binary8;
 
     kodo_factory_t encoder_factory = 0;
@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
     }
 
     // Create the encoder factory
-    encoder_factory = kodo_new_encoder_factory(algorithm, finite_field,
+    encoder_factory = kodo_new_encoder_factory(code_type, finite_field,
                                                max_symbols, max_symbol_size,
                                                kodo_trace_enabled);
 
