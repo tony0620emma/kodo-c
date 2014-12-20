@@ -101,9 +101,11 @@ def build(bld):
         # The -fPIC is required for all underlying static libraries that
         # will be included in the shared library
         bld.env.append_value('CXXFLAGS', '-fPIC')
-        # Hide most of the ELF symbols in the shared library to decrease
+        # Hide most of the private symbols in the shared library to decrease
         # its size and improve its load time
         bld.env.append_value('CXXFLAGS', '-fvisibility=hidden')
+        bld.env.append_value('CXXFLAGS', '-fvisibility-inlines-hidden')
+        bld.env.append_value('LINKFLAGS', '-fvisibility=hidden')
 
     #Load the dependencies first
     if bld.is_toplevel():
