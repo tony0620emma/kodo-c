@@ -90,8 +90,6 @@ def configure(conf):
         recurse_helper(conf, 'platform')
         recurse_helper(conf, 'cpuid')
 
-        conf.recurse('examples/sample_makefile')
-
 
 def build(bld):
 
@@ -157,7 +155,6 @@ def build(bld):
         bld.recurse('test')
         bld.recurse('examples/encode_decode_on_the_fly')
         bld.recurse('examples/encode_decode_simple')
-        #bld.recurse('examples/sample_makefile')
         bld.recurse('examples/sliding_window')
         bld.recurse('examples/switch_systematic_on_off')
         bld.recurse('examples/udp_sender_receiver')

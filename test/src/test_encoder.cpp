@@ -33,17 +33,22 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
     if (code_type == kodo_full_rlnc ||
         code_type == kodo_on_the_fly)
     {
-        //EXPECT_TRUE(kodo_has_feedback_size(encoder) == 0);
+        EXPECT_TRUE(kodo_has_feedback_size(encoder) == 0);
     }
     else if (code_type == kodo_sliding_window)
     {
-        //EXPECT_TRUE(kodo_has_feedback_size(encoder) != 0);
-
+        EXPECT_TRUE(kodo_has_feedback_size(encoder) != 0);
         EXPECT_GT(kodo_feedback_size(encoder), 0U);
     }
 
-    EXPECT_EQ(trace_enabled, kodo_has_trace(encoder));
-
+    if (trace_enabled == kodo_trace_disabled)
+    {
+        EXPECT_TRUE(kodo_has_trace(encoder) == 0);
+    }
+    else if (trace_enabled == kodo_trace_enabled)
+    {
+        EXPECT_TRUE(kodo_has_trace(encoder) != 0);
+    }
 
     // Enoder methods
 
