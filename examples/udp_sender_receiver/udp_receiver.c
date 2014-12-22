@@ -4,6 +4,7 @@
 // http://www.steinwurf.com/licensing
 
 #include <stdint.h>
+#include <stdlib.h>
 #include <kodoc/kodoc.h>
 
 #ifdef _WIN32
@@ -19,7 +20,7 @@
 
 #include <sys/types.h>
 #include <stdio.h>
-#include <string.h> /* memset() */
+#include <string.h>
 #include <signal.h>
 #include <assert.h>
 

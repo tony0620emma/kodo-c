@@ -4,6 +4,7 @@
 // http://www.steinwurf.com/licensing
 
 #include <cstdint>
+#include <cstdlib>
 #include <ctime>
 
 #include <gtest/gtest.h>
