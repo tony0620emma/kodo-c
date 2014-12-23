@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-APPNAME = 'ckodo'
+APPNAME = 'kodoc'
 VERSION = '1.7.0'
 
 
@@ -20,33 +20,28 @@ def options(opt):
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='boost',
-        git_repository='github.com/steinwurf/external-boost-light.git',
+        git_repository='github.com/steinwurf/boost.git',
         major_version=1))
+
+    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+        name='cpuid',
+        git_repository='github.com/steinwurf/cpuid.git',
+        major_version=3))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='fifi',
         git_repository='github.com/steinwurf/fifi.git',
-        major_version=11))
+        major_version=15))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='gtest',
-        git_repository='github.com/steinwurf/external-gtest.git',
+        git_repository='github.com/steinwurf/gtest.git',
         major_version=2))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='kodo',
         git_repository='github.com/steinwurf/kodo.git',
-        major_version=17))
-
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
-        name='sak',
-        git_repository='github.com/steinwurf/sak.git',
-        major_version=10))
-
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
-        name='waf-tools',
-        git_repository='github.com/steinwurf/external-waf-tools.git',
-        major_version=2))
+        major_version=21))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='platform',
@@ -54,9 +49,19 @@ def options(opt):
         major_version=1))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
-        name='cpuid',
-        git_repository='github.com/steinwurf/cpuid.git',
-        major_version=3))
+        name='recycle',
+        git_repository='github.com/steinwurf/recycle.git',
+        major_version=1))
+
+    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+        name='sak',
+        git_repository='github.com/steinwurf/sak.git',
+        major_version=13))
+
+    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+        name='waf-tools',
+        git_repository='github.com/steinwurf/waf-tools.git',
+        major_version=2))
 
     opt.load('wurf_configure_output')
     opt.load('wurf_dependency_bundle')
@@ -65,12 +70,6 @@ def options(opt):
 
 
 def configure(conf):
-
-    # Only build the shared library with the compatibility toolchains
-    if conf.has_tool_option('cxx_mkspec'):
-        mkspec = conf.get_tool_option('cxx_mkspec')
-        if mkspec in ['cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64']:
-            conf.env.BUILD_CKODO_SHARED_LIBRARY = True
 
     if conf.is_toplevel():
 
@@ -87,14 +86,26 @@ def configure(conf):
         recurse_helper(conf, 'gtest')
         recurse_helper(conf, 'kodo')
         recurse_helper(conf, 'sak')
+        recurse_helper(conf, 'recycle')
         recurse_helper(conf, 'platform')
         recurse_helper(conf, 'cpuid')
-
-        conf.recurse('examples/sample_makefile')
 
 
 def build(bld):
 
+    CXX = bld.env.get_flat("CXX")
+    # Matches both g++ and clang++
+    if 'g++' in CXX or 'clang' in CXX:
+        # The -fPIC is required for all underlying static libraries that
+        # will be included in the shared library
+        bld.env.append_value('CXXFLAGS', '-fPIC')
+        # Hide most of the private symbols in the shared library to decrease
+        # its size and improve its load time
+        bld.env.append_value('CXXFLAGS', '-fvisibility=hidden')
+        bld.env.append_value('CXXFLAGS', '-fvisibility-inlines-hidden')
+        bld.env.append_value('LINKFLAGS', '-fvisibility=hidden')
+
+    #Load the dependencies first
     if bld.is_toplevel():
 
         bld.load('wurf_dependency_bundle')
@@ -104,32 +115,46 @@ def build(bld):
         recurse_helper(bld, 'gtest')
         recurse_helper(bld, 'kodo')
         recurse_helper(bld, 'sak')
+        recurse_helper(bld, 'recycle')
         recurse_helper(bld, 'platform')
         recurse_helper(bld, 'cpuid')
 
-        bld.stlib(
-            source='src/ckodo/ckodo.cpp',
-            target='ckodo',
-            name='ckodo_static',
-            export_includes='src',
-            use=['kodo_includes', 'boost_includes', 'fifi_includes',
-                 'sak_includes', 'platform_includes'])
+    extra_cxxflags = []
 
-        if 'BUILD_CKODO_SHARED_LIBRARY' in bld.env:
+    # Matches MSVC
+    if 'CL.exe' in CXX or 'cl.exe' in CXX:
+        extra_cxxflags = ['/bigobj']
 
-            bld.shlib(
-                source='src/ckodo/ckodo.cpp',
-                target='ckodo',
-                name='ckodo_shared',
-                install_path=None,
-                export_includes='src',
-                use=['kodo_includes', 'boost_includes', 'fifi_includes',
-                     'sak_includes', 'platform_includes'])
+#        bld.stlib(
+#            source='src/kodoc/kodoc.cpp',
+#            target='kodoc_static',
+#            name='kodoc_static',
+#            cxxflags=extra_cxxflags,
+#            export_includes='src',
+#            use=['kodo_includes', 'boost_includes', 'fifi_includes',
+#                 'recycle_includes', 'sak_includes', 'platform_includes'])
+
+    # Define the task generator that will build the kodoc shared library
+    gen = bld.shlib(
+        source='src/kodoc/kodoc.cpp',
+        target='kodoc',
+        name='kodoc',
+        cxxflags=extra_cxxflags,
+        defines=['KODOC_DLL_EXPORTS'],
+        install_path=None,
+        export_includes='src',
+        use=['kodo_includes', 'boost_includes', 'fifi_includes',
+             'recycle_includes', 'sak_includes', 'platform_includes'])
+
+    # Make sure that the task generator is activated
+    gen.post()
+
+    # Define the applications after the 'kodoc' task generator is posted
+    if bld.is_toplevel():
 
         bld.recurse('test')
         bld.recurse('examples/encode_decode_on_the_fly')
         bld.recurse('examples/encode_decode_simple')
-        bld.recurse('examples/sample_makefile')
         bld.recurse('examples/sliding_window')
         bld.recurse('examples/switch_systematic_on_off')
         bld.recurse('examples/udp_sender_receiver')

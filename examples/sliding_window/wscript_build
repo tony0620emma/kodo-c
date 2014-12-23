@@ -1,14 +1,13 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-static_libs = []
+search_path = []
 
-# The C++ standard library must be added on Linux and Android
-if bld.get_mkspec_platform() in ['linux', 'android']:
-    static_libs = ['stdc++']
+if not bld.is_mkspec_platform('windows'):
+    search_path = ['.']
 
 bld.program(features='c',
             source='sliding_window.c',
-            target='sliding_window',
-            lib=static_libs,
-            use=['ckodo_static'])
+            target='../../sliding_window',
+            rpath=search_path,
+            use=['kodoc'])

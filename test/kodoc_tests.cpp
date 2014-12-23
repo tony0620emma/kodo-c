@@ -1,9 +1,10 @@
-// Copyright Steinwurf ApS 2011-2012.
+// Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
 #include <cstdint>
+#include <cstdlib>
 #include <ctime>
 
 #include <gtest/gtest.h>

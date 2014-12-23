@@ -1,4 +1,4 @@
-// Copyright Steinwurf ApS 2011-2012.
+// Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
@@ -9,26 +9,21 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <ckodo/ckodo.h>
+#include <kodoc/kodoc.h>
 
 /// @example use_trace_layers.c
 ///
 /// Simple example showing how to use some of the trace layers defined
 /// in Kodo.
 
-uint8_t filter_function(const char* zone)
+void trace_callback(const char* zone, const char* data)
 {
-    const char* zones[] = {"decoder_state", "input_symbol_coefficients", NULL};
-    const char** cmp = zones;
-
-    while (*cmp)
+    if (strcmp(zone, "decoder_state") == 0 ||
+        strcmp(zone, "input_symbol_coefficients") == 0)
     {
-        if (!strcmp(zone, *cmp))
-            return 1;
-        cmp++;
+        printf("%s:\n", zone);
+        printf("%s\n", data);
     }
-
-    return 0;
 }
 
 int main()
@@ -41,18 +36,18 @@ int main()
     uint32_t max_symbols = 8;
     uint32_t max_symbol_size = 33;
 
-    size_t algorithm = kodo_full_rlnc;
-    size_t finite_field = kodo_binary8;
+    int32_t code_type = kodo_full_rlnc;
+    int32_t finite_field = kodo_binary8;
 
     // In the following we will make an encoder/decoder factory.
     // The factories are used to build actual encoders/decoder
-    kodo_factory_t* encoder_factory =
-        kodo_new_encoder_factory(algorithm, finite_field,
+    kodo_factory_t encoder_factory =
+        kodo_new_encoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size,
                                  kodo_trace_disabled);
 
-    kodo_factory_t* decoder_factory =
-        kodo_new_decoder_factory(algorithm, finite_field,
+    kodo_factory_t decoder_factory =
+        kodo_new_decoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size,
                                  kodo_trace_enabled);
 
@@ -63,8 +58,8 @@ int main()
     //      kodo_factory_set_symbol_size(...)
     // We cannot exceed the maximum values which was used when building
     // the factory.
-    kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
-    kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
+    kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
+    kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
 
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network
@@ -106,7 +101,7 @@ int main()
         if (kodo_has_trace(decoder))
         {
             printf("Trace decoder:\n");
-            kodo_trace_filter(decoder, &filter_function);
+            kodo_trace_callback(decoder, trace_callback);
         }
     }
 

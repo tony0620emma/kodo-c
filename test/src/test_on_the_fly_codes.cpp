@@ -1,31 +1,31 @@
-// Copyright Steinwurf ApS 2011-2013.
+// Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-/// @file test_bindings.cpp Unit tests for the Kodo C bindings
+#include <kodoc/kodoc.h>
+
+#include <cstdlib>
 
 #include <gtest/gtest.h>
 
-#include <ckodo/ckodo.h>
+#include "test_helper.hpp"
 
 void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
-                     size_t algorithm, size_t finite_field)
+                     int32_t code_type, int32_t finite_field)
 {
-    uint32_t trace_enabled = 0;
-
-    kodo_factory_t* encoder_factory =
-        kodo_new_encoder_factory(algorithm, finite_field,
+    kodo_factory_t encoder_factory =
+        kodo_new_encoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size,
-                                 trace_enabled);
+                                 kodo_trace_disabled);
 
-    kodo_factory_t* decoder_factory =
-        kodo_new_decoder_factory(algorithm, finite_field,
+    kodo_factory_t decoder_factory =
+        kodo_new_decoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size,
-                                 trace_enabled);
+                                 kodo_trace_disabled);
 
-    kodo_coder_t* encoder = kodo_factory_new_encoder(encoder_factory);
-    kodo_coder_t* decoder = kodo_factory_new_decoder(decoder_factory);
+    kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
+    kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
 
     uint32_t symbol_size = kodo_symbol_size(encoder);
     uint32_t payload_size = kodo_payload_size(encoder);
@@ -104,19 +104,17 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-
-TEST(TestOnTheFlyRlncCodes, invoke_api_32)
+TEST(TestOnTheFlyCodes, invoke_api)
 {
-    uint32_t symbols = 32;
-    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary);
-    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary8);
-    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary16);
-}
+    uint32_t max_symbols = rand_symbols();
+    uint32_t max_symbol_size = rand_symbol_size();
 
-TEST(TestOnTheFlyRlncCodes, invoke_api_128)
-{
-    uint32_t symbols = 128;
-    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary);
-    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary8);
-    test_on_the_fly(symbols, 160, kodo_on_the_fly, kodo_binary16);
+    test_on_the_fly(max_symbols, max_symbol_size,
+                    kodo_on_the_fly, kodo_binary);
+
+    test_on_the_fly(max_symbols, max_symbol_size,
+                    kodo_on_the_fly, kodo_binary8);
+
+    test_on_the_fly(max_symbols, max_symbol_size,
+                    kodo_on_the_fly, kodo_binary16);
 }

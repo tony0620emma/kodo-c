@@ -1,4 +1,4 @@
-// Copyright Steinwurf ApS 2011-2013.
+// Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
@@ -7,14 +7,14 @@
 
 #include "coder.hpp"
 
-namespace kodo
+extern "C"
 {
     /// Base class for an encoder implementation
-    class encoder : public coder
+    struct kodo_encoder : public kodo_coder
     {
     public:
 
-        virtual ~encoder() {}
+        virtual ~kodo_encoder() {}
 
         virtual uint32_t encode(uint8_t* data) = 0;
 

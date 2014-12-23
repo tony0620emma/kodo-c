@@ -1,4 +1,4 @@
-// Copyright Steinwurf ApS 2011-2013.
+// Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
@@ -7,14 +7,14 @@
 
 #include "coder.hpp"
 
-namespace kodo
+extern "C"
 {
     /// Base class for decoder implementation
-    class decoder : public coder
+    class kodo_decoder : public kodo_coder
     {
     public:
 
-        virtual ~decoder() {}
+        virtual ~kodo_decoder() {}
 
         virtual uint32_t recode(uint8_t* data) = 0;
         virtual void decode(uint8_t* data) = 0;

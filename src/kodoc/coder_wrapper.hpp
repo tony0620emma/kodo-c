@@ -1,4 +1,4 @@
-// Copyright Steinwurf ApS 2011-2013.
+// Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
@@ -22,7 +22,11 @@ namespace kodo
     {
     public:
 
-        coder_wrapper(const typename KodoStack::pointer& coder) :
+        using coder_type = typename KodoStack::factory::pointer;
+
+    public:
+
+        coder_wrapper(const coder_type& coder) :
             m_coder(coder)
         {
             assert(m_coder);
@@ -63,19 +67,24 @@ namespace kodo
             return kodo::has_trace<KodoStack>::value;
         }
 
-        virtual void trace(kodo_filter_function_t filter_function)
+        virtual void trace(kodo_trace_callback_t trace_callback)
         {
-            if (filter_function)
+            if (!kodo::has_trace<KodoStack>::value)
+                return;
+
+            if (trace_callback)
             {
-                auto filter = [&filter_function](const std::string& zone)
+                auto callback = [trace_callback](const std::string& zone,
+                                                 const std::string& data)
                 {
-                    return (filter_function(zone.c_str()) != 0);
+                    trace_callback(zone.c_str(), data.c_str());
                 };
-                kodo::trace<KodoStack>(m_coder, std::cout, filter);
+
+                kodo::trace<KodoStack>(*m_coder, callback);
             }
             else
             {
-                kodo::trace<KodoStack>(m_coder, std::cout);
+                kodo::trace<KodoStack>(*m_coder);
             }
         }
 
@@ -89,7 +98,8 @@ namespace kodo
             return kodo::feedback_size(m_coder);
         }
 
-    private:
-        typename KodoStack::pointer m_coder;
+    protected:
+
+        coder_type m_coder;
     };
 }

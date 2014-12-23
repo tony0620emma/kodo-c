@@ -1,17 +1,25 @@
-News for Kodo C Bindings
-========================
+News for kodo-c
+===============
 
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
 Latest
 ------
+* Major: Restructured the API according to the Hourglass pattern that was
+  presented at CppCon 2014: https://www.youtube.com/watch?v=PVYdHDm0q6Y
+  This pattern encapsulates the complexity of the underlying C++ libraries
+  by hiding all implementation details behind a simple C89 API. It makes
+  providing bindings from other languages easier, facilitates integration with
+  other C++ projects and build systems, and insulates from ABI issues.
 * Minor: Update to waf 1.8.0-pre1
 * Minor: Made python files comply with pep8
-* Major: Upgrade to Kodo 17
-* Major: Upgrade to Fifi 11
-* Bug: When calling the kodo_is_symbol_decoded(kodo_coder_t*,uint32_t) function
-  the call was forwarded to the wrong C++ Kodo function.
+* Major: Upgrade to kodo 21
+* Major: Upgrade to fifi 15
+* Major: Upgrade to sak 13
+* Major: Added recycle dependency
+* Patch: The kodo_is_symbol_decoded() function call was forwarded to the
+  wrong kodo function.
 * Major: Removed debug functions (Replaced by trace layers)
 * Minor: Add trace layer functions
 * Minor: Added the sliding window algorithm
@@ -50,12 +58,12 @@ Latest
 
 1.2.1
 -----
-* Bugfix: Allow compilation without using a makespec
+* Patch: Allow compilation without using a makespec
 
 1.2.0
 -----
 * Minor: Added support for on-the-fly encoding and a corresponding example.
-* Bugfix: Setting c++11 compiler flag to -std=c++0x in the makefile/Makefile
+* Patch: Setting c++11 compiler flag to -std=c++0x in the makefile/Makefile
 
 1.1.0
 -----

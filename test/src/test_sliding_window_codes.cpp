@@ -11,8 +11,8 @@
 
 #include "test_helper.hpp"
 
-void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
-                    int32_t code_type, int32_t finite_field)
+void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
+                         int32_t code_type, int32_t finite_field)
 {
     kodo_factory_t encoder_factory =
         kodo_new_encoder_factory(code_type, finite_field,
@@ -49,35 +49,61 @@ void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
     EXPECT_EQ(kodo_factory_max_payload_size(encoder_factory),
               kodo_factory_max_payload_size(decoder_factory));
 
+    uint32_t feedback_size = 0;
+
+    EXPECT_EQ(kodo_feedback_size(encoder),
+              kodo_feedback_size(decoder));
+
+    feedback_size = kodo_feedback_size(encoder);
+    EXPECT_TRUE(feedback_size > 0);
+
+    // Allocate some storage for a "payload" the payload is what we would
+    // eventually send over a network
     uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
+    uint8_t* feedback = (uint8_t*) malloc(feedback_size);
 
+    // Allocate some data to encode. In this case we make a buffer
+    // with the same size as the encoder's block size (the max.
+    // amount a single encoder can encode)
     uint32_t block_size = kodo_block_size(encoder);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
     uint8_t* data_out = (uint8_t*) malloc(block_size);
 
+    // Just for fun - fill the data with random data
     for(uint32_t i = 0; i < block_size; ++i)
         data_in[i] = rand() % 256;
 
+    // Assign the data buffer to the encoder so that we may start
+    // to produce encoded symbols from it
     kodo_set_symbols(encoder, data_in, block_size);
 
     ASSERT_TRUE(kodo_is_complete(decoder) == 0);
 
     while (!kodo_is_complete(decoder))
     {
-        kodo_encode(encoder, payload);
-        kodo_decode(decoder, payload);
-    }
+        // Encode the packet into the payload buffer
+        uint32_t payload_used = kodo_encode(encoder, payload);
+        EXPECT_TRUE(payload_used <= kodo_payload_size(encoder));
 
+        // Pass that packet to the decoder
+        kodo_decode(decoder, payload);
+        EXPECT_TRUE(kodo_is_partial_complete(decoder) != 0);
+
+        kodo_write_feedback(decoder, feedback);
+        kodo_read_feedback(encoder, feedback);
+    }
     EXPECT_TRUE(kodo_is_complete(decoder) != 0);
 
+    // The decoder is complete, now copy the symbols from the decoder
     kodo_copy_symbols(decoder, data_out, block_size);
-
+    // Check if we properly decoded the data
     EXPECT_EQ(memcmp(data_in, data_out, block_size), 0);
 
     free(data_in);
     free(data_out);
     free(payload);
+    free(feedback);
 
     kodo_delete_encoder(encoder);
     kodo_delete_decoder(decoder);
@@ -86,17 +112,17 @@ void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-TEST(TestFullRlncCodes, invoke_api)
+TEST(TestSlidingWindowCodes, invoke_api)
 {
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(max_symbols, max_symbol_size,
-                   kodo_full_rlnc, kodo_binary);
+    test_sliding_window(max_symbols, max_symbol_size,
+                        kodo_sliding_window, kodo_binary);
 
-    test_basic_api(max_symbols, max_symbol_size,
-                   kodo_full_rlnc, kodo_binary8);
+    test_sliding_window(max_symbols, max_symbol_size,
+                        kodo_sliding_window, kodo_binary8);
 
-    test_basic_api(max_symbols, max_symbol_size,
-                   kodo_full_rlnc, kodo_binary16);
+    test_sliding_window(max_symbols, max_symbol_size,
+                        kodo_sliding_window, kodo_binary16);
 }

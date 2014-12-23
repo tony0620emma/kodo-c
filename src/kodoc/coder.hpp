@@ -1,20 +1,18 @@
-// Copyright Steinwurf ApS 2011-2013.
+// Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
 #pragma once
 
-#include "ckodo.h"
+#include "kodoc.h"
 
-namespace kodo
+extern "C"
 {
     /// Base class for both encoder and decoder implementations.
-    class coder
+    struct kodo_coder
     {
-    public:
-
-        virtual ~coder() {}
+        virtual ~kodo_coder() {}
 
         virtual uint32_t block_size() const = 0;
         virtual uint32_t payload_size() const = 0;
@@ -24,7 +22,7 @@ namespace kodo
         virtual bool symbol_pivot(uint32_t) const = 0;
 
         virtual bool has_trace() const = 0;
-        virtual void trace(kodo_filter_function_t) = 0;
+        virtual void trace(kodo_trace_callback_t) = 0;
 
         virtual bool has_feedback_size() const = 0;
         virtual uint32_t feedback_size() const = 0;
