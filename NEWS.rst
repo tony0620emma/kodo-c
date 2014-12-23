@@ -6,6 +6,10 @@ of every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+2.0.0
+-----
 * Major: Restructured the API according to the Hourglass pattern that was
   presented at CppCon 2014: https://www.youtube.com/watch?v=PVYdHDm0q6Y
   This pattern encapsulates the complexity of the underlying C++ libraries
