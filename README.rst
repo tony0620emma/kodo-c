@@ -24,5 +24,5 @@ sample applications that demonstrate the usage of the C API.
 Building and Using the C bindings
 =================================
 You may find the instructions for how to build and use the Kodo C bindings
-in the Kodo manual https://kodo.readthedocs.org/en/latest/ under the section
+in the Kodo manual http://kodo-docs.steinwurf.com under the section
 "Kodo C bindings".
