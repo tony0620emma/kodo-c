@@ -3,7 +3,13 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#include <kodoc/kodoc.h>
 
 // Starts a simple encoding/decoding test and returns the result.
 uint8_t start();

@@ -3,10 +3,6 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include <stdlib.h>
-
-#include <kodoc/kodoc.h>
-
 #include "dummy.h"
 
 uint8_t start()
