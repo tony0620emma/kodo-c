@@ -125,14 +125,14 @@ def build(bld):
     if 'CL.exe' in CXX or 'cl.exe' in CXX:
         extra_cxxflags = ['/bigobj']
 
-#        bld.stlib(
-#            source='src/kodoc/kodoc.cpp',
-#            target='kodoc_static',
-#            name='kodoc_static',
-#            cxxflags=extra_cxxflags,
-#            export_includes='src',
-#            use=['kodo_includes', 'boost_includes', 'fifi_includes',
-#                 'recycle_includes', 'sak_includes', 'platform_includes'])
+    bld.stlib(
+        source='src/kodoc/kodoc.cpp',
+        target='kodoc_static',
+        name='kodoc_static',
+        cxxflags=extra_cxxflags,
+        export_includes='src',
+        use=['kodo_includes', 'boost_includes', 'fifi_includes',
+             'recycle_includes', 'sak_includes', 'platform_includes'])
 
     # Define the task generator that will build the kodoc shared library
     gen = bld.shlib(
