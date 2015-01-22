@@ -12,4 +12,4 @@
 #include <kodoc/kodoc.h>
 
 // Starts a simple encoding/decoding test and returns the result.
-uint8_t start();
+uint8_t run_kodo();

@@ -8,7 +8,7 @@
 
 int main()
 {
-    if (start() == 1)
+    if (run_kodo() == 1)
     {
         printf("Data decoded correctly\n");
     }

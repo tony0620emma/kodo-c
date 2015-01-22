@@ -5,7 +5,7 @@
 
 #include "dummy.h"
 
-uint8_t start()
+uint8_t run_kodo()
 {
     // Seed random number generator to produce different results every time
     srand(time(NULL));

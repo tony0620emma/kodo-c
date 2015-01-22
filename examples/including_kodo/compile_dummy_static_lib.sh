@@ -1,12 +1,11 @@
 #!/bin/bash
 
 # INCLUDEPATHS
-KODOC=/home/jeppe/git/kodo-c-bindings/src
-DUMMY=/home/jeppe/git/kodo-c-bindings/examples/including_kodo/dummy_project/src
+KODOC=../../src
 
+DUMMY=dummy_project/src
 # STATIC LIB PATH
-INSTALLS=/home/jeppe/git/kodo-c-bindings/installs
-
+INSTALLS=../../installs
 # remove old stuff
 rm -f dummy.o libdummy.a program
 
