@@ -105,7 +105,7 @@ def build(bld):
         bld.env.append_value('CXXFLAGS', '-fvisibility-inlines-hidden')
         bld.env.append_value('LINKFLAGS', '-fvisibility=hidden')
 
-    #Load the dependencies first
+    # Load the dependencies first
     if bld.is_toplevel():
 
         bld.load('wurf_dependency_bundle')
