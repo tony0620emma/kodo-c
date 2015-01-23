@@ -8,6 +8,12 @@ import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 
+    static {
+        System.loadLibrary("android_dummy");
+    }
+
+    public native boolean runKodo();
+
     TextView mResult;
 
     @Override
@@ -20,7 +26,9 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mResult.setText(getString(R.string.resultSuccess));
+                mResult.setText(getString(
+                        runKodo() ? R.string.resultSuccess : R.string.resultFail
+                ));
             }
         });
     }
