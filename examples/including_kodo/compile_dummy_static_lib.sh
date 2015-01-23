@@ -1,21 +1,21 @@
 #!/bin/bash
 
 # INCLUDEPATHS
-KODOC=../../src
+KODOC_INCLUDE=../../src
+DUMMY_INCLUDE=dummy_library/src
 
-DUMMY=dummy_project/src
 # STATIC LIB PATH
-INSTALLS=../../installs
+STATIC_LIBS=../../installs
 # remove old stuff
 rm -f dummy.o libdummy.a program
 
 echo
 echo "######## Compiling dummy object file (dummy.o).."
 
-g++ -x c -c -Wall \
--I$KODOC \
+gcc -x c -c -Wall \
+-I$KODOC_INCLUDE \
 -o dummy.o \
-dummy_project/src/dummy/dummy.c \
+dummy_library/src/dummy/dummy.c \
 
 echo "######## Archiving.."
 
@@ -28,10 +28,9 @@ rm -f dummy.o
 echo "######## Compiling main.c to program.."
 
 g++ -x c -static -Wall \
--I$DUMMY \
--I$KODOC \
+-I$DUMMY_INCLUDE \
 -L. \
--L$INSTALLS \
+-L$STATIC_LIBS \
 -o program \
 desktop/main.c \
 -ldummy \

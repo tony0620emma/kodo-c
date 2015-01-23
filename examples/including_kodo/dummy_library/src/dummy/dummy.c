@@ -5,6 +5,8 @@
 
 #include "dummy.h"
 
+#include <kodoc/kodoc.h>
+
 uint8_t run_kodo()
 {
     // Seed random number generator to produce different results every time

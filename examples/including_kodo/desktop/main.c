@@ -14,7 +14,7 @@ int main()
     }
     else
     {
-        printf("Unexpected failure to decode, please file a bug report :)\n");
+        printf("Data decoding failed\n");
     }
 
     return 0;
