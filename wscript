@@ -130,11 +130,8 @@ def build(bld):
         target='kodoc_static',
         name='kodoc_static',
         cxxflags=extra_cxxflags,
-<<<<<<< HEAD
-=======
         defines=['KODOC_STATIC'],
         export_defines=['KODOC_STATIC'],
->>>>>>> master
         export_includes='src',
         use=['kodo_includes', 'boost_includes', 'fifi_includes',
              'recycle_includes', 'sak_includes', 'platform_includes'])
