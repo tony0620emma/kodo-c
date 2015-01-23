@@ -125,14 +125,16 @@ def build(bld):
     if 'CL.exe' in CXX or 'cl.exe' in CXX:
         extra_cxxflags = ['/bigobj']
 
-#        bld.stlib(
-#            source='src/kodoc/kodoc.cpp',
-#            target='kodoc_static',
-#            name='kodoc_static',
-#            cxxflags=extra_cxxflags,
-#            export_includes='src',
-#            use=['kodo_includes', 'boost_includes', 'fifi_includes',
-#                 'recycle_includes', 'sak_includes', 'platform_includes'])
+    bld.stlib(
+        source='src/kodoc/kodoc.cpp',
+        target='kodoc_static',
+        name='kodoc_static',
+        cxxflags=extra_cxxflags,
+        defines=['KODOC_STATIC'],
+        export_defines=['KODOC_STATIC'],
+        export_includes='src',
+        use=['kodo_includes', 'boost_includes', 'fifi_includes',
+             'recycle_includes', 'sak_includes', 'platform_includes'])
 
     # Define the task generator that will build the kodoc shared library
     gen = bld.shlib(
@@ -146,7 +148,10 @@ def build(bld):
         use=['kodo_includes', 'boost_includes', 'fifi_includes',
              'recycle_includes', 'sak_includes', 'platform_includes'])
 
-    # Make sure that the task generator is activated
+    # Make sure that the task generator is posted, which is necessary in
+    # order to access the task generator by name in child projects.
+    # We need this to get the location of the compiled shared library
+    # when running the unit tests
     gen.post()
 
     # Define the applications after the 'kodoc' task generator is posted

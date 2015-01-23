@@ -8,13 +8,22 @@
 #include <stdint.h>
 
 #if defined(_MSC_VER)
-    #if defined(KODOC_DLL_EXPORTS)
+    #if defined(KODOC_STATIC)
+        // When building a static library, the API define should be blank
+        #define KODOC_API
+    #elif defined(KODOC_DLL_EXPORTS)
+        // When building the DLL, the API symbols must be exported
         #define KODOC_API __declspec(dllexport)
     #else
+        // When a program uses the DLL, the API symbols must be imported
         #define KODOC_API __declspec(dllimport)
     #endif
 #else
   #if __GNUC__ >= 4
+    // When building a shared library, only the API symbols with the 'default'
+    // visibility should be exported to hide all other symbols. All source
+    // files should be compiled with the '-fvisibility=hidden' and
+    // '-fvisibility-inlines-hidden' flags to achieve this.
     #define KODOC_API __attribute__ ((visibility ("default")))
   #else
     #define KODOC_API
