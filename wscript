@@ -105,7 +105,7 @@ def build(bld):
         bld.env.append_value('CXXFLAGS', '-fvisibility-inlines-hidden')
         bld.env.append_value('LINKFLAGS', '-fvisibility=hidden')
 
-    #Load the dependencies first
+    # Load the dependencies first
     if bld.is_toplevel():
 
         bld.load('wurf_dependency_bundle')
@@ -130,6 +130,11 @@ def build(bld):
         target='kodoc_static',
         name='kodoc_static',
         cxxflags=extra_cxxflags,
+<<<<<<< HEAD
+=======
+        defines=['KODOC_STATIC'],
+        export_defines=['KODOC_STATIC'],
+>>>>>>> master
         export_includes='src',
         use=['kodo_includes', 'boost_includes', 'fifi_includes',
              'recycle_includes', 'sak_includes', 'platform_includes'])
@@ -146,7 +151,10 @@ def build(bld):
         use=['kodo_includes', 'boost_includes', 'fifi_includes',
              'recycle_includes', 'sak_includes', 'platform_includes'])
 
-    # Make sure that the task generator is activated
+    # Make sure that the task generator is posted, which is necessary in
+    # order to access the task generator by name in child projects.
+    # We need this to get the location of the compiled shared library
+    # when running the unit tests
     gen.post()
 
     # Define the applications after the 'kodoc' task generator is posted
