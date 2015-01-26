@@ -24,29 +24,31 @@ the dummy library to determine which string to print, either
 ``Data decoded correctly`` or ``Data decoding failed``.
 
 In the following subsections, it will be explained how to build the application
-on various platforms.
+on various desktop platforms.
 
 Common for all platforms is that you need to build the kodo-c bindings.
 By using the Steinwurf build system, dependencies and compiler configuration is
 handled automatically.
 
-Simply go to the root of this repository and execute the following command:
+Simply go to the root of this repository and execute the following command::
 
   python waf configure
 
-This will attempt to download the kodo-c and find the needed build tools on your
-machine.
+This will attempt to download the kodo-c dependencies and find the needed
+build tools on your machine.
 
-If successful you can now try to build kodo-c:
+If successful you can now try to build kodo-c::
 
   python waf build
 
 And finally, if the build succeeded, you should be able to install the following
-command:
+command::
 
   python waf install --options=install_path="./static_libs",install_static_libs
 
-This
+This will build and install kodoc and all it's dependencies. As shown in the
+previous code example, we've used the ``./static_libs`` directory.
+
 
 Linux
 .....
@@ -67,7 +69,7 @@ The guide has been made for Android Studio, running on Linux. However the
 steps should be fairly universal.
 
 First we need to configure and build kodo-c using the android NDK. Go to the
-root of this repository and run the following command:
+root of this repository and run the following command::
 
   python waf configure --options=cxx_mkspec=cxx_android_gxx48_armv7,android_sdk_dir={android-sdk},android_ndk_dir={android-ndk}
 
@@ -84,7 +86,7 @@ This will create a folder called C in the project panel
 (note: the actual name of this folder in the file system is jni).
 
 Change directory to the newly generated directory and use javah to generate the
-jni headers, using the following command:
+jni headers, using the following command::
 
     javah -cp {android-sdk}/platforms/android-16/android.jar:../java {class}
 
@@ -92,9 +94,3 @@ Please exchange {android-sdk} with the path to the android sdk on your
 machine, and the {class} with the name of the class, in the sample project
 dummy_android, this would be ``com.steinwurf.dummy_android.MainActivity``.
 
-
-
-We will assume that the platform you are using for building the
-Android application is Linux, and the IDE .
-
-Further more we use Android studio as the developement platform.
