@@ -98,7 +98,7 @@ int main()
         }
 
         // Encode a packet into the payload buffer
-        kodo_encode(encoder, payload);
+        kodo_write_payload(encoder, payload);
 
         if ((rand() % 2) == 0)
         {
@@ -107,7 +107,7 @@ int main()
         }
 
         // Pass that packet to the decoder
-        kodo_decode(decoder, payload);
+        kodo_read_payload(decoder, payload);
 
         printf("Rank of decoder %d\n", kodo_rank(decoder));
 

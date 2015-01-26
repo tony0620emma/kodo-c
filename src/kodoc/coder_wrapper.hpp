@@ -98,6 +98,14 @@ namespace kodo
             return kodo::feedback_size(m_coder);
         }
 
+        virtual uint32_t write_payload(uint8_t *payload)
+        {
+            assert(payload);
+            assert(m_coder);
+
+            return m_coder->write_payload(payload);
+        }
+
     protected:
 
         coder_type m_coder;

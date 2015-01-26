@@ -16,8 +16,6 @@ extern "C"
 
         virtual ~kodo_encoder() {}
 
-        virtual uint32_t encode(uint8_t* data) = 0;
-
         virtual void set_symbols(
             const uint8_t* data, uint32_t size) = 0;
 

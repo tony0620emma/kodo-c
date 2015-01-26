@@ -57,13 +57,13 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
             kodo_set_symbol(encoder, rank, symbol, symbol_size);
         }
         // Generate an encoded packet
-        kodo_encode(encoder, payload);
+        kodo_write_payload(encoder, payload);
 
         // Simulate that 50% of the packets are lost
         if (rand() % 2) continue;
 
         // Packet got through - pass that packet to the decoder
-        kodo_decode(decoder, payload);
+        kodo_read_payload(decoder, payload);
 
         // Check the decoder whether it is partially complete
         // For on-the-fly decoding the decoder has to support the partial

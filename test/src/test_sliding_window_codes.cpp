@@ -83,11 +83,11 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     while (!kodo_is_complete(decoder))
     {
         // Encode the packet into the payload buffer
-        uint32_t payload_used = kodo_encode(encoder, payload);
+        uint32_t payload_used = kodo_write_payload(encoder, payload);
         EXPECT_TRUE(payload_used <= kodo_payload_size(encoder));
 
         // Pass that packet to the decoder
-        kodo_decode(decoder, payload);
+        kodo_read_payload(decoder, payload);
         EXPECT_TRUE(kodo_is_partial_complete(decoder) != 0);
 
         kodo_write_feedback(decoder, feedback);

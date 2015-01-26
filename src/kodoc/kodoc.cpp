@@ -489,25 +489,17 @@ uint32_t kodo_payload_size(kodo_coder_t coder)
     return coder->payload_size();
 }
 
-void kodo_decode(kodo_coder_t decoder, uint8_t* payload)
+void kodo_read_payload(kodo_coder_t decoder, uint8_t* payload)
 {
     assert(decoder);
     kodo_decoder* the_decoder = (kodo_decoder*) decoder;
-    the_decoder->decode(payload);
+    the_decoder->read_payload(payload);
 }
 
-uint32_t kodo_recode(kodo_coder_t decoder, uint8_t* payload)
+uint32_t kodo_write_payload(kodo_coder_t coder, uint8_t* payload)
 {
-    assert(decoder);
-    kodo_decoder* the_decoder = (kodo_decoder*) decoder;
-    return the_decoder->recode(payload);
-}
-
-uint32_t kodo_encode(kodo_coder_t encoder, uint8_t* payload)
-{
-    assert(encoder);
-    kodo_encoder* the_encoder = (kodo_encoder*) encoder;
-    return the_encoder->encode(payload);
+    assert(coder);
+    return coder->write_payload(payload);
 }
 
 //------------------------------------------------------------------

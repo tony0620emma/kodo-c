@@ -26,5 +26,7 @@ extern "C"
 
         virtual bool has_feedback_size() const = 0;
         virtual uint32_t feedback_size() const = 0;
+
+        virtual uint32_t write_payload(uint8_t* data) = 0;
     };
 }

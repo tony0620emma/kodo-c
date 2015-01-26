@@ -167,7 +167,7 @@ int main(int argc, char* argv[])
         ++rx_packets;
 
         // Packet got through - pass that packet to the decoder
-        kodo_decode(decoder, payload);
+        kodo_read_payload(decoder, payload);
 
         if (kodo_has_partial_decoding_tracker(decoder) &&
             kodo_is_partial_complete(decoder))
