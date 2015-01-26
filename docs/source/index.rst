@@ -11,6 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   including_kodo
+
 
 
 Indices and tables
