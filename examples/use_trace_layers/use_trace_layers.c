@@ -83,7 +83,7 @@ int main()
 
     while (!kodo_is_complete(decoder))
     {
-        kodo_encode(encoder, payload);
+        kodo_write_payload(encoder, payload);
 
         if (kodo_has_trace(encoder))
         {
@@ -96,7 +96,7 @@ int main()
             continue;
         }
 
-        kodo_decode(decoder, payload);
+        kodo_read_payload(decoder, payload);
 
         if (kodo_has_trace(decoder))
         {

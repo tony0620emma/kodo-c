@@ -31,7 +31,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='fifi',
         git_repository='github.com/steinwurf/fifi.git',
-        major_version=15))
+        major_version=18))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='gtest',
@@ -41,7 +41,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='kodo',
         git_repository='github.com/steinwurf/kodo.git',
-        major_version=21))
+        major_version=23))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='platform',
@@ -56,7 +56,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='sak',
         git_repository='github.com/steinwurf/sak.git',
-        major_version=13))
+        major_version=14))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='waf-tools',
@@ -133,7 +133,7 @@ def build(bld):
         defines=['KODOC_STATIC'],
         export_defines=['KODOC_STATIC'],
         export_includes='src',
-        use=['kodo_includes', 'boost_includes', 'fifi_includes',
+        use=['kodo_includes', 'boost_includes', 'fifi',
              'recycle_includes', 'sak_includes', 'platform_includes'])
 
     # Define the task generator that will build the kodoc shared library
@@ -145,7 +145,7 @@ def build(bld):
         defines=['KODOC_DLL_EXPORTS'],
         install_path=None,
         export_includes='src',
-        use=['kodo_includes', 'boost_includes', 'fifi_includes',
+        use=['kodo_includes', 'boost_includes', 'fifi',
              'recycle_includes', 'sak_includes', 'platform_includes'])
 
     # Make sure that the task generator is posted, which is necessary in

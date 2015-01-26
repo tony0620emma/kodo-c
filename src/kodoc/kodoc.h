@@ -199,14 +199,6 @@ void kodo_delete_decoder(kodo_coder_t decoder);
 KODOC_API
 uint32_t kodo_payload_size(kodo_coder_t coder);
 
-/// Encodes a symbol into the provided buffer.
-/// @param encoder The encoder to use.
-/// @param payload The buffer which should contain the encoded
-///        symbol.
-/// @return The total bytes used from the payload buffer
-KODOC_API
-uint32_t kodo_encode(kodo_coder_t encoder, uint8_t* payload);
-
 /// Decodes an encoded symbol stored in the payload buffer.
 /// @param decoder The decoder to use.
 /// @param payload The buffer storing the payload of an encoded symbol.
@@ -214,16 +206,15 @@ uint32_t kodo_encode(kodo_coder_t encoder, uint8_t* payload);
 ///        an cannot be reused. If the payload is needed in several places
 ///        make sure to keep a copy of the original payload.
 KODOC_API
-void kodo_decode(kodo_coder_t decoder, uint8_t* payload);
+void kodo_read_payload(kodo_coder_t decoder, uint8_t* payload);
 
-/// Recodes a symbol into the provided buffer. This function is special for
-/// network codes.
-/// @param decoder The decoder to use.
-/// @param payload The buffer which should contain the recoded
+/// (Re/En)codes a symbol into the provided buffer.
+/// @param coder The (de/en)coder to use.
+/// @param payload The buffer which should contain the (re/en)coded
 ///        symbol.
 /// @return The total bytes used from the payload buffer
 KODOC_API
-uint32_t kodo_recode(kodo_coder_t decoder, uint8_t* payload);
+uint32_t kodo_write_payload(kodo_coder_t coder, uint8_t* payload);
 
 //------------------------------------------------------------------
 // SYMBOL STORAGE API

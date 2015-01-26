@@ -65,8 +65,8 @@ void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
 
     while (!kodo_is_complete(decoder))
     {
-        kodo_encode(encoder, payload);
-        kodo_decode(decoder, payload);
+        kodo_write_payload(encoder, payload);
+        kodo_read_payload(decoder, payload);
     }
 
     EXPECT_TRUE(kodo_is_complete(decoder) != 0);
