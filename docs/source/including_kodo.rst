@@ -118,6 +118,7 @@ Where ``{arch}`` is the desired architecture. Currently ``armv7``, ``armv7s``, `
 where ``i386`` is for the iOS simulator builds. 
 ``{prefix}`` denotes the path where libraries and includes will be installed. 
 A prefix of ``/tmp/{arch}`` will install libraries and includes in ``/tmp/{arch}/lib`` and ``/tmp/{arch}/include``, respectively.
+
 NB: The configure step will be simplified once dependencies fifi and waf-tools are updated.
 
 Building multi arch static libraries
