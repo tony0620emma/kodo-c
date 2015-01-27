@@ -81,7 +81,7 @@ typedef enum
 }
 kodo_trace_mode;
 
-/// Builds a new encoder factory
+/// Builds a new encoder factory (for deep storage encoders)
 /// @param code_type This parameter determines the encoding algorithms used.
 /// @param finite_field This parameter determines the finite field type
 ///        that should be used for the encoding.
@@ -98,7 +98,7 @@ kodo_factory_t kodo_new_encoder_factory(
     uint32_t max_symbols, uint32_t max_symbol_size,
     int32_t trace_mode);
 
-/// Builds a new decoder factory
+/// Builds a new decoder factory (for deep storage decoders)
 /// @param code_type This parameter determines the decoding algorithms used.
 /// @param finite_field This parameter determines the finite field type
 ///        that should be used for the decoding.
@@ -111,6 +111,40 @@ kodo_factory_t kodo_new_encoder_factory(
 ///         selected parameters.
 KODOC_API
 kodo_factory_t kodo_new_decoder_factory(
+    int32_t code_type, int32_t finite_field,
+    uint32_t max_symbols, uint32_t max_symbol_size,
+    int32_t trace_mode);
+
+/// Builds a new encoder factory (for shallow storage encoders)
+/// @param code_type This parameter determines the encoding algorithms used.
+/// @param finite_field This parameter determines the finite field type
+///        that should be used for the encoding.
+/// @param max_symbols The maximum number of symbols supported by encoders
+///        built with this factory.
+/// @param max_symbol_size The maximum symbol size in bytes supported by
+///        encoders built using the returned factory
+/// @param trace_mode Determines which trace mode should be used.
+/// @return A new factory capable of building encoders using the
+///         selected parameters.
+KODOC_API
+kodo_factory_t kodo_new_shallow_encoder_factory(
+    int32_t code_type, int32_t finite_field,
+    uint32_t max_symbols, uint32_t max_symbol_size,
+    int32_t trace_mode);
+
+/// Builds a new decoder factory (for shallow storage decoders)
+/// @param code_type This parameter determines the decoding algorithms used.
+/// @param finite_field This parameter determines the finite field type
+///        that should be used for the decoding.
+/// @param max_symbols The maximum number of symbols supported by decoders
+///        built with this factory.
+/// @param max_symbol_size The maximum symbol size in bytes supported by
+///        decoders built using the returned factory
+/// @param trace_mode Determines which trace mode should be used.
+/// @return A new factory capable of building decoders using the
+///         selected parameters.
+KODOC_API
+kodo_factory_t kodo_new_shallow_decoder_factory(
     int32_t code_type, int32_t finite_field,
     uint32_t max_symbols, uint32_t max_symbol_size,
     int32_t trace_mode);
@@ -235,8 +269,7 @@ uint32_t kodo_block_size(kodo_coder_t coder);
 /// @param data The buffer containing the data to be encoded
 /// @param size The size of the buffer to be encoded
 KODOC_API
-void kodo_set_symbols(kodo_coder_t encoder, const uint8_t* data,
-                      uint32_t size);
+void kodo_set_symbols(kodo_coder_t encoder, uint8_t* data, uint32_t size);
 
 /// Sets a data of a symbol.
 /// @param encoder The encoder which will encode the data
@@ -245,7 +278,7 @@ void kodo_set_symbols(kodo_coder_t encoder, const uint8_t* data,
 /// @param size The size of the buffer to be encoded
 KODOC_API
 void kodo_set_symbol(kodo_coder_t encoder, uint32_t index,
-                     const uint8_t* data, uint32_t size);
+                     uint8_t* data, uint32_t size);
 
 /// Copies the decoded symbols to the dest buffer.
 /// @param decoder The decoder which contains the data to be
