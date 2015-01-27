@@ -4,13 +4,11 @@
 KODOC=../../../src
 DUMMY=../dummy_library/src
 
-# STATIC LIB PATH
-INSTALLS=../../../installs
-
 # Build Target Architectures
-ARCHS="i386 armv7 armv7s arm64"
+ARCHS="i386 x86_64 armv7 armv7s arm64"
 
 LIPO_ARGS_DUMMY=""
+LIPO_ARGS_KODOC=""
 LIPO_ARGS_FIFI=""
 LIPO_ARGS_CPUID=""
 
@@ -24,7 +22,7 @@ for ARCH in $ARCHS; do
     SDKTYPE=iPhoneOS
     IOSTARGET=iphoneos-version-min=7.0
 
-    if [ "$ARCH" == "i386" ]; then
+    if [[ "$ARCH" == "i386" || "$ARCH" == "x86_64"  ]]; then
 	SDKTYPE=iPhoneSimulator
 	IOSTARGET=ios-simulator-version-min=7.0
     fi
@@ -57,8 +55,8 @@ for ARCH in $ARCHS; do
 	-m$IOSTARGET \
 	-I$DUMMY \
 	-I$KODOC \
-	-L. \
 	-L/tmp/$ARCH \
+	-L. \
 	-o program_$ARCH \
 	../desktop/main.c \
 	-ldummy_$ARCH \
@@ -77,16 +75,19 @@ for ARCH in $ARCHS; do
     LIPO_ARGS_DUMMY+="libdummy_$ARCH.a "
     LIPO_ARGS_FIFI+="/tmp/$ARCH/libfifi.a "
     LIPO_ARGS_CPUID+="/tmp/$ARCH/libcpuid.a "
+    LIPO_ARGS_KODOC+="/tmp/$ARCH/libkodoc_static.a "
 done
 
 lipo -create $LIPO_ARGS_DUMMY -output libdummy.a
 rm -f $LIPO_ARGS_DUMMY
 
+lipo -create $LIPO_ARGS_KODOC -output libkodoc_static.a
 lipo -create $LIPO_ARGS_FIFI -output libfifi.a
 lipo -create $LIPO_ARGS_CPUID -output libcpuid.a
 
 echo "######## Created fat static libs with archs $ARCHS:"
-du -h libdummy.a
-du -h libfifi.a
-du -h libcpuid.a
+echo $(du -h libdummy.a) $(lipo -info libdummy.a)
+echo $(du -h libkodoc_static.a) $(lipo -info libkodoc_static.a)
+echo $(du -h libfifi.a) $(lipo -info libfifi.a)
+echo $(du -h libcpuid.a) $(lipo -info libcpuid.a)
 echo "######## Finished."

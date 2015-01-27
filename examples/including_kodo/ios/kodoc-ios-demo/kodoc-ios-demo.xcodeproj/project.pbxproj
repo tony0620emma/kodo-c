@@ -15,6 +15,9 @@
 		0B308E511A71465A0011A0CF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B308E501A71465A0011A0CF /* Images.xcassets */; };
 		0B308E541A71465A0011A0CF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B308E521A71465A0011A0CF /* LaunchScreen.xib */; };
 		0B308E601A71465A0011A0CF /* kodoc_ios_demoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B308E5F1A71465A0011A0CF /* kodoc_ios_demoTests.m */; };
+		0BDC4B721A77C5B000CEEA8B /* libkodoc_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BDC4B711A77C5B000CEEA8B /* libkodoc_static.a */; };
+		0BDC4B741A77C5C400CEEA8B /* libcpuid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BDC4B731A77C5C400CEEA8B /* libcpuid.a */; };
+		0BDC4B761A77C5CF00CEEA8B /* libfifi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BDC4B751A77C5CF00CEEA8B /* libfifi.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +45,9 @@
 		0B308E591A71465A0011A0CF /* kodoc-ios-demoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "kodoc-ios-demoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B308E5E1A71465A0011A0CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B308E5F1A71465A0011A0CF /* kodoc_ios_demoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kodoc_ios_demoTests.m; sourceTree = "<group>"; };
+		0BDC4B711A77C5B000CEEA8B /* libkodoc_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libkodoc_static.a; path = ../libkodoc_static.a; sourceTree = "<group>"; };
+		0BDC4B731A77C5C400CEEA8B /* libcpuid.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcpuid.a; path = ../libcpuid.a; sourceTree = "<group>"; };
+		0BDC4B751A77C5CF00CEEA8B /* libfifi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfifi.a; path = ../libfifi.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +55,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BDC4B761A77C5CF00CEEA8B /* libfifi.a in Frameworks */,
+				0BDC4B741A77C5C400CEEA8B /* libcpuid.a in Frameworks */,
+				0BDC4B721A77C5B000CEEA8B /* libkodoc_static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +74,9 @@
 		0B308E341A7146590011A0CF = {
 			isa = PBXGroup;
 			children = (
+				0BDC4B751A77C5CF00CEEA8B /* libfifi.a */,
+				0BDC4B731A77C5C400CEEA8B /* libcpuid.a */,
+				0BDC4B711A77C5B000CEEA8B /* libkodoc_static.a */,
 				0B308E3F1A7146590011A0CF /* kodoc-ios-demo */,
 				0B308E5C1A71465A0011A0CF /* kodoc-ios-demoTests */,
 				0B308E3E1A7146590011A0CF /* Products */,
@@ -271,7 +283,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -287,7 +299,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -313,7 +325,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -330,7 +342,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -348,9 +360,26 @@
 		0B308E641A71465A0011A0CF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7s,
+					armv7,
+					arm64,
+					i386,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"~/Desktop/dev/kodo-c/src",
+				);
 				INFOPLIST_FILE = "kodoc-ios-demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/mac4/Desktop/dev/kodo-c/examples/including_kodo/ios",
+				);
+				OTHER_CFLAGS = "-lc++";
+				"OTHER_CFLAGS[arch=*]" = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -358,9 +387,26 @@
 		0B308E651A71465A0011A0CF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7s,
+					armv7,
+					arm64,
+					i386,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"~/Desktop/dev/kodo-c/src",
+				);
 				INFOPLIST_FILE = "kodoc-ios-demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/mac4/Desktop/dev/kodo-c/examples/including_kodo/ios",
+				);
+				OTHER_CFLAGS = "-lc++";
+				"OTHER_CFLAGS[arch=*]" = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -418,6 +464,7 @@
 				0B308E651A71465A0011A0CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0B308E661A71465A0011A0CF /* Build configuration list for PBXNativeTarget "kodoc-ios-demoTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +473,7 @@
 				0B308E681A71465A0011A0CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

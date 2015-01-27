@@ -114,8 +114,8 @@ First, configure and compile kodo-c for your desired architecture by executing t
   python waf build
   python waf install --options=install_path={install_path},install_static_libs
   
-Where ``{arch}`` is the desired architecture. Currently ``armv7``, ``armv7s``, ``arm64`` and ``i386`` is available, 
-where ``i386`` is for the iOS simulator builds. 
+Where ``{arch}`` is the desired architecture. Currently ``armv7``, ``armv7s``, ``arm64``, ``i386``, and ```x86_64`` is available, 
+where the two latter are for the iOS simulator builds. 
 ``{install_path}`` denotes the path where libraries and includes will be installed. 
 A prefix of ``/tmp/{arch}`` will install libraries and includes in ``/tmp/{arch}`` and ``/tmp/{arch}/include``, respectively.
 
@@ -143,10 +143,14 @@ Building the dummy project static library
 .........................................
 
 A build script written in bash is located in examples/including_kodo/ios/build_ios.sh, and contains the commands necessary to build the dummy project into a static lib, and then use this to build a binary. It also contains the commands needed to build a multi arch static lib.
-The build script assumes that all four supported architectures has been built and installed in path /tmp/{arch}/.
+The build script assumes that all five architectures has been built and installed in path /tmp/{arch}/.
 
 
 iOS demo project (Xcode)
 ........................
 
 The folder examples/including_kodo/ios/kodoc-ios-demo contains an iOS demo example for including kodoc and libdummy in an iOS project/app.
+
+Basically, to include kodo-c in an Xcode project, library and include path specifications must be specified:
+- Specify the library path and dependencies in "Link Binary with Libraries" under "Build Phases" in the project navigator
+- Specify the include path in "Header Search Paths" under "Search Paths", in the "Build Settings"
