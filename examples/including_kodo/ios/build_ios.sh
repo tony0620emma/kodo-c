@@ -30,7 +30,7 @@ for ARCH in $ARCHS; do
     # Specifiy the sysroot based on sdk type. This is the default sdk paths.
     SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/$SDKTYPE.platform/Developer/SDKs/$SDKTYPE.sdk
 
-    g++ -x c -c -Wall \
+    clang -c -Wall \
 	-target $ARCH-apple-ios7.0.0 \
 	-isysroot $SYSROOT \
 	-m$IOSTARGET \
@@ -48,7 +48,7 @@ for ARCH in $ARCHS; do
 
     echo "######## Compiling main.c to program.."
 
-    g++ -x c -Wall \
+    clang++ -Wall -stdlib=libc++ \
 	-lc++ \
 	-target $ARCH-apple-ios7.0.0 \
 	-isysroot $SYSROOT \
