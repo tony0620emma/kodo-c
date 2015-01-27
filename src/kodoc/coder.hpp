@@ -21,6 +21,12 @@ extern "C"
         virtual uint32_t symbols() const = 0;
         virtual bool symbol_pivot(uint32_t) const = 0;
 
+        virtual void set_symbols(
+            uint8_t* data, uint32_t size) = 0;
+
+        virtual void set_symbol(
+            uint32_t index, uint8_t* data, uint32_t size) = 0;
+
         virtual bool has_trace() const = 0;
         virtual void trace(kodo_trace_callback_t) = 0;
 
