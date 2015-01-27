@@ -52,8 +52,6 @@ void test_shallow_api(uint32_t symbols, uint32_t symbol_size,
     uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
-    uint32_t block_size = kodo_block_size(encoder);
-
     // Allocate symbols in non-contiguous buffers
     uint8_t** input_symbols = (uint8_t**) malloc(symbols * sizeof(uint8_t*));
     uint8_t** output_symbols = (uint8_t**) malloc(symbols * sizeof(uint8_t*));
