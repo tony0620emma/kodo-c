@@ -110,16 +110,19 @@ an updated version of Mac OS X with Xcode 6.0 or later.
 
 First, configure and compile kodo-c for your desired architecture by executing the following commands from the root of this project::
 
-  python waf configure --bundle=ALL --fifi-use-checkout=84313e9d45745f2606d58e5bb4cd40e59ffd08c8 --waf-tools-use-checkout=e9cd2027288af372e811683132273b1caab46651 --options=cxx_mkspec=cxx_ios70_apple_llvm60_{arch} --prefix={prefix}
+  python waf configure --options=cxx_mkspec=cxx_ios70_apple_llvm60_{arch}
   python waf build
-  python waf install
+  python waf install --options=install_path={install_path},install_static_libs
   
 Where ``{arch}`` is the desired architecture. Currently ``armv7``, ``armv7s``, ``arm64`` and ``i386`` is available, 
 where ``i386`` is for the iOS simulator builds. 
-``{prefix}`` denotes the path where libraries and includes will be installed. 
-A prefix of ``/tmp/{arch}`` will install libraries and includes in ``/tmp/{arch}/lib`` and ``/tmp/{arch}/include``, respectively.
+``{install_path}`` denotes the path where libraries and includes will be installed. 
+A prefix of ``/tmp/{arch}`` will install libraries and includes in ``/tmp/{arch}`` and ``/tmp/{arch}/include``, respectively.
 
-NB: The configure step will be simplified once dependencies fifi and waf-tools are updated.
+NB: Include file installation not ready yet.
+
+An automated bash script for configuring and building kodoc_static and dependencies is located in examples/including_kodo/ios/configure_and_build_all.sh. This script runs through the above step for the mentioned architectures.
+
 
 Building multi arch static libraries
 ....................................
@@ -135,3 +138,15 @@ The fat static lib is then located in the current directory.
 Several input libraries can be included in the multi arch lib, e.g. all the above-mentioned architectures.
 Multiarch libraries for the dependency libraries ``fifi`` and ``cpuid`` should also be created.
 Architecture specific variants of these are installed alongside libkodoc_static.a in the specified prefix.
+
+Building the dummy project static library
+.........................................
+
+A build script written in bash is located in examples/including_kodo/ios/build_ios.sh, and contains the commands necessary to build the dummy project into a static lib, and then use this to build a binary. It also contains the commands needed to build a multi arch static lib.
+The build script assumes that all four supported architectures has been built and installed in path /tmp/{arch}/.
+
+
+iOS demo project (Xcode)
+........................
+
+The folder examples/including_kodo/ios/kodoc-ios-demo contains an iOS demo example for including kodoc and libdummy in an iOS project/app.
