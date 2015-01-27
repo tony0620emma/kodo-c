@@ -27,10 +27,10 @@ void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
     kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
 
-    EXPECT_EQ(max_symbols,kodo_factory_max_symbols(encoder_factory));
-    EXPECT_EQ(max_symbol_size,kodo_factory_max_symbol_size(encoder_factory));
+    EXPECT_EQ(max_symbols, kodo_factory_max_symbols(encoder_factory));
+    EXPECT_EQ(max_symbol_size, kodo_factory_max_symbol_size(encoder_factory));
     EXPECT_EQ(max_symbols, kodo_symbols(encoder));
-    EXPECT_EQ(max_symbol_size,kodo_symbol_size(encoder));
+    EXPECT_EQ(max_symbol_size, kodo_symbol_size(encoder));
 
     EXPECT_EQ(max_symbols, kodo_factory_max_symbols(decoder_factory));
     EXPECT_EQ(max_symbol_size, kodo_factory_max_symbol_size(decoder_factory));

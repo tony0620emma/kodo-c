@@ -11,34 +11,34 @@
 
 #include "test_helper.hpp"
 
-void test_shallow_api(uint32_t max_symbols, uint32_t max_symbol_size,
+void test_shallow_api(uint32_t symbols, uint32_t symbol_size,
                       int32_t code_type, int32_t finite_field)
 {
     kodo_factory_t encoder_factory =
         kodo_new_shallow_encoder_factory(code_type, finite_field,
-                                         max_symbols, max_symbol_size,
+                                         symbols, symbol_size,
                                          kodo_trace_disabled);
 
     kodo_factory_t decoder_factory =
         kodo_new_shallow_decoder_factory(code_type, finite_field,
-                                         max_symbols, max_symbol_size,
+                                         symbols, symbol_size,
                                          kodo_trace_disabled);
 
     kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
 
-    EXPECT_EQ(max_symbols,kodo_factory_max_symbols(encoder_factory));
-    EXPECT_EQ(max_symbol_size,kodo_factory_max_symbol_size(encoder_factory));
-    EXPECT_EQ(max_symbols, kodo_symbols(encoder));
-    EXPECT_EQ(max_symbol_size,kodo_symbol_size(encoder));
+    EXPECT_EQ(symbols, kodo_factory_max_symbols(encoder_factory));
+    EXPECT_EQ(symbol_size, kodo_factory_max_symbol_size(encoder_factory));
+    EXPECT_EQ(symbols, kodo_symbols(encoder));
+    EXPECT_EQ(symbol_size, kodo_symbol_size(encoder));
 
-    EXPECT_EQ(max_symbols, kodo_factory_max_symbols(decoder_factory));
-    EXPECT_EQ(max_symbol_size, kodo_factory_max_symbol_size(decoder_factory));
-    EXPECT_EQ(max_symbols, kodo_symbols(decoder));
-    EXPECT_EQ(max_symbol_size, kodo_symbol_size(decoder));
+    EXPECT_EQ(symbols, kodo_factory_max_symbols(decoder_factory));
+    EXPECT_EQ(symbol_size, kodo_factory_max_symbol_size(decoder_factory));
+    EXPECT_EQ(symbols, kodo_symbols(decoder));
+    EXPECT_EQ(symbol_size, kodo_symbol_size(decoder));
 
-    EXPECT_EQ(max_symbols * max_symbol_size, kodo_block_size(encoder));
-    EXPECT_EQ(max_symbols * max_symbol_size, kodo_block_size(decoder));
+    EXPECT_EQ(symbols * symbol_size, kodo_block_size(encoder));
+    EXPECT_EQ(symbols * symbol_size, kodo_block_size(decoder));
 
     EXPECT_TRUE(kodo_factory_max_payload_size(encoder_factory) >=
                 kodo_payload_size(encoder));
@@ -53,16 +53,29 @@ void test_shallow_api(uint32_t max_symbols, uint32_t max_symbol_size,
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
     uint32_t block_size = kodo_block_size(encoder);
-    uint8_t* data_in = (uint8_t*) malloc(block_size);
-    uint8_t* data_out = (uint8_t*) malloc(block_size);
 
-    for(uint32_t i = 0; i < block_size; ++i)
-        data_in[i] = rand() % 256;
+    // Allocate symbols in non-contiguous buffers
+    uint8_t** input_symbols = (uint8_t**) malloc(symbols * sizeof(uint8_t*));
+    uint8_t** output_symbols = (uint8_t**) malloc(symbols * sizeof(uint8_t*));
 
-    kodo_set_symbols(encoder, data_in, block_size);
+    for (uint32_t i = 0; i < symbols; ++i)
+    {
+        // Create the individual symbols for the encoder
+        input_symbols[i] = (uint8_t*) malloc(symbol_size);
 
-    // For a shallow decoder, we need to specify the buffer used for decoding
-    kodo_set_symbols(decoder, data_out, block_size);
+        // Randomize input data
+        for (uint32_t j = 0; j < symbol_size; ++j)
+            input_symbols[i][j] = rand() % 256;
+
+        // Store the symbol pointer in the encoder
+        kodo_set_symbol(encoder, i, input_symbols[i], symbol_size);
+
+        // Create the output symbol buffers for the decoder
+        output_symbols[i] = (uint8_t*) malloc(symbol_size);
+
+        // Specify the output buffers used for decoding
+        kodo_set_symbol(decoder, i, output_symbols[i], symbol_size);
+    }
 
     ASSERT_TRUE(kodo_is_complete(decoder) == 0);
 
@@ -74,10 +87,18 @@ void test_shallow_api(uint32_t max_symbols, uint32_t max_symbol_size,
 
     EXPECT_TRUE(kodo_is_complete(decoder) != 0);
 
-    EXPECT_EQ(memcmp(data_in, data_out, block_size), 0);
+    // Compare the input and output symbols one-by-one
+    for (uint32_t i = 0; i < symbols; ++i)
+    {
+        EXPECT_EQ(
+            memcmp(input_symbols[i], output_symbols[i], symbol_size), 0);
 
-    free(data_in);
-    free(data_out);
+        free(input_symbols[i]);
+        free(output_symbols[i]);
+    }
+
+    free(input_symbols);
+    free(output_symbols);
     free(payload);
 
     kodo_delete_encoder(encoder);
@@ -89,15 +110,15 @@ void test_shallow_api(uint32_t max_symbols, uint32_t max_symbol_size,
 
 TEST(TestShallowFullRlncCodes, invoke_api)
 {
-    uint32_t max_symbols = rand_symbols();
-    uint32_t max_symbol_size = rand_symbol_size();
+    uint32_t symbols = rand_symbols();
+    uint32_t symbol_size = rand_symbol_size();
 
-    test_shallow_api(max_symbols, max_symbol_size,
+    test_shallow_api(symbols, symbol_size,
                      kodo_full_rlnc, kodo_binary);
 
-    test_shallow_api(max_symbols, max_symbol_size,
+    test_shallow_api(symbols, symbol_size,
                      kodo_full_rlnc, kodo_binary8);
 
-    test_shallow_api(max_symbols, max_symbol_size,
+    test_shallow_api(symbols, symbol_size,
                      kodo_full_rlnc, kodo_binary16);
 }
