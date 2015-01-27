@@ -10,7 +10,7 @@
 		0B308E431A71465A0011A0CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B308E421A71465A0011A0CF /* main.m */; };
 		0B308E461A71465A0011A0CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B308E451A71465A0011A0CF /* AppDelegate.m */; };
 		0B308E491A71465A0011A0CF /* kodoc_ios_demo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B308E471A71465A0011A0CF /* kodoc_ios_demo.xcdatamodeld */; };
-		0B308E4C1A71465A0011A0CF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B308E4B1A71465A0011A0CF /* ViewController.m */; };
+		0B308E4C1A71465A0011A0CF /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0B308E4B1A71465A0011A0CF /* ViewController.mm */; };
 		0B308E4F1A71465A0011A0CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B308E4D1A71465A0011A0CF /* Main.storyboard */; };
 		0B308E511A71465A0011A0CF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B308E501A71465A0011A0CF /* Images.xcassets */; };
 		0B308E541A71465A0011A0CF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B308E521A71465A0011A0CF /* LaunchScreen.xib */; };
@@ -38,7 +38,7 @@
 		0B308E451A71465A0011A0CF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0B308E481A71465A0011A0CF /* kodoc_ios_demo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = kodoc_ios_demo.xcdatamodel; sourceTree = "<group>"; };
 		0B308E4A1A71465A0011A0CF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		0B308E4B1A71465A0011A0CF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0B308E4B1A71465A0011A0CF /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		0B308E4E1A71465A0011A0CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0B308E501A71465A0011A0CF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0B308E531A71465A0011A0CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 				0B308E441A71465A0011A0CF /* AppDelegate.h */,
 				0B308E451A71465A0011A0CF /* AppDelegate.m */,
 				0B308E4A1A71465A0011A0CF /* ViewController.h */,
-				0B308E4B1A71465A0011A0CF /* ViewController.m */,
+				0B308E4B1A71465A0011A0CF /* ViewController.mm */,
 				0B308E4D1A71465A0011A0CF /* Main.storyboard */,
 				0B308E501A71465A0011A0CF /* Images.xcassets */,
 				0B308E521A71465A0011A0CF /* LaunchScreen.xib */,
@@ -236,7 +236,7 @@
 			files = (
 				0B308E461A71465A0011A0CF /* AppDelegate.m in Sources */,
 				0B308E431A71465A0011A0CF /* main.m in Sources */,
-				0B308E4C1A71465A0011A0CF /* ViewController.m in Sources */,
+				0B308E4C1A71465A0011A0CF /* ViewController.mm in Sources */,
 				0B308E491A71465A0011A0CF /* kodoc_ios_demo.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,16 +370,15 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"~/Desktop/dev/kodo-c/src",
+					../../../../src,
 				);
 				INFOPLIST_FILE = "kodoc-ios-demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/mac4/Desktop/dev/kodo-c/examples/including_kodo/ios",
+					..,
 				);
-				OTHER_CFLAGS = "-lc++";
-				"OTHER_CFLAGS[arch=*]" = "-lc++";
+				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -397,16 +396,15 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"~/Desktop/dev/kodo-c/src",
+					../../../../src,
 				);
 				INFOPLIST_FILE = "kodoc-ios-demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/mac4/Desktop/dev/kodo-c/examples/including_kodo/ios",
+					..,
 				);
-				OTHER_CFLAGS = "-lc++";
-				"OTHER_CFLAGS[arch=*]" = "-lc++";
+				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

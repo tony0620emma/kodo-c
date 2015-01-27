@@ -33,7 +33,7 @@
 - (IBAction)start:(id)sender
 {
     // Seed random number generator to produce different results every time
-    srand(time(NULL));
+    srand((uint32_t)time(NULL));
     
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
