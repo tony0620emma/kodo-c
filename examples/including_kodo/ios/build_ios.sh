@@ -48,7 +48,7 @@ for ARCH in $ARCHS; do
 
     echo "######## Compiling main.c to program.."
 
-    clang++ -Wall -stdlib=libc++ \
+    clang -Wall -stdlib=libc++ \
 	-lc++ \
 	-target $ARCH-apple-ios7.0.0 \
 	-isysroot $SYSROOT \
