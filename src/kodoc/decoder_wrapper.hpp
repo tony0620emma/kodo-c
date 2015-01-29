@@ -41,20 +41,12 @@ namespace kodo
             assert(m_coder);
         }
 
-        virtual uint32_t recode(uint8_t *payload)
+        virtual void read_payload(uint8_t *payload)
         {
             assert(payload);
             assert(m_coder);
 
-            return m_coder->recode(payload);
-        }
-
-        virtual void decode(uint8_t *payload)
-        {
-            assert(payload);
-            assert(m_coder);
-
-            m_coder->decode(payload);
+            m_coder->read_payload(payload);
         }
 
         virtual bool is_complete() const

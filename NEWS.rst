@@ -6,7 +6,11 @@ of every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Minor: Added shallow Full RLNC Coders.
+* Major: Upgrade to kodo 23
+* Major: Upgrade to fifi 18
+* Major: Upgrade to sak 14
+* Minor: Enabled static library build.
 
 2.0.0
 -----

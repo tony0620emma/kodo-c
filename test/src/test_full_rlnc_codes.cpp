@@ -27,10 +27,10 @@ void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
     kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
 
-    EXPECT_EQ(max_symbols,kodo_factory_max_symbols(encoder_factory));
-    EXPECT_EQ(max_symbol_size,kodo_factory_max_symbol_size(encoder_factory));
+    EXPECT_EQ(max_symbols, kodo_factory_max_symbols(encoder_factory));
+    EXPECT_EQ(max_symbol_size, kodo_factory_max_symbol_size(encoder_factory));
     EXPECT_EQ(max_symbols, kodo_symbols(encoder));
-    EXPECT_EQ(max_symbol_size,kodo_symbol_size(encoder));
+    EXPECT_EQ(max_symbol_size, kodo_symbol_size(encoder));
 
     EXPECT_EQ(max_symbols, kodo_factory_max_symbols(decoder_factory));
     EXPECT_EQ(max_symbol_size, kodo_factory_max_symbol_size(decoder_factory));
@@ -65,8 +65,8 @@ void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
 
     while (!kodo_is_complete(decoder))
     {
-        kodo_encode(encoder, payload);
-        kodo_decode(decoder, payload);
+        kodo_write_payload(encoder, payload);
+        kodo_read_payload(decoder, payload);
     }
 
     EXPECT_TRUE(kodo_is_complete(decoder) != 0);

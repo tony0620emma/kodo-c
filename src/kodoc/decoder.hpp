@@ -16,8 +16,7 @@ extern "C"
 
         virtual ~kodo_decoder() {}
 
-        virtual uint32_t recode(uint8_t* data) = 0;
-        virtual void decode(uint8_t* data) = 0;
+        virtual void read_payload(uint8_t* data) = 0;
         virtual bool is_complete() const = 0;
 
         virtual void copy_symbols(uint8_t* data, uint32_t size) const = 0;

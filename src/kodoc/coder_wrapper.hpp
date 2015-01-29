@@ -62,6 +62,19 @@ namespace kodo
             return m_coder->is_symbol_pivot(index);
         }
 
+        virtual void set_symbols(uint8_t* data, uint32_t size)
+        {
+            sak::mutable_storage storage = sak::storage(data, size);
+            m_coder->set_symbols(storage);
+        }
+
+        virtual void set_symbol(
+            uint32_t index, uint8_t* data, uint32_t size)
+        {
+            sak::mutable_storage storage = sak::storage(data, size);
+            m_coder->set_symbol(index, storage);
+        }
+
         virtual bool has_trace() const
         {
             return kodo::has_trace<KodoStack>::value;
@@ -96,6 +109,14 @@ namespace kodo
         virtual uint32_t feedback_size() const
         {
             return kodo::feedback_size(m_coder);
+        }
+
+        virtual uint32_t write_payload(uint8_t *payload)
+        {
+            assert(payload);
+            assert(m_coder);
+
+            return m_coder->write_payload(payload);
         }
 
     protected:

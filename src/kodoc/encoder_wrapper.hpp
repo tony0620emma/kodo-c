@@ -44,24 +44,6 @@ namespace kodo
             assert(m_coder);
         }
 
-        virtual uint32_t encode(uint8_t* payload)
-        {
-            return m_coder->encode(payload);
-        }
-
-        virtual void set_symbols(const uint8_t* data, uint32_t size)
-        {
-            auto storage = sak::const_storage(data, size);
-            m_coder->set_symbols(storage);
-        }
-
-        virtual void set_symbol(
-            uint32_t index, const uint8_t* data, uint32_t size)
-        {
-            auto storage = sak::const_storage(data, size);
-            m_coder->set_symbol(index, storage);
-        }
-
         virtual bool has_systematic_encoder() const
         {
             return kodo::has_systematic_encoder<KodoStack>::value;
