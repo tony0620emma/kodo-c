@@ -78,8 +78,8 @@
     // Run the decoding
     while (!kodo_is_complete(decoder))
     {
-        kodo_encode(encoder, payload);
-        kodo_decode(decoder, payload);
+        kodo_write_payload(encoder, payload);
+        kodo_read_payload(decoder, payload);
     }
     
     // Copy out the data
