@@ -103,8 +103,6 @@ void test_read_write_uncoded(uint32_t symbols, uint32_t symbol_size,
         EXPECT_EQ(i + 1 - lost_symbols, kodo_rank(decoder));
     }
 
-    ASSERT_TRUE(kodo_is_complete(decoder) == 0);
-
     // Now we generate coded packets with the encoder in order to recover the
     // lost packets on the decoder side
     while (!kodo_is_complete(decoder))

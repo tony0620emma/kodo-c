@@ -49,7 +49,6 @@ void test_read_write_symbol(uint32_t symbols, uint32_t symbol_size,
     EXPECT_EQ(kodo_factory_max_payload_size(encoder_factory),
               kodo_factory_max_payload_size(decoder_factory));
 
-    uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t* coded_symbol = (uint8_t*) malloc(symbol_size);
 
     // Allocate symbols in non-contiguous buffers
@@ -98,7 +97,6 @@ void test_read_write_symbol(uint32_t symbols, uint32_t symbol_size,
     // From the above matrix, the first encoded symbol is just the second
     // original symbol M_2. The second encoded symbol is M_1 bitwise xor M_2,
     // and the third encoded symbol is M_1 bitwise xor M_3.
-
 
     // The computer reads the bits in the opposite direction of how the
     // elements are written matematically in the matrices above.

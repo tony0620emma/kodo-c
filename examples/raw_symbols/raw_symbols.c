@@ -111,7 +111,7 @@ int main()
         kodo_read_uncoded_symbol(decoder, input_symbols[i], i);
     }
 
-    printf("Number of lost symbols:\n", lost_symbols);
+    printf("Number of lost symbols: %d\n", lost_symbols);
 
     // Now we generate coded packets with the encoder in order to recover the
     // lost packets on the decoder side
