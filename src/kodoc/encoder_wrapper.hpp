@@ -16,7 +16,6 @@
 #include <kodo/set_systematic_on.hpp>
 #include <kodo/set_systematic_off.hpp>
 
-#include <kodo/trace_decode_symbol.hpp>
 #include <kodo/trace.hpp>
 
 #include <kodo/has_feedback_size.hpp>
@@ -67,6 +66,18 @@ namespace kodo
         virtual void read_feedback(uint8_t* feedback)
         {
             kodo::read_feedback(m_coder, feedback);
+        }
+
+        virtual uint32_t write_symbol(
+            uint8_t* symbol_data, uint8_t* coefficients)
+        {
+            return m_coder->write_symbol(symbol_data, coefficients);
+        }
+
+        virtual uint32_t write_uncoded_symbol(
+            uint8_t* symbol_data, uint32_t index)
+        {
+            return m_coder->write_uncoded_symbol(symbol_data, index);
         }
 
     protected:

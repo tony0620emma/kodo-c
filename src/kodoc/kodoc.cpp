@@ -783,6 +783,38 @@ uint32_t kodo_symbols_seen(kodo_coder_t decoder)
     return the_decoder->symbols_seen();
 }
 
+void kodo_read_symbol(kodo_coder_t decoder, uint8_t* symbol_data,
+                      uint8_t* coefficients)
+{
+    assert(decoder);
+    kodo_decoder* the_decoder = (kodo_decoder*) decoder;
+    return the_decoder->read_symbol(symbol_data, coefficients);
+}
+
+void kodo_read_uncoded_symbol(kodo_coder_t decoder, uint8_t* symbol_data,
+                              uint32_t index)
+{
+    assert(decoder);
+    kodo_decoder* the_decoder = (kodo_decoder*) decoder;
+    return the_decoder->read_uncoded_symbol(symbol_data, index);
+}
+
+uint32_t kodo_write_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
+                           uint8_t* coefficients)
+{
+    assert(encoder);
+    kodo_encoder* the_encoder = (kodo_encoder*) encoder;
+    return the_encoder->write_symbol(symbol_data, coefficients);
+}
+
+uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
+                                   uint32_t index)
+{
+    assert(encoder);
+    kodo_encoder* the_encoder = (kodo_encoder*) encoder;
+    return the_encoder->write_uncoded_symbol(symbol_data, index);
+}
+
 //------------------------------------------------------------------
 // GENERIC API
 //------------------------------------------------------------------

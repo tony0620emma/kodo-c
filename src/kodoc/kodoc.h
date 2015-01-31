@@ -388,6 +388,49 @@ uint32_t kodo_symbols_uncoded(kodo_coder_t decoder);
 KODOC_API
 uint32_t kodo_symbols_seen(kodo_coder_t decoder);
 
+/// Reads and decodes an encoded symbol according to the coding
+/// coefficients stored in the corresponding symbol_id.
+///
+/// @param decoder The decoder to use.
+/// @param symbol_data The encoded symbol
+/// @param coefficients The coding coefficients used to
+///        create the encoded symbol
+KODOC_API
+void kodo_read_symbol(kodo_coder_t decoder, uint8_t* symbol_data,
+                      uint8_t* coefficients);
+
+/// Reads and decodes a systematic/uncoded symbol with the corresponding
+/// symbol index.
+///
+/// @param decoder The decoder to use.
+/// @param symbol_data The uncoded source symbol.
+/// @param index The index of this uncoded symbol in the data block.
+KODOC_API
+void kodo_read_uncoded_symbol(kodo_coder_t decoder, uint8_t* symbol_data,
+                              uint32_t index);
+
+/// Writes an encoded symbol according to the provided symbol coefficients.
+///
+/// @param encoder The encoder to use.
+/// @param symbol_data The destination buffer for the encoded symbol
+/// @param coefficients At this point the symbol id should be
+///        initialized with the desired coding coefficients.
+/// @return The number of bytes used.
+KODOC_API
+uint32_t kodo_write_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
+                           uint8_t* coefficients);
+
+/// Writes a systematic/uncoded symbol that corresponds to the provided
+/// symbol index.
+///
+/// @param encoder The encoder to use.
+/// @param symbol_data The destination of the uncoded source symbol.
+/// @param index The index of this uncoded symbol in the data block.
+/// @return The number of bytes used.
+KODOC_API
+uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
+                                   uint32_t index);
+
 //------------------------------------------------------------------
 // GENERIC API
 //------------------------------------------------------------------

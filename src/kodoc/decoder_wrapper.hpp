@@ -14,7 +14,6 @@
 #include <kodo/is_partial_complete.hpp>
 #include <kodo/has_partial_decoding_tracker.hpp>
 
-#include <kodo/trace_decode_symbol.hpp>
 #include <kodo/trace_linear_block_decoder.hpp>
 #include <kodo/symbol_decoding_status_tracker.hpp>
 #include <kodo/trace.hpp>
@@ -96,6 +95,18 @@ namespace kodo
         virtual void write_feedback(uint8_t* feedback)
         {
             kodo::write_feedback(m_coder, feedback);
+        }
+
+        virtual void read_symbol(
+            uint8_t* symbol_data, uint8_t* coefficients)
+        {
+            m_coder->read_symbol(symbol_data, coefficients);
+        }
+
+        virtual void read_uncoded_symbol(
+            uint8_t* symbol_data, uint32_t index)
+        {
+            m_coder->read_uncoded_symbol(symbol_data, index);
         }
 
     protected:
