@@ -21,5 +21,10 @@ extern "C"
         virtual void set_systematic_on() = 0;
         virtual void set_systematic_off() = 0;
         virtual void read_feedback(uint8_t* feedback) = 0;
+
+        virtual uint32_t write_symbol(
+            uint8_t* symbol_data, uint8_t* coefficients) = 0;
+        virtual uint32_t write_uncoded_symbol(
+            uint8_t* symbol_data, uint32_t index) = 0;
     };
 }

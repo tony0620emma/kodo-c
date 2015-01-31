@@ -8,10 +8,9 @@
 #include <cassert>
 
 #include <sak/storage.hpp>
+
 #include <kodo/is_partial_complete.hpp>
 #include <kodo/has_partial_decoding_tracker.hpp>
-
-#include <kodo/trace_decode_symbol.hpp>
 #include <kodo/symbol_decoding_status_tracker.hpp>
 #include <kodo/trace.hpp>
 
