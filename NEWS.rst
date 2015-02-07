@@ -6,6 +6,7 @@ of every change, see the Git log.
 
 Latest
 ------
+* Minor: Added simple throughput benchmark in ``benchmark/kodoc_throughput``
 * Minor: Extended the C API with functions for reading and writing symbols
   directly on the decoder and encoder.
 * Minor: Added shallow Full RLNC Coders.
