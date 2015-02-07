@@ -1,0 +1,8 @@
+#! /usr/bin/env python
+# encoding: utf-8
+
+bld.program(
+    features='cxx benchmark',
+    source=['kodoc_throughput.cpp'],
+    target='kodoc_throughput',
+    use=['kodoc_static', 'boost_chrono', 'boost_system'])
