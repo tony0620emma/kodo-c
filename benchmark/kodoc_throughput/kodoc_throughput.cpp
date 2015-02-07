@@ -9,6 +9,8 @@
 #include <string.h>
 #include <time.h>
 
+#include <platform/config.hpp>
+
 #include <kodoc/kodoc.h>
 
 #include <chrono>
@@ -161,6 +163,8 @@ bool run_coding_test(uint32_t symbols, uint32_t symbol_size,
     return success;
 }
 
+// The main function should not be defined on Windows Phone
+#if !defined(PLATFORM_WINDOWS_PHONE)
 int main(int argc, const char* argv[])
 {
     if (argc != 3)
@@ -193,3 +197,4 @@ int main(int argc, const char* argv[])
 
     return 0;
 }
+#endif
