@@ -9,6 +9,8 @@
 #include <string.h>
 #include <time.h>
 
+#include <platform/config.hpp>
+
 #include <kodoc/kodoc.h>
 
 #include <chrono>
@@ -30,18 +32,15 @@ namespace bc = boost::chrono;
 // @param encoding_rate The measured encoding rate in megabytes/seconds
 // @param decoding_rate The measured decoding rate in megabytes/seconds
 // @return True if the original data was correctly decoded
-bool run_coding_test(uint32_t symbols, uint32_t symbol_size,
-                     double& encoding_rate, double& decoding_rate)
+bool run_coding_test(int32_t finite_field, uint32_t symbols,
+                     uint32_t symbol_size, double& encoding_rate,
+                     double& decoding_rate)
 {
     // Set the random seed to randomize encoded data
     srand((uint32_t)time(NULL));
 
     // Here we select the coding code_type we wish to use
     int32_t code_type = kodo_full_rlnc;
-
-    // Here we select the finite field to use common choices are
-    // kodo_binary, kodo_binary8, kodo_binary16
-    int32_t finite_field = kodo_binary8;
 
     bc::high_resolution_clock::time_point start, stop;
 
@@ -161,22 +160,50 @@ bool run_coding_test(uint32_t symbols, uint32_t symbol_size,
     return success;
 }
 
+// The main function should not be defined on Windows Phone
+#if !defined(PLATFORM_WINDOWS_PHONE)
 int main(int argc, const char* argv[])
 {
-    if (argc != 3)
+    if (argc != 4)
     {
-        printf("Usage: %s symbols symbol_size\n", argv[0]);
+        printf("Usage: %s [binary|binary4|binary8|binary16] "
+               "symbols symbol_size\n", argv[0]);
         return 1;
     }
 
-    uint32_t symbols = atoi(argv[1]);
-    uint32_t symbol_size = atoi(argv[2]);
+    // Here we select the finite field to use
+    int32_t field;
+    if (strcmp(argv[1], "binary") == 0)
+    {
+        field = kodo_binary;
+    }
+    else if (strcmp(argv[1], "binary4") == 0)
+    {
+        field = kodo_binary4;
+    }
+    else if (strcmp(argv[1], "binary8") == 0)
+    {
+        field = kodo_binary8;
+    }
+    else if (strcmp(argv[1], "binary16") == 0)
+    {
+        field = kodo_binary16;
+    }
+    else
+    {
+        printf("Invalid finite field: %s\n", argv[1]);
+        return 1;
+    }
+
+    uint32_t symbols = atoi(argv[2]);
+    uint32_t symbol_size = atoi(argv[3]);
 
     double encoding_rate = 0.0;
     double decoding_rate = 0.0;
 
     bool decoding_success =
-        run_coding_test(symbols, symbol_size, encoding_rate, decoding_rate);
+        run_coding_test(field, symbols, symbol_size,
+                        encoding_rate, decoding_rate);
 
     printf("Symbols: %d / Symbol_size: %d\n", symbols, symbol_size);
     printf("Encoding rate: %0.2f MB/s\n", encoding_rate);
@@ -193,3 +220,4 @@ int main(int argc, const char* argv[])
 
     return 0;
 }
+#endif
