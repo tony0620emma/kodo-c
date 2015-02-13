@@ -58,7 +58,7 @@ int main()
     // will be transferred to the decoder without using kodo.
     //
     // We explicitly turn off the systematic mode on the encoder:
-    if (kodo_has_systematic_encoder(encoder))
+    if (kodo_has_set_systematic_off(encoder))
     {
         kodo_set_systematic_off(encoder);
     }

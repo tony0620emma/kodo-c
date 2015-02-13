@@ -826,11 +826,11 @@ uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t decoder)
     return (uint8_t)the_decoder->has_partial_decoding_tracker();
 }
 
-uint8_t kodo_has_systematic_encoder(kodo_coder_t encoder)
+uint8_t kodo_has_set_systematic_off(kodo_coder_t encoder)
 {
     assert(encoder);
     kodo_encoder* the_encoder = (kodo_encoder*) encoder;
-    return (uint8_t)the_encoder->has_systematic_encoder();
+    return (uint8_t)the_encoder->has_set_systematic_off();
 }
 
 uint8_t kodo_is_systematic_on(kodo_coder_t encoder)

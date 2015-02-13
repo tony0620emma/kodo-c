@@ -101,7 +101,7 @@ int main()
     // With Kodo we can ask an encoder whether it supports systematic encoding
     // or not using the following functions:
 
-    if (kodo_has_systematic_encoder(encoder) && kodo_is_systematic_on(encoder))
+    if (kodo_is_systematic_on(encoder))
     {
         printf("Systematic encoding enabled\n");
     }
@@ -114,7 +114,7 @@ int main()
     // from the beginning we can turn systematic coding off using the following
     // API:
     //
-    // if (kodo_has_systematic_encoder(encoder))
+    // if (kodo_has_set_systematic_off(encoder))
     // {
     //    kodo_set_systematic_off(encoder);
     // }

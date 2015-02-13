@@ -79,7 +79,7 @@ int main()
     while (!kodo_is_complete(decoder))
     {
         // If the chosen codec stack supports systematic coding
-        if (kodo_has_systematic_encoder(encoder))
+        if (kodo_has_set_systematic_off(encoder))
         {
             // With 50% probability toggle systematic
             if ((rand() % 2) == 0)
