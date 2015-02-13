@@ -6,12 +6,12 @@ of every change, see the Git log.
 
 Latest
 ------
+* Major: Upgrade to kodo 25
+* Major: Upgrade to fifi 19
 * Minor: Added simple throughput benchmark in ``benchmark/kodoc_throughput``
 * Minor: Extended the C API with functions for reading and writing symbols
   directly on the decoder and encoder.
 * Minor: Added shallow Full RLNC Coders.
-* Major: Upgrade to kodo 24
-* Major: Upgrade to fifi 18
 * Major: Upgrade to sak 14
 * Minor: Enabled static library build.
 

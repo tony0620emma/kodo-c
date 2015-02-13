@@ -52,7 +52,7 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
 
     // Enoder methods
 
-    EXPECT_TRUE(kodo_has_systematic_encoder(encoder) != 0);
+    EXPECT_TRUE(kodo_has_set_systematic_off(encoder) != 0);
 
     EXPECT_TRUE(kodo_is_systematic_on(encoder) != 0);
     kodo_set_systematic_off(encoder);

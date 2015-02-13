@@ -67,7 +67,7 @@ bool run_coding_test(int32_t finite_field, uint32_t symbols,
         (double)(bc::duration_cast<bc::microseconds>(stop - start).count());
 
     // We measure pure coding, so we always turn off the systematic mode
-    if (kodo_has_systematic_encoder(encoder))
+    if (kodo_has_set_systematic_off(encoder))
     {
         kodo_set_systematic_off(encoder);
     }

@@ -11,7 +11,7 @@
 
 #include <kodo/read_feedback.hpp>
 
-#include <kodo/has_systematic_encoder.hpp>
+#include <kodo/has_set_systematic_off.hpp>
 #include <kodo/is_systematic_on.hpp>
 #include <kodo/set_systematic_on.hpp>
 #include <kodo/set_systematic_off.hpp>
@@ -43,9 +43,9 @@ namespace kodo
             assert(m_coder);
         }
 
-        virtual bool has_systematic_encoder() const
+        virtual bool has_set_systematic_off() const
         {
-            return kodo::has_systematic_encoder<KodoStack>::value;
+            return kodo::has_set_systematic_off<KodoStack>::value;
         }
 
         virtual bool is_systematic_on() const

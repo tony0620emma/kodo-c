@@ -16,7 +16,7 @@ extern "C"
 
         virtual ~kodo_encoder() {}
 
-        virtual bool has_systematic_encoder() const = 0;
+        virtual bool has_set_systematic_off() const = 0;
         virtual bool is_systematic_on() const = 0;
         virtual void set_systematic_on() = 0;
         virtual void set_systematic_off() = 0;

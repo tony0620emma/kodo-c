@@ -450,7 +450,7 @@ uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t decoder);
 /// @param encoder The encoder
 /// @return Non-zero if the encoder supports the systematic mode, otherwise 0
 KODOC_API
-uint8_t kodo_has_systematic_encoder(kodo_coder_t encoder);
+uint8_t kodo_has_set_systematic_off(kodo_coder_t encoder);
 
 /// Returns whether the encoder is in the systematic mode, i.e. if it will
 /// initially send the original source symbols with a simple header.
