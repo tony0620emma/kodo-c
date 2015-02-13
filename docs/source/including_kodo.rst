@@ -85,14 +85,14 @@ path to the Android SDK and a standalone version of the Android NDK.
 
 First, create a new project using the Android Studio wizard.
 
-Now add the path to the android NDK to local.properties
+Now add the path to the Android NDK to local.properties
 
 Right click in the Project panel and go into the menu New -> Folder -> JNI Folder
 
 This will create a folder called C in the project panel
-(note: the actual name of this folder in the filesystem is jni).
+(note: the actual name of this folder in the filesystem is ``jni``).
 
-Go to this newly generated directory and use javah to generate the
+Go to this newly generated directory and use ``javah`` to generate the
 jni headers, using the following command::
 
     javah -cp {android-sdk}/platforms/android-16/android.jar:../java {class}
@@ -166,6 +166,7 @@ fine after you execute the ``configure_and_build_all.sh`` and
 
 If you want to include kodo-c in your own Xcode project, then please set
 the library and include path options as follows:
+
 - Specify the library path and dependencies in "Link Binary with Libraries"
   under "Build Phases" in the project navigator.
 - Specify the include path in "Header Search Paths" under "Search Paths",
