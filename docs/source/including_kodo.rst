@@ -12,14 +12,14 @@ following platforms:
 The Dummy Library
 -----------------
 
-The dummy library is a simple library in which use the Kodo C API. The
+The dummy library is a simple library which uses the Kodo C API. The
 library implements a single function which runs a simple encoding/decoding
 example and returns whether the test was successful or not.
 
 Desktop
 -------
 
-This section we will explain how to use kodo-c for your desktop application.
+This section explains how to use kodo-c for your desktop application.
 The desktop example application is a simple console application which uses
 the dummy library to determine which string to print, either
 ``Data decoded correctly`` or ``Data decoding failed``.
@@ -38,7 +38,7 @@ Simply go to the root of this repository and execute the following command::
 This will attempt to download the kodo-c dependencies and find the necessary
 build tools on your machine.
 
-If successful, you can now try to build kodo-c::
+If the configure step was successful, you can try to build kodo-c::
 
     python waf build
 
@@ -55,15 +55,16 @@ compiler (other compilers require similar settings)::
     cd examples/including_kodo
     sh compile_dummy_example.sh
 
-In many cases, it can be easier to include the kodo-c *shared* library in
+In many cases, it can be easier to include kodo-c as *shared* library in
 your application. With the following command, you can copy the compiled
 *.so, *.dylib or *.dll file (the extension depends on your platform)
-to the folder specified with the ``install_path`` option::
+to the folder specified by the ``install_path`` option::
 
     python waf install --options=install_path="./shared_libs",install_shared_libs
 
 If you dynamically link your application with this shared library, then you
-have to copy the shared library to a folder where your system can find it.
+have to copy the shared library to a folder where your system can find it
+when you execute your application.
 
 Android
 -------
@@ -74,7 +75,7 @@ The guide has been made for Android Studio, running on Linux. However the
 steps should be fairly universal.
 
 First we need to configure and build kodo-c using the android NDK. Go to the
-root of the kodo-c repository and run the following command:
+root of the kodo-c repository and run the following command::
 
   python waf configure --options=cxx_mkspec=cxx_android_gxx48_armv7,android_sdk_dir={android-sdk},android_ndk_dir={android-ndk}
 
@@ -88,10 +89,10 @@ Now add the path to the android NDK to local.properties
 Right click in the Project panel and go into the menu New -> Folder -> JNI Folder
 
 This will create a folder called C in the project panel
-(note: the actual name of this folder in the file system is jni).
+(note: the actual name of this folder in the filesystem is jni).
 
-Change directory to the newly generated directory and use javah to generate the
-jni headers, using the following command:
+Go to this newly generated directory and use javah to generate the
+jni headers, using the following command::
 
     javah -cp {android-sdk}/platforms/android-16/android.jar:../java {class}
 
@@ -103,27 +104,28 @@ sample project, this would be ``com.steinwurf.dummy_android.MainActivity``.
 iOS
 ---
 
-This section describes how to compile kodo-c for iOS,
-how to include kodo-c in another library for iOS,
-and how to include these in an app for iOS.
-We assume that the developer is using a recent version of Mac OS X with Xcode 6.0 or later.
+This section describes how to compile kodo-c for iOS and how to include it
+in an iOS application. We assume that the developer is using a recent version
+of Mac OS X with Xcode 6.0 or later.
 
-First, configure and compile kodo-c for your desired architecture by
+Helper scripts are provided (see below) to automate this process, but you
+can also configure and compile kodo-c manually for your desired architecture by
 executing the following commands from the root of the kodo-c repository::
 
   python waf configure --options=cxx_mkspec=cxx_ios70_apple_llvm60_{arch}
   python waf build
   python waf install --options=install_path=/tmp/{arch},install_static_libs
 
-Where ``{arch}`` is the desired architecture. Currently ``armv7``, ``armv7s``,
-``arm64``, ``i386``, and ```x86_64`` are available, where the latter two are
-for the iOS simulator builds.
+The ``{arch}`` placeholder defines the target architecture. Currently
+``armv7``, ``armv7s``, ``arm64``, ``i386``, and ``x86_64`` are available
+(the latter two are used for the iOS simulator builds).
+
 The ``install_path`` option determines where the static libraries will be
 installed. Here, we install the static libraries to ``/tmp/{arch}``. This
-means 5 different folder for the 5 supported architectures.
+means 5 target folders for the 5 supported architectures.
 
-To run the above steps for the mentioned architectures, execute the following
-bash script::
+To automatically run the above steps for the mentioned architectures,
+execute the following script::
 
     cd examples/including_kodo/ios
     sh configure_and_build_all.sh
@@ -138,7 +140,7 @@ completed for each supported architecture.
 After this, the static libraries can be combined to a "fat" multiarch static
 library using the ``lipo`` command::
 
-  lipo -create /tmp/{arch1}/lib/libkodoc_static.a /tmp/{arch2}/lib/libkodoc_static.a -output libkodoc_static.a
+  lipo -create /tmp/{arch1}/libkodoc_static.a /tmp/{arch2}/libkodoc_static.a -output libkodoc_static.a
 
 The fat static lib is then located in the current directory. Several input
 libraries can be included in the multi arch lib, e.g. all the above-mentioned
@@ -155,7 +157,7 @@ following script (after you have executed ``configure_and_build_all.sh``)::
 iOS demo project (Xcode)
 ........................
 
-The ``examples/including_kodo/ios/kodoc-ios-demo`` contains an iOS demo
+The ``examples/including_kodo/ios/kodoc-ios-demo`` folder contains an iOS demo
 project for including kodo-c in an iOS application. This project will work
 fine after you execute the ``configure_and_build_all.sh`` and
 ``build_ios_fat_libs.sh`` scripts mentioned above.
