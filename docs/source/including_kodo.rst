@@ -7,7 +7,7 @@ following platforms:
 
 * Desktop (Linux, Mac OSX and Windows)
 * Android
-* iOS.
+* iOS
 
 The Dummy Library
 -----------------
@@ -77,10 +77,11 @@ steps should be fairly universal.
 First we need to configure and build kodo-c using the android NDK. Go to the
 root of the kodo-c repository and run the following command::
 
-  python waf configure --options=cxx_mkspec=cxx_android_gxx48_armv7,android_sdk_dir={android-sdk},android_ndk_dir={android-ndk}
+  python waf configure --options=cxx_mkspec=cxx_android_gxx48_armv7,\
+  android_sdk_dir={android-sdk},android_ndk_dir={android-ndk}
 
-Where {android-sdk}, and {android-ndk} should be replaced with the path to the
-Android SDK and a standalone version of the Android NDK, respectively.
+Where ``{android-sdk}`` and ``{android-ndk}`` should be replaced with your
+path to the Android SDK and a standalone version of the Android NDK.
 
 First, create a new project using the Android Studio wizard.
 
@@ -96,8 +97,8 @@ jni headers, using the following command::
 
     javah -cp {android-sdk}/platforms/android-16/android.jar:../java {class}
 
-Please exchange {android-sdk} with the path to the android sdk on your
-machine, and the {class} with the name of the class. In the ``dummy_android``
+Please replace ``{android-sdk}`` with the path to the Android SDK on your
+machine, and ``{class}`` with the name of the class. In the ``dummy_android``
 sample project, this would be ``com.steinwurf.dummy_android.MainActivity``.
 
 
@@ -140,7 +141,8 @@ completed for each supported architecture.
 After this, the static libraries can be combined to a "fat" multiarch static
 library using the ``lipo`` command::
 
-  lipo -create /tmp/{arch1}/libkodoc_static.a /tmp/{arch2}/libkodoc_static.a -output libkodoc_static.a
+  lipo -create /tmp/{arch1}/libkodoc_static.a /tmp/{arch2}/libkodoc_static.a \
+  -output libkodoc_static.a
 
 The fat static lib is then located in the current directory. Several input
 libraries can be included in the multi arch lib, e.g. all the above-mentioned
@@ -164,8 +166,7 @@ fine after you execute the ``configure_and_build_all.sh`` and
 
 If you want to include kodo-c in your own Xcode project, then please set
 the library and include path options as follows:
-
 - Specify the library path and dependencies in "Link Binary with Libraries"
-  under "Build Phases" in the project navigator
+  under "Build Phases" in the project navigator.
 - Specify the include path in "Header Search Paths" under "Search Paths",
-  in the "Build Settings"
+  in the "Build Settings".
