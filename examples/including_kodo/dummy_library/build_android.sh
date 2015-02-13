@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Paths
-ANDROID_NDK=/home/jpihl/.development/arm-linux-androideabi-4.8/arm-linux-androideabi/bin/
+ANDROID_NDK=~/toolchains/arm-linux-androideabi-4.8/arm-linux-androideabi/bin/
 KODOC_INCLUDE=../../../src
 BUILD=./build
 
@@ -12,7 +12,7 @@ rm -rf $BUILD
 mkdir $BUILD
 
 # create object file
-$ANDROID_NDK/gcc -x c -c -fpic -Wall -I$KODOC_INCLUDE src/dummy/dummy.c -o $BUILD/dummy.o
+$ANDROID_NDK/gcc -x c -c -fpic -Wall -I$KODOC_INCLUDE dummy.c -o $BUILD/dummy.o
 
-# create static library from object file
-$ANDROID_NDK/gcc -shared $BUILD/dummy.o -o  $BUILD/libdummy.so
+# create a shared library from the object file
+$ANDROID_NDK/gcc -shared $BUILD/dummy.o -o $BUILD/libdummy.so
