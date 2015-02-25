@@ -101,6 +101,11 @@ Please replace ``{android-sdk}`` with the path to the Android SDK on your
 machine, and ``{class}`` with the name of the class. In the ``dummy_android``
 sample project, this would be ``com.steinwurf.dummy_android.MainActivity``.
 
+.. note:: If you want to use the generated static libraries with ``ndk-build``,
+          then make sure that you process at least one C++ source file (.cpp)
+          with ``ndk-build`` (this can be a dummy cpp file). Otherwise you
+          will get a lot of linkage issues, because ``ndk-build`` does not link
+          with the C++ standard library by default.
 
 iOS
 ---
