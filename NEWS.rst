@@ -6,6 +6,7 @@ of every change, see the Git log.
 
 Latest
 ------
+* Minor: Added sparse RLNC encoder.
 * Major: Upgrade to kodo 25
 * Major: Upgrade to fifi 19
 * Minor: Added simple throughput benchmark in ``benchmark/kodoc_throughput``
