@@ -8,6 +8,8 @@
 #include "factory_wrapper.hpp"
 #include "encoder_wrapper.hpp"
 
+#include "encoder.hpp"
+
 namespace kodo
 {
     template<class KodoStack>
@@ -23,12 +25,13 @@ namespace kodo
         virtual void* build()
         {
             auto encoder = m_factory.build();
-            auto wrapper = new encoder_wrapper<KodoStack>(encoder);
+            auto wrapper =
+                new encoder_wrapper<KodoStack, kodo_encoder>(encoder);
 
             return wrapper;
         }
 
-    private:
+    protected:
 
         using factory_wrapper<KodoStack>::m_factory;
     };

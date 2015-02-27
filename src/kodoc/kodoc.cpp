@@ -17,6 +17,7 @@
 
 #include "encoder_factory_wrapper.hpp"
 #include "decoder_factory_wrapper.hpp"
+#include "sparse_encoder_factory_wrapper.hpp"
 
 //------------------------------------------------------------------
 // FACTORY API FOR DEEP STORAGE STACKS
@@ -470,6 +471,63 @@ kodo_new_shallow_encoder_factory(int32_t code_type, int32_t finite_field,
             }
         }
     }
+    else if (code_type == kodo_sparse_full_rlnc)
+    {
+        if (trace_mode == kodo_trace_disabled)
+        {
+            if (finite_field == kodo_binary)
+            {
+                factory = new sparse_encoder_factory_wrapper<
+                    shallow_sparse_full_vector_encoder<fifi::binary,
+                        disable_trace>>(max_symbols, max_symbol_size);
+            }
+            else if (finite_field == kodo_binary4)
+            {
+                factory = new sparse_encoder_factory_wrapper<
+                    shallow_sparse_full_vector_encoder<fifi::binary4,
+                        disable_trace>>(max_symbols, max_symbol_size);
+            }
+            else if (finite_field == kodo_binary8)
+            {
+                factory = new sparse_encoder_factory_wrapper<
+                    shallow_sparse_full_vector_encoder<fifi::binary8,
+                        disable_trace>>(max_symbols, max_symbol_size);
+            }
+            else if (finite_field == kodo_binary16)
+            {
+                factory = new sparse_encoder_factory_wrapper<
+                    shallow_sparse_full_vector_encoder<fifi::binary16,
+                        disable_trace>>(max_symbols, max_symbol_size);
+            }
+        }
+        else
+        {
+            if (finite_field == kodo_binary)
+            {
+                factory = new sparse_encoder_factory_wrapper<
+                    shallow_sparse_full_vector_encoder<fifi::binary,
+                        enable_trace>>(max_symbols, max_symbol_size);
+            }
+            else if (finite_field == kodo_binary4)
+            {
+                factory = new sparse_encoder_factory_wrapper<
+                    shallow_sparse_full_vector_encoder<fifi::binary4,
+                        enable_trace>>(max_symbols, max_symbol_size);
+            }
+            else if (finite_field == kodo_binary8)
+            {
+                factory = new sparse_encoder_factory_wrapper<
+                    shallow_sparse_full_vector_encoder<fifi::binary8,
+                        enable_trace>>(max_symbols, max_symbol_size);
+            }
+            else if (finite_field == kodo_binary16)
+            {
+                factory = new sparse_encoder_factory_wrapper<
+                    shallow_sparse_full_vector_encoder<fifi::binary16,
+                        enable_trace>>(max_symbols, max_symbol_size);
+            }
+        }
+    }
 
     // Unknown code type or field type
     assert(factory);
@@ -813,6 +871,24 @@ uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
     assert(encoder);
     kodo_encoder* the_encoder = (kodo_encoder*) encoder;
     return the_encoder->write_uncoded_symbol(symbol_data, index);
+}
+
+//------------------------------------------------------------------
+// SPARSE ENCODER API
+//------------------------------------------------------------------
+
+double kodo_density(kodo_coder_t encoder)
+{
+    assert(encoder);
+    kodo_sparse_encoder* the_encoder = (kodo_sparse_encoder*) encoder;
+    return the_encoder->density();
+}
+
+void kodo_set_density(kodo_coder_t encoder, double density)
+{
+    assert(encoder);
+    kodo_sparse_encoder* the_encoder = (kodo_sparse_encoder*) encoder;
+    the_encoder->set_density(density);
 }
 
 //------------------------------------------------------------------

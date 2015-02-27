@@ -49,6 +49,7 @@ namespace kodo
         }
 
     protected:
+
         typename KodoStack::factory m_factory;
     };
 }

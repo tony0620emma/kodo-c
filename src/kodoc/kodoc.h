@@ -67,7 +67,8 @@ typedef enum
 {
     kodo_full_rlnc,
     kodo_on_the_fly,
-    kodo_sliding_window
+    kodo_sliding_window,
+    kodo_sparse_full_rlnc
 }
 kodo_code_type;
 
@@ -430,6 +431,25 @@ uint32_t kodo_write_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
 KODOC_API
 uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
                                    uint32_t index);
+
+//------------------------------------------------------------------
+// SPARSE ENCODER API
+//------------------------------------------------------------------
+
+/// Returns the current coding vector density of an encoder.
+///
+/// @param coder The encoder to query.
+/// @return The coding vector density (0.0 < density <= 1.0)
+KODOC_API
+double kodo_density(kodo_coder_t encoder);
+
+/// Sets the coding vector density of an encoder.
+///
+/// @param encoder The encoder to use.
+/// @param density The density value (0.0 < density <= 1.0)
+KODOC_API
+void kodo_set_density(kodo_coder_t encoder, double density);
+
 
 //------------------------------------------------------------------
 // GENERIC API
