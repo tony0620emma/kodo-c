@@ -16,22 +16,16 @@
 #include <kodo/set_systematic_on.hpp>
 #include <kodo/set_systematic_off.hpp>
 
-#include <kodo/trace.hpp>
-
-#include <kodo/has_feedback_size.hpp>
-#include <kodo/feedback_size.hpp>
-
-#include "encoder.hpp"
 #include "coder_wrapper.hpp"
 
 namespace kodo
 {
-    template<class KodoStack>
-    class encoder_wrapper : public coder_wrapper<KodoStack, kodo_encoder>
+    template<class KodoStack, class Base>
+    class encoder_wrapper : public coder_wrapper<KodoStack, Base>
     {
     public:
 
-        using Super = coder_wrapper<KodoStack, kodo_encoder>;
+        using Super = coder_wrapper<KodoStack, Base>;
 
         using coder_type = typename Super::coder_type;
 

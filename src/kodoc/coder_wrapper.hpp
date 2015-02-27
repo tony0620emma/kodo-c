@@ -9,8 +9,10 @@
 
 #include <sak/storage.hpp>
 
-#include <kodo/is_partial_complete.hpp>
+#include <kodo/feedback_size.hpp>
+#include <kodo/has_feedback_size.hpp>
 #include <kodo/has_partial_decoding_tracker.hpp>
+#include <kodo/is_partial_complete.hpp>
 #include <kodo/symbol_decoding_status_tracker.hpp>
 #include <kodo/trace.hpp>
 
