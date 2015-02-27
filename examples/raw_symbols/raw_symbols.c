@@ -27,20 +27,17 @@ int main()
     uint32_t symbols = 10;
     uint32_t symbol_size = 100;
 
-    // Here we select the coding code_type we wish to use
-    int32_t code_type = kodo_full_rlnc;
-
     // Here we select the finite field to use common choices are
     // kodo_binary, kodo_binary8, kodo_binary16
     int32_t finite_field = kodo_binary;
 
     kodo_factory_t encoder_factory =
-        kodo_new_shallow_encoder_factory(code_type, finite_field,
+        kodo_new_shallow_encoder_factory(kodo_sparse_full_rlnc, finite_field,
                                          symbols, symbol_size,
                                          kodo_trace_disabled);
 
     kodo_factory_t decoder_factory =
-        kodo_new_shallow_decoder_factory(code_type, finite_field,
+        kodo_new_shallow_decoder_factory(kodo_full_rlnc, finite_field,
                                          symbols, symbol_size,
                                          kodo_trace_disabled);
 
@@ -63,6 +60,10 @@ int main()
         kodo_set_systematic_off(encoder);
     }
     printf("Systematic encoding disabled\n");
+
+    // Set the coding vector density on the encoder
+    kodo_set_density(encoder, 0.2);
+    printf("Coding vector density: %3.2f\n", kodo_density(encoder));
 
     uint32_t bytes_used;
     uint32_t payload_size = kodo_payload_size(encoder);
