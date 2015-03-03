@@ -11,7 +11,7 @@ kodoc_lib = 'kodoc'
 test_files = []
 
 # We need to use the kodoc static library on Android and iOS
-if conf.get_mkspec_platform() in ['android', 'ios']:
+if bld.get_mkspec_platform() in ['android', 'ios']:
     kodoc_lib = 'kodoc_static'
 else:
     # On other platforms, we want to copy the shared library to the same
