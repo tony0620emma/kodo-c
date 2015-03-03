@@ -68,7 +68,8 @@ typedef enum
     kodo_full_rlnc,
     kodo_on_the_fly,
     kodo_sliding_window,
-    kodo_sparse_full_rlnc
+    kodo_sparse_full_rlnc,
+    kodo_seed_rlnc
 }
 kodo_code_type;
 
@@ -357,8 +358,9 @@ void kodo_read_feedback(kodo_coder_t encoder, uint8_t* feedback);
 /// Writes the feedback information into the provided buffer.
 /// @param decoder The decoder to use.
 /// @param feedback The buffer which should contain the feedback information.
+/// @return The total bytes used from the feeback buffer
 KODOC_API
-void kodo_write_feedback(kodo_coder_t decoder, uint8_t* feedback);
+uint32_t kodo_write_feedback(kodo_coder_t decoder, uint8_t* feedback);
 
 /// Indicates whether a symbol is defined in the coding matrix
 /// of encoder or decoder. A symbol with a pivot element might not be fully

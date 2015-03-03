@@ -31,7 +31,7 @@ extern "C"
 
         virtual uint32_t symbols_uncoded() const = 0;
         virtual uint32_t symbols_seen() const = 0;
-        virtual void write_feedback(uint8_t* feedback) = 0;
+        virtual uint32_t write_feedback(uint8_t* feedback) = 0;
 
         virtual void read_symbol(
             uint8_t* symbol_data, uint8_t* coefficients) = 0;

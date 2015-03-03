@@ -13,8 +13,8 @@
 #include <kodo/has_feedback_size.hpp>
 #include <kodo/has_partial_decoding_tracker.hpp>
 #include <kodo/is_partial_complete.hpp>
-#include <kodo/symbol_decoding_status_tracker.hpp>
 #include <kodo/trace.hpp>
+#include <kodo/write_payload.hpp>
 
 namespace kodo
 {
@@ -69,8 +69,7 @@ namespace kodo
             m_coder->set_symbols(storage);
         }
 
-        virtual void set_symbol(
-            uint32_t index, uint8_t* data, uint32_t size)
+        virtual void set_symbol(uint32_t index, uint8_t* data, uint32_t size)
         {
             sak::mutable_storage storage = sak::storage(data, size);
             m_coder->set_symbol(index, storage);
@@ -112,12 +111,17 @@ namespace kodo
             return kodo::feedback_size(m_coder);
         }
 
-        virtual uint32_t write_payload(uint8_t *payload)
+        virtual bool has_write_payload() const
+        {
+            return kodo::has_write_payload<KodoStack>::value;
+        }
+
+        virtual uint32_t write_payload(uint8_t* payload)
         {
             assert(payload);
             assert(m_coder);
 
-            return m_coder->write_payload(payload);
+            return kodo::write_payload(m_coder, payload);
         }
 
     protected:
