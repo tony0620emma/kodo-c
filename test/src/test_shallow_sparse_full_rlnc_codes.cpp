@@ -117,6 +117,4 @@ TEST(TestShallowSparseFullRlncCodes, invoke_api)
     test_shallow_sparse_api(symbols, symbol_size, kodo_binary);
 
     test_shallow_sparse_api(symbols, symbol_size, kodo_binary8);
-
-    test_shallow_sparse_api(symbols, symbol_size, kodo_binary16);
 }

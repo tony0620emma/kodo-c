@@ -53,10 +53,7 @@ typedef struct kodo_coder* kodo_coder_t;
 typedef enum
 {
     kodo_binary,
-    kodo_binary4,
-    kodo_binary8,
-    kodo_binary16,
-    kodo_prime2325
+    kodo_binary8
 }
 kodo_finite_field;
 
@@ -67,7 +64,6 @@ typedef enum
 {
     kodo_full_rlnc,
     kodo_on_the_fly,
-    kodo_sliding_window,
     kodo_sparse_full_rlnc
 }
 kodo_code_type;

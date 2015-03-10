@@ -144,7 +144,4 @@ TEST(TestReadWriteUncodedSymbol, uncoded_symbols)
 
     test_read_write_uncoded(symbols, symbol_size,
                             kodo_full_rlnc, kodo_binary8);
-
-    test_read_write_uncoded(symbols, symbol_size,
-                            kodo_full_rlnc, kodo_binary16);
 }

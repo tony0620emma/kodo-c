@@ -96,7 +96,4 @@ TEST(TestFullRlncCodes, invoke_api)
 
     test_basic_api(max_symbols, max_symbol_size,
                    kodo_full_rlnc, kodo_binary8);
-
-    test_basic_api(max_symbols, max_symbol_size,
-                   kodo_full_rlnc, kodo_binary16);
 }

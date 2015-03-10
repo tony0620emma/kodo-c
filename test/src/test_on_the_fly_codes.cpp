@@ -114,7 +114,4 @@ TEST(TestOnTheFlyCodes, invoke_api)
 
     test_on_the_fly(max_symbols, max_symbol_size,
                     kodo_on_the_fly, kodo_binary8);
-
-    test_on_the_fly(max_symbols, max_symbol_size,
-                    kodo_on_the_fly, kodo_binary16);
 }

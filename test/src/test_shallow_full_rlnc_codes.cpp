@@ -115,7 +115,4 @@ TEST(TestShallowFullRlncCodes, invoke_api)
 
     test_shallow_api(symbols, symbol_size,
                      kodo_full_rlnc, kodo_binary8);
-
-    test_shallow_api(symbols, symbol_size,
-                     kodo_full_rlnc, kodo_binary16);
 }

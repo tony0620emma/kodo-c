@@ -162,7 +162,6 @@ def build(bld):
         bld.recurse('examples/encode_decode_simple')
         bld.recurse('examples/raw_symbols')
         bld.recurse('examples/shallow_encode_decode')
-        bld.recurse('examples/sliding_window')
         bld.recurse('examples/switch_systematic_on_off')
         bld.recurse('examples/udp_sender_receiver')
         bld.recurse('examples/use_trace_layers')

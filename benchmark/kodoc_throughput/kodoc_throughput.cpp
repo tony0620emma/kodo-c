@@ -166,8 +166,7 @@ int main(int argc, const char* argv[])
 {
     if (argc != 4)
     {
-        printf("Usage: %s [binary|binary4|binary8|binary16] "
-               "symbols symbol_size\n", argv[0]);
+        printf("Usage: %s [binary|binary8] symbols symbol_size\n", argv[0]);
         return 1;
     }
 
@@ -177,17 +176,9 @@ int main(int argc, const char* argv[])
     {
         field = kodo_binary;
     }
-    else if (strcmp(argv[1], "binary4") == 0)
-    {
-        field = kodo_binary4;
-    }
     else if (strcmp(argv[1], "binary8") == 0)
     {
         field = kodo_binary8;
-    }
-    else if (strcmp(argv[1], "binary16") == 0)
-    {
-        field = kodo_binary16;
     }
     else
     {

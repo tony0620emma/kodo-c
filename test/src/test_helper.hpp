@@ -50,15 +50,13 @@ inline void test_combinations(
     std::vector<int32_t> code_types =
     {
         kodo_full_rlnc,
-        kodo_on_the_fly,
-        kodo_sliding_window
+        kodo_on_the_fly
     };
 
     std::vector<int32_t> fields =
     {
         kodo_binary,
-        kodo_binary8,
-        kodo_binary16
+        kodo_binary8
     };
 
     for (auto& code : code_types)
