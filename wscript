@@ -18,50 +18,50 @@ def options(opt):
     import waflib.extras.wurf_dependency_bundle as bundle
     import waflib.extras.wurf_dependency_resolve as resolve
 
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+    bundle.add_dependency(opt, resolve.ResolveVersion(
         name='boost',
         git_repository='github.com/steinwurf/boost.git',
-        major_version=1))
+        major=1, minor=8, patch=1))
 
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+    bundle.add_dependency(opt, resolve.ResolveVersion(
         name='cpuid',
         git_repository='github.com/steinwurf/cpuid.git',
-        major_version=3))
+        major=3, minor=3, patch=1))
 
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+    bundle.add_dependency(opt, resolve.ResolveVersion(
         name='fifi',
         git_repository='github.com/steinwurf/fifi.git',
-        major_version=19))
+        major=19, minor=0, patch=0))
 
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+    bundle.add_dependency(opt, resolve.ResolveVersion(
         name='gtest',
         git_repository='github.com/steinwurf/gtest.git',
-        major_version=2))
+        major=2, minor=3, patch=1))
 
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+    bundle.add_dependency(opt, resolve.ResolveVersion(
         name='kodo',
         git_repository='github.com/steinwurf/kodo.git',
-        major_version=25))
+        major=25, minor=0, patch=0))
 
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+    bundle.add_dependency(opt, resolve.ResolveVersion(
         name='platform',
         git_repository='github.com/steinwurf/platform.git',
-        major_version=1))
+        major=1, minor=3, patch=0))
 
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+    bundle.add_dependency(opt, resolve.ResolveVersion(
         name='recycle',
         git_repository='github.com/steinwurf/recycle.git',
-        major_version=1))
+        major=1, minor=1, patch=1))
 
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+    bundle.add_dependency(opt, resolve.ResolveVersion(
         name='sak',
         git_repository='github.com/steinwurf/sak.git',
-        major_version=14))
+        major=14, minor=0, patch=1))
 
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+    bundle.add_dependency(opt, resolve.ResolveVersion(
         name='waf-tools',
         git_repository='github.com/steinwurf/waf-tools.git',
-        major_version=2))
+        major=2, minor=40, patch=1))
 
     opt.load('wurf_configure_output')
     opt.load('wurf_dependency_bundle')
