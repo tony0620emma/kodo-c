@@ -8,6 +8,10 @@ Latest
 ------
 * tbd
 
+3.0.0-lts.0
+-----------
+* LTS: Version created on 2015.03.10. End of support: 2016.09.10.
+
 3.0.0
 -----
 * Minor: Added sparse RLNC encoder.
