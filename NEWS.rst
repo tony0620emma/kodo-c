@@ -6,6 +6,10 @@ of every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+3.0.0
+-----
 * Minor: Added sparse RLNC encoder.
 * Major: Upgrade to kodo 25
 * Major: Upgrade to fifi 19
@@ -14,7 +18,7 @@ Latest
   directly on the decoder and encoder.
 * Minor: Added shallow Full RLNC Coders.
 * Major: Upgrade to sak 14
-* Minor: Enabled static library build.
+* Minor: Re-enabled the build task for the kodo-c static library.
 
 2.0.0
 -----
