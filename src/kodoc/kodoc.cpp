@@ -9,9 +9,10 @@
 #include <cstdint>
 #include <cassert>
 
-#include "encoder_factory_wrapper.hpp"
-#include "decoder_factory_wrapper.hpp"
-#include "sparse_encoder_factory_wrapper.hpp"
+#include "decoder.hpp"
+#include "encoder.hpp"
+#include "factory.hpp"
+#include "sparse_encoder.hpp"
 
 //------------------------------------------------------------------
 // FACTORY API
