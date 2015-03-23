@@ -3,16 +3,17 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include <kodoc/kodoc.h>
+#pragma once
 
+#include <cstdint>
 #include <cstdlib>
 
 #include <gtest/gtest.h>
 
-#include "test_helper.hpp"
+#include <kodoc/kodoc.h>
 
-void test_shallow_api(uint32_t symbols, uint32_t symbol_size,
-                      int32_t code_type, int32_t finite_field)
+inline void run_test_shallow_api(int32_t code_type, int32_t finite_field,
+                               uint32_t symbols, uint32_t symbol_size)
 {
     kodo_factory_t encoder_factory =
         kodo_new_shallow_encoder_factory(code_type, finite_field,
@@ -105,17 +106,29 @@ void test_shallow_api(uint32_t symbols, uint32_t symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-TEST(TestShallowFullRlncCodes, invoke_api)
+inline void test_shallow_api(int32_t code_type, uint32_t symbols,
+                           uint32_t symbol_size)
 {
-    uint32_t symbols = rand_symbols();
-    uint32_t symbol_size = rand_symbol_size();
+    SCOPED_TRACE(testing::Message() << "symbols = " << symbols);
+    SCOPED_TRACE(testing::Message() << "symbol_size = " << symbol_size);
 
-    test_shallow_api(symbols, symbol_size,
-                     kodo_full_rlnc, kodo_binary);
+    {
+        SCOPED_TRACE(testing::Message() << "field = binary");
+        run_test_shallow_api(code_type, kodo_binary, symbols, symbol_size);
+    }
 
-    test_shallow_api(symbols, symbol_size,
-                     kodo_full_rlnc, kodo_binary8);
+    {
+        SCOPED_TRACE(testing::Message() << "field = binary4");
+        run_test_shallow_api(code_type, kodo_binary4, symbols, symbol_size);
+    }
 
-    test_shallow_api(symbols, symbol_size,
-                     kodo_full_rlnc, kodo_binary16);
+    {
+        SCOPED_TRACE(testing::Message() << "field = binary8");
+        run_test_shallow_api(code_type, kodo_binary8, symbols, symbol_size);
+    }
+
+    {
+        SCOPED_TRACE(testing::Message() << "field = binary16");
+        run_test_shallow_api(code_type, kodo_binary16, symbols, symbol_size);
+    }
 }

@@ -8,21 +8,12 @@
 #include <gtest/gtest.h>
 
 #include "test_helper.hpp"
-#include "test_basic_api.hpp"
 #include "test_shallow_api.hpp"
 
-TEST(TestFullRlncCodes, basic_api)
+TEST(TestShallowSeedRlncCodes, basic_api)
 {
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodo_full_rlnc, max_symbols, max_symbol_size);
-}
-
-TEST(TestFullRlncCodes, shallow_api)
-{
-    uint32_t max_symbols = rand_symbols();
-    uint32_t max_symbol_size = rand_symbol_size();
-
-    test_shallow_api(kodo_full_rlnc, max_symbols, max_symbol_size);
+    test_shallow_api(kodo_seed_rlnc, max_symbols, max_symbol_size);
 }

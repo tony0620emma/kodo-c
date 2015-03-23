@@ -7,18 +7,19 @@ search_path = []
 if not bld.is_mkspec_platform('windows'):
     search_path = ['.']
 
-kodoc_lib = 'kodoc'
+# By default, we use the static library to make debugging easier
+kodoc_lib = 'kodoc_static'
 test_files = []
 
 # We need to use the kodoc static library on Android and iOS
-if conf.get_mkspec_platform() in ['android', 'ios']:
-    kodoc_lib = 'kodoc_static'
-else:
+#if conf.get_mkspec_platform() in ['android', 'ios']:
+#    kodoc_lib = 'kodoc_static'
+#else:
     # On other platforms, we want to copy the shared library to the same
     # folder as the kodoc_tests binary
     # Before we can access the 'kodoc' task generator by name, we need to call
     # the 'post' method of this task generator in the kodo-c wscript
-    test_files = bld.get_tgen_by_name('kodoc').link_task.outputs[0]
+#    test_files = bld.get_tgen_by_name('kodoc').link_task.outputs[0]
 
 bld.program(
     features='cxx test',
