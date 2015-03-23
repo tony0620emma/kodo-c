@@ -6,7 +6,11 @@ of every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Minor: Moved the factory functions from ``kodoc.cpp`` to separate translation
+  units in order to decrease the compilation time. The optimizer might use
+  gigabytes of RAM when instantiating a lot of coder stack variants in a
+  single cpp file. This problem is mitigated with this separation.
+* Minor: Added a seed-based RLNC codec (``kodo_seed_rlnc``).
 
 3.0.0
 -----
@@ -16,7 +20,7 @@ Latest
 * Minor: Added simple throughput benchmark in ``benchmark/kodoc_throughput``
 * Minor: Extended the C API with functions for reading and writing symbols
   directly on the decoder and encoder.
-* Minor: Added shallow Full RLNC Coders.
+* Minor: Added a shallow full RLNC codec.
 * Major: Upgrade to sak 14
 * Minor: Re-enabled the build task for the kodo-c static library.
 
