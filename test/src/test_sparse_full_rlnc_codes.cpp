@@ -109,12 +109,14 @@ void test_shallow_sparse_api(uint32_t symbols, uint32_t symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-TEST(TestShallowSparseFullRlncCodes, invoke_api)
+TEST(TestSparseFullRlncCodes, shallow_sparse_api)
 {
     uint32_t symbols = rand_symbols() + 10;
     uint32_t symbol_size = rand_symbol_size();
 
     test_shallow_sparse_api(symbols, symbol_size, kodo_binary);
+
+    test_shallow_sparse_api(symbols, symbol_size, kodo_binary8);
 
     test_shallow_sparse_api(symbols, symbol_size, kodo_binary8);
 

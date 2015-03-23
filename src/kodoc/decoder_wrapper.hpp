@@ -9,14 +9,12 @@
 
 #include <sak/storage.hpp>
 
-#include <kodo/write_feedback.hpp>
-
-#include <kodo/is_partial_complete.hpp>
 #include <kodo/has_partial_decoding_tracker.hpp>
-
-#include <kodo/trace_linear_block_decoder.hpp>
+#include <kodo/is_partial_complete.hpp>
 #include <kodo/symbol_decoding_status_tracker.hpp>
 #include <kodo/trace.hpp>
+#include <kodo/trace_linear_block_decoder.hpp>
+#include <kodo/write_feedback.hpp>
 
 #include "coder_wrapper.hpp"
 #include "decoder.hpp"
@@ -40,7 +38,7 @@ namespace kodo
             assert(m_coder);
         }
 
-        virtual void read_payload(uint8_t *payload)
+        virtual void read_payload(uint8_t* payload)
         {
             assert(payload);
             assert(m_coder);
@@ -92,19 +90,17 @@ namespace kodo
             return m_coder->symbols_seen();
         }
 
-        virtual void write_feedback(uint8_t* feedback)
+        virtual uint32_t write_feedback(uint8_t* feedback)
         {
-            kodo::write_feedback(m_coder, feedback);
+            return kodo::write_feedback(m_coder, feedback);
         }
 
-        virtual void read_symbol(
-            uint8_t* symbol_data, uint8_t* coefficients)
+        virtual void read_symbol(uint8_t* symbol_data, uint8_t* coefficients)
         {
             m_coder->read_symbol(symbol_data, coefficients);
         }
 
-        virtual void read_uncoded_symbol(
-            uint8_t* symbol_data, uint32_t index)
+        virtual void read_uncoded_symbol(uint8_t* symbol_data, uint32_t index)
         {
             m_coder->read_uncoded_symbol(symbol_data, index);
         }
