@@ -139,8 +139,7 @@ int main(int argc, char* argv[])
     // Zero initialize the decoded array */
     memset(decoded, '\0', sizeof(uint8_t) * max_symbols);
 
-    printf("%s: waiting for data on port UDP %u\n",
-           argv[0], atoi(argv[1]));
+    printf("%s: waiting for data on UDP port %u\n", argv[0], atoi(argv[1]));
 
     // Receiver loop
     while (!kodo_is_complete(decoder))
@@ -160,7 +159,7 @@ int main(int argc, char* argv[])
         }
 
         // Print received message
-        printf("%s: UDP from %s:%u : %d\n",
+        printf("%s: UDP packet from %s:%u : %d\n",
                argv[0],inet_ntoa(remote_address.sin_addr),
                ntohs(remote_address.sin_port), bytes_received);
 

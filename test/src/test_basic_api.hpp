@@ -62,7 +62,7 @@ inline void run_test_basic_api(int32_t code_type, int32_t finite_field,
 
     kodo_set_symbols(encoder, data_in, block_size);
 
-    ASSERT_TRUE(kodo_is_complete(decoder) == 0);
+    EXPECT_TRUE(kodo_is_complete(decoder) == 0);
 
     while (!kodo_is_complete(decoder))
     {

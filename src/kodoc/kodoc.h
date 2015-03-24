@@ -69,7 +69,8 @@ typedef enum
     kodo_on_the_fly,
     kodo_sliding_window,
     kodo_sparse_full_rlnc,
-    kodo_seed_rlnc
+    kodo_seed_rlnc,
+    kodo_sparse_seed_rlnc
 }
 kodo_code_type;
 
