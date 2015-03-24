@@ -85,7 +85,7 @@ inline void run_test_shallow_api(int32_t encoder_type, int32_t decoder_type,
         kodo_set_symbol(decoder, i, output_symbols[i], symbol_size);
     }
 
-    ASSERT_TRUE(kodo_is_complete(decoder) == 0);
+    EXPECT_TRUE(kodo_is_complete(decoder) == 0);
 
     while (!kodo_is_complete(decoder))
     {

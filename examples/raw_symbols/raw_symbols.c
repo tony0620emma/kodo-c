@@ -24,7 +24,7 @@ int main()
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t symbols = 10;
+    uint32_t symbols = 1000;
     uint32_t symbol_size = 100;
 
     // Here we select the finite field to use common choices are
@@ -32,12 +32,12 @@ int main()
     int32_t finite_field = kodo_binary;
 
     kodo_factory_t encoder_factory =
-        kodo_new_shallow_encoder_factory(kodo_sparse_full_rlnc, finite_field,
+        kodo_new_shallow_encoder_factory(kodo_sparse_seed_rlnc, finite_field,
                                          symbols, symbol_size,
                                          kodo_trace_disabled);
 
     kodo_factory_t decoder_factory =
-        kodo_new_shallow_decoder_factory(kodo_full_rlnc, finite_field,
+        kodo_new_shallow_decoder_factory(kodo_sparse_seed_rlnc, finite_field,
                                          symbols, symbol_size,
                                          kodo_trace_disabled);
 
