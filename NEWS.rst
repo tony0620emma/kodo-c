@@ -6,6 +6,9 @@ of every change, see the Git log.
 
 Latest
 ------
+* Minor: Added the ``kodo_sparse_seed_rlnc`` code type that implements a sparse
+  seed-based RLNC codec. The code density should be set on the encoder side.
+  The maximum size of the coding header is 9 bytes.
 * Minor: Moved the factory functions from ``kodoc.cpp`` to separate translation
   units in order to decrease the compilation time. The optimizer might use
   gigabytes of RAM when instantiating a lot of coder stack variants in a
