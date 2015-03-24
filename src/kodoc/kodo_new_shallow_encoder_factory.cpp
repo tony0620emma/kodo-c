@@ -49,6 +49,12 @@ kodo_new_shallow_encoder_factory(int32_t code_type, int32_t finite_field,
             encoder_factory_wrapper, shallow_seed_encoder>(
                 finite_field, max_symbols, max_symbol_size, trace_mode);
     }
+    else if (code_type == kodo_sparse_seed_rlnc)
+    {
+        factory = create_factory_wrapper<
+            sparse_encoder_factory_wrapper, shallow_sparse_seed_encoder>(
+                finite_field, max_symbols, max_symbol_size, trace_mode);
+    }
 
     // Unknown code type
     assert(factory);

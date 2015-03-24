@@ -12,16 +12,17 @@
 
 #include <kodoc/kodoc.h>
 
-inline void run_test_shallow_api(int32_t code_type, int32_t finite_field,
-                               uint32_t symbols, uint32_t symbol_size)
+inline void run_test_shallow_api(int32_t encoder_type, int32_t decoder_type,
+                                 int32_t finite_field,
+                                 uint32_t symbols, uint32_t symbol_size)
 {
     kodo_factory_t encoder_factory =
-        kodo_new_shallow_encoder_factory(code_type, finite_field,
+        kodo_new_shallow_encoder_factory(encoder_type, finite_field,
                                          symbols, symbol_size,
                                          kodo_trace_disabled);
 
     kodo_factory_t decoder_factory =
-        kodo_new_shallow_decoder_factory(code_type, finite_field,
+        kodo_new_shallow_decoder_factory(decoder_type, finite_field,
                                          symbols, symbol_size,
                                          kodo_trace_disabled);
 
@@ -49,6 +50,14 @@ inline void run_test_shallow_api(int32_t code_type, int32_t finite_field,
 
     EXPECT_EQ(kodo_factory_max_payload_size(encoder_factory),
               kodo_factory_max_payload_size(decoder_factory));
+
+    if (encoder_type == kodo_sparse_full_rlnc ||
+        encoder_type == kodo_sparse_seed_rlnc)
+    {
+        // Set the coding vector density on the encoder
+        kodo_set_density(encoder, 0.2);
+        EXPECT_EQ(0.2, kodo_density(encoder));
+    }
 
     uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
@@ -106,29 +115,39 @@ inline void run_test_shallow_api(int32_t code_type, int32_t finite_field,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-inline void test_shallow_api(int32_t code_type, uint32_t symbols,
-                           uint32_t symbol_size)
+inline void test_shallow_api(int32_t encoder_type, int32_t decoder_type,
+                             uint32_t symbols, uint32_t symbol_size)
 {
     SCOPED_TRACE(testing::Message() << "symbols = " << symbols);
     SCOPED_TRACE(testing::Message() << "symbol_size = " << symbol_size);
 
     {
         SCOPED_TRACE(testing::Message() << "field = binary");
-        run_test_shallow_api(code_type, kodo_binary, symbols, symbol_size);
+        run_test_shallow_api(encoder_type, decoder_type, kodo_binary,
+                             symbols, symbol_size);
     }
 
     {
         SCOPED_TRACE(testing::Message() << "field = binary4");
-        run_test_shallow_api(code_type, kodo_binary4, symbols, symbol_size);
+        run_test_shallow_api(encoder_type, decoder_type, kodo_binary4,
+                             symbols, symbol_size);
     }
 
     {
         SCOPED_TRACE(testing::Message() << "field = binary8");
-        run_test_shallow_api(code_type, kodo_binary8, symbols, symbol_size);
+        run_test_shallow_api(encoder_type, decoder_type, kodo_binary8,
+                             symbols, symbol_size);
     }
 
     {
         SCOPED_TRACE(testing::Message() << "field = binary16");
-        run_test_shallow_api(code_type, kodo_binary16, symbols, symbol_size);
+        run_test_shallow_api(encoder_type, decoder_type, kodo_binary16,
+                             symbols, symbol_size);
     }
+}
+
+inline void test_shallow_api(int32_t code_type, uint32_t symbols,
+                             uint32_t symbol_size)
+{
+    test_shallow_api(code_type, code_type, symbols, symbol_size);
 }
