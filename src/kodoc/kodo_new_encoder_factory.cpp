@@ -14,6 +14,7 @@
 #include <kodo/rlnc/seed_codes.hpp>
 #include <kodo/rlnc/sliding_window_encoder.hpp>
 
+#include "create_factory_wrapper.hpp"
 #include "encoder_factory_wrapper.hpp"
 
 //------------------------------------------------------------------
@@ -32,177 +33,24 @@ kodo_new_encoder_factory(int32_t code_type, int32_t finite_field,
 
     if (code_type == kodo_full_rlnc)
     {
-        if (trace_mode == kodo_trace_disabled)
-        {
-            if (finite_field == kodo_binary)
-            {
-                factory = new encoder_factory_wrapper<
-                    full_vector_encoder<fifi::binary,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary4)
-            {
-                factory = new encoder_factory_wrapper<
-                    full_vector_encoder<fifi::binary4,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary8)
-            {
-                factory = new encoder_factory_wrapper<
-                    full_vector_encoder<fifi::binary8,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary16)
-            {
-                factory = new encoder_factory_wrapper<
-                    full_vector_encoder<fifi::binary16,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-        }
-        else
-        {
-            if (finite_field == kodo_binary)
-            {
-                factory = new encoder_factory_wrapper<
-                    full_vector_encoder<fifi::binary,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary4)
-            {
-                factory = new encoder_factory_wrapper<
-                    full_vector_encoder<fifi::binary4,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary8)
-            {
-                factory = new encoder_factory_wrapper<
-                    full_vector_encoder<fifi::binary8,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary16)
-            {
-                factory = new encoder_factory_wrapper<
-                    full_vector_encoder<fifi::binary16,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-        }
+        factory = create_factory_wrapper<
+            encoder_factory_wrapper, full_vector_encoder>(
+                finite_field, max_symbols, max_symbol_size, trace_mode);
     }
     else if (code_type == kodo_on_the_fly)
     {
-        if (trace_mode == kodo_trace_disabled)
-        {
-            if (finite_field == kodo_binary)
-            {
-                factory = new encoder_factory_wrapper<
-                    on_the_fly_encoder<fifi::binary,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary4)
-            {
-                factory = new encoder_factory_wrapper<
-                    on_the_fly_encoder<fifi::binary4,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary8)
-            {
-                factory = new encoder_factory_wrapper<
-                    on_the_fly_encoder<fifi::binary8,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary16)
-            {
-                factory = new encoder_factory_wrapper<
-                    on_the_fly_encoder<fifi::binary16,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-        }
-        else
-        {
-            if (finite_field == kodo_binary)
-            {
-                factory = new encoder_factory_wrapper<
-                    on_the_fly_encoder<fifi::binary,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary4)
-            {
-                factory = new encoder_factory_wrapper<
-                    on_the_fly_encoder<fifi::binary4,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary8)
-            {
-                factory = new encoder_factory_wrapper<
-                    on_the_fly_encoder<fifi::binary8,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary16)
-            {
-                factory = new encoder_factory_wrapper<
-                    on_the_fly_encoder<fifi::binary16,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-        }
+        factory = create_factory_wrapper<
+            encoder_factory_wrapper, on_the_fly_encoder>(
+                finite_field, max_symbols, max_symbol_size, trace_mode);
     }
     else if (code_type == kodo_sliding_window)
     {
-        if (trace_mode == kodo_trace_disabled)
-        {
-            if (finite_field == kodo_binary)
-            {
-                factory = new encoder_factory_wrapper<
-                    sliding_window_encoder<fifi::binary,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary4)
-            {
-                factory = new encoder_factory_wrapper<
-                    sliding_window_encoder<fifi::binary4,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary8)
-            {
-                factory = new encoder_factory_wrapper<
-                    sliding_window_encoder<fifi::binary8,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary16)
-            {
-                factory = new encoder_factory_wrapper<
-                    sliding_window_encoder<fifi::binary16,
-                        disable_trace>>(max_symbols, max_symbol_size);
-            }
-        }
-        else
-        {
-            if (finite_field == kodo_binary)
-            {
-                factory = new encoder_factory_wrapper<
-                    sliding_window_encoder<fifi::binary,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary4)
-            {
-                factory = new encoder_factory_wrapper<
-                    sliding_window_encoder<fifi::binary4,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary8)
-            {
-                factory = new encoder_factory_wrapper<
-                    sliding_window_encoder<fifi::binary8,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-            else if (finite_field == kodo_binary16)
-            {
-                factory = new encoder_factory_wrapper<
-                    sliding_window_encoder<fifi::binary16,
-                        enable_trace>>(max_symbols, max_symbol_size);
-            }
-        }
+        factory = create_factory_wrapper<
+            encoder_factory_wrapper, sliding_window_encoder>(
+                finite_field, max_symbols, max_symbol_size, trace_mode);
     }
 
-    // Unknown code type or field type
+    // Unknown code type
     assert(factory);
 
     return factory;
