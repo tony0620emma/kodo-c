@@ -24,7 +24,7 @@ int main()
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t symbols = 1000;
+    uint32_t symbols = 10;
     uint32_t symbol_size = 100;
 
     // Here we select the finite field to use common choices are
