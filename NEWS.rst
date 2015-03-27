@@ -6,6 +6,10 @@ of every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+3.1.0
+-----
 * Minor: Added the ``kodo_sparse_seed_rlnc`` code type that implements a sparse
   seed-based RLNC codec. The code density should be set on the encoder side.
   The maximum size of the coding header is 9 bytes.
