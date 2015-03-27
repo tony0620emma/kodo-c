@@ -134,7 +134,7 @@ void test_read_write_symbol(uint32_t symbols, uint32_t symbol_size,
         kodo_set_symbol(decoder, i, output_symbols[i], symbol_size);
     }
 
-    ASSERT_TRUE(kodo_is_complete(decoder) == 0);
+    EXPECT_TRUE(kodo_is_complete(decoder) == 0);
 
     // Generate coded symbols and feed them to the decoder
     for (i = 0; i < symbols; ++i)
@@ -175,6 +175,5 @@ void test_read_write_symbol(uint32_t symbols, uint32_t symbol_size,
 
 TEST(TestReadWriteSymbol, coded_symbols)
 {
-    test_read_write_symbol(3, 1,
-                           kodo_full_rlnc, kodo_binary);
+    test_read_write_symbol(3, 1, kodo_full_rlnc, kodo_binary);
 }

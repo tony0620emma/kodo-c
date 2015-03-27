@@ -119,6 +119,12 @@ int main()
     //    kodo_set_systematic_off(encoder);
     // }
 
+    // Install a custom trace function for the decoder (if tracing is enabled)
+    if (kodo_has_trace(decoder))
+    {
+        kodo_trace_callback(decoder, trace_callback);
+    }
+
     while (!kodo_is_complete(decoder))
     {
         // The encoder will use a certain amount of bytes of the payload
@@ -140,11 +146,6 @@ int main()
         kodo_read_payload(decoder, payload);
         printf("Payload processed by decoder, current rank = %d\n\n",
                kodo_rank(decoder));
-
-        if (kodo_has_trace(decoder))
-        {
-            kodo_trace_callback(decoder, trace_callback);
-        }
     }
 
     // Compare the input and output symbols one-by-one

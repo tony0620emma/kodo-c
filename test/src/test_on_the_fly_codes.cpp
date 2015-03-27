@@ -38,7 +38,7 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
     for (uint32_t i = 0; i < block_size; ++i)
         data_in[i] = rand() % 256;
 
-    ASSERT_TRUE(kodo_is_complete(decoder) == 0);
+    EXPECT_TRUE(kodo_is_complete(decoder) == 0);
 
     while (!kodo_is_complete(decoder))
     {

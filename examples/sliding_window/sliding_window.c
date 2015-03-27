@@ -38,7 +38,7 @@ int main()
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
     uint8_t max_symbols = 6;
-    uint8_t max_symbol_size = 160;
+    uint8_t max_symbol_size = 100;
 
     int32_t code_type = kodo_sliding_window;
     int32_t finite_field = kodo_binary8;
@@ -81,16 +81,21 @@ int main()
 
     uint32_t i = 0;
 
-    //Just for fun - fill data with random data
+    //Just for fun - fill data_in with random data
     for (; i < block_size; ++i)
     {
         data_in[i] = rand() % 256;
     }
 
+    // Install a custom trace function for the decoder (if tracing is enabled)
+    if (kodo_has_trace(decoder))
+    {
+        kodo_trace_callback(decoder, trace_callback);
+    }
+
     while (!kodo_is_complete(decoder))
     {
-        printf("\n");
-
+        // Randomly choose to insert a symbol
         if ((rand() % 2) && kodo_rank(encoder) < max_symbols)
         {
             uint32_t rank = kodo_rank(encoder);
@@ -99,30 +104,27 @@ int main()
             printf("Symbol %d added to the encoder\n", rank);
         }
 
-        if (kodo_rank(encoder) == 0)
+        // Only send packets if the encoder has more data than the decoder
+        if (kodo_rank(encoder) == kodo_rank(decoder))
         {
             continue;
         }
 
         kodo_write_payload(encoder, payload);
 
-        printf("Packet encoded\n");
+        printf("Encoded packet generated\n");
 
+        // Here we simulate that we are losing 50% of the packets
         if (rand() % 2)
         {
-            printf("Packet dropped on channel\n");
+            printf("Packet dropped on channel\n\n");
             continue;
         }
 
         printf("Decoder received packet\n");
 
+        // Packet got through - pass that packet to the decoder
         kodo_read_payload(decoder, payload);
-
-        if (kodo_has_trace(decoder))
-        {
-            printf("Trace decoder:\n");
-            kodo_trace_callback(decoder, trace_callback);
-        }
 
         printf("Encoder rank = %d\n", kodo_rank(encoder));
         printf("Decoder rank = %d\n", kodo_rank(decoder));
@@ -130,15 +132,10 @@ int main()
         printf("Decoder uncoded = %d\n", kodo_symbols_uncoded(decoder));
         printf("Decoder seen = %d\n", kodo_symbols_seen(decoder));
 
+        // Transmit the feedback
         kodo_write_feedback(decoder, feedback);
 
-        if (rand() % 2)
-        {
-            printf("Lost feedback from decoder\n");
-            continue;
-        }
-
-        printf("Received feedback from decoder\n");
+        printf("Received feedback from decoder\n\n");
 
         kodo_read_feedback(encoder, feedback);
     }

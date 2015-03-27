@@ -32,8 +32,8 @@ int main()
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 42;
-    uint32_t max_symbol_size = 160;
+    uint32_t max_symbols = 10;
+    uint32_t max_symbol_size = 100;
 
     // Here we select the coding code_type we wish to use
     int32_t code_type = kodo_full_rlnc;
@@ -45,7 +45,7 @@ int main()
     kodo_factory_t encoder_factory =
         kodo_new_encoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size,
-                                 kodo_trace_enabled);
+                                 kodo_trace_disabled);
 
     kodo_factory_t decoder_factory =
         kodo_new_decoder_factory(code_type, finite_field,
@@ -105,6 +105,12 @@ int main()
     //    kodo_set_systematic_off(encoder);
     // }
 
+    // Install a custom trace function for the decoder (if tracing is enabled)
+    if (kodo_has_trace(decoder))
+    {
+        kodo_trace_callback(decoder, trace_callback);
+    }
+
     while (!kodo_is_complete(decoder))
     {
         // The encoder will use a certain amount of bytes of the payload
@@ -118,11 +124,6 @@ int main()
         kodo_read_payload(decoder, payload);
         printf("Payload processed by decoder, current rank = %d\n",
                kodo_rank(decoder));
-
-        if (kodo_has_trace(decoder))
-        {
-            kodo_trace_callback(decoder, trace_callback);
-        }
     }
 
     kodo_copy_symbols(decoder, data_out, block_size);
