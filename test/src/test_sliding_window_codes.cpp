@@ -78,7 +78,7 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     // to produce encoded symbols from it
     kodo_set_symbols(encoder, data_in, block_size);
 
-    ASSERT_TRUE(kodo_is_complete(decoder) == 0);
+    EXPECT_TRUE(kodo_is_complete(decoder) == 0);
 
     while (!kodo_is_complete(decoder))
     {

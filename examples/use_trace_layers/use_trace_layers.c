@@ -33,8 +33,8 @@ int main()
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 8;
-    uint32_t max_symbol_size = 33;
+    uint32_t max_symbols = 6;
+    uint32_t max_symbol_size = 32;
 
     int32_t code_type = kodo_full_rlnc;
     int32_t finite_field = kodo_binary8;
@@ -44,7 +44,7 @@ int main()
     kodo_factory_t encoder_factory =
         kodo_new_encoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size,
-                                 kodo_trace_disabled);
+                                 kodo_trace_enabled);
 
     kodo_factory_t decoder_factory =
         kodo_new_decoder_factory(code_type, finite_field,
@@ -79,17 +79,23 @@ int main()
         data_in[i] = rand() % 256;
     }
 
+    // Install the default trace function for encoder (writes to stdout)
+    if (kodo_has_trace(encoder))
+    {
+        kodo_trace(encoder);
+    }
+
+    // Install a custom trace function for the decoder if tracing is enabled
+    if (kodo_has_trace(decoder))
+    {
+        kodo_trace_callback(decoder, trace_callback);
+    }
+
     kodo_set_symbols(encoder, data_in, block_size);
 
     while (!kodo_is_complete(decoder))
     {
         kodo_write_payload(encoder, payload);
-
-        if (kodo_has_trace(encoder))
-        {
-            printf("Trace encoder:\n");
-            kodo_trace(encoder);
-        }
 
         if ((rand() % 2) == 0)
         {
@@ -97,12 +103,6 @@ int main()
         }
 
         kodo_read_payload(decoder, payload);
-
-        if (kodo_has_trace(decoder))
-        {
-            printf("Trace decoder:\n");
-            kodo_trace_callback(decoder, trace_callback);
-        }
     }
 
     uint8_t* data_out = (uint8_t*) malloc(kodo_block_size(decoder));
