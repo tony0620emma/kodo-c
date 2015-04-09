@@ -217,10 +217,10 @@ uint32_t kodo_rank(kodo_coder_t coder)
     return coder->rank();
 }
 
-uint8_t kodo_symbol_pivot(kodo_coder_t coder, uint32_t index)
+uint8_t kodo_is_symbol_pivot(kodo_coder_t coder, uint32_t index)
 {
     assert(coder);
-    return coder->symbol_pivot(index);
+    return coder->is_symbol_pivot(index);
 }
 
 uint8_t kodo_is_symbol_uncoded(kodo_coder_t decoder, uint32_t index)

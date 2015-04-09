@@ -193,7 +193,7 @@ uint32_t kodo_factory_max_payload_size(kodo_factory_t factory);
 KODOC_API
 void kodo_factory_set_symbols(kodo_factory_t factory, uint32_t symbols);
 
-/// Sets the number of symbols which should be used for the subsequent
+/// Sets the symbol size which should be used for the subsequent
 /// encoders / decoders built with the specified factory. The value must
 /// be below the max symbols used for the specific factory.
 /// @param factory The factory which should be configured
@@ -322,8 +322,8 @@ KODOC_API
 uint8_t kodo_is_complete(kodo_coder_t decoder);
 
 /// Check whether decoding is partially complete. This means that some
-/// symbols in the decoder has been fully decoded. You can use the
-/// kodo_symbol_pivot(uint32_t) to determine which symbols.
+/// symbols in the decoder are fully decoded. You can use the
+/// kodo_is_symbol_uncoded() function to determine which symbols.
 /// @param decoder The decoder to query
 /// @return Non-zero value if the decoding is partially complete, otherwise 0
 KODOC_API
@@ -364,20 +364,20 @@ KODOC_API
 uint32_t kodo_write_feedback(kodo_coder_t decoder, uint8_t* feedback);
 
 /// Indicates whether a symbol is defined in the coding matrix
-/// of encoder or decoder. A symbol with a pivot element might not be fully
+/// of an encoder/decoder. A symbol with a pivot element might not be fully
 /// decoded in the coding matrix of a decoder, therefore use the
 /// kodo_is_symbol_uncoded() function to check if a symbol is fully decoded.
 /// @param coder The encoder/decoder to query
 /// @param index Index of the symbol whose state should be checked
 /// @return Non-zero value if the symbol is defined, otherwise 0
 KODOC_API
-uint8_t kodo_symbol_pivot(kodo_coder_t coder, uint32_t index);
+uint8_t kodo_is_symbol_pivot(kodo_coder_t coder, uint32_t index);
 
 /// Indicates whether a symbol is available in an uncoded (i.e. fully decoded)
 /// form in an encoder or decoder.
 /// @param coder The decoder to query
 /// @param index Index of the symbol whose state should be checked
-/// @return Non-zero value if the symbol is , otherwise 0
+/// @return Non-zero value if the symbol is uncoded, otherwise 0
 KODOC_API
 uint8_t kodo_is_symbol_uncoded(kodo_coder_t decoder, uint32_t index);
 
@@ -458,14 +458,14 @@ void kodo_set_density(kodo_coder_t encoder, double density);
 // GENERIC API
 //------------------------------------------------------------------
 
-/// Check whether the decoder has support for partial decoding tracker. This
-/// basically means that the decoder will be able to decode symbols on the fly.
+/// Check whether the decoder supports partial decoding. This means
+/// means that the decoder will be able to decode symbols on-the-fly.
 /// If the decoder supports the partial decoding tracker, then the function
 /// kodo_is_partial_complete() may be used to determine whether some of the
 /// symbols has been fully decoded and therefore can be copied out of the
 /// decoder.
 /// @param coder The decoder to query
-/// @return Non-zero value if the decoder is partially decoded, otherwise 0
+/// @return Non-zero if the decoder supports partial decoding, otherwise 0
 KODOC_API
 uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t decoder);
 

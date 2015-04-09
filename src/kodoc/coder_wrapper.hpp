@@ -58,7 +58,7 @@ namespace kodo
             return m_coder->symbols();
         }
 
-        virtual bool symbol_pivot(uint32_t index) const
+        virtual bool is_symbol_pivot(uint32_t index) const
         {
             return m_coder->is_symbol_pivot(index);
         }
