@@ -77,6 +77,9 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
                 // Go through all symbols that are already decoded
                 if (kodo_is_symbol_uncoded(decoder, i))
                 {
+                    // All uncoded symbols must have a pivot
+                    EXPECT_TRUE(kodo_is_symbol_pivot(decoder, i) != 0);
+
                     uint8_t* original = data_in + i * symbol_size;
                     uint8_t* target = data_out + i * symbol_size;
 

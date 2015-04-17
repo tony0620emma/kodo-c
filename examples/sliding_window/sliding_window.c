@@ -95,8 +95,8 @@ int main()
 
     while (!kodo_is_complete(decoder))
     {
-        // Randomly choose to insert a symbol
-        if ((rand() % 2) && kodo_rank(encoder) < max_symbols)
+        // Insert a new symbol until the encoder is full
+        if (kodo_rank(encoder) < max_symbols)
         {
             uint32_t rank = kodo_rank(encoder);
             uint8_t* symbol = data_in + (rank * max_symbol_size);
@@ -110,8 +110,8 @@ int main()
             continue;
         }
 
+        // Write an encoded packet into the payload buffer
         kodo_write_payload(encoder, payload);
-
         printf("Encoded packet generated\n");
 
         // Here we simulate that we are losing 50% of the packets
@@ -135,8 +135,9 @@ int main()
         // Transmit the feedback
         kodo_write_feedback(decoder, feedback);
 
+        // Note that the feedback packets can also be lost in a real network,
+        // but here we deliver all of them for the sake of simplicity
         printf("Received feedback from decoder\n\n");
-
         kodo_read_feedback(encoder, feedback);
     }
 

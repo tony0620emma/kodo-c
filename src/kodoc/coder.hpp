@@ -9,7 +9,7 @@
 
 extern "C"
 {
-    /// Base class for both encoder and decoder implementations.
+    /// Represents the common interface of encoders and decoders.
     struct kodo_coder
     {
         virtual ~kodo_coder() {}
@@ -19,7 +19,7 @@ extern "C"
         virtual uint32_t rank() const = 0;
         virtual uint32_t symbol_size() const = 0;
         virtual uint32_t symbols() const = 0;
-        virtual bool symbol_pivot(uint32_t) const = 0;
+        virtual bool is_symbol_pivot(uint32_t) const = 0;
 
         virtual void set_symbols(
             uint8_t* data, uint32_t size) = 0;

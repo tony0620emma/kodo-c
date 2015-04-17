@@ -174,7 +174,7 @@ int main(int argc, char* argv[])
             uint32_t i = 0;
             for (; i < kodo_symbols(decoder); ++i)
             {
-                if (!kodo_symbol_pivot(decoder, i))
+                if (!kodo_is_symbol_uncoded(decoder, i))
                     continue;
 
                 if (!decoded[i])
