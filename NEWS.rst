@@ -6,6 +6,10 @@ of every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+4.0.0
+-----
 * Major: Upgrade to kodo 26
 * Major: Renamed ``kodo_symbol_pivot`` to ``kodo_is_symbol_pivot`` to match the
   function name in Kodo.
