@@ -3,7 +3,7 @@ License
 
 To obtain a valid Kodo license **you must fill out the license request** form_.
 
-Kodo is available under a research and educational friendly license, see the
+Kodo is available under a research- and education-friendly license, see the
 details in the LICENSE.rst file.
 
 .. _form: http://steinwurf.com/license/
@@ -19,6 +19,10 @@ sample applications that demonstrate the usage of the C API.
 .. image:: http://buildbot.steinwurf.dk/svgstatus?project=kodo-c
     :target: http://buildbot.steinwurf.dk/stats?projects=kodo-c
 
+If you have any questions or suggestions about this library, please contact
+us at our developer mailing list (hosted at Google Groups):
+
+* http://groups.google.com/group/steinwurf-dev
 
 Building and Using the C bindings
 =================================
