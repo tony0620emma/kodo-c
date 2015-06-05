@@ -57,6 +57,7 @@ inline void test_combinations(
     std::vector<int32_t> fields =
     {
         kodo_binary,
+        kodo_binary4,
         kodo_binary8,
         kodo_binary16
     };

@@ -29,6 +29,8 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     EXPECT_EQ(symbols * symbol_size, kodo_block_size(decoder));
     EXPECT_GT(kodo_payload_size(decoder), symbol_size);
     EXPECT_EQ(0U, kodo_rank(decoder));
+    EXPECT_EQ(0U, kodo_symbols_uncoded(decoder));
+    EXPECT_EQ(0U, kodo_symbols_seen(decoder));
 
     if (code_type == kodo_full_rlnc ||
         code_type == kodo_on_the_fly)
@@ -48,6 +50,7 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     else if (trace_enabled == kodo_trace_enabled)
     {
         EXPECT_TRUE(kodo_has_trace(decoder) != 0);
+        kodo_trace(decoder);
     }
 
     // Decoder methods

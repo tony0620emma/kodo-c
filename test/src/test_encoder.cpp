@@ -48,6 +48,7 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
     else if (trace_enabled == kodo_trace_enabled)
     {
         EXPECT_TRUE(kodo_has_trace(encoder) != 0);
+        kodo_trace(encoder);
     }
 
     // Enoder methods
