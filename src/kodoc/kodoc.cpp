@@ -117,6 +117,12 @@ uint32_t kodo_write_payload(kodo_coder_t coder, uint8_t* payload)
     return coder->write_payload(payload);
 }
 
+uint8_t kodo_has_write_payload(kodo_coder_t coder)
+{
+    assert(coder);
+    return (uint8_t)coder->has_write_payload();
+}
+
 //------------------------------------------------------------------
 // SYMBOL STORAGE API
 //------------------------------------------------------------------

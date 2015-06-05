@@ -53,6 +53,16 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
         kodo_trace(decoder);
     }
 
+    // Seed-based codecs do not provide write_payload, i.e. recoding
+    if (code_type == kodo_seed_rlnc || code_type == kodo_sparse_seed_rlnc)
+    {
+        EXPECT_TRUE(kodo_has_write_payload(decoder) == 0);
+    }
+    else
+    {
+        EXPECT_TRUE(kodo_has_write_payload(decoder) != 0);
+    }
+
     // Decoder methods
 
     if (code_type == kodo_on_the_fly ||

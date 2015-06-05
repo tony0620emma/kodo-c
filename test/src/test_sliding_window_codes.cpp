@@ -11,18 +11,37 @@
 
 #include "test_helper.hpp"
 
+static uint32_t encoder_trace_called = 0;
+static uint32_t decoder_trace_called = 0;
+
+static void encoder_trace_callback(const char* zone, const char* data)
+{
+    EXPECT_TRUE(zone != 0);
+    EXPECT_TRUE(data != 0);
+
+    encoder_trace_called++;
+}
+
+static void decoder_trace_callback(const char* zone, const char* data)
+{
+    EXPECT_TRUE(zone != 0);
+    EXPECT_TRUE(data != 0);
+
+    decoder_trace_called++;
+}
+
 void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
                          int32_t code_type, int32_t finite_field)
 {
     kodo_factory_t encoder_factory =
         kodo_new_encoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size,
-                                 kodo_trace_disabled);
+                                 kodo_trace_enabled);
 
     kodo_factory_t decoder_factory =
         kodo_new_decoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size,
-                                 kodo_trace_disabled);
+                                 kodo_trace_enabled);
 
     kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
@@ -74,6 +93,14 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     for(uint32_t i = 0; i < block_size; ++i)
         data_in[i] = rand() % 256;
 
+    // Install a custom trace function for the encoder and decoder
+    EXPECT_TRUE(kodo_has_trace(encoder) != 0);
+    kodo_trace_callback(encoder, encoder_trace_callback);
+
+    EXPECT_TRUE(kodo_has_trace(decoder) != 0);
+    kodo_trace_callback(decoder, decoder_trace_callback);
+
+
     // Assign the data buffer to the encoder so that we may start
     // to produce encoded symbols from it
     kodo_set_symbols(encoder, data_in, block_size);
@@ -99,6 +126,10 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     kodo_copy_symbols(decoder, data_out, block_size);
     // Check if we properly decoded the data
     EXPECT_EQ(memcmp(data_in, data_out, block_size), 0);
+
+    // Check that the trace functions were called at least once
+    EXPECT_GT(encoder_trace_called, 0U);
+    EXPECT_GT(decoder_trace_called, 0U);
 
     free(data_in);
     free(data_out);

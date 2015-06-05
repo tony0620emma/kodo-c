@@ -51,6 +51,8 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
         kodo_trace(encoder);
     }
 
+    EXPECT_TRUE(kodo_has_write_payload(encoder) != 0);
+
     // Enoder methods
 
     EXPECT_TRUE(kodo_has_set_systematic_off(encoder) != 0);
