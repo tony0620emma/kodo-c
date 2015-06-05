@@ -260,6 +260,13 @@ void kodo_read_payload(kodo_coder_t decoder, uint8_t* payload);
 KODOC_API
 uint32_t kodo_write_payload(kodo_coder_t coder, uint8_t* payload);
 
+/// Checks whether the encoder/decoder provides the kodo_write_payload()
+/// function.
+/// @param coder The encoder/decoder to query
+/// @return Non-zero value if kodo_write_payload is supported, otherwise 0
+KODOC_API
+uint8_t kodo_has_write_payload(kodo_coder_t coder);
+
 //------------------------------------------------------------------
 // SYMBOL STORAGE API
 //------------------------------------------------------------------
