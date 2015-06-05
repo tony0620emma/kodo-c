@@ -6,7 +6,9 @@ of every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Minor: Added buildbot.py for coverage reports.
+* Minor: Added ``kodo_has_write_payload`` to check if a coder provides the
+  ``kodo_write_payload`` function.
 
 4.0.0
 -----
