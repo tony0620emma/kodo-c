@@ -6,7 +6,7 @@ of every change, see the Git log.
 
 Latest
 ------
-* Major: Renamed `trace` and `trace_callback` to the appropiate names from the
+* Major: Renamed `trace` and `trace_callback` to the appropriate names from the
   new kodo version.
 * Major: Upgrade to kodo 27
 * Minor: Added buildbot.py for coverage reports.
