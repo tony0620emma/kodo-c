@@ -13,12 +13,12 @@
 
 static void test_decoder(uint32_t symbols, uint32_t symbol_size,
                          int32_t code_type, int32_t finite_field,
-                         int32_t trace_enabled)
+                         int32_t trace)
 {
     kodo_factory_t decoder_factory =
         kodo_new_decoder_factory(code_type, finite_field,
                                  symbols, symbol_size,
-                                 trace_enabled);
+                                 trace);
 
     kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
 
@@ -43,14 +43,18 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
         EXPECT_GT(kodo_feedback_size(decoder), 0U);
     }
 
-    if (trace_enabled == kodo_trace_disabled)
+    if (trace == kodo_trace_disabled)
     {
-        EXPECT_TRUE(kodo_has_trace(decoder) == 0);
+        EXPECT_FALSE(kodo_has_set_trace_callback(decoder));
+        EXPECT_FALSE(kodo_has_set_trace_stdout(decoder));
+        EXPECT_FALSE(kodo_has_set_trace_off(decoder));
     }
-    else if (trace_enabled == kodo_trace_enabled)
+    else if (trace == kodo_trace_enabled)
     {
-        EXPECT_TRUE(kodo_has_trace(decoder) != 0);
-        kodo_trace(decoder);
+        EXPECT_TRUE(kodo_has_set_trace_callback(decoder));
+        EXPECT_TRUE(kodo_has_set_trace_stdout(decoder));
+        EXPECT_TRUE(kodo_has_set_trace_off(decoder));
+        kodo_set_trace_stdout(decoder);
     }
 
     // Seed-based codecs do not provide write_payload, i.e. recoding

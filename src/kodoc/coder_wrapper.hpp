@@ -11,9 +11,12 @@
 
 #include <kodo/feedback_size.hpp>
 #include <kodo/has_feedback_size.hpp>
-#include <kodo/has_partial_decoding_tracker.hpp>
-#include <kodo/is_partial_complete.hpp>
-#include <kodo/trace.hpp>
+#include <kodo/has_set_trace_callback.hpp>
+#include <kodo/set_trace_callback.hpp>
+#include <kodo/has_set_trace_stdout.hpp>
+#include <kodo/set_trace_stdout.hpp>
+#include <kodo/has_set_trace_off.hpp>
+#include <kodo/set_trace_off.hpp>
 #include <kodo/write_payload.hpp>
 
 namespace kodo
@@ -75,30 +78,41 @@ namespace kodo
             m_coder->set_symbol(index, storage);
         }
 
-        virtual bool has_trace() const
+        virtual bool has_set_trace_callback() const
         {
-            return kodo::has_trace<KodoStack>::value;
+            return kodo::has_set_trace_callback<KodoStack>::value;
         }
 
-        virtual void trace(kodo_trace_callback_t trace_callback)
+        virtual bool has_set_trace_stdout() const
         {
-            if (!kodo::has_trace<KodoStack>::value)
-                return;
+            return kodo::has_set_trace_stdout<KodoStack>::value;
+        }
 
-            if (trace_callback)
-            {
-                auto callback = [trace_callback](const std::string& zone,
-                                                 const std::string& data)
-                {
-                    trace_callback(zone.c_str(), data.c_str());
-                };
+        virtual bool has_set_trace_off() const
+        {
+            return kodo::has_set_trace_off<KodoStack>::value;
+        }
 
-                kodo::trace<KodoStack>(*m_coder, callback);
-            }
-            else
+        virtual void set_trace_callback(kodo_trace_callback_t trace_callback)
+        {
+            assert(trace_callback);
+            auto callback = [trace_callback](const std::string& zone,
+                                             const std::string& data)
             {
-                kodo::trace<KodoStack>(*m_coder);
-            }
+                trace_callback(zone.c_str(), data.c_str());
+            };
+
+            kodo::set_trace_callback<KodoStack>(*m_coder, callback);
+        }
+
+        virtual void set_trace_stdout()
+        {
+            kodo::set_trace_stdout<KodoStack>(*m_coder);
+        }
+
+        virtual void set_trace_off()
+        {
+            kodo::set_trace_off<KodoStack>(*m_coder);
         }
 
         virtual bool has_feedback_size() const

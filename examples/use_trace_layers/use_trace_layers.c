@@ -79,16 +79,16 @@ int main()
         data_in[i] = rand() % 256;
     }
 
-    // Install the default trace function for encoder (writes to stdout)
-    if (kodo_has_trace(encoder))
+    // Install the stdout trace function for encoder
+    if (kodo_has_set_trace_stdout(encoder))
     {
-        kodo_trace(encoder);
+        kodo_set_trace_stdout(encoder);
     }
 
     // Install a custom trace function for the decoder if tracing is enabled
-    if (kodo_has_trace(decoder))
+    if (kodo_has_set_trace_callback(decoder))
     {
-        kodo_trace_callback(decoder, trace_callback);
+        kodo_set_trace_callback(decoder, trace_callback);
     }
 
     kodo_set_symbols(encoder, data_in, block_size);

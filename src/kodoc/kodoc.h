@@ -509,24 +509,41 @@ void kodo_set_systematic_off(kodo_coder_t encoder);
 // TRACE API
 //------------------------------------------------------------------
 
-/// Returns whether an encoder or decoder has trace capabilities
+/// Returns whether an encoder or decoder has set trace callback capabilities
 /// @param coder The encoder/decoder to query
 /// @return Non-zero value if tracing is supported, otherwise 0
 KODOC_API
-uint8_t kodo_has_trace(kodo_coder_t coder);
+uint8_t kodo_has_set_trace_callback(kodo_coder_t coder);
 
-/// Enables the default trace function of the encoder/decoder, which prints
+/// Returns whether an encoder or decoder has stdout trace capabilities
+/// @param coder The encoder/decoder to query
+/// @return Non-zero value if tracing is supported, otherwise 0
+KODOC_API
+uint8_t kodo_has_set_trace_stdout(kodo_coder_t coder);
+
+/// Returns whether an encoder or decoder has set trace off capabilities
+/// @param coder The encoder/decoder to query
+/// @return Non-zero value if tracing is supported, otherwise 0
+KODOC_API
+uint8_t kodo_has_set_trace_off(kodo_coder_t coder);
+
+/// Enables the trace function of the encoder/decoder, which prints
 /// to the standard output.
 /// @param coder The encoder/decoder to use
 KODOC_API
-void kodo_trace(kodo_coder_t coder);
+void kodo_set_trace_stdout(kodo_coder_t coder);
 
 /// Registers a custom callback that will get the trace output of an encoder
 /// or decoder.
 /// @param coder The encoder/decoder to use
 /// @param callback The callback that processes the trace output
 KODOC_API
-void kodo_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback);
+void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback);
+
+/// Disables the trace function of the encoder/decoder.
+/// @param coder The encoder/decoder to use
+KODOC_API
+void kodo_set_trace_off(kodo_coder_t coder);
 
 #ifdef __cplusplus
 }
