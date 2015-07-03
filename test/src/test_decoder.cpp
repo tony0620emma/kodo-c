@@ -45,16 +45,17 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
 
     if (trace == kodo_trace_disabled)
     {
-        EXPECT_FALSE(kodo_has_set_trace_callback(decoder));
-        EXPECT_FALSE(kodo_has_set_trace_stdout(decoder));
-        EXPECT_FALSE(kodo_has_set_trace_off(decoder));
+        EXPECT_TRUE(kodo_has_set_trace_callback(decoder) == 0);
+        EXPECT_TRUE(kodo_has_set_trace_stdout(decoder) == 0);
+        EXPECT_TRUE(kodo_has_set_trace_off(decoder) == 0);
     }
     else if (trace == kodo_trace_enabled)
     {
-        EXPECT_TRUE(kodo_has_set_trace_callback(decoder));
-        EXPECT_TRUE(kodo_has_set_trace_stdout(decoder));
-        EXPECT_TRUE(kodo_has_set_trace_off(decoder));
+        EXPECT_TRUE(kodo_has_set_trace_callback(decoder) != 0);
+        EXPECT_TRUE(kodo_has_set_trace_stdout(decoder) != 0);
+        EXPECT_TRUE(kodo_has_set_trace_off(decoder) != 0);
         kodo_set_trace_stdout(decoder);
+        kodo_set_trace_off(decoder);
     }
 
     // Seed-based codecs do not provide write_payload, i.e. recoding

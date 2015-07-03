@@ -43,16 +43,17 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
 
     if (trace == kodo_trace_disabled)
     {
-        EXPECT_FALSE(kodo_has_set_trace_callback(encoder));
-        EXPECT_FALSE(kodo_has_set_trace_stdout(encoder));
-        EXPECT_FALSE(kodo_has_set_trace_off(encoder));
+        EXPECT_TRUE(kodo_has_set_trace_callback(encoder) == 0);
+        EXPECT_TRUE(kodo_has_set_trace_stdout(encoder) == 0);
+        EXPECT_TRUE(kodo_has_set_trace_off(encoder) == 0);
     }
     else if (trace == kodo_trace_enabled)
     {
-        EXPECT_TRUE(kodo_has_set_trace_callback(encoder));
-        EXPECT_TRUE(kodo_has_set_trace_stdout(encoder));
-        EXPECT_TRUE(kodo_has_set_trace_off(encoder));
+        EXPECT_TRUE(kodo_has_set_trace_callback(encoder) != 0);
+        EXPECT_TRUE(kodo_has_set_trace_stdout(encoder) != 0);
+        EXPECT_TRUE(kodo_has_set_trace_off(encoder) != 0);
         kodo_set_trace_stdout(encoder);
+        kodo_set_trace_off(encoder);
     }
 
     EXPECT_TRUE(kodo_has_write_payload(encoder) != 0);

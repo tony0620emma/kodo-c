@@ -94,10 +94,10 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
         data_in[i] = rand() % 256;
 
     // Install a custom trace function for the encoder and decoder
-    EXPECT_TRUE(kodo_has_set_trace_callback(encoder));
+    EXPECT_TRUE(kodo_has_set_trace_callback(encoder) != 0);
     kodo_set_trace_callback(encoder, encoder_trace_callback);
 
-    EXPECT_TRUE(kodo_has_set_trace_callback(decoder));
+    EXPECT_TRUE(kodo_has_set_trace_callback(decoder) != 0);
     kodo_set_trace_callback(decoder, decoder_trace_callback);
 
 
