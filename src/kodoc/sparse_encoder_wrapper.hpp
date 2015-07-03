@@ -7,20 +7,6 @@
 
 #include <cassert>
 
-#include <sak/storage.hpp>
-
-#include <kodo/read_feedback.hpp>
-
-#include <kodo/has_set_systematic_off.hpp>
-#include <kodo/is_systematic_on.hpp>
-#include <kodo/set_systematic_on.hpp>
-#include <kodo/set_systematic_off.hpp>
-
-#include <kodo/trace.hpp>
-
-#include <kodo/has_feedback_size.hpp>
-#include <kodo/feedback_size.hpp>
-
 #include "encoder_wrapper.hpp"
 
 namespace kodo

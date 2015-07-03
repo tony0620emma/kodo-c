@@ -6,6 +6,9 @@ of every change, see the Git log.
 
 Latest
 ------
+* Major: Renamed `trace` and `trace_callback` to the appropriate names from the
+  new kodo version.
+* Major: Upgrade to kodo 27
 * Minor: Added buildbot.py for coverage reports.
 * Minor: Added ``kodo_has_write_payload`` to check if a coder provides the
   ``kodo_write_payload`` function.

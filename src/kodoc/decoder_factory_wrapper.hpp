@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 #include "factory_wrapper.hpp"
 #include "decoder_wrapper.hpp"
 

@@ -27,8 +27,13 @@ extern "C"
         virtual void set_symbol(
             uint32_t index, uint8_t* data, uint32_t size) = 0;
 
-        virtual bool has_trace() const = 0;
-        virtual void trace(kodo_trace_callback_t) = 0;
+        virtual bool has_set_trace_stdout() const = 0;
+        virtual bool has_set_trace_callback() const = 0;
+        virtual bool has_set_trace_off() const = 0;
+
+        virtual void set_trace_stdout() = 0;
+        virtual void set_trace_callback(kodo_trace_callback_t) = 0;
+        virtual void set_trace_off() = 0;
 
         virtual bool has_feedback_size() const = 0;
         virtual uint32_t feedback_size() const = 0;

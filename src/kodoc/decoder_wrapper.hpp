@@ -12,7 +12,6 @@
 #include <kodo/has_partial_decoding_tracker.hpp>
 #include <kodo/is_partial_complete.hpp>
 #include <kodo/symbol_decoding_status_tracker.hpp>
-#include <kodo/trace.hpp>
 #include <kodo/trace_linear_block_decoder.hpp>
 #include <kodo/write_feedback.hpp>
 

@@ -5,7 +5,6 @@
 
 #include "kodoc.h"
 
-#include <cstring>
 #include <cstdint>
 #include <cassert>
 

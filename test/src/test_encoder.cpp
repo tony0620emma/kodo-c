@@ -13,12 +13,12 @@
 
 static void test_encoder(uint32_t symbols, uint32_t symbol_size,
                          int32_t code_type, int32_t finite_field,
-                         int32_t trace_enabled)
+                         int32_t trace)
 {
     kodo_factory_t encoder_factory =
         kodo_new_encoder_factory(code_type, finite_field,
                                  symbols, symbol_size,
-                                 trace_enabled);
+                                 trace);
 
     kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
 
@@ -41,14 +41,19 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
         EXPECT_GT(kodo_feedback_size(encoder), 0U);
     }
 
-    if (trace_enabled == kodo_trace_disabled)
+    if (trace == kodo_trace_disabled)
     {
-        EXPECT_TRUE(kodo_has_trace(encoder) == 0);
+        EXPECT_TRUE(kodo_has_set_trace_callback(encoder) == 0);
+        EXPECT_TRUE(kodo_has_set_trace_stdout(encoder) == 0);
+        EXPECT_TRUE(kodo_has_set_trace_off(encoder) == 0);
     }
-    else if (trace_enabled == kodo_trace_enabled)
+    else if (trace == kodo_trace_enabled)
     {
-        EXPECT_TRUE(kodo_has_trace(encoder) != 0);
-        kodo_trace(encoder);
+        EXPECT_TRUE(kodo_has_set_trace_callback(encoder) != 0);
+        EXPECT_TRUE(kodo_has_set_trace_stdout(encoder) != 0);
+        EXPECT_TRUE(kodo_has_set_trace_off(encoder) != 0);
+        kodo_set_trace_stdout(encoder);
+        kodo_set_trace_off(encoder);
     }
 
     EXPECT_TRUE(kodo_has_write_payload(encoder) != 0);

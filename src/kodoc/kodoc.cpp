@@ -343,20 +343,38 @@ void kodo_set_systematic_off(kodo_coder_t encoder)
 // TRACE API
 //------------------------------------------------------------------
 
-uint8_t kodo_has_trace(kodo_coder_t coder)
+uint8_t kodo_has_set_trace_callback(kodo_coder_t coder)
 {
     assert(coder);
-    return (uint8_t)coder->has_trace();
+    return (uint8_t)coder->has_set_trace_callback();
 }
 
-void kodo_trace(kodo_coder_t coder)
+uint8_t kodo_has_set_trace_stdout(kodo_coder_t coder)
 {
     assert(coder);
-    coder->trace(NULL);
+    return (uint8_t)coder->has_set_trace_stdout();
 }
 
-void kodo_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback)
+uint8_t kodo_has_set_trace_off(kodo_coder_t coder)
 {
     assert(coder);
-    coder->trace(callback);
+    return (uint8_t)coder->has_set_trace_off();
+}
+
+void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback)
+{
+    assert(coder);
+    coder->set_trace_callback(callback);
+}
+
+void kodo_set_trace_stdout(kodo_coder_t coder)
+{
+    assert(coder);
+    coder->set_trace_stdout();
+}
+
+void kodo_set_trace_off(kodo_coder_t coder)
+{
+    assert(coder);
+    coder->set_trace_off();
 }
