@@ -61,7 +61,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveVersion(
         name='waf-tools',
         git_repository='github.com/steinwurf/waf-tools.git',
-        major=2, minor=45, patch=0))
+        major=2, minor=47, patch=0))
 
     opt.load('wurf_configure_output')
     opt.load('wurf_dependency_bundle')
