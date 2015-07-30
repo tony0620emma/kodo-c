@@ -6,6 +6,7 @@ of every change, see the Git log.
 
 Latest
 ------
+* Major: Upgrade to fifi 20
 * Major: Renamed `trace` and `trace_callback` to the appropriate names from the
   new kodo version.
 * Major: Upgrade to kodo 27
