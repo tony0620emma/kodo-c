@@ -31,7 +31,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveVersion(
         name='fifi',
         git_repository='github.com/steinwurf/fifi.git',
-        major=19, minor=0, patch=0))
+        major=20, minor=0, patch=0))
 
     bundle.add_dependency(opt, resolve.ResolveVersion(
         name='gtest',
@@ -61,7 +61,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveVersion(
         name='waf-tools',
         git_repository='github.com/steinwurf/waf-tools.git',
-        major=2, minor=48, patch=0))
+        major=2, minor=49, patch=0))
 
     opt.load('wurf_configure_output')
     opt.load('wurf_dependency_bundle')
