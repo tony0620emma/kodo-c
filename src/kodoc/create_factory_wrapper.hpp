@@ -13,7 +13,6 @@
 #include <fifi/default_field.hpp>
 
 #include <kodo/enable_trace.hpp>
-#include <kodo/disable_trace.hpp>
 
 
 template<template<class> class Wrapper, template<class, class> class Coder>
@@ -29,22 +28,22 @@ create_factory_wrapper(int32_t finite_field, uint32_t max_symbols,
     {
         if (finite_field == kodo_binary)
         {
-            factory = new Wrapper<Coder<fifi::binary, disable_trace>>(
+            factory = new Wrapper<Coder<fifi::binary, meta::typelist<>>>(
                 max_symbols, max_symbol_size);
         }
         else if (finite_field == kodo_binary4)
         {
-            factory = new Wrapper<Coder<fifi::binary4, disable_trace>>(
+            factory = new Wrapper<Coder<fifi::binary4, meta::typelist<>>>(
                 max_symbols, max_symbol_size);
         }
         else if (finite_field == kodo_binary8)
         {
-            factory = new Wrapper<Coder<fifi::binary8, disable_trace>>(
+            factory = new Wrapper<Coder<fifi::binary8, meta::typelist<>>>(
                 max_symbols, max_symbol_size);
         }
         else if (finite_field == kodo_binary16)
         {
-            factory = new Wrapper<Coder<fifi::binary16, disable_trace>>(
+            factory = new Wrapper<Coder<fifi::binary16, meta::typelist<>>>(
                 max_symbols, max_symbol_size);
         }
     }
@@ -52,23 +51,27 @@ create_factory_wrapper(int32_t finite_field, uint32_t max_symbols,
     {
         if (finite_field == kodo_binary)
         {
-            factory = new Wrapper<Coder<fifi::binary, enable_trace>>(
-                max_symbols, max_symbol_size);
+            factory = new Wrapper<Coder<fifi::binary,
+                meta::typelist<kodo::enable_trace>>>(
+                    max_symbols, max_symbol_size);
         }
         else if (finite_field == kodo_binary4)
         {
-            factory = new Wrapper<Coder<fifi::binary4, enable_trace>>(
-                max_symbols, max_symbol_size);
+            factory = new Wrapper<Coder<fifi::binary4,
+                meta::typelist<kodo::enable_trace>>>(
+                    max_symbols, max_symbol_size);
         }
         else if (finite_field == kodo_binary8)
         {
-            factory = new Wrapper<Coder<fifi::binary8, enable_trace>>(
-                max_symbols, max_symbol_size);
+            factory = new Wrapper<Coder<fifi::binary8,
+                meta::typelist<kodo::enable_trace>>>(
+                    max_symbols, max_symbol_size);
         }
         else if (finite_field == kodo_binary16)
         {
-            factory = new Wrapper<Coder<fifi::binary16, enable_trace>>(
-                max_symbols, max_symbol_size);
+            factory = new Wrapper<Coder<fifi::binary16,
+                meta::typelist<kodo::enable_trace>>>(
+                    max_symbols, max_symbol_size);
         }
     }
 
