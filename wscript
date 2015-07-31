@@ -41,7 +41,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='kodo',
         git_repository='github.com/steinwurf/kodo.git',
-        major_version=28))
+        major_version=29))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='platform',
@@ -140,9 +140,7 @@ def build(bld):
         defines=['KODOC_STATIC'],
         export_defines=['KODOC_STATIC'],
         export_includes='src',
-        use=['kodo_includes', 'boost_includes', 'fifi',
-             'recycle_includes', 'meta_includes', 'sak_includes',
-             'platform_includes'])
+        use=['kodo_includes'])
 
     # Define the task generator that will build the kodoc shared library
     gen = bld.shlib(
@@ -153,9 +151,7 @@ def build(bld):
         defines=['KODOC_DLL_EXPORTS'],
         install_path=None,
         export_includes='src',
-        use=['kodo_includes', 'boost_includes', 'fifi',
-             'recycle_includes', 'meta_includes', 'sak_includes',
-             'platform_includes'])
+        use=['kodo_includes'])
 
     # Make sure that the task generator is posted, which is necessary in
     # order to access the task generator by name in child projects.
