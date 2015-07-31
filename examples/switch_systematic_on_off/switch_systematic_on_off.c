@@ -118,7 +118,7 @@ int main()
     }
 
     uint8_t* data_out = (uint8_t*) malloc(kodo_block_size(decoder));
-    kodo_copy_symbols(decoder, data_out, kodo_block_size(decoder));
+    kodo_copy_from_symbols(decoder, data_out, kodo_block_size(decoder));
 
     if (memcmp(data_in, data_out, block_size) == 0)
     {

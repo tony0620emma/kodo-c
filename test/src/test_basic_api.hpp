@@ -72,7 +72,7 @@ inline void run_test_basic_api(int32_t code_type, int32_t finite_field,
 
     EXPECT_TRUE(kodo_is_complete(decoder) != 0);
 
-    kodo_copy_symbols(decoder, data_out, block_size);
+    kodo_copy_from_symbols(decoder, data_out, block_size);
 
     EXPECT_EQ(memcmp(data_in, data_out, block_size), 0);
 

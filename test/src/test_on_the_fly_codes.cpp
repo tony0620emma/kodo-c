@@ -90,14 +90,14 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
                     // Copy the decoded symbol and verify it against the
                     // original data
-                    kodo_copy_symbol(decoder, i, target, symbol_size);
+                    kodo_copy_from_symbol(decoder, i, target, symbol_size);
                     EXPECT_EQ(memcmp(original, target, symbol_size), 0);
                 }
             }
         }
     }
 
-    kodo_copy_symbols(decoder, data_out, block_size);
+    kodo_copy_from_symbols(decoder, data_out, block_size);
 
     EXPECT_EQ(memcmp(data_in, data_out, block_size), 0);
 

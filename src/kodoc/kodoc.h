@@ -304,7 +304,7 @@ void kodo_set_symbol(kodo_coder_t encoder, uint32_t index,
 /// @param data The destination buffer to which the data should be copied
 /// @param size The size of the data to be copied
 KODOC_API
-void kodo_copy_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size);
+void kodo_copy_from_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size);
 
 /// Copies a specific symbol to the provided buffer.
 /// @param decoder The decoder which contains the data to be
@@ -313,8 +313,8 @@ void kodo_copy_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size);
 /// @param data The destination buffer to which the data should be copied
 /// @param size The size of the data to be copied
 KODOC_API
-void kodo_copy_symbol(kodo_coder_t decoder, uint32_t index,
-                      uint8_t* data, uint32_t size);
+void kodo_copy_from_symbol(kodo_coder_t decoder, uint32_t index,
+                           uint8_t* data, uint32_t size);
 
 /// Returns the symbol size of an encoder/decoder.
 /// @param coder The encoder/decoder to check

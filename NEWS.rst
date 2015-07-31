@@ -6,6 +6,8 @@ of every change, see the Git log.
 
 Latest
 ------
+* Major: Renamed ``copy_symbol`` and ``copy_symbols`` to
+  ``copy_from_symbol`` and ``copy_from_symbols`` to their name in kodo 29.
 * Major: Upgrade to kodo 29
 * Major: Upgrade to fifi 20
 * Major: Renamed `trace` and `trace_callback` to the appropriate names from the
