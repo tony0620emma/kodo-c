@@ -12,6 +12,8 @@
 
 #include <fifi/default_field.hpp>
 
+#include <meta/typelist.hpp>
+
 #include <kodo/enable_trace.hpp>
 
 

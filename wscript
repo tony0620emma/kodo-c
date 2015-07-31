@@ -141,7 +141,7 @@ def build(bld):
         export_defines=['KODOC_STATIC'],
         export_includes='src',
         use=['kodo_includes', 'boost_includes', 'fifi',
-             'recycle_includes', 'meta_incldues', 'sak_includes',
+             'recycle_includes', 'meta_includes', 'sak_includes',
              'platform_includes'])
 
     # Define the task generator that will build the kodoc shared library
@@ -154,7 +154,7 @@ def build(bld):
         install_path=None,
         export_includes='src',
         use=['kodo_includes', 'boost_includes', 'fifi',
-             'recycle_includes', 'meta_incldues', 'sak_includes',
+             'recycle_includes', 'meta_includes', 'sak_includes',
              'platform_includes'])
 
     # Make sure that the task generator is posted, which is necessary in
