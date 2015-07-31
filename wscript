@@ -31,7 +31,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveVersion(
         name='fifi',
         git_repository='github.com/steinwurf/fifi.git',
-        major=20, minor=0, patch=0))
+        major=20, minor=1, patch=0))
 
     bundle.add_dependency(opt, resolve.ResolveVersion(
         name='gtest',
