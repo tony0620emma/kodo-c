@@ -123,7 +123,7 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     EXPECT_TRUE(kodo_is_complete(decoder) != 0);
 
     // The decoder is complete, now copy the symbols from the decoder
-    kodo_copy_symbols(decoder, data_out, block_size);
+    kodo_copy_from_symbols(decoder, data_out, block_size);
     // Check if we properly decoded the data
     EXPECT_EQ(memcmp(data_in, data_out, block_size), 0);
 

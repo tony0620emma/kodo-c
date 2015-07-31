@@ -146,19 +146,19 @@ void kodo_set_symbol(kodo_coder_t coder, uint32_t index,
     coder->set_symbol(index, data, size);
 }
 
-void kodo_copy_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size)
+void kodo_copy_from_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size)
 {
     assert(decoder);
     kodo_decoder* the_decoder = (kodo_decoder*) decoder;
-    the_decoder->copy_symbols(data, size);
+    the_decoder->copy_from_symbols(data, size);
 }
 
-void kodo_copy_symbol(kodo_coder_t decoder, uint32_t index,
-                      uint8_t* data, uint32_t size)
+void kodo_copy_from_symbol(kodo_coder_t decoder, uint32_t index,
+                           uint8_t* data, uint32_t size)
 {
     assert(decoder);
     kodo_decoder* the_decoder = (kodo_decoder*) decoder;
-    the_decoder->copy_symbol(index, data, size);
+    the_decoder->copy_from_symbol(index, data, size);
 }
 
 uint32_t kodo_symbol_size(kodo_coder_t coder)

@@ -181,7 +181,7 @@ int main(int argc, char* argv[])
                 {
                     // Update that this symbol now has been decoded,
                     // in a real application we could copy out the symbol
-                    // using the kodo_copy_symbol(..)
+                    // using the kodo_copy_from_symbol(..)
                     printf("Symbol %d was decoded\n", i);
                     decoded[i] = 1;
                 }

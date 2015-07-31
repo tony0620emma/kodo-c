@@ -41,7 +41,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='kodo',
         git_repository='github.com/steinwurf/kodo.git',
-        major_version=27))
+        major_version=29))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='platform',
@@ -51,6 +51,11 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='recycle',
         git_repository='github.com/steinwurf/recycle.git',
+        major_version=1))
+
+    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+        name='meta',
+        git_repository='github.com/steinwurf/meta.git',
         major_version=1))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
@@ -87,6 +92,7 @@ def configure(conf):
         recurse_helper(conf, 'kodo')
         recurse_helper(conf, 'sak')
         recurse_helper(conf, 'recycle')
+        recurse_helper(conf, 'meta')
         recurse_helper(conf, 'platform')
         recurse_helper(conf, 'cpuid')
 
@@ -116,6 +122,7 @@ def build(bld):
         recurse_helper(bld, 'kodo')
         recurse_helper(bld, 'sak')
         recurse_helper(bld, 'recycle')
+        recurse_helper(bld, 'meta')
         recurse_helper(bld, 'platform')
         recurse_helper(bld, 'cpuid')
 
@@ -133,8 +140,7 @@ def build(bld):
         defines=['KODOC_STATIC'],
         export_defines=['KODOC_STATIC'],
         export_includes='src',
-        use=['kodo_includes', 'boost_includes', 'fifi',
-             'recycle_includes', 'sak_includes', 'platform_includes'])
+        use=['kodo_includes'])
 
     # Define the task generator that will build the kodoc shared library
     gen = bld.shlib(
@@ -145,8 +151,7 @@ def build(bld):
         defines=['KODOC_DLL_EXPORTS'],
         install_path=None,
         export_includes='src',
-        use=['kodo_includes', 'boost_includes', 'fifi',
-             'recycle_includes', 'sak_includes', 'platform_includes'])
+        use=['kodo_includes'])
 
     # Make sure that the task generator is posted, which is necessary in
     # order to access the task generator by name in child projects.

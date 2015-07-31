@@ -126,7 +126,7 @@ int main()
                kodo_rank(decoder));
     }
 
-    kodo_copy_symbols(decoder, data_out, block_size);
+    kodo_copy_from_symbols(decoder, data_out, block_size);
 
     if (memcmp(data_in, data_out, block_size) == 0)
     {
