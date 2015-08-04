@@ -540,7 +540,9 @@ void kodo_set_trace_stdout(kodo_coder_t coder);
 /// is needed the pointer can be set to NULL.
 /// @param coder The encoder/decoder to use
 /// @param callback The callback that processes the trace output
-/// @param context A void pointer which can be used for storing state
+/// @param context A void pointer which is forwarded to the callback function.
+///        This can be used when state is required within the callback. If no
+///        state is needed the pointer can be set to NULL.
 KODOC_API
 void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback,
     void* context);
