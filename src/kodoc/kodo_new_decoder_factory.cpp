@@ -9,9 +9,8 @@
 #include <cstdint>
 #include <cassert>
 
-#include <kodo/rlnc/full_vector_codes.hpp>
-#include <kodo/rlnc/on_the_fly_codes.hpp>
-#include <kodo/rlnc/seed_codes.hpp>
+#include <kodo/rlnc/full_vector_decoder.hpp>
+#include <kodo/rlnc/on_the_fly_decoder.hpp>
 #include <kodo/rlnc/sliding_window_decoder.hpp>
 
 #include "create_factory_wrapper.hpp"
@@ -31,7 +30,7 @@ kodo_new_decoder_factory(int32_t code_type, int32_t finite_field,
 
     kodo_factory_t factory = 0;
 
-    if (code_type == kodo_full_rlnc)
+    if (code_type == kodo_full_vector)
     {
         factory = create_factory_wrapper<
             decoder_factory_wrapper, full_vector_decoder>(

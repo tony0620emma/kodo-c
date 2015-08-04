@@ -32,7 +32,7 @@ extern "C"
 
         virtual void set_trace_stdout() = 0;
         virtual void set_trace_callback(kodo_trace_callback_t callback,
-            void* constext) = 0;
+            void* context) = 0;
         virtual void set_trace_off() = 0;
 
         virtual bool has_feedback_size() const = 0;

@@ -38,7 +38,7 @@ int main()
     uint32_t symbol_size = 100;
 
     // Here we select the coding code_type we wish to use
-    int32_t code_type = kodo_full_rlnc;
+    int32_t code_type = kodo_full_vector;
 
     // Here we select the finite field to use common choices are
     // kodo_binary, kodo_binary8, kodo_binary16

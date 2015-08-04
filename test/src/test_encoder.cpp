@@ -30,7 +30,7 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
     EXPECT_GT(kodo_payload_size(encoder), symbol_size);
     EXPECT_EQ(0U, kodo_rank(encoder));
 
-    if (code_type == kodo_full_rlnc ||
+    if (code_type == kodo_full_vector ||
         code_type == kodo_on_the_fly)
     {
         EXPECT_TRUE(kodo_has_feedback_size(encoder) == 0);
@@ -72,7 +72,7 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
     kodo_delete_encoder_factory(encoder_factory);
 }
 
-TEST(TestEncoder, invoke_api)
+TEST(test_encoder, invoke_api)
 {
     uint32_t symbols = rand_symbols();
     uint32_t symbol_size = rand_symbol_size();

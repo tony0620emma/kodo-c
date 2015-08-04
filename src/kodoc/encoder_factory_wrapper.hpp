@@ -25,8 +25,8 @@ namespace kodo
         virtual void* build()
         {
             auto encoder = m_factory.build();
-            auto wrapper =
-                new encoder_wrapper<KodoStack, kodo_encoder>(encoder);
+            auto wrapper = new encoder_wrapper<KodoStack, kodo_encoder>(
+                encoder);
 
             return wrapper;
         }

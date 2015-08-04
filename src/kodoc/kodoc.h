@@ -65,12 +65,12 @@ kodo_finite_field;
 /// is used in the API calls to pass the enum values
 typedef enum
 {
-    kodo_full_rlnc,
+    kodo_full_vector,
     kodo_on_the_fly,
     kodo_sliding_window,
-    kodo_sparse_full_rlnc,
-    kodo_seed_rlnc,
-    kodo_sparse_seed_rlnc
+    kodo_sparse_full_vector,
+    kodo_seed,
+    kodo_sparse_seed
 }
 kodo_code_type;
 

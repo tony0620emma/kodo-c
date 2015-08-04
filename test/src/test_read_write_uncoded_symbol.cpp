@@ -134,17 +134,17 @@ void test_read_write_uncoded(uint32_t symbols, uint32_t symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-TEST(TestReadWriteUncodedSymbol, uncoded_symbols)
+TEST(test_read_write_uncoded_symbol, uncoded_symbols)
 {
     uint32_t symbols = rand_symbols();
     uint32_t symbol_size = rand_symbol_size();
 
     test_read_write_uncoded(symbols, symbol_size,
-                            kodo_full_rlnc, kodo_binary);
+                            kodo_full_vector, kodo_binary);
 
     test_read_write_uncoded(symbols, symbol_size,
-                            kodo_full_rlnc, kodo_binary8);
+                            kodo_full_vector, kodo_binary8);
 
     test_read_write_uncoded(symbols, symbol_size,
-                            kodo_full_rlnc, kodo_binary16);
+                            kodo_full_vector, kodo_binary16);
 }

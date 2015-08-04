@@ -32,7 +32,7 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     EXPECT_EQ(0U, kodo_symbols_uncoded(decoder));
     EXPECT_EQ(0U, kodo_symbols_seen(decoder));
 
-    if (code_type == kodo_full_rlnc ||
+    if (code_type == kodo_full_vector ||
         code_type == kodo_on_the_fly)
     {
         EXPECT_TRUE(kodo_has_feedback_size(decoder) == 0);
@@ -59,7 +59,7 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     }
 
     // Seed-based codecs do not provide write_payload, i.e. recoding
-    if (code_type == kodo_seed_rlnc || code_type == kodo_sparse_seed_rlnc)
+    if (code_type == kodo_seed || code_type == kodo_sparse_seed)
     {
         EXPECT_TRUE(kodo_has_write_payload(decoder) == 0);
     }
@@ -75,7 +75,7 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     {
         EXPECT_TRUE(kodo_has_partial_decoding_tracker(decoder) != 0);
     }
-    else if (code_type == kodo_full_rlnc)
+    else if (code_type == kodo_full_vector)
     {
         EXPECT_TRUE(kodo_has_partial_decoding_tracker(decoder) == 0);
     }
@@ -84,7 +84,7 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-TEST(TestDecoder, invoke_api)
+TEST(test_decoder, invoke_api)
 {
     uint32_t symbols = rand_symbols();
     uint32_t symbol_size = rand_symbol_size();

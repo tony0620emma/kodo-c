@@ -173,7 +173,7 @@ void test_read_write_symbol(uint32_t symbols, uint32_t symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-TEST(TestReadWriteSymbol, coded_symbols)
+TEST(test_read_write_symbol, coded_symbols)
 {
-    test_read_write_symbol(3, 1, kodo_full_rlnc, kodo_binary);
+    test_read_write_symbol(3, 1, kodo_full_vector, kodo_binary);
 }

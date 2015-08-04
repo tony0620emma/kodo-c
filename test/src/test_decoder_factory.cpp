@@ -58,7 +58,7 @@ static void test_decoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-TEST(TestDecoderFactory, invoke_api)
+TEST(test_decoder_factory, invoke_api)
 {
     // Make sure that we can lower these values in the test
     uint32_t max_symbols = rand_symbols() + 1;
