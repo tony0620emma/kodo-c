@@ -6,7 +6,7 @@ of every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Major: Added context pointer to trace callback.
 
 5.0.0
 -----

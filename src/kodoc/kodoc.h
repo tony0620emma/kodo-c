@@ -35,7 +35,7 @@ extern "C" {
 #endif
 
 /// Callback function type used for tracing
-typedef void (*kodo_trace_callback_t)(const char*, const char*);
+typedef void (*kodo_trace_callback_t)(const char*, const char*, void*);
 
 //------------------------------------------------------------------
 // FACTORY API
@@ -537,8 +537,10 @@ void kodo_set_trace_stdout(kodo_coder_t coder);
 /// or decoder.
 /// @param coder The encoder/decoder to use
 /// @param callback The callback that processes the trace output
+/// @param context A void pointer which can be used for storing state.
 KODOC_API
-void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback);
+void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback,
+    void*);
 
 /// Disables the trace function of the encoder/decoder.
 /// @param coder The encoder/decoder to use

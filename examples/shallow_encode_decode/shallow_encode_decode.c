@@ -16,8 +16,10 @@
 /// Example showing how to encode and decode symbols that are stored in
 /// non-contiguous memory buffers.
 
-void trace_callback(const char* zone, const char* data)
+void trace_callback(const char* zone, const char* data, void* context)
 {
+    (void) context;
+
     if (strcmp(zone, "decoder_state") == 0)
     {
         printf("%s:\n", zone);
@@ -122,7 +124,7 @@ int main()
     // Install a custom trace function for the decoder (if tracing is enabled)
     if (kodo_has_set_trace_callback(decoder))
     {
-        kodo_set_trace_callback(decoder, trace_callback);
+        kodo_set_trace_callback(decoder, trace_callback, NULL);
     }
 
     while (!kodo_is_complete(decoder))
