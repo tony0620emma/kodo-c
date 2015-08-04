@@ -534,13 +534,10 @@ KODOC_API
 void kodo_set_trace_stdout(kodo_coder_t coder);
 
 /// Registers a custom callback that will get the trace output of an encoder
-/// or decoder.
-/// Note: The standard Kodo API does not contain the context void pointer. It's
-/// needed to provide the functionality of a c++ std::function using a
-/// standard function pointer.
-/// When triggered the provided kodo_trace_callback_t callback will be provided
-/// with the given void pointer context which can contain any needed context.
-/// A context of value NULL is also allowed in cases where no context is needed.
+/// or decoder. The function takes a void pointer which will be available when
+/// the kodo_trace_callback_t function is invoked by the library. This allows
+/// the user to pass custom information to the callback function. If no context
+/// is needed the pointer can be set to NULL.
 /// @param coder The encoder/decoder to use
 /// @param callback The callback that processes the trace output
 /// @param context A void pointer which can be used for storing state
