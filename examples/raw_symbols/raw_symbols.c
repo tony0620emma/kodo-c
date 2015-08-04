@@ -31,15 +31,13 @@ int main()
     // kodo_binary, kodo_binary8, kodo_binary16
     int32_t finite_field = kodo_binary;
 
-    kodo_factory_t encoder_factory =
-        kodo_new_shallow_encoder_factory(kodo_sparse_seed_rlnc, finite_field,
-                                         symbols, symbol_size,
-                                         kodo_trace_disabled);
+    kodo_factory_t encoder_factory = kodo_new_shallow_encoder_factory(
+        kodo_sparse_seed, finite_field, symbols, symbol_size,
+        kodo_trace_disabled);
 
-    kodo_factory_t decoder_factory =
-        kodo_new_shallow_decoder_factory(kodo_sparse_seed_rlnc, finite_field,
-                                         symbols, symbol_size,
-                                         kodo_trace_disabled);
+    kodo_factory_t decoder_factory = kodo_new_shallow_decoder_factory(
+        kodo_sparse_seed, finite_field, symbols, symbol_size,
+        kodo_trace_disabled);
 
     // If we wanted to build an encoder of decoder with a smaller number of
     // symbols or a different symbol size, then this can be adjusted using the

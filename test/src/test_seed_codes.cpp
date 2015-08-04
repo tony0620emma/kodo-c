@@ -8,22 +8,26 @@
 #include <gtest/gtest.h>
 
 #include "test_helper.hpp"
-#include "test_shallow_api.hpp"
+#include "test_basic_api.hpp"
 
-TEST(TestSeedRlncCodes, shallow_api)
+TEST(TestSeedCodes, shallow_api)
 {
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_shallow_api(kodo_seed_rlnc, max_symbols, max_symbol_size);
+    bool shallow_storage = true;
+
+    test_basic_api(kodo_seed, max_symbols, max_symbol_size, shallow_storage);
 }
 
-TEST(TestSeedRlncCodes, sparse_shallow_api)
+TEST(TestSeedCodes, sparse_shallow_api)
 {
     // Make sure that the decoding can complete with a lower density
     uint32_t max_symbols = rand_symbols() + 10;
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_shallow_api(kodo_sparse_seed_rlnc, kodo_sparse_seed_rlnc,
-                     max_symbols, max_symbol_size);
+    bool shallow_storage = true;
+
+    test_basic_api(kodo_sparse_seed, kodo_sparse_seed, max_symbols,
+        max_symbol_size, shallow_storage);
 }

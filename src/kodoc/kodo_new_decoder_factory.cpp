@@ -31,7 +31,7 @@ kodo_new_decoder_factory(int32_t code_type, int32_t finite_field,
 
     kodo_factory_t factory = 0;
 
-    if (code_type == kodo_full_rlnc)
+    if (code_type == kodo_full_vector)
     {
         factory = create_factory_wrapper<
             decoder_factory_wrapper, full_vector_decoder>(

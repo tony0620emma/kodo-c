@@ -175,5 +175,5 @@ void test_read_write_symbol(uint32_t symbols, uint32_t symbol_size,
 
 TEST(TestReadWriteSymbol, coded_symbols)
 {
-    test_read_write_symbol(3, 1, kodo_full_rlnc, kodo_binary);
+    test_read_write_symbol(3, 1, kodo_full_vector, kodo_binary);
 }

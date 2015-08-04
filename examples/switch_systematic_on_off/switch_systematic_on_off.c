@@ -30,7 +30,7 @@ int main()
     uint8_t max_symbols = 10;
     uint8_t max_symbol_size = 100;
 
-    int32_t code_type = kodo_full_rlnc;
+    int32_t code_type = kodo_full_vector;
     int32_t finite_field = kodo_binary8;
 
     // In the following we will make an encoder/decoder factory.

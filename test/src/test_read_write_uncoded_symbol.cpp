@@ -140,11 +140,11 @@ TEST(TestReadWriteUncodedSymbol, uncoded_symbols)
     uint32_t symbol_size = rand_symbol_size();
 
     test_read_write_uncoded(symbols, symbol_size,
-                            kodo_full_rlnc, kodo_binary);
+                            kodo_full_vector, kodo_binary);
 
     test_read_write_uncoded(symbols, symbol_size,
-                            kodo_full_rlnc, kodo_binary8);
+                            kodo_full_vector, kodo_binary8);
 
     test_read_write_uncoded(symbols, symbol_size,
-                            kodo_full_rlnc, kodo_binary16);
+                            kodo_full_vector, kodo_binary16);
 }

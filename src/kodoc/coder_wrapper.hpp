@@ -93,7 +93,8 @@ namespace kodo
             return kodo::has_set_trace_off<KodoStack>::value;
         }
 
-        virtual void set_trace_callback(kodo_trace_callback_t trace_callback, void* context)
+        virtual void set_trace_callback(kodo_trace_callback_t trace_callback,
+            void* context)
         {
             assert(trace_callback);
             auto callback = [trace_callback, context](const std::string& zone,

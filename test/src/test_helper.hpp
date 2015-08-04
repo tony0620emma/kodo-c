@@ -49,7 +49,7 @@ inline void test_combinations(
 
     std::vector<int32_t> code_types =
     {
-        kodo_full_rlnc,
+        kodo_full_vector,
         kodo_on_the_fly,
         kodo_sliding_window
     };
