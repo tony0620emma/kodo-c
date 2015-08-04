@@ -9,11 +9,10 @@
 #include <cstdint>
 #include <cassert>
 
-#include <kodo/rlnc/full_vector_codes.hpp>
-#include <kodo/rlnc/fulcrum_codes.hpp>
-#include <kodo/rlnc/on_the_fly_codes.hpp>
-#include <kodo/rlnc/sliding_window_encoder.hpp>
+#include <kodo/rlnc/full_vector_encoder.hpp>
 #include <kodo/rlnc/sparse_full_vector_encoder.hpp>
+#include <kodo/rlnc/on_the_fly_encoder.hpp>
+#include <kodo/rlnc/sliding_window_encoder.hpp>
 
 #include "create_factory_wrapper.hpp"
 
