@@ -112,7 +112,7 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-TEST(TestOnTheFlyCodes, invoke_api)
+TEST(test_on_the_fly_codes, invoke_api)
 {
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();

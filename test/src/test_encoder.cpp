@@ -72,7 +72,7 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
     kodo_delete_encoder_factory(encoder_factory);
 }
 
-TEST(TestEncoder, invoke_api)
+TEST(test_encoder, invoke_api)
 {
     uint32_t symbols = rand_symbols();
     uint32_t symbol_size = rand_symbol_size();

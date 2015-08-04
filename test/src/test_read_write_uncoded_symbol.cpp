@@ -134,7 +134,7 @@ void test_read_write_uncoded(uint32_t symbols, uint32_t symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-TEST(TestReadWriteUncodedSymbol, uncoded_symbols)
+TEST(test_read_write_uncoded_symbol, uncoded_symbols)
 {
     uint32_t symbols = rand_symbols();
     uint32_t symbol_size = rand_symbol_size();

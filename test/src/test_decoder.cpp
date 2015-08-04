@@ -84,7 +84,7 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-TEST(TestDecoder, invoke_api)
+TEST(test_decoder, invoke_api)
 {
     uint32_t symbols = rand_symbols();
     uint32_t symbol_size = rand_symbol_size();
