@@ -534,13 +534,18 @@ KODOC_API
 void kodo_set_trace_stdout(kodo_coder_t coder);
 
 /// Registers a custom callback that will get the trace output of an encoder
-/// or decoder.
+/// or decoder. The function takes a void pointer which will be available when
+/// the kodo_trace_callback_t function is invoked by the library. This allows
+/// the user to pass custom information to the callback function. If no context
+/// is needed the pointer can be set to NULL.
 /// @param coder The encoder/decoder to use
 /// @param callback The callback that processes the trace output
-/// @param context A void pointer which can be used for storing state.
+/// @param context A void pointer which is forwarded to the callback function.
+///        This can be used when state is required within the callback. If no
+///        state is needed the pointer can be set to NULL.
 KODOC_API
 void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback,
-    void*);
+    void* context);
 
 /// Disables the trace function of the encoder/decoder.
 /// @param coder The encoder/decoder to use
