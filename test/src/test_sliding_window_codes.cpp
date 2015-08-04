@@ -14,16 +14,20 @@
 static uint32_t encoder_trace_called = 0;
 static uint32_t decoder_trace_called = 0;
 
-static void encoder_trace_callback(const char* zone, const char* data)
+static void encoder_trace_callback(const char* zone, const char* data,
+    void* context)
 {
+    (void) context;
     EXPECT_TRUE(zone != 0);
     EXPECT_TRUE(data != 0);
 
     encoder_trace_called++;
 }
 
-static void decoder_trace_callback(const char* zone, const char* data)
+static void decoder_trace_callback(const char* zone, const char* data,
+    void* context)
 {
+    (void) context;
     EXPECT_TRUE(zone != 0);
     EXPECT_TRUE(data != 0);
 
@@ -95,10 +99,10 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
 
     // Install a custom trace function for the encoder and decoder
     EXPECT_TRUE(kodo_has_set_trace_callback(encoder) != 0);
-    kodo_set_trace_callback(encoder, encoder_trace_callback);
+    kodo_set_trace_callback(encoder, encoder_trace_callback, NULL);
 
     EXPECT_TRUE(kodo_has_set_trace_callback(decoder) != 0);
-    kodo_set_trace_callback(decoder, decoder_trace_callback);
+    kodo_set_trace_callback(decoder, decoder_trace_callback, NULL);
 
 
     // Assign the data buffer to the encoder so that we may start

@@ -16,8 +16,9 @@
 /// Simple example showing how to use some of the trace layers defined
 /// in Kodo.
 
-void trace_callback(const char* zone, const char* data)
+void trace_callback(const char* zone, const char* data, void* context)
 {
+    (void) context;
     if (strcmp(zone, "decoder_state") == 0 ||
         strcmp(zone, "input_symbol_coefficients") == 0)
     {
@@ -88,7 +89,7 @@ int main()
     // Install a custom trace function for the decoder if tracing is enabled
     if (kodo_has_set_trace_callback(decoder))
     {
-        kodo_set_trace_callback(decoder, trace_callback);
+        kodo_set_trace_callback(decoder, trace_callback, NULL);
     }
 
     kodo_set_symbols(encoder, data_in, block_size);

@@ -361,10 +361,10 @@ uint8_t kodo_has_set_trace_off(kodo_coder_t coder)
     return (uint8_t)coder->has_set_trace_off();
 }
 
-void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback)
+void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback, void* context)
 {
     assert(coder);
-    coder->set_trace_callback(callback);
+    coder->set_trace_callback(callback, context);
 }
 
 void kodo_set_trace_stdout(kodo_coder_t coder)
