@@ -13,6 +13,7 @@
 #include "encoder.hpp"
 #include "factory.hpp"
 #include "sparse_encoder.hpp"
+#include "perpetual_encoder.hpp"
 
 //------------------------------------------------------------------
 // FACTORY API
@@ -298,6 +299,67 @@ void kodo_set_density(kodo_coder_t encoder, double density)
     assert(encoder);
     kodo_sparse_encoder* the_encoder = (kodo_sparse_encoder*) encoder;
     the_encoder->set_density(density);
+}
+
+//------------------------------------------------------------------
+// PERPETUAL ENCODER API
+//------------------------------------------------------------------
+
+uint8_t kodo_pseudo_systematic(kodo_coder_t encoder)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    return the_encoder->pseudo_systematic();
+}
+
+void kodo_set_pseudo_systematic(kodo_coder_t encoder, uint8_t pseudo_systematic)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    assert(the_encoder);
+    the_encoder->set_pseudo_systematic(pseudo_systematic);
+}
+
+uint8_t kodo_pre_charging(kodo_coder_t encoder)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    return the_encoder->pre_charging();
+}
+
+void kodo_set_pre_charging(kodo_coder_t encoder, uint8_t pre_charging)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    the_encoder->set_pre_charging(pre_charging);
+}
+
+uint32_t kodo_width(kodo_coder_t encoder)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    return the_encoder->width();
+}
+
+void kodo_set_width(kodo_coder_t encoder, uint32_t width)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    the_encoder->set_width(width);
+}
+
+double kodo_width_ratio(kodo_coder_t encoder)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    return the_encoder->width_ratio();
+}
+
+void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    the_encoder->set_width_ratio(width_ratio);
 }
 
 //------------------------------------------------------------------

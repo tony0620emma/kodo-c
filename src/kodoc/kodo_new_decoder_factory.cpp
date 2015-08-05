@@ -12,6 +12,7 @@
 #include <kodo/rlnc/full_vector_decoder.hpp>
 #include <kodo/rlnc/on_the_fly_decoder.hpp>
 #include <kodo/rlnc/sliding_window_decoder.hpp>
+#include <kodo/rlnc/perpetual_decoder.hpp>
 
 #include "create_factory_wrapper.hpp"
 #include "decoder_factory_wrapper.hpp"
@@ -46,6 +47,12 @@ kodo_new_decoder_factory(int32_t code_type, int32_t finite_field,
     {
         factory = create_factory_wrapper<
             decoder_factory_wrapper, sliding_window_decoder>(
+                finite_field, max_symbols, max_symbol_size, trace_mode);
+    }
+    else if (code_type == kodo_perpetual)
+    {
+        factory = create_factory_wrapper<
+            decoder_factory_wrapper, perpetual_decoder>(
                 finite_field, max_symbols, max_symbol_size, trace_mode);
     }
 

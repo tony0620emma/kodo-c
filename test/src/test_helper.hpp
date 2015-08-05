@@ -51,7 +51,8 @@ inline void test_combinations(
     {
         kodo_full_vector,
         kodo_on_the_fly,
-        kodo_sliding_window
+        kodo_sliding_window,
+        kodo_perpetual
     };
 
     std::vector<int32_t> fields =

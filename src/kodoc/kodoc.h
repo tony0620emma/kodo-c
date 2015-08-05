@@ -70,7 +70,8 @@ typedef enum
     kodo_sliding_window,
     kodo_sparse_full_vector,
     kodo_seed,
-    kodo_sparse_seed
+    kodo_sparse_seed,
+    kodo_perpetual
 }
 kodo_code_type;
 
@@ -466,6 +467,60 @@ double kodo_density(kodo_coder_t encoder);
 /// @param density The density value (0.0 < density <= 1.0)
 KODOC_API
 void kodo_set_density(kodo_coder_t encoder, double density);
+
+//------------------------------------------------------------------
+// PERPETUAL ENCODER API
+//------------------------------------------------------------------
+
+/// Get the pseudo-systematic property of the generator
+/// @param encoder The encoder to use.
+/// @return the current setting for pseudo-systematic
+KODOC_API
+uint8_t kodo_pseudo_systematic(kodo_coder_t encoder);
+
+/// Set the pseudo-systematic property of the generator
+/// @param encoder The encoder to use.
+/// @param pseudo_systematic the new setting for pseudo-systematic
+KODOC_API
+void kodo_set_pseudo_systematic(kodo_coder_t encoder, uint8_t pseudo_systematic);
+
+/// Get the pre-charging property of the generator
+/// @param encoder The encoder to use.
+/// @return the current setting for pre-charging
+KODOC_API
+uint8_t kodo_pre_charging(kodo_coder_t encoder);
+
+/// Set the pre-charging property of the generator
+/// @param encoder The encoder to use.
+/// @param pre_charging the new setting for pre-charging
+KODOC_API
+void kodo_set_pre_charging(kodo_coder_t encoder, uint8_t pre_charging);
+
+/// Get the width
+/// @param encoder The encoder to use.
+/// @return the width used by the generator
+KODOC_API
+uint32_t kodo_width(kodo_coder_t encoder);
+
+/// Set the number of non-zero coefficients after the pivot.
+/// Width ratio is recalculated from this value
+/// @param encoder The encoder to use.
+/// @param width the width
+KODOC_API
+void kodo_set_width(kodo_coder_t encoder, uint32_t width);
+
+/// Get the ratio that is used to calculate the width
+/// @param encoder The encoder to use.
+/// @return the width ratio of the generator
+KODOC_API
+double kodo_width_ratio(kodo_coder_t encoder);
+
+/// Set the ratio that is used to calculate the number of non-zero
+/// coefficients after the pivot (i.e. the width)
+/// @param encoder The encoder to use.
+/// @param ratio the width ratio
+KODOC_API
+void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio);
 
 //------------------------------------------------------------------
 // GENERIC API
