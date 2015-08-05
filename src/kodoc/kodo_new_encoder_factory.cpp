@@ -13,11 +13,13 @@
 #include <kodo/rlnc/sparse_full_vector_encoder.hpp>
 #include <kodo/rlnc/on_the_fly_encoder.hpp>
 #include <kodo/rlnc/sliding_window_encoder.hpp>
+#include <kodo/rlnc/perpetual_encoder.hpp>
 
 #include "create_factory_wrapper.hpp"
 
 #include "encoder_factory_wrapper.hpp"
 #include "sparse_encoder_factory_wrapper.hpp"
+#include "perpetual_encoder_factory_wrapper.hpp"
 
 //------------------------------------------------------------------
 // ENCODER FACTORY FOR DEEP STORAGE STACKS
@@ -55,6 +57,12 @@ kodo_new_encoder_factory(int32_t code_type, int32_t finite_field,
     {
         factory = create_factory_wrapper<
             encoder_factory_wrapper, sliding_window_encoder>(
+                finite_field, max_symbols, max_symbol_size, trace_mode);
+    }
+    else if (code_type == kodo_perpetual)
+    {
+        factory = create_factory_wrapper<
+            perpetual_encoder_factory_wrapper, perpetual_encoder>(
                 finite_field, max_symbols, max_symbol_size, trace_mode);
     }
 

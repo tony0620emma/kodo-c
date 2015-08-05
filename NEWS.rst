@@ -6,6 +6,7 @@ of every change, see the Git log.
 
 Latest
 ------
+* Minor: Added perpetual stack.
 * Major: Renamed enum values ``kodo_full_rlnc``, ``kodo_sparse_seed_rlnc``,
   ``kodo_seed_rlnc`` to ``kodo_full_vector``, ``kodo_sparse_seed``,
   ``kodo_seed`` respectively, to better follow the Kodo API.
