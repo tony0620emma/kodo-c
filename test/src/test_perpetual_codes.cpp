@@ -42,7 +42,8 @@ TEST(test_perpetual_codes, perpetual_api)
     kodo_set_pre_charging(encoder, pre_charging);
     EXPECT_TRUE(kodo_pre_charging(encoder));
 
-    uint32_t width = 3;
+    // width must be < symbols
+    uint32_t width = max_symbols - 1;
     kodo_set_width(encoder, width);
     EXPECT_EQ(width, kodo_width(encoder));
 
