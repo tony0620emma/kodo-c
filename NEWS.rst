@@ -6,6 +6,10 @@ of every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+6.0.0
+-----
 * Major: Renamed files to follow the name of the class defined in the files.
 * Major: Upgrade to kodo 30.
 * Minor: Added perpetual stack.

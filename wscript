@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 APPNAME = 'kodoc'
-VERSION = '5.0.0'
+VERSION = '6.0.0'
 
 
 def recurse_helper(ctx, name):
