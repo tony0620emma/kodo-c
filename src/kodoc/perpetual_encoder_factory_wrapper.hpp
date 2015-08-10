@@ -5,20 +5,20 @@
 
 #pragma once
 
-#include "encoder_factory_wrapper.hpp"
-#include "perpetual_encoder_wrapper.hpp"
+#include <cstdint>
 
-#include "perpetual_encoder.hpp"
+#include "factory_wrapper.hpp"
+#include "perpetual_encoder_wrapper.hpp"
+#include "kodo_perpetual_encoder.hpp"
 
 namespace kodo
 {
     template<class KodoStack>
-    class perpetual_encoder_factory_wrapper : public
-        encoder_factory_wrapper<KodoStack>
+    class perpetual_encoder_factory_wrapper : public factory_wrapper<KodoStack>
     {
     public:
 
-        using Super = encoder_factory_wrapper<KodoStack>;
+        using Super = factory_wrapper<KodoStack>;
 
         perpetual_encoder_factory_wrapper(uint32_t max_symbols,
                                           uint32_t max_symbol_size) :

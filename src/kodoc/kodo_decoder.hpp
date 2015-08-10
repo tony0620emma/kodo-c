@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "coder.hpp"
+#include "kodo_coder.hpp"
 
 extern "C"
 {

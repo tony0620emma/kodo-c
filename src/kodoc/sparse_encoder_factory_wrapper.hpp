@@ -5,20 +5,20 @@
 
 #pragma once
 
-#include "encoder_factory_wrapper.hpp"
-#include "sparse_encoder_wrapper.hpp"
+#include <cstdint>
 
-#include "sparse_encoder.hpp"
+#include "factory_wrapper.hpp"
+#include "sparse_encoder_wrapper.hpp"
+#include "kodo_sparse_encoder.hpp"
 
 namespace kodo
 {
     template<class KodoStack>
-    class sparse_encoder_factory_wrapper : public
-        encoder_factory_wrapper<KodoStack>
+    class sparse_encoder_factory_wrapper : public factory_wrapper<KodoStack>
     {
     public:
 
-        using Super = encoder_factory_wrapper<KodoStack>;
+        using Super = factory_wrapper<KodoStack>;
 
         sparse_encoder_factory_wrapper(uint32_t max_symbols,
                                        uint32_t max_symbol_size) :

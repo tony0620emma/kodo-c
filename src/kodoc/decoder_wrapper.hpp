@@ -16,7 +16,7 @@
 #include <kodo/write_feedback.hpp>
 
 #include "coder_wrapper.hpp"
-#include "decoder.hpp"
+#include "kodo_decoder.hpp"
 
 namespace kodo
 {

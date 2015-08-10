@@ -17,7 +17,6 @@ static void test_coder(kodo_coder_t coder, uint32_t symbols,
     EXPECT_EQ(symbols * symbol_size, kodo_block_size(coder));
     EXPECT_GT(kodo_payload_size(coder), symbol_size);
     EXPECT_EQ(0U, kodo_rank(coder));
-
     if (code_type == kodo_full_vector ||
         code_type == kodo_on_the_fly)
     {

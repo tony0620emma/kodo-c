@@ -6,17 +6,20 @@
 #pragma once
 
 #include <cassert>
+#include <cstdint>
+#include <string>
 
 #include <sak/storage.hpp>
 
-#include <kodo/feedback_size.hpp>
 #include <kodo/has_feedback_size.hpp>
+#include <kodo/feedback_size.hpp>
 #include <kodo/has_set_trace_callback.hpp>
 #include <kodo/set_trace_callback.hpp>
 #include <kodo/has_set_trace_stdout.hpp>
 #include <kodo/set_trace_stdout.hpp>
 #include <kodo/has_set_trace_off.hpp>
 #include <kodo/set_trace_off.hpp>
+#include <kodo/has_write_payload.hpp>
 #include <kodo/write_payload.hpp>
 
 namespace kodo
@@ -134,8 +137,6 @@ namespace kodo
         virtual uint32_t write_payload(uint8_t* payload)
         {
             assert(payload);
-            assert(m_coder);
-
             return kodo::write_payload(m_coder, payload);
         }
 

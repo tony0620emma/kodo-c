@@ -5,12 +5,12 @@
 
 #pragma once
 
-#include "factory.hpp"
+#include "kodo_factory.hpp"
 
 namespace kodo
 {
-    template<class KodoStack>
-    class factory_wrapper : public kodo_factory
+    template<class KodoStack, class Interface=kodo_factory>
+    class factory_wrapper : public Interface
     {
     public:
         factory_wrapper(uint32_t max_symbols,
