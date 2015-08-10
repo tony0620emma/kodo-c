@@ -6,6 +6,8 @@ of every change, see the Git log.
 
 Latest
 ------
+* Major: Renamed files to follow the name of the class defined in the files.
+* Major: Upgrade to kodo 30.
 * Minor: Added perpetual stack.
 * Major: Renamed enum values ``kodo_full_rlnc``, ``kodo_sparse_seed_rlnc``,
   ``kodo_seed_rlnc`` to ``kodo_full_vector``, ``kodo_sparse_seed``,

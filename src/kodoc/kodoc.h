@@ -482,7 +482,8 @@ uint8_t kodo_pseudo_systematic(kodo_coder_t encoder);
 /// @param encoder The encoder to use.
 /// @param pseudo_systematic the new setting for pseudo-systematic
 KODOC_API
-void kodo_set_pseudo_systematic(kodo_coder_t encoder, uint8_t pseudo_systematic);
+void kodo_set_pseudo_systematic(kodo_coder_t encoder,
+    uint8_t pseudo_systematic);
 
 /// Get the pre-charging property of the generator
 /// @param encoder The encoder to use.

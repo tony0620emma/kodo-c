@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 extern "C"
 {
     struct kodo_factory

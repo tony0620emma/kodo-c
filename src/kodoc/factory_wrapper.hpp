@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "factory.hpp"
+#include "kodo_factory.hpp"
 
 namespace kodo
 {
@@ -13,8 +13,7 @@ namespace kodo
     class factory_wrapper : public kodo_factory
     {
     public:
-        factory_wrapper(uint32_t max_symbols,
-                        uint32_t max_symbol_size) :
+        factory_wrapper(uint32_t max_symbols, uint32_t max_symbol_size) :
             m_factory(max_symbols, max_symbol_size)
         { }
 

@@ -9,11 +9,11 @@
 #include <cstdint>
 #include <cassert>
 
-#include "decoder.hpp"
-#include "encoder.hpp"
-#include "factory.hpp"
-#include "sparse_encoder.hpp"
-#include "perpetual_encoder.hpp"
+#include "kodo_decoder.hpp"
+#include "kodo_encoder.hpp"
+#include "kodo_factory.hpp"
+#include "kodo_sparse_encoder.hpp"
+#include "kodo_perpetual_encoder.hpp"
 
 //------------------------------------------------------------------
 // FACTORY API
