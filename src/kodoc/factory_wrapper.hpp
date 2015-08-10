@@ -9,12 +9,11 @@
 
 namespace kodo
 {
-    template<class KodoStack, class Interface=kodo_factory>
-    class factory_wrapper : public Interface
+    template<class KodoStack>
+    class factory_wrapper : public kodo_factory
     {
     public:
-        factory_wrapper(uint32_t max_symbols,
-                        uint32_t max_symbol_size) :
+        factory_wrapper(uint32_t max_symbols, uint32_t max_symbol_size) :
             m_factory(max_symbols, max_symbol_size)
         { }
 
