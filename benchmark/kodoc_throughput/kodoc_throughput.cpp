@@ -24,18 +24,28 @@ namespace bc = boost::chrono;
 ///
 /// Simple example for measuring the coding throughput with the Kodo C API.
 
+/// Struct containing the results for a single measurement run
+struct results
+{
+    bool success;
+    double setup_time;
+    double encoding_time;
+    double decoding_time;
+    double encoding_rate;
+    double decoding_rate;
+};
 
 // Runs a timed encoding and decoding benchmark.
 //
+// @param finite_field The finite field used in the benchmark
 // @param symbols The number of original symbols in the block
 // @param symbol_size The size of a symbol in bytes
-// @param encoding_rate The measured encoding rate in megabytes/seconds
-// @param decoding_rate The measured decoding rate in megabytes/seconds
-// @return True if the original data was correctly decoded
-bool run_coding_test(int32_t finite_field, uint32_t symbols,
-                     uint32_t symbol_size, double& encoding_rate,
-                     double& decoding_rate)
+// @return The results struct containing all metrics
+results run_coding_test(int32_t finite_field, uint32_t symbols,
+                        uint32_t symbol_size)
 {
+    results run;
+
     // Set the random seed to randomize encoded data
     srand((uint32_t)time(NULL));
 
@@ -48,14 +58,10 @@ bool run_coding_test(int32_t finite_field, uint32_t symbols,
     start = bc::high_resolution_clock::now();
 
     kodo_factory_t encoder_factory =
-        kodo_new_shallow_encoder_factory(code_type, finite_field,
-                                         symbols, symbol_size,
-                                         kodo_trace_disabled);
+        kodo_new_encoder_factory(code_type, finite_field, symbols, symbol_size);
 
     kodo_factory_t decoder_factory =
-        kodo_new_shallow_decoder_factory(code_type, finite_field,
-                                         symbols, symbol_size,
-                                         kodo_trace_disabled);
+        kodo_new_decoder_factory(code_type, finite_field, symbols, symbol_size);
 
     kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
@@ -63,7 +69,7 @@ bool run_coding_test(int32_t finite_field, uint32_t symbols,
     // Stop the setup timer
     stop = bc::high_resolution_clock::now();
 
-    double setup_time =
+    run.setup_time =
         (double)(bc::duration_cast<bc::microseconds>(stop - start).count());
 
     // We measure pure coding, so we always turn off the systematic mode
@@ -95,8 +101,8 @@ bool run_coding_test(int32_t finite_field, uint32_t symbols,
         data_in[i] = rand() % 256;
 
     // Set the input and output symbol buffers
-    kodo_set_symbols(encoder, data_in, block_size);
-    kodo_set_symbols(decoder, data_out, block_size);
+    kodo_set_const_symbols(encoder, data_in, block_size);
+    kodo_set_mutable_symbols(decoder, data_out, block_size);
 
     // Start the encoding timer
     start = bc::high_resolution_clock::now();
@@ -108,12 +114,12 @@ bool run_coding_test(int32_t finite_field, uint32_t symbols,
     // Stop the encoding timer
     stop = bc::high_resolution_clock::now();
 
-    double encoding_time =
+    run.encoding_time =
         (double)(bc::duration_cast<bc::microseconds>(stop - start).count());
 
     // Calculate the encoding rate in megabytes / seconds
     uint32_t encoded_bytes = payload_count * symbol_size;
-    encoding_rate = encoded_bytes / encoding_time;
+    run.encoding_rate = encoded_bytes / run.encoding_time;
 
     // Start the decoding timer
     start = bc::high_resolution_clock::now();
@@ -125,21 +131,20 @@ bool run_coding_test(int32_t finite_field, uint32_t symbols,
     // Stop the decoding timer
     stop = bc::high_resolution_clock::now();
 
-    double decoding_time =
+    run.decoding_time =
         (double)(bc::duration_cast<bc::microseconds>(stop - start).count());
 
     // Calculate the decoding rate in megabytes / seconds
     uint32_t decoded_bytes = symbols * symbol_size;
-    decoding_rate = decoded_bytes / decoding_time;
+    run.decoding_rate = decoded_bytes / run.decoding_time;
 
-    bool success;
     if (memcmp(data_in, data_out, block_size) == 0)
     {
-        success = true;
+        run.success = true;
     }
     else
     {
-        success = false;
+        run.success = false;
     }
 
     free(data_in);
@@ -153,21 +158,17 @@ bool run_coding_test(int32_t finite_field, uint32_t symbols,
     kodo_delete_encoder_factory(encoder_factory);
     kodo_delete_decoder_factory(decoder_factory);
 
-    printf("Setup time: %5.4f microsec\n", setup_time);
-    printf("Encoding time: %5.4f microsec\n", encoding_time);
-    printf("Decoding time: %5.4f microsec\n", decoding_time);
-
-    return success;
+    return run;
 }
 
 // The main function should not be defined on Windows Phone
 #if !defined(PLATFORM_WINDOWS_PHONE)
 int main(int argc, const char* argv[])
 {
-    if (argc != 4)
+    if (argc != 4 && argc != 5)
     {
-        printf("Usage: %s [binary|binary4|binary8|binary16] "
-               "symbols symbol_size\n", argv[0]);
+        printf("Usage: %s [binary|binary4|binary8] "
+               "symbols symbol_size {runs=10}\n", argv[0]);
         return 1;
     }
 
@@ -185,33 +186,53 @@ int main(int argc, const char* argv[])
     {
         field = kodo_binary8;
     }
-    else if (strcmp(argv[1], "binary16") == 0)
-    {
-        field = kodo_binary16;
-    }
     else
     {
         printf("Invalid finite field: %s\n", argv[1]);
         return 1;
     }
 
+    uint32_t runs = 10;
+    if (argc == 5)
+    {
+        runs = atoi(argv[4]);
+    }
+
     uint32_t symbols = atoi(argv[2]);
     uint32_t symbol_size = atoi(argv[3]);
 
+    bool decoding_success = true;
+    double setup_time = 0.0;
+    double encoding_time = 0.0;
+    double decoding_time = 0.0;
     double encoding_rate = 0.0;
     double decoding_rate = 0.0;
 
-    bool decoding_success =
-        run_coding_test(field, symbols, symbol_size,
-                        encoding_rate, decoding_rate);
+    printf("Runs: %d / Symbols: %d / Symbol_size: %d\n", runs, symbols,
+           symbol_size);
 
-    printf("Symbols: %d / Symbol_size: %d\n", symbols, symbol_size);
-    printf("Encoding rate: %0.2f MB/s\n", encoding_rate);
-    printf("Decoding rate: %0.2f MB/s\n", decoding_rate);
+    for (uint32_t i = 0; i < runs; ++i)
+    {
+        results run = run_coding_test(field, symbols, symbol_size);
+
+        decoding_success &= run.success;
+
+        setup_time += run.setup_time;
+        encoding_time += run.encoding_time;
+        decoding_time += run.decoding_time;
+        encoding_rate += run.encoding_rate;
+        decoding_rate += run.decoding_rate;
+    }
+
+    printf("Average setup time: %5.4f microsec\n", setup_time / runs);
+    printf("Average encoding time: %5.4f microsec\n", encoding_time / runs);
+    printf("Average decoding time: %5.4f microsec\n", decoding_time / runs);
+    printf("Average encoding rate: %0.2f MB/s\n", encoding_rate / runs);
+    printf("Average decoding rate: %0.2f MB/s\n", decoding_rate / runs);
 
     if (decoding_success)
     {
-        printf("Data decoded correctly\n");
+        printf("All data decoded correctly.\n");
     }
     else
     {

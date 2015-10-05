@@ -152,8 +152,7 @@ int main(int argc, char* argv[])
 
     // Create the encoder factory
     encoder_factory = kodo_new_encoder_factory(code_type, finite_field,
-                                               max_symbols, max_symbol_size,
-                                               kodo_trace_enabled);
+                                               max_symbols, max_symbol_size);
 
     // Initialize the factory with the chosen symbols and symbol size
     symbols = atoi(argv[3]);
@@ -196,7 +195,7 @@ int main(int argc, char* argv[])
 
             // Calculate the offset to the next symbol to insert
             uint8_t* symbol = data_in + (rank * kodo_symbol_size(encoder));
-            kodo_set_symbol(encoder, rank, symbol, kodo_symbol_size(encoder));
+            kodo_set_const_symbol(encoder, rank, symbol, kodo_symbol_size(encoder));
         }
 
         bytes_used = kodo_write_payload(encoder, payload);
@@ -219,9 +218,10 @@ int main(int argc, char* argv[])
 
     ftime(&end_time);
 
-    printf("Time needed: %ld ms\n",
-           (end_time.time * 1000 + end_time.millitm) -
-           (start_time.time * 1000 + start_time.millitm));
+    int32_t delta = (end_time.time * 1000 + end_time.millitm) -
+                    (start_time.time * 1000 + start_time.millitm);
+
+    printf("Time needed: %d ms\n", delta);
 
     // Clean up
     free(data_in);

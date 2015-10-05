@@ -15,9 +15,7 @@ TEST(test_seed_codes, shallow_api)
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    bool shallow_storage = true;
-
-    test_basic_api(kodo_seed, max_symbols, max_symbol_size, shallow_storage);
+    test_basic_api(kodo_seed, max_symbols, max_symbol_size);
 }
 
 TEST(test_seed_codes, sparse_shallow_api)
@@ -26,8 +24,6 @@ TEST(test_seed_codes, sparse_shallow_api)
     uint32_t max_symbols = rand_symbols() + 10;
     uint32_t max_symbol_size = rand_symbol_size();
 
-    bool shallow_storage = true;
-
     test_basic_api(kodo_sparse_seed, kodo_sparse_seed, max_symbols,
-        max_symbol_size, shallow_storage);
+                   max_symbol_size);
 }

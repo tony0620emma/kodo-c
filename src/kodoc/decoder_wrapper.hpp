@@ -51,6 +51,19 @@ namespace kodo
             return m_coder->is_complete();
         }
 
+        virtual void set_mutable_symbols(uint8_t* data, uint32_t size)
+        {
+            sak::mutable_storage storage = sak::storage(data, size);
+            m_coder->set_mutable_symbols(storage);
+        }
+
+        virtual void set_mutable_symbol(
+            uint32_t index, uint8_t* data, uint32_t size)
+        {
+            sak::mutable_storage storage = sak::storage(data, size);
+            m_coder->set_mutable_symbol(index, storage);
+        }
+
         virtual void copy_from_symbols(uint8_t* data, uint32_t size) const
         {
             auto storage = sak::mutable_storage(data, size);

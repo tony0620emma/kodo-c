@@ -15,14 +15,10 @@ void test_read_write_uncoded(uint32_t symbols, uint32_t symbol_size,
                              int32_t code_type, int32_t finite_field)
 {
     kodo_factory_t encoder_factory =
-        kodo_new_shallow_encoder_factory(code_type, finite_field,
-                                         symbols, symbol_size,
-                                         kodo_trace_disabled);
+        kodo_new_encoder_factory(code_type, finite_field, symbols, symbol_size);
 
     kodo_factory_t decoder_factory =
-        kodo_new_shallow_decoder_factory(code_type, finite_field,
-                                         symbols, symbol_size,
-                                         kodo_trace_disabled);
+        kodo_new_decoder_factory(code_type, finite_field, symbols, symbol_size);
 
     kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
@@ -41,13 +37,13 @@ void test_read_write_uncoded(uint32_t symbols, uint32_t symbol_size,
     EXPECT_EQ(symbols * symbol_size, kodo_block_size(decoder));
 
     EXPECT_TRUE(kodo_factory_max_payload_size(encoder_factory) >=
-                kodo_payload_size(encoder));
+        kodo_payload_size(encoder));
 
     EXPECT_TRUE(kodo_factory_max_payload_size(decoder_factory) >=
-                kodo_payload_size(decoder));
+        kodo_payload_size(decoder));
 
     EXPECT_EQ(kodo_factory_max_payload_size(encoder_factory),
-              kodo_factory_max_payload_size(decoder_factory));
+        kodo_factory_max_payload_size(decoder_factory));
 
     uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
@@ -69,7 +65,7 @@ void test_read_write_uncoded(uint32_t symbols, uint32_t symbol_size,
             input_symbols[i][j] = rand() % 256;
 
         // Store the symbol pointer in the encoder
-        kodo_set_symbol(encoder, i, input_symbols[i], symbol_size);
+        kodo_set_const_symbol(encoder, i, input_symbols[i], symbol_size);
     }
 
     // Transfer the original symbols to the decoder with some losses
@@ -80,7 +76,7 @@ void test_read_write_uncoded(uint32_t symbols, uint32_t symbol_size,
         output_symbols[i] = (uint8_t*) malloc(symbol_size);
 
         // Specify the output buffers used for decoding
-        kodo_set_symbol(decoder, i, output_symbols[i], symbol_size);
+        kodo_set_mutable_symbol(decoder, i, output_symbols[i], symbol_size);
 
         // Simulate a channel with a 50% loss rate
         if (rand() % 2)
@@ -140,11 +136,8 @@ TEST(test_read_write_uncoded_symbol, uncoded_symbols)
     uint32_t symbol_size = rand_symbol_size();
 
     test_read_write_uncoded(symbols, symbol_size,
-                            kodo_full_vector, kodo_binary);
+        kodo_full_vector, kodo_binary);
 
     test_read_write_uncoded(symbols, symbol_size,
-                            kodo_full_vector, kodo_binary8);
-
-    test_read_write_uncoded(symbols, symbol_size,
-                            kodo_full_vector, kodo_binary16);
+        kodo_full_vector, kodo_binary8);
 }

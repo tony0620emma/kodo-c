@@ -21,11 +21,6 @@ extern "C"
         virtual uint32_t symbols() const = 0;
         virtual bool is_symbol_pivot(uint32_t index) const = 0;
 
-        virtual void set_symbols(uint8_t* data, uint32_t size) = 0;
-
-        virtual void set_symbol(uint32_t index, uint8_t* data,
-            uint32_t size) = 0;
-
         virtual bool has_set_trace_stdout() const = 0;
         virtual bool has_set_trace_callback() const = 0;
         virtual bool has_set_trace_off() const = 0;

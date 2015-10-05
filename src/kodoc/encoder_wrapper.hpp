@@ -62,6 +62,19 @@ namespace kodo
             kodo::read_feedback(m_coder, feedback);
         }
 
+        virtual void set_const_symbols(uint8_t* data, uint32_t size)
+        {
+            sak::const_storage storage = sak::storage(data, size);
+            m_coder->set_const_symbols(storage);
+        }
+
+        virtual void set_const_symbol(
+            uint32_t index, uint8_t* data, uint32_t size)
+        {
+            sak::const_storage storage = sak::storage(data, size);
+            m_coder->set_const_symbol(index, storage);
+        }
+
         virtual uint32_t write_symbol(
             uint8_t* symbol_data, uint8_t* coefficients)
         {
