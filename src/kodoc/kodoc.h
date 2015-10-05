@@ -237,7 +237,7 @@ uint32_t kodo_block_size(kodo_coder_t coder);
 /// symbols also in the case of partial data. If this is not desired,
 /// then the symbols should be specified individually. This also
 /// means that it is the responsibility of the user to communicate
-/// how many of the bytes transmitted are application data.
+/// how many of the transmitted bytes are application data.
 /// @param encoder The encoder which will encode the data
 /// @param data The buffer containing the data to be encoded
 /// @param size The size of the buffer to be encoded
@@ -245,39 +245,31 @@ KODOC_API
 void kodo_set_const_symbols(kodo_coder_t encoder, uint8_t* data, uint32_t size);
 
 /// Specifies the source data for a given symbol.
-/// @param encoder The encoder which will encode the data
+/// @param encoder The encoder which will encode the symbol
 /// @param index The index of the symbol in the coding block
 /// @param data The buffer containing the data to be encoded
 /// @param size The size of the symbol buffer
 KODOC_API
 void kodo_set_const_symbol(kodo_coder_t encoder, uint32_t index, uint8_t* data,
-    uint32_t size);
+                           uint32_t size);
 
+/// Specifies the data buffer where the decoder should store the decoded
+/// symbols. This will specify the storage for all symbols.
+/// @param decoder The decoder which will decode the data
+/// @param data The buffer containing the data to be encoded
+/// @param size The size of the buffer to be encoded
 KODOC_API
-void kodo_set_mutable_symbols(kodo_coder_t encoder, uint8_t* data,
-    uint32_t size);
+void kodo_set_mutable_symbols(kodo_coder_t decoder, uint8_t* data,
+                              uint32_t size);
 
+/// Specifies the data buffer where the decoder should store a given symbol.
+/// @param decoder The decoder which will decode the symbol
+/// @param index The index of the symbol in the coding block
+/// @param data The buffer containing the data to be encoded
+/// @param size The size of the symbol buffer
 KODOC_API
-void kodo_set_mutable_symbol(kodo_coder_t encoder, uint32_t index,
-    uint8_t* data, uint32_t size);
-
-/// Copies the decoded symbols to the provided buffer.
-/// @param decoder The decoder which contains the data to be
-///        copied.
-/// @param data The destination buffer to which the data should be copied
-/// @param size The size of the data to be copied
-KODOC_API
-void kodo_copy_from_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size);
-
-/// Copies a specific symbol to the provided buffer.
-/// @param decoder The decoder which contains the data to be
-///        copied.
-/// @param index The index of the symbol to copy
-/// @param data The destination buffer to which the data should be copied
-/// @param size The size of the data to be copied
-KODOC_API
-void kodo_copy_from_symbol(kodo_coder_t decoder, uint32_t index,
-                           uint8_t* data, uint32_t size);
+void kodo_set_mutable_symbol(kodo_coder_t decoder, uint32_t index,
+                             uint8_t* data, uint32_t size);
 
 /// Returns the symbol size of an encoder/decoder.
 /// @param coder The encoder/decoder to check

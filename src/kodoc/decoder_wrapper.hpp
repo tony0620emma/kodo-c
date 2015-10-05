@@ -64,19 +64,6 @@ namespace kodo
             m_coder->set_mutable_symbol(index, storage);
         }
 
-        virtual void copy_from_symbols(uint8_t* data, uint32_t size) const
-        {
-            auto storage = sak::mutable_storage(data, size);
-            m_coder->copy_from_symbols(storage);
-        }
-
-        virtual void copy_from_symbol(uint32_t index, uint8_t* data,
-                                      uint32_t size) const
-        {
-            auto storage = sak::mutable_storage(data, size);
-            m_coder->copy_from_symbol(index, storage);
-        }
-
         virtual bool has_partial_decoding_tracker() const
         {
             return kodo::has_partial_decoding_tracker<KodoStack>::value;

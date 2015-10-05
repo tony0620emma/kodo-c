@@ -165,21 +165,6 @@ void kodo_set_mutable_symbol(kodo_coder_t decoder, uint32_t index,
     the_decoder->set_mutable_symbol(index, data, size);
 }
 
-void kodo_copy_from_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size)
-{
-    assert(decoder);
-    kodo_decoder* the_decoder = (kodo_decoder*) decoder;
-    the_decoder->copy_from_symbols(data, size);
-}
-
-void kodo_copy_from_symbol(kodo_coder_t decoder, uint32_t index,
-                           uint8_t* data, uint32_t size)
-{
-    assert(decoder);
-    kodo_decoder* the_decoder = (kodo_decoder*) decoder;
-    the_decoder->copy_from_symbol(index, data, size);
-}
-
 uint32_t kodo_symbol_size(kodo_coder_t coder)
 {
     assert(coder);
