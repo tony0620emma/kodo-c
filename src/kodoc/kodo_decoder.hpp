@@ -20,10 +20,10 @@ extern "C"
         virtual void read_payload(uint8_t* data) = 0;
         virtual bool is_complete() const = 0;
 
-        virtual void copy_from_symbols(uint8_t* data, uint32_t size) const = 0;
+        virtual void set_mutable_symbols(uint8_t* data, uint32_t size) = 0;
 
-        virtual void copy_from_symbol(uint32_t index, uint8_t* data,
-            uint32_t size) const = 0;
+        virtual void set_mutable_symbol(uint32_t index, uint8_t* data,
+            uint32_t size) = 0;
 
         virtual bool has_partial_decoding_tracker() const = 0;
 

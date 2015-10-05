@@ -134,32 +134,35 @@ uint32_t kodo_block_size(kodo_coder_t coder)
     return coder->block_size();
 }
 
-void kodo_set_symbols(kodo_coder_t coder, uint8_t* data, uint32_t size)
+void kodo_set_const_symbols(kodo_coder_t encoder, uint8_t* data, uint32_t size)
 {
-    assert(coder);
-    coder->set_symbols(data, size);
+    assert(encoder);
+    kodo_encoder* the_encoder = (kodo_encoder*) encoder;
+    the_encoder->set_const_symbols(data, size);
 }
 
-void kodo_set_symbol(kodo_coder_t coder, uint32_t index,
-                     uint8_t* data, uint32_t size)
-{
-    assert(coder);
-    coder->set_symbol(index, data, size);
-}
-
-void kodo_copy_from_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size)
-{
-    assert(decoder);
-    kodo_decoder* the_decoder = (kodo_decoder*) decoder;
-    the_decoder->copy_from_symbols(data, size);
-}
-
-void kodo_copy_from_symbol(kodo_coder_t decoder, uint32_t index,
+void kodo_set_const_symbol(kodo_coder_t encoder, uint32_t index,
                            uint8_t* data, uint32_t size)
 {
+    assert(encoder);
+    kodo_encoder* the_encoder = (kodo_encoder*) encoder;
+    the_encoder->set_const_symbol(index, data, size);
+}
+
+void kodo_set_mutable_symbols(kodo_coder_t decoder, uint8_t* data,
+                              uint32_t size)
+{
     assert(decoder);
     kodo_decoder* the_decoder = (kodo_decoder*) decoder;
-    the_decoder->copy_from_symbol(index, data, size);
+    the_decoder->set_mutable_symbols(data, size);
+}
+
+void kodo_set_mutable_symbol(kodo_coder_t decoder, uint32_t index,
+                             uint8_t* data, uint32_t size)
+{
+    assert(decoder);
+    kodo_decoder* the_decoder = (kodo_decoder*) decoder;
+    the_decoder->set_mutable_symbol(index, data, size);
 }
 
 uint32_t kodo_symbol_size(kodo_coder_t coder)
@@ -317,7 +320,7 @@ void kodo_set_pseudo_systematic(kodo_coder_t encoder, uint8_t pseudo_systematic)
     assert(encoder);
     kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
     assert(the_encoder);
-    the_encoder->set_pseudo_systematic(pseudo_systematic);
+    the_encoder->set_pseudo_systematic(pseudo_systematic != 0);
 }
 
 uint8_t kodo_pre_charging(kodo_coder_t encoder)
@@ -331,7 +334,7 @@ void kodo_set_pre_charging(kodo_coder_t encoder, uint8_t pre_charging)
 {
     assert(encoder);
     kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
-    the_encoder->set_pre_charging(pre_charging);
+    the_encoder->set_pre_charging(pre_charging != 0);
 }
 
 uint32_t kodo_width(kodo_coder_t encoder)
@@ -423,7 +426,8 @@ uint8_t kodo_has_set_trace_off(kodo_coder_t coder)
     return (uint8_t)coder->has_set_trace_off();
 }
 
-void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback, void* context)
+void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback,
+                             void* context)
 {
     assert(coder);
     coder->set_trace_callback(callback, context);

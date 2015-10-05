@@ -38,7 +38,7 @@ extern "C" {
 typedef void (*kodo_trace_callback_t)(const char*, const char*, void*);
 
 //------------------------------------------------------------------
-// FACTORY API
+// KODO-C TYPES
 //------------------------------------------------------------------
 
 /// Opaque pointer used for the encoder and decoder factories
@@ -54,9 +54,7 @@ typedef enum
 {
     kodo_binary,
     kodo_binary4,
-    kodo_binary8,
-    kodo_binary16,
-    kodo_prime2325
+    kodo_binary8
 }
 kodo_finite_field;
 
@@ -75,21 +73,11 @@ typedef enum
 }
 kodo_code_type;
 
-/// Enum specifying the available trace modes
-/// Note: the size of the enum type cannot be guaranteed, so the int32_t type
-/// is used in the API calls to pass the enum values
-typedef enum
-{
-    kodo_trace_disabled,
-    kodo_trace_enabled
-}
-kodo_trace_mode;
-
 //------------------------------------------------------------------
 // FACTORY API
 //------------------------------------------------------------------
 
-/// Builds a new encoder factory (for deep storage encoders)
+/// Builds a new encoder factory
 /// @param code_type This parameter determines the encoding algorithms used.
 /// @param finite_field The finite field that should be used by the encoder.
 /// @param max_symbols The maximum number of symbols supported by encoders
@@ -102,10 +90,9 @@ kodo_trace_mode;
 KODOC_API
 kodo_factory_t kodo_new_encoder_factory(
     int32_t code_type, int32_t finite_field,
-    uint32_t max_symbols, uint32_t max_symbol_size,
-    int32_t trace_mode);
+    uint32_t max_symbols, uint32_t max_symbol_size);
 
-/// Builds a new decoder factory (for deep storage decoders)
+/// Builds a new decoder factory
 /// @param code_type This parameter determines the decoding algorithms used.
 /// @param finite_field The finite field that should be used by the decoder.
 /// @param max_symbols The maximum number of symbols supported by decoders
@@ -118,40 +105,7 @@ kodo_factory_t kodo_new_encoder_factory(
 KODOC_API
 kodo_factory_t kodo_new_decoder_factory(
     int32_t code_type, int32_t finite_field,
-    uint32_t max_symbols, uint32_t max_symbol_size,
-    int32_t trace_mode);
-
-/// Builds a new encoder factory (for shallow storage encoders)
-/// @param code_type This parameter determines the encoding algorithms used.
-/// @param finite_field The finite field that should be used by the encoder.
-/// @param max_symbols The maximum number of symbols supported by encoders
-///        built with this factory.
-/// @param max_symbol_size The maximum symbol size in bytes supported by
-///        encoders built using the returned factory
-/// @param trace_mode Determines which trace mode should be used.
-/// @return A new factory capable of building encoders using the
-///         selected parameters.
-KODOC_API
-kodo_factory_t kodo_new_shallow_encoder_factory(
-    int32_t code_type, int32_t finite_field,
-    uint32_t max_symbols, uint32_t max_symbol_size,
-    int32_t trace_mode);
-
-/// Builds a new decoder factory (for shallow storage decoders)
-/// @param code_type This parameter determines the decoding algorithms used.
-/// @param finite_field The finite field that should be used by the decoder.
-/// @param max_symbols The maximum number of symbols supported by decoders
-///        built with this factory.
-/// @param max_symbol_size The maximum symbol size in bytes supported by
-///        decoders built using the returned factory
-/// @param trace_mode Determines which trace mode should be used.
-/// @return A new factory capable of building decoders using the
-///         selected parameters.
-KODOC_API
-kodo_factory_t kodo_new_shallow_decoder_factory(
-    int32_t code_type, int32_t finite_field,
-    uint32_t max_symbols, uint32_t max_symbol_size,
-    int32_t trace_mode);
+    uint32_t max_symbols, uint32_t max_symbol_size);
 
 /// Deallocates and releases the memory consumed by the encoder factory
 /// @param factory The encoder factory which should be deallocated
@@ -283,39 +237,39 @@ uint32_t kodo_block_size(kodo_coder_t coder);
 /// symbols also in the case of partial data. If this is not desired,
 /// then the symbols should be specified individually. This also
 /// means that it is the responsibility of the user to communicate
-/// how many of the bytes transmitted are application data.
+/// how many of the transmitted bytes are application data.
 /// @param encoder The encoder which will encode the data
 /// @param data The buffer containing the data to be encoded
 /// @param size The size of the buffer to be encoded
 KODOC_API
-void kodo_set_symbols(kodo_coder_t encoder, uint8_t* data, uint32_t size);
+void kodo_set_const_symbols(kodo_coder_t encoder, uint8_t* data, uint32_t size);
 
 /// Specifies the source data for a given symbol.
-/// @param encoder The encoder which will encode the data
+/// @param encoder The encoder which will encode the symbol
 /// @param index The index of the symbol in the coding block
 /// @param data The buffer containing the data to be encoded
 /// @param size The size of the symbol buffer
 KODOC_API
-void kodo_set_symbol(kodo_coder_t encoder, uint32_t index,
-                     uint8_t* data, uint32_t size);
+void kodo_set_const_symbol(kodo_coder_t encoder, uint32_t index, uint8_t* data,
+                           uint32_t size);
 
-/// Copies the decoded symbols to the provided buffer.
-/// @param decoder The decoder which contains the data to be
-///        copied.
-/// @param data The destination buffer to which the data should be copied
-/// @param size The size of the data to be copied
+/// Specifies the data buffer where the decoder should store the decoded
+/// symbols. This will specify the storage for all symbols.
+/// @param decoder The decoder which will decode the data
+/// @param data The buffer containing the data to be encoded
+/// @param size The size of the buffer to be encoded
 KODOC_API
-void kodo_copy_from_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size);
+void kodo_set_mutable_symbols(kodo_coder_t decoder, uint8_t* data,
+                              uint32_t size);
 
-/// Copies a specific symbol to the provided buffer.
-/// @param decoder The decoder which contains the data to be
-///        copied.
-/// @param index The index of the symbol to copy
-/// @param data The destination buffer to which the data should be copied
-/// @param size The size of the data to be copied
+/// Specifies the data buffer where the decoder should store a given symbol.
+/// @param decoder The decoder which will decode the symbol
+/// @param index The index of the symbol in the coding block
+/// @param data The buffer containing the data to be encoded
+/// @param size The size of the symbol buffer
 KODOC_API
-void kodo_copy_from_symbol(kodo_coder_t decoder, uint32_t index,
-                           uint8_t* data, uint32_t size);
+void kodo_set_mutable_symbol(kodo_coder_t decoder, uint32_t index,
+                             uint8_t* data, uint32_t size);
 
 /// Returns the symbol size of an encoder/decoder.
 /// @param coder The encoder/decoder to check

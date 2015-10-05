@@ -3,16 +3,18 @@
 
 import os, sys, urllib2, traceback
 
-project_name = 'ckodo'
+project_name = 'kodo-c'
 project_dependencies = \
 [
-    'waf-tools',
-    'gtest',
     'boost',
-    'sak',
+    'cpuid',
     'fifi',
-    'gauge',
+    'gtest',
     'kodo',
+    'platform',
+    'recycle',
+    'sak',
+    'waf-tools',
 ]
 
 # Importing a dynamically generated module

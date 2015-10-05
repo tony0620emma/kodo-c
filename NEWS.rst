@@ -6,7 +6,18 @@ of every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Major: Upgrade to waf-tools 3
+* Minor: Upgrade to gtest 3
+* Major: Upgrade to kodo 32
+* Major: Removed support for deep storage (shallow storage is used for all
+  codecs).
+* Major: The trace API is available in all codecs (option removed).
+* Major: Split const and mutable overloads of ``set_symbol`` to
+  ``set_const_symbol`` and ``set_mutable_symbol``.
+* Major: Split const and mutable overloads of ``set_symbols`` to
+  ``set_const_symbols`` and ``set_mutable_symbols``.
+* Major: Removed ``copy_from_symbol`` and ``copy_from_symbols`` since they
+  are not used with shallow storage.
 
 6.0.0
 -----
