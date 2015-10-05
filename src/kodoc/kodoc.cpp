@@ -9,10 +9,11 @@
 #include <cstdint>
 #include <cassert>
 
-#include "decoder.hpp"
-#include "encoder.hpp"
-#include "factory.hpp"
-#include "sparse_encoder.hpp"
+#include "kodo_decoder.hpp"
+#include "kodo_encoder.hpp"
+#include "kodo_factory.hpp"
+#include "kodo_sparse_encoder.hpp"
+#include "kodo_perpetual_encoder.hpp"
 
 //------------------------------------------------------------------
 // FACTORY API
@@ -117,6 +118,12 @@ uint32_t kodo_write_payload(kodo_coder_t coder, uint8_t* payload)
     return coder->write_payload(payload);
 }
 
+uint8_t kodo_has_write_payload(kodo_coder_t coder)
+{
+    assert(coder);
+    return (uint8_t)coder->has_write_payload();
+}
+
 //------------------------------------------------------------------
 // SYMBOL STORAGE API
 //------------------------------------------------------------------
@@ -140,19 +147,19 @@ void kodo_set_symbol(kodo_coder_t coder, uint32_t index,
     coder->set_symbol(index, data, size);
 }
 
-void kodo_copy_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size)
+void kodo_copy_from_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size)
 {
     assert(decoder);
     kodo_decoder* the_decoder = (kodo_decoder*) decoder;
-    the_decoder->copy_symbols(data, size);
+    the_decoder->copy_from_symbols(data, size);
 }
 
-void kodo_copy_symbol(kodo_coder_t decoder, uint32_t index,
-                      uint8_t* data, uint32_t size)
+void kodo_copy_from_symbol(kodo_coder_t decoder, uint32_t index,
+                           uint8_t* data, uint32_t size)
 {
     assert(decoder);
     kodo_decoder* the_decoder = (kodo_decoder*) decoder;
-    the_decoder->copy_symbol(index, data, size);
+    the_decoder->copy_from_symbol(index, data, size);
 }
 
 uint32_t kodo_symbol_size(kodo_coder_t coder)
@@ -295,6 +302,67 @@ void kodo_set_density(kodo_coder_t encoder, double density)
 }
 
 //------------------------------------------------------------------
+// PERPETUAL ENCODER API
+//------------------------------------------------------------------
+
+uint8_t kodo_pseudo_systematic(kodo_coder_t encoder)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    return the_encoder->pseudo_systematic();
+}
+
+void kodo_set_pseudo_systematic(kodo_coder_t encoder, uint8_t pseudo_systematic)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    assert(the_encoder);
+    the_encoder->set_pseudo_systematic(pseudo_systematic);
+}
+
+uint8_t kodo_pre_charging(kodo_coder_t encoder)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    return the_encoder->pre_charging();
+}
+
+void kodo_set_pre_charging(kodo_coder_t encoder, uint8_t pre_charging)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    the_encoder->set_pre_charging(pre_charging);
+}
+
+uint32_t kodo_width(kodo_coder_t encoder)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    return the_encoder->width();
+}
+
+void kodo_set_width(kodo_coder_t encoder, uint32_t width)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    the_encoder->set_width(width);
+}
+
+double kodo_width_ratio(kodo_coder_t encoder)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    return the_encoder->width_ratio();
+}
+
+void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio)
+{
+    assert(encoder);
+    kodo_perpetual_encoder* the_encoder = (kodo_perpetual_encoder*) encoder;
+    the_encoder->set_width_ratio(width_ratio);
+}
+
+//------------------------------------------------------------------
 // GENERIC API
 //------------------------------------------------------------------
 
@@ -337,20 +405,38 @@ void kodo_set_systematic_off(kodo_coder_t encoder)
 // TRACE API
 //------------------------------------------------------------------
 
-uint8_t kodo_has_trace(kodo_coder_t coder)
+uint8_t kodo_has_set_trace_callback(kodo_coder_t coder)
 {
     assert(coder);
-    return (uint8_t)coder->has_trace();
+    return (uint8_t)coder->has_set_trace_callback();
 }
 
-void kodo_trace(kodo_coder_t coder)
+uint8_t kodo_has_set_trace_stdout(kodo_coder_t coder)
 {
     assert(coder);
-    coder->trace(NULL);
+    return (uint8_t)coder->has_set_trace_stdout();
 }
 
-void kodo_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback)
+uint8_t kodo_has_set_trace_off(kodo_coder_t coder)
 {
     assert(coder);
-    coder->trace(callback);
+    return (uint8_t)coder->has_set_trace_off();
+}
+
+void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback, void* context)
+{
+    assert(coder);
+    coder->set_trace_callback(callback, context);
+}
+
+void kodo_set_trace_stdout(kodo_coder_t coder)
+{
+    assert(coder);
+    coder->set_trace_stdout();
+}
+
+void kodo_set_trace_off(kodo_coder_t coder)
+{
+    assert(coder);
+    coder->set_trace_off();
 }

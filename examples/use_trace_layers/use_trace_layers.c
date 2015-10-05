@@ -16,8 +16,9 @@
 /// Simple example showing how to use some of the trace layers defined
 /// in Kodo.
 
-void trace_callback(const char* zone, const char* data)
+void trace_callback(const char* zone, const char* data, void* context)
 {
+    (void) context;
     if (strcmp(zone, "decoder_state") == 0 ||
         strcmp(zone, "input_symbol_coefficients") == 0)
     {
@@ -36,7 +37,7 @@ int main()
     uint32_t max_symbols = 6;
     uint32_t max_symbol_size = 32;
 
-    int32_t code_type = kodo_full_rlnc;
+    int32_t code_type = kodo_full_vector;
     int32_t finite_field = kodo_binary8;
 
     // In the following we will make an encoder/decoder factory.
@@ -79,16 +80,16 @@ int main()
         data_in[i] = rand() % 256;
     }
 
-    // Install the default trace function for encoder (writes to stdout)
-    if (kodo_has_trace(encoder))
+    // Install the stdout trace function for encoder
+    if (kodo_has_set_trace_stdout(encoder))
     {
-        kodo_trace(encoder);
+        kodo_set_trace_stdout(encoder);
     }
 
     // Install a custom trace function for the decoder if tracing is enabled
-    if (kodo_has_trace(decoder))
+    if (kodo_has_set_trace_callback(decoder))
     {
-        kodo_trace_callback(decoder, trace_callback);
+        kodo_set_trace_callback(decoder, trace_callback, NULL);
     }
 
     kodo_set_symbols(encoder, data_in, block_size);
@@ -106,7 +107,7 @@ int main()
     }
 
     uint8_t* data_out = (uint8_t*) malloc(kodo_block_size(decoder));
-    kodo_copy_symbols(decoder, data_out, kodo_block_size(decoder));
+    kodo_copy_from_symbols(decoder, data_out, kodo_block_size(decoder));
 
     if (memcmp(data_in, data_out, block_size) == 0)
     {

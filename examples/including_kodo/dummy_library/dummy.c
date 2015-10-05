@@ -18,7 +18,7 @@ uint8_t run_kodo()
     uint32_t max_symbol_size = 160;
 
     // Select the coding to use
-    int32_t code_type = kodo_full_rlnc;
+    int32_t code_type = kodo_full_vector;
 
     // Select the finite field
     int32_t finite_field = kodo_binary;

@@ -16,8 +16,10 @@
 /// Simple example showing how to encode and decode a block
 /// of memory.
 
-void trace_callback(const char* zone, const char* data)
+void trace_callback(const char* zone, const char* data, void* context)
 {
+    (void) context;
+
     if (strcmp(zone, "decoder_state") == 0)
     {
         printf("%s:\n", zone);
@@ -36,7 +38,7 @@ int main()
     uint32_t max_symbol_size = 100;
 
     // Here we select the coding code_type we wish to use
-    int32_t code_type = kodo_full_rlnc;
+    int32_t code_type = kodo_full_vector;
 
     // Here we select the finite field to use common choices are
     // kodo_binary, kodo_binary8, kodo_binary16
@@ -106,9 +108,9 @@ int main()
     // }
 
     // Install a custom trace function for the decoder (if tracing is enabled)
-    if (kodo_has_trace(decoder))
+    if (kodo_has_set_trace_callback(decoder))
     {
-        kodo_trace_callback(decoder, trace_callback);
+        kodo_set_trace_callback(decoder, trace_callback, NULL);
     }
 
     while (!kodo_is_complete(decoder))
@@ -126,7 +128,7 @@ int main()
                kodo_rank(decoder));
     }
 
-    kodo_copy_symbols(decoder, data_out, block_size);
+    kodo_copy_from_symbols(decoder, data_out, block_size);
 
     if (memcmp(data_in, data_out, block_size) == 0)
     {

@@ -12,12 +12,11 @@
 #include <kodo/has_partial_decoding_tracker.hpp>
 #include <kodo/is_partial_complete.hpp>
 #include <kodo/symbol_decoding_status_tracker.hpp>
-#include <kodo/trace.hpp>
 #include <kodo/trace_linear_block_decoder.hpp>
 #include <kodo/write_feedback.hpp>
 
 #include "coder_wrapper.hpp"
-#include "decoder.hpp"
+#include "kodo_decoder.hpp"
 
 namespace kodo
 {
@@ -52,17 +51,17 @@ namespace kodo
             return m_coder->is_complete();
         }
 
-        virtual void copy_symbols(uint8_t* data, uint32_t size) const
+        virtual void copy_from_symbols(uint8_t* data, uint32_t size) const
         {
             auto storage = sak::mutable_storage(data, size);
-            m_coder->copy_symbols(storage);
+            m_coder->copy_from_symbols(storage);
         }
 
-        virtual void copy_symbol(uint32_t index, uint8_t* data,
-                                 uint32_t size) const
+        virtual void copy_from_symbol(uint32_t index, uint8_t* data,
+                                      uint32_t size) const
         {
             auto storage = sak::mutable_storage(data, size);
-            m_coder->copy_symbol(index, storage);
+            m_coder->copy_from_symbol(index, storage);
         }
 
         virtual bool has_partial_decoding_tracker() const

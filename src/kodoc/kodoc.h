@@ -35,7 +35,7 @@ extern "C" {
 #endif
 
 /// Callback function type used for tracing
-typedef void (*kodo_trace_callback_t)(const char*, const char*);
+typedef void (*kodo_trace_callback_t)(const char*, const char*, void*);
 
 //------------------------------------------------------------------
 // FACTORY API
@@ -65,12 +65,13 @@ kodo_finite_field;
 /// is used in the API calls to pass the enum values
 typedef enum
 {
-    kodo_full_rlnc,
+    kodo_full_vector,
     kodo_on_the_fly,
     kodo_sliding_window,
-    kodo_sparse_full_rlnc,
-    kodo_seed_rlnc,
-    kodo_sparse_seed_rlnc
+    kodo_sparse_full_vector,
+    kodo_seed,
+    kodo_sparse_seed,
+    kodo_perpetual
 }
 kodo_code_type;
 
@@ -260,6 +261,13 @@ void kodo_read_payload(kodo_coder_t decoder, uint8_t* payload);
 KODOC_API
 uint32_t kodo_write_payload(kodo_coder_t coder, uint8_t* payload);
 
+/// Checks whether the encoder/decoder provides the kodo_write_payload()
+/// function.
+/// @param coder The encoder/decoder to query
+/// @return Non-zero value if kodo_write_payload is supported, otherwise 0
+KODOC_API
+uint8_t kodo_has_write_payload(kodo_coder_t coder);
+
 //------------------------------------------------------------------
 // SYMBOL STORAGE API
 //------------------------------------------------------------------
@@ -297,7 +305,7 @@ void kodo_set_symbol(kodo_coder_t encoder, uint32_t index,
 /// @param data The destination buffer to which the data should be copied
 /// @param size The size of the data to be copied
 KODOC_API
-void kodo_copy_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size);
+void kodo_copy_from_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size);
 
 /// Copies a specific symbol to the provided buffer.
 /// @param decoder The decoder which contains the data to be
@@ -306,8 +314,8 @@ void kodo_copy_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size);
 /// @param data The destination buffer to which the data should be copied
 /// @param size The size of the data to be copied
 KODOC_API
-void kodo_copy_symbol(kodo_coder_t decoder, uint32_t index,
-                      uint8_t* data, uint32_t size);
+void kodo_copy_from_symbol(kodo_coder_t decoder, uint32_t index,
+                           uint8_t* data, uint32_t size);
 
 /// Returns the symbol size of an encoder/decoder.
 /// @param coder The encoder/decoder to check
@@ -461,6 +469,61 @@ KODOC_API
 void kodo_set_density(kodo_coder_t encoder, double density);
 
 //------------------------------------------------------------------
+// PERPETUAL ENCODER API
+//------------------------------------------------------------------
+
+/// Get the pseudo-systematic property of the generator
+/// @param encoder The encoder to use.
+/// @return the current setting for pseudo-systematic
+KODOC_API
+uint8_t kodo_pseudo_systematic(kodo_coder_t encoder);
+
+/// Set the pseudo-systematic property of the generator
+/// @param encoder The encoder to use.
+/// @param pseudo_systematic the new setting for pseudo-systematic
+KODOC_API
+void kodo_set_pseudo_systematic(kodo_coder_t encoder,
+    uint8_t pseudo_systematic);
+
+/// Get the pre-charging property of the generator
+/// @param encoder The encoder to use.
+/// @return the current setting for pre-charging
+KODOC_API
+uint8_t kodo_pre_charging(kodo_coder_t encoder);
+
+/// Set the pre-charging property of the generator
+/// @param encoder The encoder to use.
+/// @param pre_charging the new setting for pre-charging
+KODOC_API
+void kodo_set_pre_charging(kodo_coder_t encoder, uint8_t pre_charging);
+
+/// Get the width
+/// @param encoder The encoder to use.
+/// @return the width used by the generator
+KODOC_API
+uint32_t kodo_width(kodo_coder_t encoder);
+
+/// Set the number of non-zero coefficients after the pivot.
+/// Width ratio is recalculated from this value
+/// @param encoder The encoder to use.
+/// @param width the width
+KODOC_API
+void kodo_set_width(kodo_coder_t encoder, uint32_t width);
+
+/// Get the ratio that is used to calculate the width
+/// @param encoder The encoder to use.
+/// @return the width ratio of the generator
+KODOC_API
+double kodo_width_ratio(kodo_coder_t encoder);
+
+/// Set the ratio that is used to calculate the number of non-zero
+/// coefficients after the pivot (i.e. the width)
+/// @param encoder The encoder to use.
+/// @param ratio the width ratio
+KODOC_API
+void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio);
+
+//------------------------------------------------------------------
 // GENERIC API
 //------------------------------------------------------------------
 
@@ -502,24 +565,48 @@ void kodo_set_systematic_off(kodo_coder_t encoder);
 // TRACE API
 //------------------------------------------------------------------
 
-/// Returns whether an encoder or decoder has trace capabilities
+/// Returns whether an encoder or decoder has set trace callback capabilities
 /// @param coder The encoder/decoder to query
 /// @return Non-zero value if tracing is supported, otherwise 0
 KODOC_API
-uint8_t kodo_has_trace(kodo_coder_t coder);
+uint8_t kodo_has_set_trace_callback(kodo_coder_t coder);
 
-/// Enables the default trace function of the encoder/decoder, which prints
+/// Returns whether an encoder or decoder has stdout trace capabilities
+/// @param coder The encoder/decoder to query
+/// @return Non-zero value if tracing is supported, otherwise 0
+KODOC_API
+uint8_t kodo_has_set_trace_stdout(kodo_coder_t coder);
+
+/// Returns whether an encoder or decoder has set trace off capabilities
+/// @param coder The encoder/decoder to query
+/// @return Non-zero value if tracing is supported, otherwise 0
+KODOC_API
+uint8_t kodo_has_set_trace_off(kodo_coder_t coder);
+
+/// Enables the trace function of the encoder/decoder, which prints
 /// to the standard output.
 /// @param coder The encoder/decoder to use
 KODOC_API
-void kodo_trace(kodo_coder_t coder);
+void kodo_set_trace_stdout(kodo_coder_t coder);
 
 /// Registers a custom callback that will get the trace output of an encoder
-/// or decoder.
+/// or decoder. The function takes a void pointer which will be available when
+/// the kodo_trace_callback_t function is invoked by the library. This allows
+/// the user to pass custom information to the callback function. If no context
+/// is needed the pointer can be set to NULL.
 /// @param coder The encoder/decoder to use
 /// @param callback The callback that processes the trace output
+/// @param context A void pointer which is forwarded to the callback function.
+///        This can be used when state is required within the callback. If no
+///        state is needed the pointer can be set to NULL.
 KODOC_API
-void kodo_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback);
+void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback,
+    void* context);
+
+/// Disables the trace function of the encoder/decoder.
+/// @param coder The encoder/decoder to use
+KODOC_API
+void kodo_set_trace_off(kodo_coder_t coder);
 
 #ifdef __cplusplus
 }

@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 APPNAME = 'kodoc'
-VERSION = '4.0.0'
+VERSION = '6.0.0'
 
 import waflib.extras.wurf_options
 
@@ -21,12 +21,12 @@ def resolve(ctx):
     ctx.add_dependency(resolve.ResolveVersion(
         name='waf-tools',
         git_repository='github.com/steinwurf/waf-tools.git',
-        major=2))
+        major=3))
 
     ctx.add_dependency(resolve.ResolveVersion(
         name='kodo',
         git_repository='github.com/steinwurf/kodo.git',
-        major=26))
+        major=32))
 
     # Internal dependencies
     if ctx.is_toplevel():
@@ -34,7 +34,7 @@ def resolve(ctx):
         ctx.add_dependency(resolve.ResolveVersion(
             name='gtest',
             git_repository='github.com/steinwurf/gtest.git',
-            major=2))
+            major=3))
 
 
 def configure(conf):
@@ -69,8 +69,7 @@ def build(bld):
         defines=['KODOC_STATIC'],
         export_defines=['KODOC_STATIC'],
         export_includes='src',
-        use=['kodo_includes', 'boost_includes', 'fifi',
-             'recycle_includes', 'sak_includes', 'platform_includes'])
+        use=['kodo_includes'])
 
     # Define the task generator that will build the kodoc shared library
     gen = bld.shlib(
@@ -80,8 +79,7 @@ def build(bld):
         defines=['KODOC_DLL_EXPORTS'],
         install_path=None,
         export_includes='src',
-        use=['kodo_includes', 'boost_includes', 'fifi',
-             'recycle_includes', 'sak_includes', 'platform_includes'])
+        use=['kodo_includes'])
 
     # Make sure that the task generator is posted, which is necessary in
     # order to access the task generator by name in child projects.

@@ -42,19 +42,19 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
     while (!kodo_is_complete(decoder))
     {
-        EXPECT_TRUE(kodo_rank(encoder) >= kodo_rank(decoder));
+        EXPECT_GE(kodo_rank(encoder), kodo_rank(decoder));
+
+        // The rank of an encoder indicates how many symbols have been added,
+        // i.e. how many symbols are available for encoding
+        uint32_t encoder_rank = kodo_rank(encoder);
 
         // Randomly choose to add a new symbol (with 50% probability)
         // if the encoder rank is less than the maximum number of symbols
-        if ((rand() % 2) && kodo_rank(encoder) < kodo_symbols(encoder))
+        if ((rand() % 2) && encoder_rank < kodo_symbols(encoder))
         {
-            // The rank of an encoder indicates how many symbols have been added,
-            // i.e. how many symbols are available for encoding
-            uint32_t rank = kodo_rank(encoder);
-
             // Calculate the offset to the next symbol to insert
-            uint8_t* symbol = data_in + (rank * symbol_size);
-            kodo_set_symbol(encoder, rank, symbol, symbol_size);
+            uint8_t* symbol = data_in + (encoder_rank * symbol_size);
+            kodo_set_symbol(encoder, encoder_rank, symbol, symbol_size);
         }
         // Generate an encoded packet
         kodo_write_payload(encoder, payload);
@@ -64,6 +64,11 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
         // Packet got through - pass that packet to the decoder
         kodo_read_payload(decoder, payload);
+
+        // Check the decoder rank and symbol counters
+        EXPECT_GE(kodo_rank(encoder), kodo_rank(decoder));
+        EXPECT_GE(kodo_rank(decoder), kodo_symbols_uncoded(decoder));
+        EXPECT_GE(kodo_rank(decoder), kodo_symbols_seen(decoder));
 
         // Check the decoder whether it is partially complete
         // For on-the-fly decoding the decoder has to support the partial
@@ -85,14 +90,14 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
                     // Copy the decoded symbol and verify it against the
                     // original data
-                    kodo_copy_symbol(decoder, i, target, symbol_size);
+                    kodo_copy_from_symbol(decoder, i, target, symbol_size);
                     EXPECT_EQ(memcmp(original, target, symbol_size), 0);
                 }
             }
         }
     }
 
-    kodo_copy_symbols(decoder, data_out, block_size);
+    kodo_copy_from_symbols(decoder, data_out, block_size);
 
     EXPECT_EQ(memcmp(data_in, data_out, block_size), 0);
 
@@ -107,13 +112,16 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
     kodo_delete_decoder_factory(decoder_factory);
 }
 
-TEST(TestOnTheFlyCodes, invoke_api)
+TEST(test_on_the_fly_codes, invoke_api)
 {
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
     test_on_the_fly(max_symbols, max_symbol_size,
                     kodo_on_the_fly, kodo_binary);
+
+    test_on_the_fly(max_symbols, max_symbol_size,
+                    kodo_on_the_fly, kodo_binary4);
 
     test_on_the_fly(max_symbols, max_symbol_size,
                     kodo_on_the_fly, kodo_binary8);

@@ -30,7 +30,7 @@ int main()
     uint8_t max_symbols = 10;
     uint8_t max_symbol_size = 100;
 
-    int32_t code_type = kodo_full_rlnc;
+    int32_t code_type = kodo_full_vector;
     int32_t finite_field = kodo_binary8;
 
     // In the following we will make an encoder/decoder factory.
@@ -118,7 +118,7 @@ int main()
     }
 
     uint8_t* data_out = (uint8_t*) malloc(kodo_block_size(decoder));
-    kodo_copy_symbols(decoder, data_out, kodo_block_size(decoder));
+    kodo_copy_from_symbols(decoder, data_out, kodo_block_size(decoder));
 
     if (memcmp(data_in, data_out, block_size) == 0)
     {

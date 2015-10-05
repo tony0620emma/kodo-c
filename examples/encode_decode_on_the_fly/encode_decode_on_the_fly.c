@@ -128,7 +128,7 @@ int main()
                     // Verify the decoded symbol
 
                     // Copy out the individual symbol from the decoder
-                    kodo_copy_symbol(decoder, i, target, size);
+                    kodo_copy_from_symbol(decoder, i, target, size);
                     // Verify the symbol against the original data
                     if (memcmp(original, target, size) == 0)
                     {
@@ -143,7 +143,7 @@ int main()
         }
     }
 
-    kodo_copy_symbols(decoder, data_out, block_size);
+    kodo_copy_from_symbols(decoder, data_out, block_size);
 
     if (memcmp(data_in, data_out, block_size) == 0)
     {

@@ -5,10 +5,11 @@
 
 #pragma once
 
+#include <cstdint>
+
 #include "factory_wrapper.hpp"
 #include "encoder_wrapper.hpp"
-
-#include "encoder.hpp"
+#include "kodo_encoder.hpp"
 
 namespace kodo
 {
@@ -25,8 +26,8 @@ namespace kodo
         virtual void* build()
         {
             auto encoder = m_factory.build();
-            auto wrapper =
-                new encoder_wrapper<KodoStack, kodo_encoder>(encoder);
+            auto wrapper = new encoder_wrapper<KodoStack, kodo_encoder>(
+                encoder);
 
             return wrapper;
         }

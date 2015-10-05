@@ -8,6 +8,29 @@ Latest
 ------
 * tbd
 
+6.0.0
+-----
+* Major: Renamed files to follow the name of the class defined in the files.
+* Major: Upgrade to kodo 30.
+* Minor: Added perpetual stack.
+* Major: Renamed enum values ``kodo_full_rlnc``, ``kodo_sparse_seed_rlnc``,
+  ``kodo_seed_rlnc`` to ``kodo_full_vector``, ``kodo_sparse_seed``,
+  ``kodo_seed`` respectively, to better follow the Kodo API.
+* Major: Added context pointer to trace callback.
+
+5.0.0
+-----
+* Major: Renamed ``copy_symbol`` and ``copy_symbols`` to
+  ``copy_from_symbol`` and ``copy_from_symbols`` to their name in kodo 29.
+* Major: Upgrade to kodo 29
+* Major: Upgrade to fifi 20
+* Major: Renamed `trace` and `trace_callback` to the appropriate names from the
+  new kodo version.
+* Major: Upgrade to kodo 27
+* Minor: Added buildbot.py for coverage reports.
+* Minor: Added ``kodo_has_write_payload`` to check if a coder provides the
+  ``kodo_write_payload`` function.
+
 4.0.0
 -----
 * Major: Upgrade to kodo 26

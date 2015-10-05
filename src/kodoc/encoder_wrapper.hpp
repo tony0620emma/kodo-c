@@ -44,17 +44,17 @@ namespace kodo
 
         virtual bool is_systematic_on() const
         {
-            return kodo::is_systematic_on(m_coder);
+            return kodo::is_systematic_on(*m_coder);
         }
 
         virtual void set_systematic_on()
         {
-            kodo::set_systematic_on(m_coder);
+            kodo::set_systematic_on(*m_coder);
         }
 
         virtual void set_systematic_off()
         {
-            kodo::set_systematic_off(m_coder);
+            kodo::set_systematic_off(*m_coder);
         }
 
         virtual void read_feedback(uint8_t* feedback)

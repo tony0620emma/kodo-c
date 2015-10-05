@@ -5,8 +5,11 @@
 
 #pragma once
 
+#include <cstdint>
+
 #include "factory_wrapper.hpp"
 #include "decoder_wrapper.hpp"
+#include "kodo_decoder.hpp"
 
 namespace kodo
 {
