@@ -45,7 +45,7 @@ If the configure step was successful, you can try to build kodo-c::
 If the build succeeded, you can install the kodo-c static libraries with the
 following command::
 
-    python waf install --options=install_path="./static_libs",install_static_libs
+    python waf install --install_path="./static_libs" --install_static_libs
 
 This command also installs the static libraries from the kodo-c dependencies.
 You can link with these static libraries using your own build system. The
@@ -60,7 +60,7 @@ your application. With the following command, you can copy the compiled
 *.so, *.dylib or *.dll file (the extension depends on your platform)
 to the folder specified by the ``install_path`` option::
 
-    python waf install --options=install_path="./shared_libs",install_shared_libs
+    python waf install --install_path="./shared_libs" --install_shared_libs
 
 If you dynamically link your application with this shared library, then you
 have to copy the shared library to a folder where your system can find it
@@ -77,8 +77,8 @@ steps should be fairly universal.
 First we need to configure and build kodo-c using the android NDK. Go to the
 root of the kodo-c repository and run the following command::
 
-  python waf configure --options=cxx_mkspec=cxx_android_gxx48_armv7,\
-  android_sdk_dir={android-sdk},android_ndk_dir={android-ndk}
+  python waf configure --cxx_mkspec=cxx_android_gxx48_armv7 \
+  --android_sdk_dir={android-sdk} --android_ndk_dir={android-ndk}
 
 Where ``{android-sdk}`` and ``{android-ndk}`` should be replaced with your
 path to the Android SDK and a standalone version of the Android NDK.
@@ -118,9 +118,9 @@ Helper scripts are provided (see below) to automate this process, but you
 can also configure and compile kodo-c manually for your desired architecture by
 executing the following commands from the root of the kodo-c repository::
 
-  python waf configure --options=cxx_mkspec=cxx_ios70_apple_llvm60_{arch}
+  python waf configure --cxx_mkspec=cxx_ios70_apple_llvm_{arch}
   python waf build
-  python waf install --options=install_path=/tmp/{arch},install_static_libs
+  python waf install --install_path=/tmp/{arch} --install_static_libs
 
 The ``{arch}`` placeholder defines the target architecture. Currently
 ``armv7``, ``armv7s``, ``arm64``, ``i386``, and ``x86_64`` are available
