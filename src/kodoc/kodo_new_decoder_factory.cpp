@@ -99,14 +99,14 @@ kodo_new_decoder_factory(int32_t code_type, int32_t finite_field,
     {
         factory = create_factory<
             kodoc_runtime_decoder<
-            sliding_window_decoder
-            // kodo::runtime::extend_binding<
-            //     kodo::runtime::extend_binding<
-            //         kodo::runtime::extend_binding<
-            //             kodo::api::partial_decoding_binding,
-            //             kodo::api::write_payload_binding>::template type,
-            //         kodo::api::write_feedback_binding>::template type,
-            //     kodo::api::feedback_size_binding>::template type
+            sliding_window_decoder,
+            kodo::runtime::extend_binding<
+                kodo::runtime::extend_binding<
+                    kodo::runtime::extend_binding<
+                        kodo::api::partial_decoding_binding,
+                        kodo::api::write_payload_binding>::template type,
+                    kodo::api::write_feedback_binding>::template type,
+                kodo::api::feedback_size_binding>::template type
             >>(finite_field, max_symbols, max_symbol_size);
     }
     else if (code_type == kodo_seed)
