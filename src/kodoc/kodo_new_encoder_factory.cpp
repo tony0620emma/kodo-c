@@ -108,13 +108,13 @@ kodo_new_encoder_factory(int32_t code_type, int32_t finite_field,
     {
         factory = create_factory<
             kodoc_runtime_encoder<
-            sliding_window_encoder,
-            kodo::runtime::extend_binding<
-                kodo::runtime::extend_binding<
-                    kodo::api::systematic_binding,
-                    kodo::api::read_feedback_binding>::template type,
-                kodo::api::feedback_size_binding>::template type>>(
-                finite_field, max_symbols, max_symbol_size);
+            sliding_window_encoder
+            // kodo::runtime::extend_binding<
+            //     kodo::runtime::extend_binding<
+            //         kodo::api::systematic_binding,
+            //         kodo::api::read_feedback_binding>::template type,
+            //     kodo::api::feedback_size_binding>::template type
+                >>(finite_field, max_symbols, max_symbol_size);
     }
     else if (code_type == kodo_seed)
     {
