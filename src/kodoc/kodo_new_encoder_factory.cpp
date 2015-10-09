@@ -36,7 +36,7 @@ namespace
 {
     template<class Factory>
     using encoder_factory_binding =
-            kodo::api::config_storage_binding<
+            kodo::api::storage_block_info_binding<
             kodo::api::max_payload_size_binding<
             kodo::api::final_binding<Factory>>>;
 
