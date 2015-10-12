@@ -9,7 +9,6 @@
 #include "kodoc.h"
 
 #include <cstdint>
-#include <cassert>
 #include <map>
 #include <string>
 
