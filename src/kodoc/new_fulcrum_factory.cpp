@@ -10,9 +10,11 @@
 #include <kodo/rlnc/api/fulcrum_binding.hpp>
 #include <kodo/rlnc/api/fulcrum_config_binding.hpp>
 #include <kodo/rlnc/fulcrum_encoder.hpp>
+#include <kodo/rlnc/fulcrum_combined_decoder.hpp>
 
 #include "create_factory.hpp"
 #include "kodoc_runtime_encoder.hpp"
+#include "kodoc_runtime_decoder.hpp"
 
 namespace kodoc
 {
@@ -24,6 +26,19 @@ namespace kodoc
         return create_factory<
             kodoc_runtime_encoder<
             rlnc::fulcrum_encoder,
+            rlnc::api::fulcrum_binding,
+            rlnc::api::fulcrum_config_binding>>(
+                finite_field, max_symbols, max_symbol_size);
+    }
+
+    kodo_factory_t new_fulcrum_decoder_factory(int32_t finite_field,
+        uint32_t max_symbols, uint32_t max_symbol_size)
+    {
+        using namespace kodo;
+
+        return create_factory<
+            kodoc_runtime_decoder<
+            rlnc::fulcrum_combined_decoder,
             rlnc::api::fulcrum_binding,
             rlnc::api::fulcrum_config_binding>>(
                 finite_field, max_symbols, max_symbol_size);
