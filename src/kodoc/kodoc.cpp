@@ -11,9 +11,7 @@
 
 #include <kodo/api/api.hpp>
 #include <kodo/rlnc/api/expansion.hpp>
-#include <kodo/rlnc/api/fulcrum_interface.hpp>
 #include <kodo/rlnc/api/max_expansion.hpp>
-#include <kodo/rlnc/api/perpetual_encoder_interface.hpp>
 #include <kodo/rlnc/api/pre_charging.hpp>
 #include <kodo/rlnc/api/pseudo_systematic.hpp>
 #include <kodo/rlnc/api/set_expansion.hpp>

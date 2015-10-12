@@ -11,20 +11,14 @@
 namespace kodoc
 {
     // Forward declaration of factory functions
-    kodo_factory_t new_full_vector_decoder_factory(int32_t, uint32_t,
-        uint32_t);
-    kodo_factory_t new_on_the_fly_decoder_factory(int32_t, uint32_t,
-        uint32_t);
+    kodo_factory_t new_fulcrum_decoder_factory(int32_t, uint32_t, uint32_t);
+    kodo_factory_t new_full_vector_decoder_factory(int32_t, uint32_t, uint32_t);
+    kodo_factory_t new_on_the_fly_decoder_factory(int32_t, uint32_t, uint32_t);
+    kodo_factory_t new_perpetual_decoder_factory(int32_t, uint32_t, uint32_t);
+    kodo_factory_t new_seed_decoder_factory(int32_t, uint32_t, uint32_t);
     kodo_factory_t new_sliding_window_decoder_factory(int32_t, uint32_t,
         uint32_t);
-    kodo_factory_t new_seed_decoder_factory(int32_t, uint32_t,
-        uint32_t);
-    kodo_factory_t new_sparse_seed_decoder_factory(int32_t, uint32_t,
-        uint32_t);
-    kodo_factory_t new_perpetual_decoder_factory(int32_t, uint32_t,
-        uint32_t);
-    kodo_factory_t new_fulcrum_decoder_factory(int32_t, uint32_t,
-        uint32_t);
+    kodo_factory_t new_sparse_seed_decoder_factory(int32_t, uint32_t, uint32_t);
 }
 
 kodo_factory_t kodo_new_decoder_factory(int32_t code_type, int32_t finite_field,

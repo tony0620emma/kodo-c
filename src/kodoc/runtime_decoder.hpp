@@ -13,7 +13,7 @@
 #include <kodo/runtime/use_shallow_decoder_storage.hpp>
 #include <kodo/runtime/use_trace_enabled.hpp>
 
-#include "kodoc_factory_binding.hpp"
+#include "factory_binding.hpp"
 
 namespace kodoc
 {
@@ -34,13 +34,13 @@ namespace kodoc
         template<class> class AdditionalCoderFactoryBindings =
             kodo::runtime::empty_binding
     >
-    struct kodoc_runtime_decoder :
+    struct runtime_decoder :
         kodo::runtime::select_field<
         kodo::runtime::use_shallow_decoder_storage<
         kodo::runtime::use_trace_enabled<
         kodo::runtime::final<Stack,
         kodo::runtime::extend_binding<AdditionalCoderFactoryBindings,
-            kodoc_factory_binding>::template type,
+            factory_binding>::template type,
         kodo::runtime::extend_binding<AdditionalCoderBindings,
             decoder_binding>::template type>>>>
     { };

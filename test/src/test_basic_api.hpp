@@ -47,7 +47,8 @@ inline void run_test_basic_api(int32_t encoder_type, int32_t decoder_type,
     EXPECT_EQ(kodo_factory_max_payload_size(encoder_factory),
         kodo_factory_max_payload_size(decoder_factory));
 
-    if (encoder_type == kodo_sparse_full_vector)
+    if (encoder_type == kodo_sparse_full_vector ||
+        encoder_type == kodo_sparse_seed)
     {
         // Set the coding vector density on the encoder
         kodo_set_density(encoder, 0.2);

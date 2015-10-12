@@ -1,4 +1,3 @@
-
 // Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
