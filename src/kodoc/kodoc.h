@@ -38,7 +38,7 @@ extern "C" {
 typedef void (*kodo_trace_callback_t)(const char*, const char*, void*);
 
 //------------------------------------------------------------------
-// FACTORY API
+// KODO-C TYPES
 //------------------------------------------------------------------
 
 /// Opaque pointer used for the encoder and decoder factories
@@ -78,7 +78,7 @@ kodo_code_type;
 // FACTORY API
 //------------------------------------------------------------------
 
-/// Builds a new encoder factory (for deep storage encoders)
+/// Builds a new encoder factory (for shallow storage encoders)
 /// @param code_type This parameter determines the encoding algorithms used.
 /// @param finite_field The finite field that should be used by the encoder.
 /// @param max_symbols The maximum number of symbols supported by encoders
@@ -94,7 +94,7 @@ kodo_factory_t kodo_new_encoder_factory(
     int32_t code_type, int32_t finite_field,
     uint32_t max_symbols, uint32_t max_symbol_size);
 
-/// Builds a new decoder factory (for deep storage decoders)
+/// Builds a new decoder factory (for shallow storage decoders)
 /// @param code_type This parameter determines the decoding algorithms used.
 /// @param finite_field The finite field that should be used by the decoder.
 /// @param max_symbols The maximum number of symbols supported by decoders
@@ -251,20 +251,20 @@ void kodo_set_const_symbol(kodo_coder_t encoder, uint32_t index, uint8_t* data,
 /// then the symbols should be specified individually. This also
 /// means that it is the responsibility of the user to communicate
 /// how many of the bytes transmitted are application data.
-/// @param encoder The encoder which will encode the data
+/// @param decoder The decoder which will encode the data
 /// @param data The buffer containing the data to be encoded
 /// @param size The size of the buffer to be encoded
 KODOC_API
-void kodo_set_mutable_symbols(kodo_coder_t encoder, uint8_t* data,
+void kodo_set_mutable_symbols(kodo_coder_t decoder, uint8_t* data,
     uint32_t size);
 
 /// Specifies the source data for a given symbol.
-/// @param encoder The encoder which will encode the data
+/// @param decoder The decoder which will encode the data
 /// @param index The index of the symbol in the coding block
 /// @param data The buffer containing the data to be encoded
 /// @param size The size of the symbol buffer
 KODOC_API
-void kodo_set_mutable_symbol(kodo_coder_t encoder, uint32_t index,
+void kodo_set_mutable_symbol(kodo_coder_t decoder, uint32_t index,
     uint8_t* data, uint32_t size);
 
 /// Returns the symbol size of an encoder/decoder.

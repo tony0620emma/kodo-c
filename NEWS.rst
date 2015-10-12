@@ -6,9 +6,16 @@ of every change, see the Git log.
 
 Latest
 ------
+* Minor: Completely rewrote the c-bindings backend to use Kodo's new polymophic
+  API.
+* Minor: Added fulcrum stack.
+* Major: Renamed ``kodo_delete_encoder_factory`` and
+  ``kodo_delete_decoder_factory`` to ``kodo_delete_factory``.
+* Major: Renamed ``kodo_delete_encoder`` and ``kodo_delete_decoder`` to
+  ``kodo_delete_coder``.
+* Major: Upgrade to kodo 33
 * Major: Upgrade to waf-tools 3
 * Minor: Upgrade to gtest 3
-* Major: Upgrade to kodo 32
 * Major: Removed support for deep storage (shallow storage is used for all
   codecs).
 * Major: The trace API is available in all codecs (option removed).
