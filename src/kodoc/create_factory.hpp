@@ -13,7 +13,7 @@
 
 template<class Runtime>
 kodo_factory_t create_factory(int32_t finite_field, uint32_t max_symbols,
-    uint32_t max_symbol_size)
+                              uint32_t max_symbol_size)
 {
     std::map<int32_t, std::string> finite_field_map =
     {
