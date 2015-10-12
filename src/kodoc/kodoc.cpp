@@ -188,21 +188,6 @@ void kodo_set_mutable_symbol(kodo_coder_t coder, uint32_t index, uint8_t* data,
     set_mutable_symbol(api, index, sak::storage(data, size));
 }
 
-void kodo_copy_from_symbols(kodo_coder_t decoder, uint8_t* data, uint32_t size)
-{
-    auto api = (kodo::api::final_interface*) decoder;
-    assert(api);
-    copy_from_symbols(api, sak::storage(data, size));
-}
-
-void kodo_copy_from_symbol(kodo_coder_t decoder, uint32_t index,
-                           uint8_t* data, uint32_t size)
-{
-    auto api = (kodo::api::final_interface*) decoder;
-    assert(api);
-    copy_from_symbol(api, index, sak::storage(data, size));
-}
-
 uint32_t kodo_symbol_size(kodo_coder_t coder)
 {
     auto api = (kodo::api::final_interface*) coder;

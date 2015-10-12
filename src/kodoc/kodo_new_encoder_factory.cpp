@@ -34,50 +34,50 @@ kodo_factory_t kodo_new_encoder_factory(int32_t code_type, int32_t finite_field,
 {
     using namespace kodoc;
 
+    kodo_factory_t factory = 0;
+
     if (code_type == kodo_full_vector)
     {
-        return new_full_vector_encoder_factory(
+        factory = new_full_vector_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
     else if (code_type == kodo_on_the_fly)
     {
-        return new_on_the_fly_encoder_factory(
+        factory = new_on_the_fly_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
     else if (code_type == kodo_sliding_window)
     {
-        return new_sliding_window_encoder_factory(
+        factory = new_sliding_window_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
     else if (code_type == kodo_sparse_full_vector)
     {
-        return new_sparse_full_vector_encoder_factory(
+        factory = new_sparse_full_vector_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
     else if (code_type == kodo_seed)
     {
-        return new_seed_encoder_factory(
+        factory = new_seed_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
     else if (code_type == kodo_sparse_seed)
     {
-        return new_sparse_seed_encoder_factory(
+        factory = new_sparse_seed_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
     else if (code_type == kodo_perpetual)
     {
-        return new_perpetual_encoder_factory(
+        factory = new_perpetual_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
     else if (code_type == kodo_fulcrum)
     {
-        return new_fulcrum_encoder_factory(
+        factory = new_fulcrum_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else
-    {
-        // Unknown code type
-        assert(0 && "Unknown code_type");
-        return 0;
-    }
+
+    // Unknown code type
+    assert(factory && "Unknown code_type");
+    return factory;
 }
