@@ -48,8 +48,8 @@ TEST(test_fulcrum_codes, fulcrum_encoder_api)
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    kodo_factory_t encoder_factory = kodo_new_encoder_factory(kodo_fulcrum,
-        kodo_binary8, max_symbols, max_symbol_size);
+    kodo_factory_t encoder_factory = kodo_new_encoder_factory(
+        kodo_fulcrum, kodo_binary8, max_symbols, max_symbol_size);
     test_fulcrum_api(encoder_factory, kodo_factory_new_encoder);
     kodo_delete_factory(encoder_factory);
 }
@@ -59,8 +59,8 @@ TEST(test_fulcrum_codes, fulcrum_decoder_api)
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    kodo_factory_t decoder_factory = kodo_new_decoder_factory(kodo_fulcrum,
-        kodo_binary8, max_symbols, max_symbol_size);
+    kodo_factory_t decoder_factory = kodo_new_decoder_factory(
+        kodo_fulcrum, kodo_binary8, max_symbols, max_symbol_size);
     test_fulcrum_api(decoder_factory, kodo_factory_new_decoder);
     kodo_delete_factory(decoder_factory);
 }
