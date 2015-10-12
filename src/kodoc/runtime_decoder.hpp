@@ -19,12 +19,12 @@ namespace kodoc
 {
     template<class Stack>
     using decoder_binding =
-            kodo::api::storage_binding<
-            kodo::api::decoder_binding<
-            kodo::api::rank_binding<
-            kodo::api::read_payload_binding<
-            kodo::api::payload_size_binding<
-            kodo::api::final_binding<Stack>>>>>>;
+        kodo::api::storage_binding<
+        kodo::api::decoder_binding<
+        kodo::api::rank_binding<
+        kodo::api::read_payload_binding<
+        kodo::api::payload_size_binding<
+        kodo::api::final_binding<Stack>>>>>>;
 
     template
     <

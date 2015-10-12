@@ -39,13 +39,13 @@ inline void run_test_basic_api(int32_t encoder_type, int32_t decoder_type,
     EXPECT_EQ(symbols * symbol_size, kodo_block_size(decoder));
 
     EXPECT_TRUE(kodo_factory_max_payload_size(encoder_factory) >=
-        kodo_payload_size(encoder));
+                kodo_payload_size(encoder));
 
     EXPECT_TRUE(kodo_factory_max_payload_size(decoder_factory) >=
-        kodo_payload_size(decoder));
+                kodo_payload_size(decoder));
 
     EXPECT_EQ(kodo_factory_max_payload_size(encoder_factory),
-        kodo_factory_max_payload_size(decoder_factory));
+              kodo_factory_max_payload_size(decoder_factory));
 
     if (encoder_type == kodo_sparse_full_vector ||
         encoder_type == kodo_sparse_seed)
@@ -122,6 +122,7 @@ inline void test_basic_api(int32_t encoder_type, int32_t decoder_type,
 {
     SCOPED_TRACE(testing::Message() << "symbols = " << symbols);
     SCOPED_TRACE(testing::Message() << "symbol_size = " << symbol_size);
+
     {
         SCOPED_TRACE(testing::Message() << "field = binary");
         run_test_basic_api(encoder_type, decoder_type, kodo_binary, symbols,

@@ -6,8 +6,8 @@ of every change, see the Git log.
 
 Latest
 ------
-* Minor: Completely rewrote the c-bindings backend to use Kodo's new polymophic
-  API.
+* Minor: Completely rewrote the C bindings backend to use Kodo's new
+  polymorphic API.
 * Minor: Added fulcrum stack.
 * Major: Renamed ``kodo_delete_encoder_factory`` and
   ``kodo_delete_decoder_factory`` to ``kodo_delete_factory``.
@@ -19,10 +19,10 @@ Latest
 * Major: Removed support for deep storage (shallow storage is used for all
   codecs).
 * Major: The trace API is available in all codecs (option removed).
-* Major: Split const and mutable overloads of ``set_symbol`` to
-  ``set_const_symbol`` and ``set_mutable_symbol``.
-* Major: Split const and mutable overloads of ``set_symbols`` to
-  ``set_const_symbols`` and ``set_mutable_symbols``.
+* Major: Split ``kodo_set_symbol`` to const and mutable variants:
+  ``kodo_set_const_symbol`` and ``kodo_set_mutable_symbol``.
+* Major: Split ``kodo_set_symbols`` to const and mutable variants:
+  ``kodo_set_const_symbols`` and ``kodo_set_mutable_symbols``.
 * Major: Removed ``copy_from_symbol`` and ``copy_from_symbols`` since they
   are not used with shallow storage.
 

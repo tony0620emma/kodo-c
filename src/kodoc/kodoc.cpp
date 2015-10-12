@@ -150,7 +150,7 @@ void kodo_set_const_symbols(kodo_coder_t coder, uint8_t* data, uint32_t size)
 }
 
 void kodo_set_const_symbol(kodo_coder_t coder, uint32_t index, uint8_t* data,
-    uint32_t size)
+                           uint32_t size)
 {
     auto api = (kodo::api::final_interface*) coder;
     assert(api);
@@ -165,7 +165,7 @@ void kodo_set_mutable_symbols(kodo_coder_t coder, uint8_t* data, uint32_t size)
 }
 
 void kodo_set_mutable_symbol(kodo_coder_t coder, uint32_t index, uint8_t* data,
-    uint32_t size)
+                             uint32_t size)
 {
     auto api = (kodo::api::final_interface*) coder;
     assert(api);
@@ -300,84 +300,6 @@ uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
 }
 
 //------------------------------------------------------------------
-// SPARSE ENCODER API
-//------------------------------------------------------------------
-
-double kodo_density(kodo_coder_t encoder)
-{
-    auto api = (kodo::api::final_interface*) encoder;
-    assert(api);
-    return density(api);
-}
-
-void kodo_set_density(kodo_coder_t encoder, double density)
-{
-    auto api = (kodo::api::final_interface*) encoder;
-    assert(api);
-    set_density(api, density);
-}
-
-//------------------------------------------------------------------
-// PERPETUAL ENCODER API
-//------------------------------------------------------------------
-
-uint8_t kodo_pseudo_systematic(kodo_coder_t encoder)
-{
-    auto api = (kodo::api::final_interface*) encoder;
-    assert(api);
-    return kodo::rlnc::api::pseudo_systematic(api);
-}
-
-void kodo_set_pseudo_systematic(kodo_coder_t encoder, uint8_t pseudo_systematic)
-{
-    auto api = (kodo::api::final_interface*) encoder;
-    assert(api);
-    kodo::rlnc::api::set_pseudo_systematic(api, pseudo_systematic);
-}
-
-uint8_t kodo_pre_charging(kodo_coder_t encoder)
-{
-    auto api = (kodo::api::final_interface*) encoder;
-    assert(api);
-    return kodo::rlnc::api::pre_charging(api);
-}
-
-void kodo_set_pre_charging(kodo_coder_t encoder, uint8_t pre_charging)
-{
-    auto api = (kodo::api::final_interface*) encoder;
-    assert(api);
-    kodo::rlnc::api::set_pre_charging(api, pre_charging);
-}
-
-uint32_t kodo_width(kodo_coder_t encoder)
-{
-    auto api = (kodo::api::final_interface*) encoder;
-    assert(api);
-    return kodo::rlnc::api::width(api);
-}
-
-void kodo_set_width(kodo_coder_t encoder, uint32_t width)
-{
-    auto api = (kodo::api::final_interface*) encoder;
-    assert(api);
-    kodo::rlnc::api::set_width(api, width);
-}
-
-double kodo_width_ratio(kodo_coder_t encoder)
-{
-    auto api = (kodo::api::final_interface*) encoder;
-    assert(api);
-    return kodo::rlnc::api::width_ratio(api);
-}
-
-void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio)
-{
-    auto api = (kodo::api::final_interface*) encoder;
-    assert(api);
-    kodo::rlnc::api::set_width_ratio(api, width_ratio);
-}
-
-//------------------------------------------------------------------
 // GENERIC API
 //------------------------------------------------------------------
 
@@ -441,8 +363,8 @@ uint8_t kodo_has_set_trace_off(kodo_coder_t coder)
     return kodo::api::has_interface<kodo::api::trace_interface>(api);
 }
 
-void kodo_set_trace_callback(kodo_coder_t coder,
-    kodo_trace_callback_t c_callback, void* context)
+void kodo_set_trace_callback(
+    kodo_coder_t coder, kodo_trace_callback_t c_callback, void* context)
 {
     assert(c_callback);
     auto api = (kodo::api::final_interface*) coder;
@@ -470,6 +392,84 @@ void kodo_set_trace_off(kodo_coder_t coder)
 }
 
 //------------------------------------------------------------------
+// SPARSE ENCODER API
+//------------------------------------------------------------------
+
+double kodo_density(kodo_coder_t encoder)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    return density(api);
+}
+
+void kodo_set_density(kodo_coder_t encoder, double density)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    set_density(api, density);
+}
+
+//------------------------------------------------------------------
+// PERPETUAL ENCODER API
+//------------------------------------------------------------------
+
+uint8_t kodo_pseudo_systematic(kodo_coder_t encoder)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    return kodo::rlnc::api::pseudo_systematic(api);
+}
+
+void kodo_set_pseudo_systematic(kodo_coder_t encoder, uint8_t pseudo_systematic)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    kodo::rlnc::api::set_pseudo_systematic(api, pseudo_systematic != 0);
+}
+
+uint8_t kodo_pre_charging(kodo_coder_t encoder)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    return kodo::rlnc::api::pre_charging(api);
+}
+
+void kodo_set_pre_charging(kodo_coder_t encoder, uint8_t pre_charging)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    kodo::rlnc::api::set_pre_charging(api, pre_charging != 0);
+}
+
+uint32_t kodo_width(kodo_coder_t encoder)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    return kodo::rlnc::api::width(api);
+}
+
+void kodo_set_width(kodo_coder_t encoder, uint32_t width)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    kodo::rlnc::api::set_width(api, width);
+}
+
+double kodo_width_ratio(kodo_coder_t encoder)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    return kodo::rlnc::api::width_ratio(api);
+}
+
+void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    kodo::rlnc::api::set_width_ratio(api, width_ratio);
+}
+
+//------------------------------------------------------------------
 // FULCRUM CODER API
 //------------------------------------------------------------------
 
@@ -481,7 +481,7 @@ uint8_t kodo_expansion(kodo_coder_t coder)
 }
 
 //------------------------------------------------------------------
-// FULCRUM CONFIG API
+// FULCRUM FACTORY API
 //------------------------------------------------------------------
 
 uint32_t kodo_factory_max_expansion(kodo_factory_t factory)

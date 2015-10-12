@@ -21,7 +21,8 @@ namespace kodoc
     kodo_factory_t new_sparse_seed_decoder_factory(int32_t, uint32_t, uint32_t);
 }
 
-kodo_factory_t kodo_new_decoder_factory(int32_t code_type, int32_t finite_field,
+kodo_factory_t kodo_new_decoder_factory(
+    int32_t code_type, int32_t finite_field,
     uint32_t max_symbols, uint32_t max_symbol_size)
 {
     using namespace kodoc;

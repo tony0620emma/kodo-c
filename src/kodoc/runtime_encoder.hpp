@@ -19,12 +19,12 @@ namespace kodoc
 {
     template<class Stack>
     using encoder_binding =
-            kodo::api::storage_binding<
-            kodo::api::encoder_binding<
-            kodo::api::rank_binding<
-            kodo::api::write_payload_binding<
-            kodo::api::payload_size_binding<
-            kodo::api::final_binding<Stack>>>>>>;
+        kodo::api::storage_binding<
+        kodo::api::encoder_binding<
+        kodo::api::rank_binding<
+        kodo::api::write_payload_binding<
+        kodo::api::payload_size_binding<
+        kodo::api::final_binding<Stack>>>>>>;
 
     template
     <
