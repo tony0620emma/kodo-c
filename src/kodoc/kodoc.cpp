@@ -31,14 +31,7 @@ struct kodo_coder { };
 // FACTORY API
 //------------------------------------------------------------------
 
-void kodo_delete_encoder_factory(kodo_factory_t factory)
-{
-    auto api = (kodo::api::final_interface*) factory;
-    assert(api);
-    api->reset();
-}
-
-void kodo_delete_decoder_factory(kodo_factory_t factory)
+void kodo_delete_factory(kodo_factory_t factory)
 {
     auto api = (kodo::api::final_interface*) factory;
     assert(api);
@@ -101,16 +94,9 @@ kodo_coder_t kodo_factory_new_decoder(kodo_factory_t factory)
     return (kodo_coder_t) build(api)->keep_alive();
 }
 
-void kodo_delete_encoder(kodo_coder_t encoder)
+void kodo_delete_coder(kodo_coder_t coder)
 {
-    auto api = (kodo::api::final_interface*) encoder;
-    assert(api);
-    api->reset();
-}
-
-void kodo_delete_decoder(kodo_coder_t decoder)
-{
-    auto api = (kodo::api::final_interface*) decoder;
+    auto api = (kodo::api::final_interface*) coder;
     assert(api);
     api->reset();
 }
@@ -483,4 +469,33 @@ void kodo_set_trace_off(kodo_coder_t coder)
     auto api = (kodo::api::final_interface*) coder;
     assert(api);
     set_trace_off(api);
+}
+
+//------------------------------------------------------------------
+// FULCRUM CODER API
+//------------------------------------------------------------------
+
+uint8_t kodo_expansion(kodo_coder_t coder)
+{
+    auto api = (kodo::api::final_interface*) coder;
+    assert(api);
+    return kodo::rlnc::api::expansion(api);
+}
+
+//------------------------------------------------------------------
+// FULCRUM CONFIG API
+//------------------------------------------------------------------
+
+uint32_t kodo_factory_max_expansion(kodo_factory_t factory)
+{
+    auto api = (kodo::api::final_interface*) factory;
+    assert(api);
+    return kodo::rlnc::api::max_expansion(api);
+}
+
+void kodo_factory_set_expansion(kodo_factory_t factory, uint32_t expansion)
+{
+    auto api = (kodo::api::final_interface*) factory;
+    assert(api);
+    kodo::rlnc::api::set_expansion(api, expansion);
 }

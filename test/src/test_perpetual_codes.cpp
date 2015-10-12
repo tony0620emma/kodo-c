@@ -48,6 +48,6 @@ TEST(test_perpetual_codes, perpetual_api)
     kodo_set_width_ratio(encoder, width_ratio);
     EXPECT_EQ(width_ratio, kodo_width_ratio(encoder));
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_encoder_factory(encoder_factory);
+    kodo_delete_coder(encoder);
+    kodo_delete_factory(encoder_factory);
 }

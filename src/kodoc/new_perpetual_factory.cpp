@@ -29,6 +29,7 @@ namespace kodoc
             kodo::rlnc::api::perpetual_encoder_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
+
     kodo_factory_t new_perpetual_decoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {

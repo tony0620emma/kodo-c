@@ -17,6 +17,18 @@
 
 namespace kodoc
 {
+    kodo_factory_t new_on_the_fly_encoder_factory(int32_t finite_field,
+        uint32_t max_symbols, uint32_t max_symbol_size)
+    {
+        using namespace kodo;
+
+        return create_factory<
+            kodoc_runtime_encoder<
+            rlnc::on_the_fly_encoder,
+            kodo::api::systematic_binding>>(
+                finite_field, max_symbols, max_symbol_size);
+    }
+
     template<class Stack>
     using on_the_fly_decoder_binding =
         kodo::api::partial_decoding_binding<
@@ -30,18 +42,6 @@ namespace kodoc
             kodoc_runtime_decoder<
             rlnc::on_the_fly_decoder,
             on_the_fly_decoder_binding>>(
-                finite_field, max_symbols, max_symbol_size);
-    }
-
-    kodo_factory_t new_on_the_fly_encoder_factory(int32_t finite_field,
-        uint32_t max_symbols, uint32_t max_symbol_size)
-    {
-        using namespace kodo;
-
-        return create_factory<
-            kodoc_runtime_encoder<
-            rlnc::on_the_fly_encoder,
-            kodo::api::systematic_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 }

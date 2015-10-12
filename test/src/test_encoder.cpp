@@ -35,8 +35,8 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
         EXPECT_TRUE(kodo_is_systematic_on(encoder) != 0);
     }
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_encoder_factory(encoder_factory);
+    kodo_delete_coder(encoder);
+    kodo_delete_factory(encoder_factory);
 }
 
 TEST(test_encoder, invoke_api)

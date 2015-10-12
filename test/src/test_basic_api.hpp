@@ -109,11 +109,11 @@ inline void run_test_basic_api(int32_t encoder_type, int32_t decoder_type,
 
     free(payload);
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_decoder(decoder);
+    kodo_delete_coder(encoder);
+    kodo_delete_coder(decoder);
 
-    kodo_delete_encoder_factory(encoder_factory);
-    kodo_delete_decoder_factory(decoder_factory);
+    kodo_delete_factory(encoder_factory);
+    kodo_delete_factory(decoder_factory);
 }
 
 inline void test_basic_api(int32_t encoder_type, int32_t decoder_type,

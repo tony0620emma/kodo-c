@@ -135,11 +135,11 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     free(payload);
     free(feedback);
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_decoder(decoder);
+    kodo_delete_coder(encoder);
+    kodo_delete_coder(decoder);
 
-    kodo_delete_encoder_factory(encoder_factory);
-    kodo_delete_decoder_factory(decoder_factory);
+    kodo_delete_factory(encoder_factory);
+    kodo_delete_factory(decoder_factory);
 }
 
 TEST(test_sliding_window_codes, invoke_api)

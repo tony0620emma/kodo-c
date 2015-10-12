@@ -110,15 +110,10 @@ kodo_factory_t kodo_new_decoder_factory(
     int32_t code_type, int32_t finite_field,
     uint32_t max_symbols, uint32_t max_symbol_size);
 
-/// Deallocates and releases the memory consumed by the encoder factory
-/// @param factory The encoder factory which should be deallocated
+/// Deallocates and releases the memory consumed by a factory
+/// @param factory The factory which should be deallocated
 KODOC_API
-void kodo_delete_encoder_factory(kodo_factory_t factory);
-
-/// Deallocates and releases the memory consumed by the decoder factory
-/// @param factory The decoder factory which should be deallocated
-KODOC_API
-void kodo_delete_decoder_factory(kodo_factory_t factory);
+void kodo_delete_factory(kodo_factory_t factory);
 
 /// Returns the maximum number of symbols supported by the factory.
 /// @param factory The factory to query
@@ -179,15 +174,10 @@ kodo_coder_t kodo_factory_new_encoder(kodo_factory_t factory);
 KODOC_API
 kodo_coder_t kodo_factory_new_decoder(kodo_factory_t factory);
 
-/// Deallocates and releases the memory consumed by an encoder
-/// @param encoder The encoder which should be deallocated
+/// Deallocates and releases the memory consumed by a coder
+/// @param coder The coder which should be deallocated
 KODOC_API
-void kodo_delete_encoder(kodo_coder_t encoder);
-
-/// Deallocates and releases the memory consumed by a decoder
-/// @param decoder The decoder which should be deallocated
-KODOC_API
-void kodo_delete_decoder(kodo_coder_t decoder);
+void kodo_delete_coder(kodo_coder_t coder);
 
 //------------------------------------------------------------------
 // PAYLOAD API
@@ -554,6 +544,15 @@ void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback,
 /// @param coder The encoder/decoder to use
 KODOC_API
 void kodo_set_trace_off(kodo_coder_t coder);
+
+KODOC_API
+uint8_t kodo_expansion(kodo_coder_t coder);
+
+KODOC_API
+uint32_t kodo_factory_max_expansion(kodo_factory_t factory);
+
+KODOC_API
+void kodo_factory_set_expansion(kodo_factory_t factory, uint32_t expansion);
 
 #ifdef __cplusplus
 }

@@ -123,11 +123,11 @@ void test_read_write_uncoded(uint32_t symbols, uint32_t symbol_size,
     free(payload);
     free(test_symbol);
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_decoder(decoder);
+    kodo_delete_coder(encoder);
+    kodo_delete_coder(decoder);
 
-    kodo_delete_encoder_factory(encoder_factory);
-    kodo_delete_decoder_factory(decoder_factory);
+    kodo_delete_factory(encoder_factory);
+    kodo_delete_factory(decoder_factory);
 }
 
 TEST(test_read_write_uncoded_symbol, uncoded_symbols)

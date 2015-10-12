@@ -199,8 +199,8 @@ int main(int argc, char* argv[])
     free(decoded);
     free(payload);
 
-    kodo_delete_decoder(decoder);
-    kodo_delete_decoder_factory(decoder_factory);
+    kodo_delete_coder(decoder);
+    kodo_delete_factory(decoder_factory);
 
     return 0;
 }

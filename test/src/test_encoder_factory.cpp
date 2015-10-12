@@ -51,9 +51,9 @@ static void test_encoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
     EXPECT_EQ(new_symbols, kodo_symbols(encoder2));
     EXPECT_EQ(new_symbol_size, kodo_symbol_size(encoder2));
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_encoder(encoder2);
-    kodo_delete_encoder_factory(encoder_factory);
+    kodo_delete_coder(encoder);
+    kodo_delete_coder(encoder2);
+    kodo_delete_factory(encoder_factory);
 }
 
 TEST(test_encoder_factory, invoke_api)
