@@ -227,8 +227,8 @@ int main(int argc, char* argv[])
     free(data_in);
     free(payload);
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_encoder_factory(encoder_factory);
+    kodo_delete_coder(encoder);
+    kodo_delete_factory(encoder_factory);
 
     return 0;
 }

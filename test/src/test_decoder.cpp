@@ -47,8 +47,8 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
         EXPECT_TRUE(kodo_has_partial_decoding_tracker(decoder) == 0);
     }
 
-    kodo_delete_decoder(decoder);
-    kodo_delete_decoder_factory(decoder_factory);
+    kodo_delete_coder(decoder);
+    kodo_delete_factory(decoder_factory);
 }
 
 TEST(test_decoder, invoke_api)

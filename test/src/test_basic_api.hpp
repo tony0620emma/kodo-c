@@ -16,11 +16,11 @@ inline void run_test_basic_api(int32_t encoder_type, int32_t decoder_type,
                                int32_t finite_field, uint32_t symbols,
                                uint32_t symbol_size)
 {
-    kodo_factory_t encoder_factory = kodo_new_encoder_factory(encoder_type,
-        finite_field, symbols, symbol_size);
+    kodo_factory_t encoder_factory = kodo_new_encoder_factory(
+        encoder_type, finite_field, symbols, symbol_size);
 
-    kodo_factory_t decoder_factory = kodo_new_decoder_factory(decoder_type,
-        finite_field, symbols, symbol_size);
+    kodo_factory_t decoder_factory = kodo_new_decoder_factory(
+        decoder_type, finite_field, symbols, symbol_size);
 
     kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
@@ -39,13 +39,13 @@ inline void run_test_basic_api(int32_t encoder_type, int32_t decoder_type,
     EXPECT_EQ(symbols * symbol_size, kodo_block_size(decoder));
 
     EXPECT_TRUE(kodo_factory_max_payload_size(encoder_factory) >=
-        kodo_payload_size(encoder));
+                kodo_payload_size(encoder));
 
     EXPECT_TRUE(kodo_factory_max_payload_size(decoder_factory) >=
-        kodo_payload_size(decoder));
+                kodo_payload_size(decoder));
 
     EXPECT_EQ(kodo_factory_max_payload_size(encoder_factory),
-        kodo_factory_max_payload_size(decoder_factory));
+              kodo_factory_max_payload_size(decoder_factory));
 
     if (encoder_type == kodo_sparse_full_vector ||
         encoder_type == kodo_sparse_seed)
@@ -110,11 +110,11 @@ inline void run_test_basic_api(int32_t encoder_type, int32_t decoder_type,
 
     free(payload);
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_decoder(decoder);
+    kodo_delete_coder(encoder);
+    kodo_delete_coder(decoder);
 
-    kodo_delete_encoder_factory(encoder_factory);
-    kodo_delete_decoder_factory(decoder_factory);
+    kodo_delete_factory(encoder_factory);
+    kodo_delete_factory(decoder_factory);
 }
 
 inline void test_basic_api(int32_t encoder_type, int32_t decoder_type,
@@ -122,6 +122,7 @@ inline void test_basic_api(int32_t encoder_type, int32_t decoder_type,
 {
     SCOPED_TRACE(testing::Message() << "symbols = " << symbols);
     SCOPED_TRACE(testing::Message() << "symbol_size = " << symbol_size);
+
     {
         SCOPED_TRACE(testing::Message() << "field = binary");
         run_test_basic_api(encoder_type, decoder_type, kodo_binary, symbols,

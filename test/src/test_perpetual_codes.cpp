@@ -23,8 +23,8 @@ TEST(test_perpetual_codes, perpetual_api)
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    kodo_factory_t encoder_factory = kodo_new_encoder_factory(kodo_perpetual,
-        kodo_binary8, max_symbols, max_symbol_size);
+    kodo_factory_t encoder_factory = kodo_new_encoder_factory(
+        kodo_perpetual, kodo_binary8, max_symbols, max_symbol_size);
 
     kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
     EXPECT_TRUE(encoder != 0);
@@ -48,6 +48,6 @@ TEST(test_perpetual_codes, perpetual_api)
     kodo_set_width_ratio(encoder, width_ratio);
     EXPECT_EQ(width_ratio, kodo_width_ratio(encoder));
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_encoder_factory(encoder_factory);
+    kodo_delete_coder(encoder);
+    kodo_delete_factory(encoder_factory);
 }

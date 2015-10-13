@@ -69,7 +69,8 @@ typedef enum
     kodo_sparse_full_vector,
     kodo_seed,
     kodo_sparse_seed,
-    kodo_perpetual
+    kodo_perpetual,
+    kodo_fulcrum
 }
 kodo_code_type;
 
@@ -77,7 +78,7 @@ kodo_code_type;
 // FACTORY API
 //------------------------------------------------------------------
 
-/// Builds a new encoder factory
+/// Builds a new encoder factory (for shallow storage encoders)
 /// @param code_type This parameter determines the encoding algorithms used.
 /// @param finite_field The finite field that should be used by the encoder.
 /// @param max_symbols The maximum number of symbols supported by encoders
@@ -85,6 +86,7 @@ kodo_code_type;
 /// @param max_symbol_size The maximum symbol size in bytes supported by
 ///        encoders built using the returned factory
 /// @param trace_mode Determines which trace mode should be used.
+/// @param storage_mode @todo
 /// @return A new factory capable of building encoders using the
 ///         selected parameters.
 KODOC_API
@@ -92,7 +94,7 @@ kodo_factory_t kodo_new_encoder_factory(
     int32_t code_type, int32_t finite_field,
     uint32_t max_symbols, uint32_t max_symbol_size);
 
-/// Builds a new decoder factory
+/// Builds a new decoder factory (for shallow storage decoders)
 /// @param code_type This parameter determines the decoding algorithms used.
 /// @param finite_field The finite field that should be used by the decoder.
 /// @param max_symbols The maximum number of symbols supported by decoders
@@ -100,6 +102,7 @@ kodo_factory_t kodo_new_encoder_factory(
 /// @param max_symbol_size The maximum symbol size in bytes supported by
 ///        decoders built using the returned factory
 /// @param trace_mode Determines which trace mode should be used.
+/// @param storage_mode @todo
 /// @return A new factory capable of building decoders using the
 ///         selected parameters.
 KODOC_API
@@ -107,15 +110,10 @@ kodo_factory_t kodo_new_decoder_factory(
     int32_t code_type, int32_t finite_field,
     uint32_t max_symbols, uint32_t max_symbol_size);
 
-/// Deallocates and releases the memory consumed by the encoder factory
-/// @param factory The encoder factory which should be deallocated
+/// Deallocates and releases the memory consumed by a factory
+/// @param factory The factory which should be deallocated
 KODOC_API
-void kodo_delete_encoder_factory(kodo_factory_t factory);
-
-/// Deallocates and releases the memory consumed by the decoder factory
-/// @param factory The decoder factory which should be deallocated
-KODOC_API
-void kodo_delete_decoder_factory(kodo_factory_t factory);
+void kodo_delete_factory(kodo_factory_t factory);
 
 /// Returns the maximum number of symbols supported by the factory.
 /// @param factory The factory to query
@@ -159,8 +157,7 @@ void kodo_factory_set_symbols(kodo_factory_t factory, uint32_t symbols);
 /// @param symbol_size The symbol size used for the next encoder/decoder
 ///        built with the factory.
 KODOC_API
-void kodo_factory_set_symbol_size(kodo_factory_t factory,
-                                  uint32_t symbol_size);
+void kodo_factory_set_symbol_size(kodo_factory_t factory, uint32_t symbol_size);
 
 /// Builds a new encoder using the specified factory
 /// @param factory The encoder factory which should be used to
@@ -176,15 +173,10 @@ kodo_coder_t kodo_factory_new_encoder(kodo_factory_t factory);
 KODOC_API
 kodo_coder_t kodo_factory_new_decoder(kodo_factory_t factory);
 
-/// Deallocates and releases the memory consumed by an encoder
-/// @param encoder The encoder which should be deallocated
+/// Deallocates and releases the memory consumed by a coder
+/// @param coder The coder which should be deallocated
 KODOC_API
-void kodo_delete_encoder(kodo_coder_t encoder);
-
-/// Deallocates and releases the memory consumed by a decoder
-/// @param decoder The decoder which should be deallocated
-KODOC_API
-void kodo_delete_decoder(kodo_coder_t decoder);
+void kodo_delete_coder(kodo_coder_t coder);
 
 //------------------------------------------------------------------
 // PAYLOAD API
@@ -237,7 +229,7 @@ uint32_t kodo_block_size(kodo_coder_t coder);
 /// symbols also in the case of partial data. If this is not desired,
 /// then the symbols should be specified individually. This also
 /// means that it is the responsibility of the user to communicate
-/// how many of the transmitted bytes are application data.
+/// how many of the bytes transmitted are application data.
 /// @param encoder The encoder which will encode the data
 /// @param data The buffer containing the data to be encoded
 /// @param size The size of the buffer to be encoded
@@ -254,10 +246,11 @@ void kodo_set_const_symbol(kodo_coder_t encoder, uint32_t index, uint8_t* data,
                            uint32_t size);
 
 /// Specifies the data buffer where the decoder should store the decoded
-/// symbols. This will specify the storage for all symbols.
+/// symbols. This will specify the storage for all symbols. If this is not
+/// desired, then the symbols can be specified individually.
 /// @param decoder The decoder which will decode the data
-/// @param data The buffer containing the data to be encoded
-/// @param size The size of the buffer to be encoded
+/// @param data The buffer containing the data to be decoded
+/// @param size The size of the buffer to be decoded
 KODOC_API
 void kodo_set_mutable_symbols(kodo_coder_t decoder, uint8_t* data,
                               uint32_t size);
@@ -265,7 +258,7 @@ void kodo_set_mutable_symbols(kodo_coder_t decoder, uint8_t* data,
 /// Specifies the data buffer where the decoder should store a given symbol.
 /// @param decoder The decoder which will decode the symbol
 /// @param index The index of the symbol in the coding block
-/// @param data The buffer containing the data to be encoded
+/// @param data The buffer containing the data to be decoded
 /// @param size The size of the symbol buffer
 KODOC_API
 void kodo_set_mutable_symbol(kodo_coder_t decoder, uint32_t index,
@@ -407,77 +400,6 @@ uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
                                    uint32_t index);
 
 //------------------------------------------------------------------
-// SPARSE ENCODER API
-//------------------------------------------------------------------
-
-/// Returns the current coding vector density of an encoder.
-/// @param coder The encoder to query.
-/// @return The coding vector density (0.0 < density <= 1.0)
-KODOC_API
-double kodo_density(kodo_coder_t encoder);
-
-/// Sets the coding vector density of an encoder.
-/// @param encoder The encoder to use.
-/// @param density The density value (0.0 < density <= 1.0)
-KODOC_API
-void kodo_set_density(kodo_coder_t encoder, double density);
-
-//------------------------------------------------------------------
-// PERPETUAL ENCODER API
-//------------------------------------------------------------------
-
-/// Get the pseudo-systematic property of the generator
-/// @param encoder The encoder to use.
-/// @return the current setting for pseudo-systematic
-KODOC_API
-uint8_t kodo_pseudo_systematic(kodo_coder_t encoder);
-
-/// Set the pseudo-systematic property of the generator
-/// @param encoder The encoder to use.
-/// @param pseudo_systematic the new setting for pseudo-systematic
-KODOC_API
-void kodo_set_pseudo_systematic(kodo_coder_t encoder,
-    uint8_t pseudo_systematic);
-
-/// Get the pre-charging property of the generator
-/// @param encoder The encoder to use.
-/// @return the current setting for pre-charging
-KODOC_API
-uint8_t kodo_pre_charging(kodo_coder_t encoder);
-
-/// Set the pre-charging property of the generator
-/// @param encoder The encoder to use.
-/// @param pre_charging the new setting for pre-charging
-KODOC_API
-void kodo_set_pre_charging(kodo_coder_t encoder, uint8_t pre_charging);
-
-/// Get the width
-/// @param encoder The encoder to use.
-/// @return the width used by the generator
-KODOC_API
-uint32_t kodo_width(kodo_coder_t encoder);
-
-/// Set the number of non-zero coefficients after the pivot.
-/// Width ratio is recalculated from this value
-/// @param encoder The encoder to use.
-/// @param width the width
-KODOC_API
-void kodo_set_width(kodo_coder_t encoder, uint32_t width);
-
-/// Get the ratio that is used to calculate the width
-/// @param encoder The encoder to use.
-/// @return the width ratio of the generator
-KODOC_API
-double kodo_width_ratio(kodo_coder_t encoder);
-
-/// Set the ratio that is used to calculate the number of non-zero
-/// coefficients after the pivot (i.e. the width)
-/// @param encoder The encoder to use.
-/// @param ratio the width ratio
-KODOC_API
-void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio);
-
-//------------------------------------------------------------------
 // GENERIC API
 //------------------------------------------------------------------
 
@@ -554,13 +476,108 @@ void kodo_set_trace_stdout(kodo_coder_t coder);
 ///        This can be used when state is required within the callback. If no
 ///        state is needed the pointer can be set to NULL.
 KODOC_API
-void kodo_set_trace_callback(kodo_coder_t coder, kodo_trace_callback_t callback,
-    void* context);
+void kodo_set_trace_callback(
+    kodo_coder_t coder, kodo_trace_callback_t callback, void* context);
 
 /// Disables the trace function of the encoder/decoder.
 /// @param coder The encoder/decoder to use
 KODOC_API
 void kodo_set_trace_off(kodo_coder_t coder);
+
+//------------------------------------------------------------------
+// SPARSE ENCODER API
+//------------------------------------------------------------------
+
+/// Returns the current coding vector density of an encoder.
+/// @param coder The encoder to query
+/// @return The coding vector density (0.0 < density <= 1.0)
+KODOC_API
+double kodo_density(kodo_coder_t encoder);
+
+/// Sets the coding vector density of an encoder.
+/// @param encoder The encoder to use
+/// @param density The density value (0.0 < density <= 1.0)
+KODOC_API
+void kodo_set_density(kodo_coder_t encoder, double density);
+
+//------------------------------------------------------------------
+// PERPETUAL ENCODER API
+//------------------------------------------------------------------
+
+/// Get the pseudo-systematic property of the perpetual generator
+/// @param encoder The encoder to use
+/// @return the current setting for pseudo-systematic
+KODOC_API
+uint8_t kodo_pseudo_systematic(kodo_coder_t encoder);
+
+/// Set the pseudo-systematic property of the perpetual generator
+/// @param encoder The encoder to use
+/// @param pseudo_systematic the new setting for pseudo-systematic
+KODOC_API
+void kodo_set_pseudo_systematic(kodo_coder_t encoder,
+                                uint8_t pseudo_systematic);
+
+/// Get the pre-charging property of the perpetual generator
+/// @param encoder The encoder to use
+/// @return the current setting for pre-charging
+KODOC_API
+uint8_t kodo_pre_charging(kodo_coder_t encoder);
+
+/// Set the pre-charging property of the perpetual generator
+/// @param encoder The encoder to use
+/// @param pre_charging the new setting for pre-charging
+KODOC_API
+void kodo_set_pre_charging(kodo_coder_t encoder, uint8_t pre_charging);
+
+/// Get the width (the number of non-zero coefficients after the pivot)
+/// @param encoder The encoder to use
+/// @return the width used by the perpetual generator
+KODOC_API
+uint32_t kodo_width(kodo_coder_t encoder);
+
+/// Set the number of non-zero coefficients after the pivot.
+/// Width ratio is recalculated from this value
+/// @param encoder The encoder to use
+/// @param width the width
+KODOC_API
+void kodo_set_width(kodo_coder_t encoder, uint32_t width);
+
+/// Get the ratio that is used to calculate the width
+/// @param encoder The encoder to use.
+/// @return the width ratio of the perpetual generator
+KODOC_API
+double kodo_width_ratio(kodo_coder_t encoder);
+
+/// Set the ratio that is used to calculate the number of non-zero
+/// coefficients after the pivot (i.e. the width)
+/// @param encoder The encoder to use
+/// @param ratio the width ratio
+KODOC_API
+void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio);
+
+//------------------------------------------------------------------
+// FULCRUM CODER API
+//------------------------------------------------------------------
+
+/// Get the number of expansion symbols on a fulcrum coder
+/// @param coder The coder to use
+KODOC_API
+uint8_t kodo_expansion(kodo_coder_t coder);
+
+//------------------------------------------------------------------
+// FULCRUM FACTORY API
+//------------------------------------------------------------------
+
+/// Get the maximum number of expansion symbols for a fulcrum factory
+/// @param factory The factory to use
+KODOC_API
+uint32_t kodo_factory_max_expansion(kodo_factory_t factory);
+
+/// Set the number of expansion symbols for a fulcrum factory
+/// @param factory The factory to use
+/// @param expansion The number of expansion symbols to use
+KODOC_API
+void kodo_factory_set_expansion(kodo_factory_t factory, uint32_t expansion);
 
 #ifdef __cplusplus
 }

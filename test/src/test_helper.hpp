@@ -35,8 +35,8 @@ inline uint32_t rand_symbol_size(uint32_t max_symbol_size = 1600)
     return rand_nonzero(elements) * granularity;
 }
 
-using test_function = std::function<
-    void (uint32_t, uint32_t, int32_t, int32_t)>;
+using test_function =
+    std::function<void (uint32_t, uint32_t, int32_t, int32_t)>;
 
 inline void test_combinations(
     test_function coder_test,

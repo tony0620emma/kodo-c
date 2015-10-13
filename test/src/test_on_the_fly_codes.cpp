@@ -14,13 +14,11 @@
 void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
                      int32_t code_type, int32_t finite_field)
 {
-    kodo_factory_t encoder_factory =
-        kodo_new_encoder_factory(code_type, finite_field,
-        max_symbols, max_symbol_size);
+    kodo_factory_t encoder_factory = kodo_new_encoder_factory(
+        code_type, finite_field, max_symbols, max_symbol_size);
 
-    kodo_factory_t decoder_factory =
-        kodo_new_decoder_factory(code_type, finite_field,
-        max_symbols, max_symbol_size);
+    kodo_factory_t decoder_factory = kodo_new_decoder_factory(
+        code_type, finite_field, max_symbols, max_symbol_size);
 
     kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
@@ -101,11 +99,11 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
     free(data_out);
     free(payload);
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_decoder(decoder);
+    kodo_delete_coder(encoder);
+    kodo_delete_coder(decoder);
 
-    kodo_delete_encoder_factory(encoder_factory);
-    kodo_delete_decoder_factory(decoder_factory);
+    kodo_delete_factory(encoder_factory);
+    kodo_delete_factory(decoder_factory);
 }
 
 TEST(test_on_the_fly_codes, invoke_api)
@@ -114,11 +112,11 @@ TEST(test_on_the_fly_codes, invoke_api)
     uint32_t max_symbol_size = rand_symbol_size();
 
     test_on_the_fly(max_symbols, max_symbol_size,
-        kodo_on_the_fly, kodo_binary);
+                    kodo_on_the_fly, kodo_binary);
 
     test_on_the_fly(max_symbols, max_symbol_size,
-        kodo_on_the_fly, kodo_binary4);
+                    kodo_on_the_fly, kodo_binary4);
 
     test_on_the_fly(max_symbols, max_symbol_size,
-        kodo_on_the_fly, kodo_binary8);
+                    kodo_on_the_fly, kodo_binary8);
 }

@@ -51,9 +51,9 @@ static void test_decoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
     EXPECT_EQ(new_symbols, kodo_symbols(decoder2));
     EXPECT_EQ(new_symbol_size, kodo_symbol_size(decoder2));
 
-    kodo_delete_decoder(decoder);
-    kodo_delete_decoder(decoder2);
-    kodo_delete_decoder_factory(decoder_factory);
+    kodo_delete_coder(decoder);
+    kodo_delete_coder(decoder2);
+    kodo_delete_factory(decoder_factory);
 }
 
 TEST(test_decoder_factory, invoke_api)

@@ -37,13 +37,11 @@ static void decoder_trace_callback(const char* zone, const char* data,
 void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
                          int32_t code_type, int32_t finite_field)
 {
-    kodo_factory_t encoder_factory =
-        kodo_new_encoder_factory(code_type, finite_field,
-        max_symbols, max_symbol_size);
+    kodo_factory_t encoder_factory = kodo_new_encoder_factory(
+        code_type, finite_field, max_symbols, max_symbol_size);
 
-    kodo_factory_t decoder_factory =
-        kodo_new_decoder_factory(code_type, finite_field,
-        max_symbols, max_symbol_size);
+    kodo_factory_t decoder_factory = kodo_new_decoder_factory(
+        code_type, finite_field, max_symbols, max_symbol_size);
 
     kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
@@ -62,18 +60,17 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     EXPECT_EQ(max_symbols * max_symbol_size, kodo_block_size(decoder));
 
     EXPECT_TRUE(kodo_factory_max_payload_size(encoder_factory) >=
-        kodo_payload_size(encoder));
+                kodo_payload_size(encoder));
 
     EXPECT_TRUE(kodo_factory_max_payload_size(decoder_factory) >=
-        kodo_payload_size(decoder));
+                kodo_payload_size(decoder));
 
     EXPECT_EQ(kodo_factory_max_payload_size(encoder_factory),
-        kodo_factory_max_payload_size(decoder_factory));
+              kodo_factory_max_payload_size(decoder_factory));
 
     uint32_t feedback_size = 0;
 
-    EXPECT_EQ(kodo_feedback_size(encoder),
-        kodo_feedback_size(decoder));
+    EXPECT_EQ(kodo_feedback_size(encoder), kodo_feedback_size(decoder));
 
     feedback_size = kodo_feedback_size(encoder);
     EXPECT_TRUE(feedback_size > 0);
@@ -98,7 +95,6 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     // Install a custom trace function for the encoder and decoder
     kodo_set_trace_callback(encoder, encoder_trace_callback, NULL);
     kodo_set_trace_callback(decoder, decoder_trace_callback, NULL);
-
 
     // Assign the data buffer to the encoder so that we may start
     // to produce encoded symbols from it
@@ -135,11 +131,11 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     free(payload);
     free(feedback);
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_decoder(decoder);
+    kodo_delete_coder(encoder);
+    kodo_delete_coder(decoder);
 
-    kodo_delete_encoder_factory(encoder_factory);
-    kodo_delete_decoder_factory(decoder_factory);
+    kodo_delete_factory(encoder_factory);
+    kodo_delete_factory(decoder_factory);
 }
 
 TEST(test_sliding_window_codes, invoke_api)
@@ -148,11 +144,11 @@ TEST(test_sliding_window_codes, invoke_api)
     uint32_t max_symbol_size = rand_symbol_size();
 
     test_sliding_window(max_symbols, max_symbol_size,
-        kodo_sliding_window, kodo_binary);
+                        kodo_sliding_window, kodo_binary);
 
     test_sliding_window(max_symbols, max_symbol_size,
-        kodo_sliding_window, kodo_binary4);
+                        kodo_sliding_window, kodo_binary4);
 
     test_sliding_window(max_symbols, max_symbol_size,
-        kodo_sliding_window, kodo_binary8);
+                        kodo_sliding_window, kodo_binary8);
 }

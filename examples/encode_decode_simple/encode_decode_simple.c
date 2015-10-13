@@ -137,11 +137,11 @@ int main()
     free(data_out);
     free(payload);
 
-    kodo_delete_encoder(encoder);
-    kodo_delete_decoder(decoder);
+    kodo_delete_coder(encoder);
+    kodo_delete_coder(decoder);
 
-    kodo_delete_encoder_factory(encoder_factory);
-    kodo_delete_decoder_factory(decoder_factory);
+    kodo_delete_factory(encoder_factory);
+    kodo_delete_factory(decoder_factory);
 
     return 0;
 }
