@@ -6,6 +6,10 @@ of every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+7.0.0
+-----
 * Minor: Completely rewrote the C bindings backend to use Kodo's new
   polymorphic API.
 * Minor: Added fulcrum stack.
