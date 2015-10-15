@@ -71,8 +71,7 @@ def build(bld):
         export_includes='src',
         use=['kodo_includes'])
 
-    # Define the task generator that will build the kodoc shared library
-    gen = bld.shlib(
+    bld.shlib(
         source=bld.path.ant_glob('src/kodoc/*.cpp'),
         target='kodoc',
         name='kodoc',
@@ -81,13 +80,6 @@ def build(bld):
         export_includes='src',
         use=['kodo_includes'])
 
-    # Make sure that the task generator is posted, which is necessary in
-    # order to access the task generator by name in child projects.
-    # We need this to get the location of the compiled shared library
-    # when running the unit tests
-    gen.post()
-
-    # Define the applications after the 'kodoc' task generator is posted
     if bld.is_toplevel():
 
         bld.recurse('test')
