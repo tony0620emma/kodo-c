@@ -69,7 +69,7 @@ when you execute your application.
 Android
 -------
 
-This section describes how to include the Kodo C bindings in an Android
+This section describes how to include the kodo-c bindings in an Android
 application.
 The guide has been made for Android Studio, running on Linux. However the
 steps should be fairly universal.

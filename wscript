@@ -82,7 +82,6 @@ def build(bld):
         export_includes='src',
         use=['kodo_includes'])
 
-    # Define the applications after the 'kodoc' task generator is posted
     if bld.is_toplevel():
 
         bld.recurse('test')
