@@ -20,7 +20,8 @@ void trace_callback(const char* zone, const char* data, void* context)
 {
     (void) context;
     if (strcmp(zone, "decoder_state") == 0 ||
-        strcmp(zone, "input_symbol_coefficients") == 0)
+        strcmp(zone, "symbol_coefficients_before_read_symbol") == 0 ||
+        strcmp(zone, "symbol_index_before_read_uncoded_symbol") == 0)
     {
         printf("%s:\n", zone);
         printf("%s\n", data);
