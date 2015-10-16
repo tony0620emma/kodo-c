@@ -18,7 +18,7 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     kodo_factory_t decoder_factory = kodo_new_decoder_factory(
         code_type, finite_field, symbols, symbol_size);
 
-    kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
+    kodo_coder_t decoder = kodo_factory_new_coder(decoder_factory);
 
     // Coder methods
     test_coder(decoder, symbols, symbol_size, code_type);

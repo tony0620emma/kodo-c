@@ -170,7 +170,7 @@ int main(int argc, char* argv[])
     }
 
     kodo_factory_set_symbols(encoder_factory, symbols);
-    encoder = kodo_factory_new_encoder(encoder_factory);
+    encoder = kodo_factory_new_coder(encoder_factory);
 
     // Create the buffer needed for the payload
     payload_size = kodo_payload_size(encoder);

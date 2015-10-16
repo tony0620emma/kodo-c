@@ -26,7 +26,7 @@ TEST(test_perpetual_codes, perpetual_api)
     kodo_factory_t encoder_factory = kodo_new_encoder_factory(
         kodo_perpetual, kodo_binary8, max_symbols, max_symbol_size);
 
-    kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
+    kodo_coder_t encoder = kodo_factory_new_coder(encoder_factory);
     EXPECT_TRUE(encoder != 0);
 
     EXPECT_FALSE(kodo_pseudo_systematic(encoder) != 0);

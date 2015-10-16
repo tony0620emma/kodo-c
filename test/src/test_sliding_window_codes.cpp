@@ -43,8 +43,8 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     kodo_factory_t decoder_factory = kodo_new_decoder_factory(
         code_type, finite_field, max_symbols, max_symbol_size);
 
-    kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
+    kodo_coder_t encoder = kodo_factory_new_coder(encoder_factory);
+    kodo_coder_t decoder = kodo_factory_new_coder(decoder_factory);
 
     EXPECT_EQ(max_symbols,kodo_factory_max_symbols(encoder_factory));
     EXPECT_EQ(max_symbol_size,kodo_factory_max_symbol_size(encoder_factory));
