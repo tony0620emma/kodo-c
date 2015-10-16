@@ -8,6 +8,11 @@ Latest
 ------
 * tbd
 
+7.0.1
+-----
+* Patch: Removed the post() call on the task generator of the shared library,
+  which led to problems in dependent projects.
+
 7.0.0
 -----
 * Minor: Completely rewrote the C bindings backend to use Kodo's new

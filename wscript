@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 APPNAME = 'kodoc'
-VERSION = '7.0.0'
+VERSION = '7.0.1'
 
 import waflib.extras.wurf_options
 
@@ -47,7 +47,7 @@ def build(bld):
     CXX = bld.env.get_flat("CXX")
     # Matches both g++ and clang++
     if 'g++' in CXX or 'clang' in CXX:
-        # The -fPIC is required for all underlying static libraries that
+        # The -fPIC flag is required for all underlying static libraries that
         # will be included in the shared library
         bld.env.append_value('CXXFLAGS', '-fPIC')
         # Hide most of the private symbols in the shared library to decrease
@@ -62,6 +62,7 @@ def build(bld):
         'DEFINES_STEINWURF_VERSION',
         'STEINWURF_KODOC_VERSION="{}"'.format(VERSION))
 
+    # Build the kodo-c static library
     bld.stlib(
         source=bld.path.ant_glob('src/kodoc/*.cpp'),
         target='kodoc_static',
@@ -71,6 +72,7 @@ def build(bld):
         export_includes='src',
         use=['kodo_includes'])
 
+    # Build the kodo-c shared library
     bld.shlib(
         source=bld.path.ant_glob('src/kodoc/*.cpp'),
         target='kodoc',
