@@ -292,7 +292,7 @@ uint8_t kodo_is_complete(kodo_coder_t decoder);
 /// @param decoder The decoder to query
 /// @return Non-zero value if the decoding is partially complete, otherwise 0
 KODOC_API
-uint8_t kodo_is_partial_complete(kodo_coder_t decoder);
+uint8_t kodo_is_partially_complete(kodo_coder_t decoder);
 
 /// The rank of a decoder indicates how many symbols have been decoded
 /// or partially decoded. The rank of an encoder indicates how many symbols
@@ -329,36 +329,54 @@ void kodo_read_feedback(kodo_coder_t encoder, uint8_t* feedback);
 KODOC_API
 uint32_t kodo_write_feedback(kodo_coder_t decoder, uint8_t* feedback);
 
-/// Indicates whether a symbol is defined in the coding matrix
-/// of an encoder/decoder. A symbol with a pivot element might not be fully
-/// decoded in the coding matrix of a decoder, therefore use the
-/// kodo_is_symbol_uncoded() function to check if a symbol is fully decoded.
-/// @param coder The encoder/decoder to query
+/// Indicates if a symbol is partially or fully decoded. A symbol with
+/// a pivot element is defined in the coding matrix of a decoder.
+/// @param coder The decoder to query
 /// @param index Index of the symbol whose state should be checked
 /// @return Non-zero value if the symbol is defined, otherwise 0
 KODOC_API
-uint8_t kodo_is_symbol_pivot(kodo_coder_t coder, uint32_t index);
+uint8_t kodo_is_symbol_pivot(kodo_coder_t decoder, uint32_t index);
+
+/// Indicates whether a symbol is missing at a decoder.
+/// @param coder The decoder to query
+/// @param index Index of the symbol whose state should be checked
+/// @return Non-zero value if the symbol is missing, otherwise 0
+KODOC_API
+uint8_t kodo_is_symbol_missing(kodo_coder_t decoder, uint32_t index);
+
+/// Indicates whether a symbol has been partially decoded at a decoder.
+/// @param coder The decoder to query
+/// @param index Index of the symbol whose state should be checked
+/// @return Non-zero value if the symbol has been partially decoded,
+///         otherwise 0
+KODOC_API
+uint8_t kodo_is_symbol_partially_decoded(kodo_coder_t decoder, uint32_t index);
 
 /// Indicates whether a symbol is available in an uncoded (i.e. fully decoded)
-/// form in an encoder or decoder.
+/// form at the decoder.
 /// @param coder The decoder to query
 /// @param index Index of the symbol whose state should be checked
 /// @return Non-zero value if the symbol is uncoded, otherwise 0
 KODOC_API
 uint8_t kodo_is_symbol_uncoded(kodo_coder_t decoder, uint32_t index);
 
-/// Returns the number of uncoded symbols.
+/// Returns the number of missing symbols.
 /// @param coder The decoder to query
-/// @return The number of uncoded symbols in the decoder
+/// @return The number of missing symbols at the decoder
+KODOC_API
+uint32_t kodo_symbols_missing(kodo_coder_t decoder);
+
+/// Returns the number of partially decoded symbols.
+/// @param coder The decoder to query
+/// @return The number of partially decoded symbols at the decoder
+KODOC_API
+uint32_t kodo_symbols_partially_decoded(kodo_coder_t decoder);
+
+/// Returns the number of uncoded (i.e. fully decoded) symbols.
+/// @param coder The decoder to query
+/// @return The number of uncoded symbols at the decoder
 KODOC_API
 uint32_t kodo_symbols_uncoded(kodo_coder_t decoder);
-
-/// Returns the number of seen symbols.
-/// @param coder The decoder to query
-/// @return The number of symbols seen by the decoder. The seen symbols might
-///         not be fully decoded.
-KODOC_API
-uint32_t kodo_symbols_seen(kodo_coder_t decoder);
 
 /// Reads and decodes an encoded symbol according to the coding
 /// coefficients stored in the corresponding symbol_id.
@@ -406,7 +424,7 @@ uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
 /// Check whether the decoder supports partial decoding. This means
 /// means that the decoder will be able to decode symbols on-the-fly.
 /// If the decoder supports the partial decoding tracker, then the
-/// kodo_is_partial_complete() function can be used to determine if some of
+/// kodo_is_partially_complete() function can be used to determine if some of
 /// the symbols are fully decoded and therefore can be copied out of the
 /// decoder.
 /// @param coder The decoder to query

@@ -35,7 +35,7 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     }
 
     EXPECT_EQ(0U, kodo_symbols_uncoded(decoder));
-    EXPECT_EQ(0U, kodo_symbols_seen(decoder));
+    EXPECT_EQ(0U, kodo_symbols_partially_decoded(decoder));
 
     if (code_type == kodo_on_the_fly ||
         code_type == kodo_sliding_window)

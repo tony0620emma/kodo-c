@@ -197,11 +197,11 @@ uint8_t kodo_is_complete(kodo_coder_t decoder)
     return is_complete(api);
 }
 
-uint8_t kodo_is_partial_complete(kodo_coder_t decoder)
+uint8_t kodo_is_partially_complete(kodo_coder_t decoder)
 {
     auto api = (kodo::api::final_interface*) decoder;
     assert(api);
-    return is_partial_complete(api);
+    return is_partially_complete(api);
 }
 
 uint8_t kodo_has_feedback_size(kodo_coder_t coder)
@@ -239,11 +239,25 @@ uint32_t kodo_rank(kodo_coder_t coder)
     return rank(api);
 }
 
-uint8_t kodo_is_symbol_pivot(kodo_coder_t coder, uint32_t index)
+uint8_t kodo_is_symbol_pivot(kodo_coder_t decoder, uint32_t index)
 {
-    auto api = (kodo::api::final_interface*) coder;
+    auto api = (kodo::api::final_interface*) decoder;
     assert(api);
     return is_symbol_pivot(api, index);
+}
+
+uint8_t kodo_is_symbol_missing(kodo_coder_t decoder, uint32_t index)
+{
+    auto api = (kodo::api::final_interface*) decoder;
+    assert(api);
+    return is_symbol_missing(api, index);
+}
+
+uint8_t kodo_is_symbol_partially_decoded(kodo_coder_t decoder, uint32_t index)
+{
+    auto api = (kodo::api::final_interface*) decoder;
+    assert(api);
+    return is_symbol_partially_decoded(api, index);
 }
 
 uint8_t kodo_is_symbol_uncoded(kodo_coder_t decoder, uint32_t index)
@@ -253,6 +267,20 @@ uint8_t kodo_is_symbol_uncoded(kodo_coder_t decoder, uint32_t index)
     return is_symbol_uncoded(api, index);
 }
 
+uint32_t kodo_symbols_missing(kodo_coder_t decoder)
+{
+    auto api = (kodo::api::final_interface*) decoder;
+    assert(api);
+    return symbols_missing(api);
+}
+
+uint32_t kodo_symbols_partially_decoded(kodo_coder_t decoder)
+{
+    auto api = (kodo::api::final_interface*) decoder;
+    assert(api);
+    return symbols_partially_decoded(api);
+}
+
 uint32_t kodo_symbols_uncoded(kodo_coder_t decoder)
 {
     auto api = (kodo::api::final_interface*) decoder;
@@ -260,12 +288,6 @@ uint32_t kodo_symbols_uncoded(kodo_coder_t decoder)
     return symbols_uncoded(api);
 }
 
-uint32_t kodo_symbols_seen(kodo_coder_t decoder)
-{
-    auto api = (kodo::api::final_interface*) decoder;
-    assert(api);
-    return symbols_seen(api);
-}
 
 void kodo_read_symbol(kodo_coder_t decoder, uint8_t* symbol_data,
                       uint8_t* coefficients)
