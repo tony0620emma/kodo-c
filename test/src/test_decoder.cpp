@@ -24,8 +24,9 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     test_coder(decoder, symbols, symbol_size, code_type);
 
     // Decoder methods
-    // Seed-based codecs do not provide write_payload, i.e. recoding
-    if (code_type == kodo_seed || code_type == kodo_sparse_seed)
+    // Some codecs do not provide write_payload, i.e. recoding
+    if (code_type == kodo_seed || code_type == kodo_sparse_seed ||
+        code_type == kodo_fulcrum || code_type == kodo_reed_solomon)
     {
         EXPECT_TRUE(kodo_has_write_payload(decoder) == 0);
     }

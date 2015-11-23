@@ -70,7 +70,8 @@ typedef enum
     kodo_seed,
     kodo_sparse_seed,
     kodo_perpetual,
-    kodo_fulcrum
+    kodo_fulcrum,
+    kodo_reed_solomon
 }
 kodo_code_type;
 
