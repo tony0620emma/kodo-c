@@ -6,7 +6,10 @@ of every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Minor: Added the Reed-Solomon codec (``kodo_reed_solomon`` code type).
+* Major: Upgrade to kodo 34
+* Major: Renamed ``kodo_is_partial_complete`` to ``kodo_is_partially_complete``.
+* Major: Renamed ``kodo_symbols_seen`` to ``kodo_symbols_partially_decoded``.
 
 7.0.1
 -----

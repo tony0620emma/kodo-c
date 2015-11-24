@@ -19,6 +19,8 @@ namespace kodoc
     kodo_factory_t new_sliding_window_decoder_factory(int32_t, uint32_t,
         uint32_t);
     kodo_factory_t new_sparse_seed_decoder_factory(int32_t, uint32_t, uint32_t);
+    kodo_factory_t new_reed_solomon_decoder_factory(int32_t, uint32_t,
+        uint32_t);
 }
 
 kodo_factory_t kodo_new_decoder_factory(
@@ -62,6 +64,11 @@ kodo_factory_t kodo_new_decoder_factory(
     else if (code_type == kodo_fulcrum)
     {
         factory = new_fulcrum_decoder_factory(
+            finite_field, max_symbols, max_symbol_size);
+    }
+    else if (code_type == kodo_reed_solomon)
+    {
+        factory = new_reed_solomon_decoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
 

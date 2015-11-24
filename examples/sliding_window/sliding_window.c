@@ -130,7 +130,8 @@ int main()
         printf("Decoder rank = %d\n", kodo_rank(decoder));
 
         printf("Decoder uncoded = %d\n", kodo_symbols_uncoded(decoder));
-        printf("Decoder seen = %d\n", kodo_symbols_seen(decoder));
+        printf("Decoder partially decoded = %d\n",
+               kodo_symbols_partially_decoded(decoder));
 
         // Transmit the feedback
         kodo_write_feedback(decoder, feedback);
