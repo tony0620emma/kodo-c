@@ -3,6 +3,8 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#if !defined(KODOC_DISABLE_RLNC)
+
 #include "kodoc.h"
 
 #include <cstdint>
@@ -50,3 +52,5 @@ namespace kodoc
                 finite_field, max_symbols, max_symbol_size);
     }
 }
+
+#endif

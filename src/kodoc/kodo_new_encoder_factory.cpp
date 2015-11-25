@@ -32,7 +32,7 @@ kodo_factory_t kodo_new_encoder_factory(
     using namespace kodoc;
 
     kodo_factory_t factory = 0;
-
+#if !defined(KODOC_DISABLE_RLNC)
     if (code_type == kodo_full_vector)
     {
         factory = new_full_vector_encoder_factory(
@@ -68,16 +68,21 @@ kodo_factory_t kodo_new_encoder_factory(
         factory = new_perpetual_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_fulcrum)
+#endif
+#if !defined(KODOC_DISABLE_FULCRUM)
+    if (code_type == kodo_fulcrum)
     {
         factory = new_fulcrum_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_reed_solomon)
+#endif
+#if !defined(KODOC_DISABLE_REED_SOLOMON)
+    if (code_type == kodo_reed_solomon)
     {
         factory = new_reed_solomon_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
+#endif
 
     // Unknown code type
     assert(factory && "Unknown code_type");

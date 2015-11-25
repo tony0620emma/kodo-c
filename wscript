@@ -36,11 +36,33 @@ def resolve(ctx):
             git_repository='github.com/steinwurf/gtest.git',
             major=3))
 
+    opts = ctx.opt.add_option_group('kodo-c options')
+
+    opts.add_option(
+        '--disable_rlnc', default=None, dest='disable_rlnc',
+        action='store_true', help="Disable the basic RLNC codecs")
+
+    opts.add_option(
+        '--disable_fulcrum', default=None, dest='disable_fulcrum',
+        action='store_true', help="Disable the Fulcrum RLNC codec")
+
+    opts.add_option(
+        '--disable_reed_solomon', default=None, dest='disable_reed_solomon',
+        action='store_true', help="Disable the Reed-Solomon codec")
+
 
 def configure(conf):
 
     conf.load("wurf_common_tools")
 
+    conf.env['DEFINES_KODOC_COMMON'] = []
+
+    if conf.has_tool_option('disable_rlnc'):
+        conf.env['DEFINES_KODOC_COMMON'] += ['KODOC_DISABLE_RLNC']
+    if conf.has_tool_option('disable_fulcrum'):
+        conf.env['DEFINES_KODOC_COMMON'] += ['KODOC_DISABLE_FULCRUM']
+    if conf.has_tool_option('disable_reed_solomon'):
+        conf.env['DEFINES_KODOC_COMMON'] += ['KODOC_DISABLE_REED_SOLOMON']
 
 def build(bld):
 
@@ -70,7 +92,7 @@ def build(bld):
         defines=['KODOC_STATIC'],
         export_defines=['KODOC_STATIC'],
         export_includes='src',
-        use=['kodo_includes'])
+        use=['kodo_includes', 'KODOC_COMMON'])
 
     # Build the kodo-c shared library
     bld.shlib(
@@ -80,7 +102,7 @@ def build(bld):
         defines=['KODOC_DLL_EXPORTS'],
         install_path=None,
         export_includes='src',
-        use=['kodo_includes'])
+        use=['kodo_includes', 'KODOC_COMMON'])
 
     if bld.is_toplevel():
 
