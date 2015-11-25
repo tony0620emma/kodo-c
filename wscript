@@ -28,6 +28,24 @@ def resolve(ctx):
         git_repository='github.com/steinwurf/kodo.git',
         major=34))
 
+    ctx.add_dependency(resolve.ResolveVersion(
+        name='kodo-rlnc',
+        git_repository='github.com/steinwurf/kodo-rlnc.git',
+        major=1),
+        optional=True)
+
+    ctx.add_dependency(resolve.ResolveVersion(
+        name='kodo-fulcrum',
+        git_repository='github.com/steinwurf/kodo-fulcrum.git',
+        major=1),
+        optional=True)
+
+    ctx.add_dependency(resolve.ResolveVersion(
+        name='kodo-reed-solomon',
+        git_repository='github.com/steinwurf/kodo-reed-solomon.git',
+        major=1),
+        optional=True)
+
     # Internal dependencies
     if ctx.is_toplevel():
 
@@ -57,11 +75,14 @@ def configure(conf):
 
     conf.env['DEFINES_KODOC_COMMON'] = []
 
-    if conf.has_tool_option('disable_rlnc'):
+    if conf.has_tool_option('disable_rlnc') or \
+       not conf.has_dependency_path('kodo-rlnc'):
         conf.env['DEFINES_KODOC_COMMON'] += ['KODOC_DISABLE_RLNC']
-    if conf.has_tool_option('disable_fulcrum'):
+    if conf.has_tool_option('disable_fulcrum') or \
+       not conf.has_dependency_path('kodo-fulcrum'):
         conf.env['DEFINES_KODOC_COMMON'] += ['KODOC_DISABLE_FULCRUM']
-    if conf.has_tool_option('disable_reed_solomon'):
+    if conf.has_tool_option('disable_reed_solomon') or \
+       not conf.has_dependency_path('kkodo-reed-solomon'):
         conf.env['DEFINES_KODOC_COMMON'] += ['KODOC_DISABLE_REED_SOLOMON']
 
 def build(bld):
