@@ -82,7 +82,7 @@ def configure(conf):
        not conf.has_dependency_path('kodo-fulcrum'):
         conf.env['DEFINES_KODOC_COMMON'] += ['KODOC_DISABLE_FULCRUM']
     if conf.has_tool_option('disable_reed_solomon') or \
-       not conf.has_dependency_path('kkodo-reed-solomon'):
+       not conf.has_dependency_path('kodo-reed-solomon'):
         conf.env['DEFINES_KODOC_COMMON'] += ['KODOC_DISABLE_REED_SOLOMON']
 
 def build(bld):
