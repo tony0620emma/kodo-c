@@ -26,7 +26,7 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
     // Encoder methods
     EXPECT_TRUE(kodo_has_write_payload(encoder) != 0);
 
-    if (kodo_has_set_systematic_off(encoder) != 0)
+    if (kodo_has_systematic_interface(encoder) != 0)
     {
         EXPECT_TRUE(kodo_is_systematic_on(encoder) != 0);
         kodo_set_systematic_off(encoder);

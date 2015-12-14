@@ -171,7 +171,7 @@ int main(int argc, char* argv[])
         // Packet got through - pass that packet to the decoder
         kodo_read_payload(decoder, payload);
 
-        if (kodo_has_partial_decoding_tracker(decoder) &&
+        if (kodo_has_partial_decoding_interface(decoder) &&
             kodo_is_partially_complete(decoder))
         {
             uint32_t i = 0;

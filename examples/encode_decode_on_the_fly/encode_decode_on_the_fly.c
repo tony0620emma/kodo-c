@@ -106,7 +106,7 @@ int main()
         // For on-the-fly decoding the decoder has to support the partial
         // decoding tracker.
 
-        if (kodo_has_partial_decoding_tracker(decoder) &&
+        if (kodo_has_partial_decoding_interface(decoder) &&
             kodo_is_partially_complete(decoder))
         {
             uint32_t i = 0;

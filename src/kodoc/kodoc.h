@@ -431,13 +431,13 @@ uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
 /// @param coder The decoder to query
 /// @return Non-zero if the decoder supports partial decoding, otherwise 0
 KODOC_API
-uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t decoder);
+uint8_t kodo_has_partial_decoding_interface(kodo_coder_t decoder);
 
 /// Returns whether an encoder has systematic capabilities
 /// @param encoder The encoder
 /// @return Non-zero if the encoder supports the systematic mode, otherwise 0
 KODOC_API
-uint8_t kodo_has_set_systematic_off(kodo_coder_t encoder);
+uint8_t kodo_has_systematic_interface(kodo_coder_t encoder);
 
 /// Returns whether the encoder is in the systematic mode, i.e. if it will
 /// initially send the original source symbols with a simple header.
@@ -460,23 +460,11 @@ void kodo_set_systematic_off(kodo_coder_t encoder);
 // TRACE API
 //------------------------------------------------------------------
 
-/// Returns whether an encoder or decoder has set trace callback capabilities
+/// Returns whether an encoder or decoder supports the trace interface
 /// @param coder The encoder/decoder to query
 /// @return Non-zero value if tracing is supported, otherwise 0
 KODOC_API
-uint8_t kodo_has_set_trace_callback(kodo_coder_t coder);
-
-/// Returns whether an encoder or decoder has stdout trace capabilities
-/// @param coder The encoder/decoder to query
-/// @return Non-zero value if tracing is supported, otherwise 0
-KODOC_API
-uint8_t kodo_has_set_trace_stdout(kodo_coder_t coder);
-
-/// Returns whether an encoder or decoder has set trace off capabilities
-/// @param coder The encoder/decoder to query
-/// @return Non-zero value if tracing is supported, otherwise 0
-KODOC_API
-uint8_t kodo_has_set_trace_off(kodo_coder_t coder);
+uint8_t kodo_has_trace_interface(kodo_coder_t coder);
 
 /// Enables the trace function of the encoder/decoder, which prints
 /// to the standard output.

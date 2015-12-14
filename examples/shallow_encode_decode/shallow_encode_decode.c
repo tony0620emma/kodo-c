@@ -118,7 +118,7 @@ int main()
     // }
 
     // Install a custom trace function for the decoder (if tracing is enabled)
-    if (kodo_has_set_trace_callback(decoder))
+    if (kodo_has_trace_interface(decoder))
     {
         kodo_set_trace_callback(decoder, trace_callback, NULL);
     }

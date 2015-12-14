@@ -325,14 +325,14 @@ uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
 // GENERIC API
 //------------------------------------------------------------------
 
-uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t decoder)
+uint8_t kodo_has_partial_decoding_interface(kodo_coder_t decoder)
 {
     auto api = (kodo::api::final_interface*) decoder;
     assert(api);
     return kodo::api::has_interface<kodo::api::partial_decoding_interface>(api);
 }
 
-uint8_t kodo_has_set_systematic_off(kodo_coder_t encoder)
+uint8_t kodo_has_systematic_interface(kodo_coder_t encoder)
 {
     auto api = (kodo::api::final_interface*) encoder;
     assert(api);
@@ -364,21 +364,7 @@ void kodo_set_systematic_off(kodo_coder_t encoder)
 // TRACE API
 //------------------------------------------------------------------
 
-uint8_t kodo_has_set_trace_callback(kodo_coder_t coder)
-{
-    auto api = (kodo::api::final_interface*) coder;
-    assert(api);
-    return kodo::api::has_interface<kodo::api::trace_interface>(api);
-}
-
-uint8_t kodo_has_set_trace_stdout(kodo_coder_t coder)
-{
-    auto api = (kodo::api::final_interface*) coder;
-    assert(api);
-    return kodo::api::has_interface<kodo::api::trace_interface>(api);
-}
-
-uint8_t kodo_has_set_trace_off(kodo_coder_t coder)
+uint8_t kodo_has_trace_interface(kodo_coder_t coder)
 {
     auto api = (kodo::api::final_interface*) coder;
     assert(api);
