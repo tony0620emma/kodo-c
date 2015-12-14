@@ -9,8 +9,8 @@
 
 #include <cstdint>
 #include <kodo/api/api.hpp>
-#include <kodo/rlnc/sparse_seed_decoder.hpp>
-#include <kodo/rlnc/sparse_seed_encoder.hpp>
+#include <kodo_rlnc/sparse_seed_decoder.hpp>
+#include <kodo_rlnc/sparse_seed_encoder.hpp>
 
 #include "create_factory.hpp"
 #include "runtime_decoder.hpp"

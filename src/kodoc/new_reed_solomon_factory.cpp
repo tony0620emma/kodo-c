@@ -10,7 +10,7 @@
 #include <cstdint>
 
 #include <kodo/api/api.hpp>
-#include <kodo/reed_solomon/codes.hpp>
+#include <kodo_reed_solomon/codes.hpp>
 
 #include "create_factory.hpp"
 #include "runtime_encoder.hpp"

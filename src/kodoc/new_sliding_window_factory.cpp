@@ -10,8 +10,8 @@
 #include <cstdint>
 
 #include <kodo/api/api.hpp>
-#include <kodo/rlnc/sliding_window_encoder.hpp>
-#include <kodo/rlnc/sliding_window_decoder.hpp>
+#include <kodo_rlnc/sliding_window_encoder.hpp>
+#include <kodo_rlnc/sliding_window_decoder.hpp>
 
 #include "create_factory.hpp"
 #include "runtime_encoder.hpp"

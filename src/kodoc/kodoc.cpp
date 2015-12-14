@@ -10,17 +10,17 @@
 #include <cassert>
 
 #include <kodo/api/api.hpp>
-#include <kodo/rlnc/api/expansion.hpp>
-#include <kodo/rlnc/api/max_expansion.hpp>
-#include <kodo/rlnc/api/pre_charging.hpp>
-#include <kodo/rlnc/api/pseudo_systematic.hpp>
-#include <kodo/rlnc/api/set_expansion.hpp>
-#include <kodo/rlnc/api/set_pre_charging.hpp>
-#include <kodo/rlnc/api/set_pseudo_systematic.hpp>
-#include <kodo/rlnc/api/set_width.hpp>
-#include <kodo/rlnc/api/set_width_ratio.hpp>
-#include <kodo/rlnc/api/width.hpp>
-#include <kodo/rlnc/api/width_ratio.hpp>
+#include <kodo_fulcrum/api/expansion.hpp>
+#include <kodo_fulcrum/api/max_expansion.hpp>
+#include <kodo_fulcrum/api/set_expansion.hpp>
+#include <kodo_rlnc/api/pre_charging.hpp>
+#include <kodo_rlnc/api/pseudo_systematic.hpp>
+#include <kodo_rlnc/api/set_pre_charging.hpp>
+#include <kodo_rlnc/api/set_pseudo_systematic.hpp>
+#include <kodo_rlnc/api/set_width.hpp>
+#include <kodo_rlnc/api/set_width_ratio.hpp>
+#include <kodo_rlnc/api/width.hpp>
+#include <kodo_rlnc/api/width_ratio.hpp>
 
 struct kodo_factory { };
 struct kodo_coder { };
@@ -499,7 +499,7 @@ uint8_t kodo_expansion(kodo_coder_t coder)
 {
     auto api = (kodo::api::final_interface*) coder;
     assert(api);
-    return kodo::rlnc::api::expansion(api);
+    return kodo::fulcrum::api::expansion(api);
 }
 
 //------------------------------------------------------------------
@@ -510,12 +510,12 @@ uint32_t kodo_factory_max_expansion(kodo_factory_t factory)
 {
     auto api = (kodo::api::final_interface*) factory;
     assert(api);
-    return kodo::rlnc::api::max_expansion(api);
+    return kodo::fulcrum::api::max_expansion(api);
 }
 
 void kodo_factory_set_expansion(kodo_factory_t factory, uint32_t expansion)
 {
     auto api = (kodo::api::final_interface*) factory;
     assert(api);
-    kodo::rlnc::api::set_expansion(api, expansion);
+    kodo::fulcrum::api::set_expansion(api, expansion);
 }

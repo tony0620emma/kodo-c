@@ -10,9 +10,9 @@
 #include <cstdint>
 
 #include <kodo/api/api.hpp>
-#include <kodo/rlnc/perpetual_encoder.hpp>
-#include <kodo/rlnc/perpetual_decoder.hpp>
-#include <kodo/rlnc/api/perpetual_encoder_binding.hpp>
+#include <kodo_rlnc/perpetual_encoder.hpp>
+#include <kodo_rlnc/perpetual_decoder.hpp>
+#include <kodo_rlnc/api/perpetual_encoder_binding.hpp>
 
 #include "create_factory.hpp"
 #include "runtime_encoder.hpp"

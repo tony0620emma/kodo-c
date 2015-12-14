@@ -24,9 +24,9 @@ def resolve(ctx):
         major=3))
 
     ctx.add_dependency(resolve.ResolveVersion(
-        name='kodo',
-        git_repository='github.com/steinwurf/kodo.git',
-        major=34))
+        name='kodo-core',
+        git_repository='github.com/steinwurf/kodo-core.git',
+        major=1))
 
     ctx.add_dependency(resolve.ResolveVersion(
         name='kodo-rlnc',
@@ -105,6 +105,10 @@ def build(bld):
         'DEFINES_STEINWURF_VERSION',
         'STEINWURF_KODOC_VERSION="{}"'.format(VERSION))
 
+    use_flags = ['kodo_core_includes', 'kodo_reed_solomon_includes',
+                 'kodo_rlnc_includes', 'kodo_fulcrum_includes',
+                 'KODOC_COMMON']
+
     # Build the kodo-c static library
     bld.stlib(
         source=bld.path.ant_glob('src/kodoc/*.cpp'),
@@ -113,7 +117,7 @@ def build(bld):
         defines=['KODOC_STATIC'],
         export_defines=['KODOC_STATIC'],
         export_includes='src',
-        use=['kodo_includes', 'KODOC_COMMON'])
+        use=use_flags)
 
     # Build the kodo-c shared library
     bld.shlib(
@@ -123,7 +127,7 @@ def build(bld):
         defines=['KODOC_DLL_EXPORTS'],
         install_path=None,
         export_includes='src',
-        use=['kodo_includes', 'KODOC_COMMON'])
+        use=use_flags)
 
     if bld.is_toplevel():
 

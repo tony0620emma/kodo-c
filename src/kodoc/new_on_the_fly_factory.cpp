@@ -10,8 +10,8 @@
 #include <cstdint>
 
 #include <kodo/api/api.hpp>
-#include <kodo/rlnc/on_the_fly_decoder.hpp>
-#include <kodo/rlnc/on_the_fly_encoder.hpp>
+#include <kodo_rlnc/on_the_fly_decoder.hpp>
+#include <kodo_rlnc/on_the_fly_encoder.hpp>
 
 #include "create_factory.hpp"
 #include "runtime_decoder.hpp"
