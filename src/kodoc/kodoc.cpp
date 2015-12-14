@@ -8,6 +8,7 @@
 #include <cstring>
 #include <cstdint>
 #include <cassert>
+#include <string>
 
 #include <kodo/api/api.hpp>
 #include <kodo_fulcrum/api/expansion.hpp>
@@ -288,7 +289,6 @@ uint32_t kodo_symbols_uncoded(kodo_coder_t decoder)
     return symbols_uncoded(api);
 }
 
-
 void kodo_read_symbol(kodo_coder_t decoder, uint8_t* symbol_data,
                       uint8_t* coefficients)
 {
@@ -411,6 +411,13 @@ void kodo_set_trace_off(kodo_coder_t coder)
     auto api = (kodo::api::final_interface*) coder;
     assert(api);
     set_trace_off(api);
+}
+
+void kodo_set_zone_prefix(kodo_coder_t coder, const char* prefix)
+{
+    auto api = (kodo::api::final_interface*) coder;
+    assert(api);
+    set_zone_prefix(api, std::string(prefix));
 }
 
 //------------------------------------------------------------------

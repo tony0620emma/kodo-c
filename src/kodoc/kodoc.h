@@ -503,6 +503,14 @@ void kodo_set_trace_callback(
 KODOC_API
 void kodo_set_trace_off(kodo_coder_t coder);
 
+/// Sets the zone prefix that should be used for the trace output of
+/// a particular encoder/decoder instance. The zone prefix can help to
+/// differentiate the output that is coming from various coder instances.
+/// @param coder The encoder/decoder to use
+/// @param prefix The zone prefix for the trace output
+KODOC_API
+void kodo_set_zone_prefix(kodo_coder_t coder, const char* prefix);
+
 //------------------------------------------------------------------
 // SPARSE ENCODER API
 //------------------------------------------------------------------
