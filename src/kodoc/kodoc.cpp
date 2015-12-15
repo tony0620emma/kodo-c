@@ -8,22 +8,96 @@
 #include <cstring>
 #include <cstdint>
 #include <cassert>
+#include <string>
 
 #include <kodo/api/api.hpp>
-#include <kodo/rlnc/api/expansion.hpp>
-#include <kodo/rlnc/api/max_expansion.hpp>
-#include <kodo/rlnc/api/pre_charging.hpp>
-#include <kodo/rlnc/api/pseudo_systematic.hpp>
-#include <kodo/rlnc/api/set_expansion.hpp>
-#include <kodo/rlnc/api/set_pre_charging.hpp>
-#include <kodo/rlnc/api/set_pseudo_systematic.hpp>
-#include <kodo/rlnc/api/set_width.hpp>
-#include <kodo/rlnc/api/set_width_ratio.hpp>
-#include <kodo/rlnc/api/width.hpp>
-#include <kodo/rlnc/api/width_ratio.hpp>
+#include <kodo_fulcrum/api/expansion.hpp>
+#include <kodo_fulcrum/api/max_expansion.hpp>
+#include <kodo_fulcrum/api/set_expansion.hpp>
+#include <kodo_rlnc/api/pre_charging.hpp>
+#include <kodo_rlnc/api/pseudo_systematic.hpp>
+#include <kodo_rlnc/api/set_pre_charging.hpp>
+#include <kodo_rlnc/api/set_pseudo_systematic.hpp>
+#include <kodo_rlnc/api/set_width.hpp>
+#include <kodo_rlnc/api/set_width_ratio.hpp>
+#include <kodo_rlnc/api/width.hpp>
+#include <kodo_rlnc/api/width_ratio.hpp>
 
 struct kodo_factory { };
 struct kodo_coder { };
+
+//------------------------------------------------------------------
+// CONFIGURATION API
+//------------------------------------------------------------------
+
+uint8_t kodo_has_codec(int32_t code_type)
+{
+    bool available = false;
+
+#if !defined(KODOC_DISABLE_RLNC)
+
+#if !defined(KODOC_DISABLE_FULL_VECTOR)
+    if (code_type == kodo_full_vector)
+    {
+        available = true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_ON_THE_FLY)
+    if (code_type == kodo_on_the_fly)
+    {
+        available = true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_SLIDING_WINDOW)
+    if (code_type == kodo_sliding_window)
+    {
+        available = true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_SPARSE_FULL_VECTOR)
+    if (code_type == kodo_sparse_full_vector)
+    {
+        available = true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_SEED)
+    if (code_type == kodo_seed)
+    {
+        available = true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_SPARSE_SEED)
+    if (code_type == kodo_sparse_seed)
+    {
+        available = true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_PERPETUAL)
+    if (code_type == kodo_perpetual)
+    {
+        available = true;
+    }
+#endif
+
+#endif // !defined(KODOC_DISABLE_RLNC)
+
+#if !defined(KODOC_DISABLE_FULCRUM)
+    if (code_type == kodo_fulcrum)
+    {
+        available = true;
+    }
+#endif
+
+#if !defined(KODOC_DISABLE_REED_SOLOMON)
+    if (code_type == kodo_reed_solomon)
+    {
+        available = true;
+    }
+#endif
+
+    return available;
+}
+
 
 //------------------------------------------------------------------
 // FACTORY API
@@ -288,7 +362,6 @@ uint32_t kodo_symbols_uncoded(kodo_coder_t decoder)
     return symbols_uncoded(api);
 }
 
-
 void kodo_read_symbol(kodo_coder_t decoder, uint8_t* symbol_data,
                       uint8_t* coefficients)
 {
@@ -325,14 +398,14 @@ uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
 // GENERIC API
 //------------------------------------------------------------------
 
-uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t decoder)
+uint8_t kodo_has_partial_decoding_interface(kodo_coder_t decoder)
 {
     auto api = (kodo::api::final_interface*) decoder;
     assert(api);
     return kodo::api::has_interface<kodo::api::partial_decoding_interface>(api);
 }
 
-uint8_t kodo_has_set_systematic_off(kodo_coder_t encoder)
+uint8_t kodo_has_systematic_interface(kodo_coder_t encoder)
 {
     auto api = (kodo::api::final_interface*) encoder;
     assert(api);
@@ -364,21 +437,7 @@ void kodo_set_systematic_off(kodo_coder_t encoder)
 // TRACE API
 //------------------------------------------------------------------
 
-uint8_t kodo_has_set_trace_callback(kodo_coder_t coder)
-{
-    auto api = (kodo::api::final_interface*) coder;
-    assert(api);
-    return kodo::api::has_interface<kodo::api::trace_interface>(api);
-}
-
-uint8_t kodo_has_set_trace_stdout(kodo_coder_t coder)
-{
-    auto api = (kodo::api::final_interface*) coder;
-    assert(api);
-    return kodo::api::has_interface<kodo::api::trace_interface>(api);
-}
-
-uint8_t kodo_has_set_trace_off(kodo_coder_t coder)
+uint8_t kodo_has_trace_interface(kodo_coder_t coder)
 {
     auto api = (kodo::api::final_interface*) coder;
     assert(api);
@@ -411,6 +470,13 @@ void kodo_set_trace_off(kodo_coder_t coder)
     auto api = (kodo::api::final_interface*) coder;
     assert(api);
     set_trace_off(api);
+}
+
+void kodo_set_zone_prefix(kodo_coder_t coder, const char* prefix)
+{
+    auto api = (kodo::api::final_interface*) coder;
+    assert(api);
+    set_zone_prefix(api, std::string(prefix));
 }
 
 //------------------------------------------------------------------
@@ -499,7 +565,7 @@ uint8_t kodo_expansion(kodo_coder_t coder)
 {
     auto api = (kodo::api::final_interface*) coder;
     assert(api);
-    return kodo::rlnc::api::expansion(api);
+    return kodo::fulcrum::api::expansion(api);
 }
 
 //------------------------------------------------------------------
@@ -510,12 +576,12 @@ uint32_t kodo_factory_max_expansion(kodo_factory_t factory)
 {
     auto api = (kodo::api::final_interface*) factory;
     assert(api);
-    return kodo::rlnc::api::max_expansion(api);
+    return kodo::fulcrum::api::max_expansion(api);
 }
 
 void kodo_factory_set_expansion(kodo_factory_t factory, uint32_t expansion)
 {
     auto api = (kodo::api::final_interface*) factory;
     assert(api);
-    kodo::rlnc::api::set_expansion(api, expansion);
+    kodo::fulcrum::api::set_expansion(api, expansion);
 }

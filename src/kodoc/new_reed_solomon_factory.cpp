@@ -3,12 +3,14 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#if !defined(KODOC_DISABLE_REED_SOLOMON)
+
 #include "kodoc.h"
 
 #include <cstdint>
 
 #include <kodo/api/api.hpp>
-#include <kodo/reed_solomon/codes.hpp>
+#include <kodo_reed_solomon/codes.hpp>
 
 #include "create_factory.hpp"
 #include "runtime_encoder.hpp"
@@ -35,3 +37,5 @@ namespace kodoc
                 finite_field, max_symbols, max_symbol_size);
     }
 }
+
+#endif

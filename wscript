@@ -7,6 +7,11 @@ VERSION = '7.0.1'
 import waflib.extras.wurf_options
 
 
+codecs = ['full_vector', 'on_the_fly', 'sliding_window',
+          'sparse_full_vector', 'seed', 'sparse_seed',
+          'perpetual', 'fulcrum', 'reed_solomon']
+
+
 def options(opt):
 
     opt.load('wurf_common_tools')
@@ -24,9 +29,27 @@ def resolve(ctx):
         major=3))
 
     ctx.add_dependency(resolve.ResolveVersion(
-        name='kodo',
-        git_repository='github.com/steinwurf/kodo.git',
-        major=34))
+        name='kodo-core',
+        git_repository='github.com/steinwurf/kodo-core.git',
+        major=1))
+
+    ctx.add_dependency(resolve.ResolveVersion(
+        name='kodo-rlnc',
+        git_repository='github.com/steinwurf/kodo-rlnc.git',
+        major=1),
+        optional=True)
+
+    ctx.add_dependency(resolve.ResolveVersion(
+        name='kodo-fulcrum',
+        git_repository='github.com/steinwurf/kodo-fulcrum.git',
+        major=1),
+        optional=True)
+
+    ctx.add_dependency(resolve.ResolveVersion(
+        name='kodo-reed-solomon',
+        git_repository='github.com/steinwurf/kodo-reed-solomon.git',
+        major=1),
+        optional=True)
 
     # Internal dependencies
     if ctx.is_toplevel():
@@ -36,10 +59,66 @@ def resolve(ctx):
             git_repository='github.com/steinwurf/gtest.git',
             major=3))
 
+    opts = ctx.opt.add_option_group('kodo-c options')
+
+    opts.add_option(
+        '--disable_rlnc', default=None, dest='disable_rlnc',
+        action='store_true', help="Disable the basic RLNC codecs")
+
+    opts.add_option(
+        '--disable_fulcrum', default=None, dest='disable_fulcrum',
+        action='store_true', help="Disable the Fulcrum RLNC codec")
+
+    opts.add_option(
+        '--disable_reed_solomon', default=None, dest='disable_reed_solomon',
+        action='store_true', help="Disable the Reed-Solomon codec")
+
+    opts.add_option(
+        '--enable_codecs', default=None, dest='enable_codecs',
+        help="Enable the chosen codec or codecs, and disable all others. "
+             "A comma-separated list of these values: {0}".format(codecs))
+
 
 def configure(conf):
 
     conf.load("wurf_common_tools")
+
+    conf.env['DEFINES_KODOC_COMMON'] = []
+
+    disabled_codec_groups = 0
+
+    if conf.has_tool_option('disable_rlnc') or \
+       not conf.has_dependency_path('kodo-rlnc'):
+        conf.env['DEFINES_KODOC_COMMON'] += ['KODOC_DISABLE_RLNC']
+        disabled_codec_groups += 1
+    if conf.has_tool_option('disable_fulcrum') or \
+       not conf.has_dependency_path('kodo-fulcrum'):
+        conf.env['DEFINES_KODOC_COMMON'] += ['KODOC_DISABLE_FULCRUM']
+        disabled_codec_groups += 1
+    if conf.has_tool_option('disable_reed_solomon') or \
+       not conf.has_dependency_path('kodo-reed-solomon'):
+        conf.env['DEFINES_KODOC_COMMON'] += ['KODOC_DISABLE_REED_SOLOMON']
+        disabled_codec_groups += 1
+
+    if disabled_codec_groups == 3:
+        conf.fatal('All codec groups are disabled or unavailable. Please make '
+                   'sure that you enable at least one codec group and you '
+                   'have access to the corresponding repositories!')
+
+    if conf.has_tool_option('enable_codecs'):
+        enabled = conf.get_tool_option('enable_codecs').split(',')
+
+        # Validate the chosen codecs
+        for codec in enabled:
+            if codec not in codecs:
+                conf.fatal('Invalid codec: "{0}". Please use the following '
+                           'codec names: {1}'.format(codec, codecs))
+
+        # Disable the codecs that were not selected
+        for codec in codecs:
+            if codec not in enabled:
+                conf.env['DEFINES_KODOC_COMMON'] += \
+                    ['KODOC_DISABLE_{0}'.format(codec.upper())]
 
 
 def build(bld):
@@ -62,6 +141,10 @@ def build(bld):
         'DEFINES_STEINWURF_VERSION',
         'STEINWURF_KODOC_VERSION="{}"'.format(VERSION))
 
+    use_flags = ['kodo_core_includes', 'kodo_reed_solomon_includes',
+                 'kodo_rlnc_includes', 'kodo_fulcrum_includes',
+                 'KODOC_COMMON']
+
     # Build the kodo-c static library
     bld.stlib(
         source=bld.path.ant_glob('src/kodoc/*.cpp'),
@@ -70,7 +153,7 @@ def build(bld):
         defines=['KODOC_STATIC'],
         export_defines=['KODOC_STATIC'],
         export_includes='src',
-        use=['kodo_includes'])
+        use=use_flags)
 
     # Build the kodo-c shared library
     bld.shlib(
@@ -80,7 +163,7 @@ def build(bld):
         defines=['KODOC_DLL_EXPORTS'],
         install_path=None,
         export_includes='src',
-        use=['kodo_includes'])
+        use=use_flags)
 
     if bld.is_toplevel():
 

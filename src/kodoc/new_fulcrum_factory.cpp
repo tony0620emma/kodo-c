@@ -3,14 +3,16 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#if !defined(KODOC_DISABLE_FULCRUM)
+
 #include "kodoc.h"
 
 #include <cstdint>
 
-#include <kodo/rlnc/api/fulcrum_binding.hpp>
-#include <kodo/rlnc/api/fulcrum_config_binding.hpp>
-#include <kodo/rlnc/fulcrum_encoder.hpp>
-#include <kodo/rlnc/fulcrum_combined_decoder.hpp>
+#include <kodo_fulcrum/api/fulcrum_binding.hpp>
+#include <kodo_fulcrum/api/fulcrum_config_binding.hpp>
+#include <kodo_fulcrum/fulcrum_encoder.hpp>
+#include <kodo_fulcrum/fulcrum_combined_decoder.hpp>
 
 #include "create_factory.hpp"
 #include "runtime_encoder.hpp"
@@ -23,9 +25,9 @@ namespace kodoc
     {
         return create_factory<
             runtime_encoder<
-            kodo::rlnc::fulcrum_encoder,
-            kodo::rlnc::api::fulcrum_binding,
-            kodo::rlnc::api::fulcrum_config_binding>>(
+            kodo::fulcrum::fulcrum_encoder,
+            kodo::fulcrum::api::fulcrum_binding,
+            kodo::fulcrum::api::fulcrum_config_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 
@@ -34,9 +36,11 @@ namespace kodoc
     {
         return create_factory<
             runtime_decoder<
-            kodo::rlnc::fulcrum_combined_decoder,
-            kodo::rlnc::api::fulcrum_binding,
-            kodo::rlnc::api::fulcrum_config_binding>>(
+            kodo::fulcrum::fulcrum_combined_decoder,
+            kodo::fulcrum::api::fulcrum_binding,
+            kodo::fulcrum::api::fulcrum_config_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 }
+
+#endif

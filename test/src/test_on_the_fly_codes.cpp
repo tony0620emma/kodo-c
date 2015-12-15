@@ -72,7 +72,7 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
         // Check the decoder whether it is partially complete
         // The decoder has to support the partial decoding tracker
-        if (kodo_has_partial_decoding_tracker(decoder) &&
+        if (kodo_has_partial_decoding_interface(decoder) &&
             kodo_is_partially_complete(decoder))
         {
             for (uint32_t i = 0; i < kodo_symbols(decoder); ++i)
@@ -113,6 +113,9 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
 TEST(test_on_the_fly_codes, invoke_api)
 {
+    if (kodo_has_codec(kodo_on_the_fly) == false)
+        return;
+
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 

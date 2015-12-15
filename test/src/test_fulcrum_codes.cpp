@@ -14,6 +14,9 @@
 
 TEST(test_fulcrum_codes, basic_api)
 {
+    if (kodo_has_codec(kodo_fulcrum) == false)
+        return;
+
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
@@ -45,6 +48,9 @@ static void test_fulcrum_api(kodo_factory_t fulcrum_factory,
 
 TEST(test_fulcrum_codes, fulcrum_encoder_api)
 {
+    if (kodo_has_codec(kodo_fulcrum) == false)
+        return;
+
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
@@ -56,6 +62,9 @@ TEST(test_fulcrum_codes, fulcrum_encoder_api)
 
 TEST(test_fulcrum_codes, fulcrum_decoder_api)
 {
+    if (kodo_has_codec(kodo_fulcrum) == false)
+        return;
+
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 

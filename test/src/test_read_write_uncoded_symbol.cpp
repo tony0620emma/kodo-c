@@ -132,6 +132,9 @@ void test_read_write_uncoded(uint32_t symbols, uint32_t symbol_size,
 
 TEST(test_read_write_uncoded_symbol, uncoded_symbols)
 {
+    if (kodo_has_codec(kodo_full_vector) == false)
+        return;
+
     uint32_t symbols = rand_symbols();
     uint32_t symbol_size = rand_symbol_size();
 

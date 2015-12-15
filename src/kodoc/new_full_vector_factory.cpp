@@ -3,14 +3,18 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#if !defined(KODOC_DISABLE_RLNC) && \
+    (!defined(KODOC_DISABLE_FULL_VECTOR) || \
+     !defined(KODOC_DISABLE_SPARSE_FULL_VECTOR))
+
 #include "kodoc.h"
 
 #include <cstdint>
 
 #include <kodo/api/api.hpp>
-#include <kodo/rlnc/full_vector_decoder.hpp>
-#include <kodo/rlnc/full_vector_encoder.hpp>
-#include <kodo/rlnc/sparse_full_vector_encoder.hpp>
+#include <kodo_rlnc/full_vector_decoder.hpp>
+#include <kodo_rlnc/full_vector_encoder.hpp>
+#include <kodo_rlnc/sparse_full_vector_encoder.hpp>
 
 #include "create_factory.hpp"
 #include "runtime_decoder.hpp"
@@ -53,3 +57,5 @@ namespace kodoc
                 finite_field, max_symbols, max_symbol_size);
     }
 }
+
+#endif
