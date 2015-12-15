@@ -6,6 +6,16 @@ of every change, see the Git log.
 
 Latest
 ------
+* Minor: Added the ``enable_codecs`` option to only enable specific codecs
+  when configuring kodo-c. This option can be used to build a smaller library.
+* Major: Depend on kodo-core, kodo-rlnc, kodo-fulcrum and kodo-reed-solomon
+  instead of kodo (kodo has been split to multiple repositories).
+* Major: Replaced ``kodo_has_set_trace_callback``, ``kodo_has_set_trace_stdout``
+  and ``kodo_has_set_trace_off `` with ``kodo_has_trace_interface``.
+* Major: Replaced ``kodo_has_set_systematic_off`` with
+  ``kodo_has_systematic_interface``.
+* Major: Renamed ``kodo_has_partial_decoding_tracker`` to
+  ``kodo_has_partial_decoding_interface``.
 * Minor: Added the Reed-Solomon codec (``kodo_reed_solomon`` code type).
 * Major: Upgrade to kodo 34
 * Major: Renamed ``kodo_is_partial_complete`` to ``kodo_is_partially_complete``.
