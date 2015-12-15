@@ -3,7 +3,7 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#if !defined(KODOC_DISABLE_RLNC)
+#if !defined(KODOC_DISABLE_RLNC) && !defined(KODOC_DISABLE_SLIDING_WINDOW)
 
 #include "kodoc.h"
 

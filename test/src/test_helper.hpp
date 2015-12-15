@@ -51,6 +51,7 @@ inline void test_combinations(
         kodo_full_vector,
         kodo_on_the_fly,
         kodo_sliding_window,
+        kodo_sparse_full_vector,
         kodo_seed,
         kodo_sparse_seed,
         kodo_perpetual,
@@ -61,6 +62,9 @@ inline void test_combinations(
     for (auto& code : code_types)
     {
         SCOPED_TRACE(testing::Message() << "code_type = " << code);
+
+        if (kodo_has_codec(code) == false)
+            continue;
 
         if (code != kodo_reed_solomon)
         {

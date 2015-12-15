@@ -3,7 +3,9 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#if !defined(KODOC_DISABLE_RLNC)
+#if !defined(KODOC_DISABLE_RLNC) && \
+    (!defined(KODOC_DISABLE_FULL_VECTOR) || \
+     !defined(KODOC_DISABLE_SPARSE_FULL_VECTOR))
 
 #include "kodoc.h"
 

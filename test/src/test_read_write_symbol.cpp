@@ -171,5 +171,8 @@ void test_read_write_symbol(uint32_t symbols, uint32_t symbol_size,
 
 TEST(test_read_write_symbol, coded_symbols)
 {
+    if (kodo_has_codec(kodo_full_vector) == false)
+        return;
+
     test_read_write_symbol(3, 1, kodo_full_vector, kodo_binary);
 }

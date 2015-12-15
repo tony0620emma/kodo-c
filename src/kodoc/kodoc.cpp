@@ -27,6 +27,77 @@ struct kodo_factory { };
 struct kodo_coder { };
 
 //------------------------------------------------------------------
+// CONFIGURATION API
+//------------------------------------------------------------------
+
+uint8_t kodo_has_codec(int32_t code_type)
+{
+#if !defined(KODOC_DISABLE_RLNC)
+
+#if !defined(KODOC_DISABLE_FULL_VECTOR)
+    if (code_type == kodo_full_vector)
+    {
+        return true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_ON_THE_FLY)
+    if (code_type == kodo_on_the_fly)
+    {
+        return true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_SLIDING_WINDOW)
+    if (code_type == kodo_sliding_window)
+    {
+        return true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_SPARSE_FULL_VECTOR)
+    if (code_type == kodo_sparse_full_vector)
+    {
+        return true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_SEED)
+    if (code_type == kodo_seed)
+    {
+        return true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_SPARSE_SEED)
+    if (code_type == kodo_sparse_seed)
+    {
+        return true;
+    }
+#endif
+#if !defined(KODOC_DISABLE_PERPETUAL)
+    if (code_type == kodo_perpetual)
+    {
+        return true;
+    }
+#endif
+
+#endif // !defined(KODOC_DISABLE_RLNC)
+
+#if !defined(KODOC_DISABLE_FULCRUM)
+    if (code_type == kodo_fulcrum)
+    {
+        return true;
+    }
+#endif
+
+#if !defined(KODOC_DISABLE_REED_SOLOMON)
+    if (code_type == kodo_reed_solomon)
+    {
+        return true;
+    }
+#endif
+
+    return false;
+}
+
+
+//------------------------------------------------------------------
 // FACTORY API
 //------------------------------------------------------------------
 

@@ -113,6 +113,9 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
 TEST(test_on_the_fly_codes, invoke_api)
 {
+    if (kodo_has_codec(kodo_on_the_fly) == false)
+        return;
+
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 

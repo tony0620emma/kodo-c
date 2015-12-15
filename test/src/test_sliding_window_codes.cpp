@@ -141,6 +141,9 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
 
 TEST(test_sliding_window_codes, invoke_api)
 {
+    if (kodo_has_codec(kodo_sliding_window) == false)
+        return;
+
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 

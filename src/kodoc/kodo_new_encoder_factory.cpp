@@ -32,43 +32,61 @@ kodo_factory_t kodo_new_encoder_factory(
     using namespace kodoc;
 
     kodo_factory_t factory = 0;
+
 #if !defined(KODOC_DISABLE_RLNC)
+
+#if !defined(KODOC_DISABLE_FULL_VECTOR)
     if (code_type == kodo_full_vector)
     {
         factory = new_full_vector_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_on_the_fly)
+#endif
+#if !defined(KODOC_DISABLE_ON_THE_FLY)
+    if (code_type == kodo_on_the_fly)
     {
         factory = new_on_the_fly_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_sliding_window)
+#endif
+#if !defined(KODOC_DISABLE_SLIDING_WINDOW)
+    if (code_type == kodo_sliding_window)
     {
         factory = new_sliding_window_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_sparse_full_vector)
+#endif
+#if !defined(KODOC_DISABLE_SPARSE_FULL_VECTOR)
+    if (code_type == kodo_sparse_full_vector)
     {
         factory = new_sparse_full_vector_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_seed)
+#endif
+#if !defined(KODOC_DISABLE_SEED)
+    if (code_type == kodo_seed)
     {
         factory = new_seed_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_sparse_seed)
+#endif
+#if !defined(KODOC_DISABLE_SPARSE_SEED)
+    if (code_type == kodo_sparse_seed)
     {
         factory = new_sparse_seed_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_perpetual)
+#endif
+#if !defined(KODOC_DISABLE_PERPETUAL)
+    if (code_type == kodo_perpetual)
     {
         factory = new_perpetual_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
 #endif
+
+#endif // !defined(KODOC_DISABLE_RLNC)
+
 #if !defined(KODOC_DISABLE_FULCRUM)
     if (code_type == kodo_fulcrum)
     {
@@ -76,6 +94,7 @@ kodo_factory_t kodo_new_encoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
 #endif
+
 #if !defined(KODOC_DISABLE_REED_SOLOMON)
     if (code_type == kodo_reed_solomon)
     {
@@ -84,7 +103,6 @@ kodo_factory_t kodo_new_encoder_factory(
     }
 #endif
 
-    // Unknown code type
-    assert(factory && "Unknown code_type");
+    assert(factory && "Requested code_type is unknown or unavailable");
     return factory;
 }

@@ -76,6 +76,18 @@ typedef enum
 kodo_code_type;
 
 //------------------------------------------------------------------
+// CONFIGURATION API
+//------------------------------------------------------------------
+
+/// Checks whether a given codec is available in the current configuration.
+/// It is possible to enable or disable specific codecs when configuring kodo-c.
+/// To see the relevant options, execute "python waf --help"
+/// @param code_type The codec type that should be checked
+/// @return Non-zero value if the codec is available, otherwise 0
+KODOC_API
+uint8_t kodo_has_codec(int32_t code_type);
+
+//------------------------------------------------------------------
 // FACTORY API
 //------------------------------------------------------------------
 
