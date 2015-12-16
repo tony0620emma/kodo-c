@@ -32,20 +32,20 @@ static void test_fulcrum_api(kodo_factory_t fulcrum_factory)
     uint32_t max_symbols = kodo_factory_max_symbols(fulcrum_factory);
 
     EXPECT_EQ(max_expansion + max_symbols,
-        kodo_factory_max_inner_symbols(fulcrum_factory));
+              kodo_factory_max_inner_symbols(fulcrum_factory));
 
     kodo_factory_set_expansion(fulcrum_factory, max_expansion);
 
-    kodo_coder_t coder = kodo_factory_new_coder(fulcrum_factory);
+    kodo_coder_t coder = kodo_factory_build_coder(fulcrum_factory);
     EXPECT_TRUE(coder != 0);
     EXPECT_EQ(max_expansion, kodo_expansion(coder));
-    EXPECT_EQ(max_expansion + max_symbols, kodo_inner_symbols(coder));
+    EXPECT_EQ(max_symbols + max_expansion, kodo_inner_symbols(coder));
     kodo_delete_coder(coder);
 
     uint32_t other_expansion = max_expansion / 2;
     kodo_factory_set_expansion(fulcrum_factory, other_expansion);
 
-    kodo_coder_t other_coder = kodo_factory_new_coder(fulcrum_factory);
+    kodo_coder_t other_coder = kodo_factory_build_coder(fulcrum_factory);
     EXPECT_TRUE(other_coder != 0);
     EXPECT_EQ(other_expansion, kodo_expansion(other_coder));
     EXPECT_EQ(other_expansion + max_symbols, kodo_inner_symbols(other_coder));
@@ -64,12 +64,11 @@ TEST(test_fulcrum_codes, fulcrum_encoder_api)
         kodo_fulcrum, kodo_binary8, max_symbols, max_symbol_size);
     test_fulcrum_api(encoder_factory);
 
-    kodo_coder_t encoder = kodo_factory_new_coder(encoder_factory);
+    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
 
     uint32_t symbols = kodo_symbols(encoder);
     uint32_t expansion = kodo_expansion(encoder);
     EXPECT_EQ(symbols + expansion, kodo_nested_symbols(encoder));
-
     EXPECT_EQ(kodo_symbol_size(encoder), kodo_nested_symbol_size(encoder));
 
     kodo_delete_coder(encoder);

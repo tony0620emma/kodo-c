@@ -26,7 +26,7 @@ static void test_encoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
     EXPECT_GT(kodo_factory_max_payload_size(encoder_factory), max_symbol_size);
 
     // Build an encoder with the default settings
-    kodo_coder_t encoder = kodo_factory_new_coder(encoder_factory);
+    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
 
     EXPECT_EQ(max_symbols, kodo_symbols(encoder));
     EXPECT_EQ(max_symbol_size, kodo_symbol_size(encoder));
@@ -46,7 +46,7 @@ static void test_encoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
     EXPECT_GT(kodo_factory_max_payload_size(encoder_factory), max_symbol_size);
 
     // Build an encoder with the changed settings
-    kodo_coder_t encoder2 = kodo_factory_new_coder(encoder_factory);
+    kodo_coder_t encoder2 = kodo_factory_build_coder(encoder_factory);
 
     EXPECT_EQ(new_symbols, kodo_symbols(encoder2));
     EXPECT_EQ(new_symbol_size, kodo_symbol_size(encoder2));

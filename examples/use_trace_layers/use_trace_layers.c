@@ -70,8 +70,8 @@ int main()
     //      kodo_factory_set_symbol_size(...)
     // We cannot exceed the maximum values which was used when building
     // the factory.
-    kodo_coder_t encoder = kodo_factory_new_coder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_new_coder(decoder_factory);
+    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
+    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
 
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network

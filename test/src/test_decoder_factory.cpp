@@ -26,7 +26,7 @@ static void test_decoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
     EXPECT_GT(kodo_factory_max_payload_size(decoder_factory), max_symbol_size);
 
     // Build an decoder with the default settings
-    kodo_coder_t decoder = kodo_factory_new_coder(decoder_factory);
+    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
 
     EXPECT_EQ(max_symbols, kodo_symbols(decoder));
     EXPECT_EQ(max_symbol_size, kodo_symbol_size(decoder));
@@ -46,7 +46,7 @@ static void test_decoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
     EXPECT_GT(kodo_factory_max_payload_size(decoder_factory), max_symbol_size);
 
     // Build an decoder with the changed settings
-    kodo_coder_t decoder2 = kodo_factory_new_coder(decoder_factory);
+    kodo_coder_t decoder2 = kodo_factory_build_coder(decoder_factory);
 
     EXPECT_EQ(new_symbols, kodo_symbols(decoder2));
     EXPECT_EQ(new_symbol_size, kodo_symbol_size(decoder2));

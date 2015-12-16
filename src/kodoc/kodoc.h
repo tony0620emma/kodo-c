@@ -172,12 +172,11 @@ void kodo_factory_set_symbols(kodo_factory_t factory, uint32_t symbols);
 KODOC_API
 void kodo_factory_set_symbol_size(kodo_factory_t factory, uint32_t symbol_size);
 
-/// Builds a new coder using the specified factory
-/// @param factory The coder factory which should be used to
-///        build the coder
+/// Builds a new encoder or decoder using the specified factory
+/// @param factory The coder factory which should be used to build the coder
 /// @return The new coder
 KODOC_API
-kodo_coder_t kodo_factory_new_coder(kodo_factory_t factory);
+kodo_coder_t kodo_factory_build_coder(kodo_factory_t factory);
 
 /// Deallocates and releases the memory consumed by a coder
 /// @param coder The coder which should be deallocated

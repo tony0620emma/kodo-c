@@ -6,6 +6,8 @@ of every change, see the Git log.
 
 Latest
 ------
+* Major: Replaced ``kodo_factory_new_encoder`` and ``kodo_factory_new_decoder``
+  with ``kodo_factory_build_coder``.
 * Minor: Added the ``enable_codecs`` option to only enable specific codecs
   when configuring kodo-c. This option can be used to build a smaller library.
 * Major: Depend on kodo-core, kodo-rlnc, kodo-fulcrum and kodo-reed-solomon

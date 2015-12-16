@@ -17,7 +17,7 @@
 #include <kodo_fulcrum/api/inner_symbols.hpp>
 #include <kodo_fulcrum/api/max_inner_symbols.hpp>
 #include <kodo_fulcrum/api/nested_symbols.hpp>
-#include <kodo_fulcrum/api/nested_symbol_size.hpp
+#include <kodo_fulcrum/api/nested_symbol_size.hpp>
 #include <kodo_rlnc/api/pre_charging.hpp>
 #include <kodo_rlnc/api/pseudo_systematic.hpp>
 #include <kodo_rlnc/api/set_pre_charging.hpp>
@@ -156,7 +156,7 @@ void kodo_factory_set_symbol_size(kodo_factory_t factory, uint32_t symbol_size)
     set_symbol_size(api, symbol_size);
 }
 
-kodo_coder_t kodo_factory_new_coder(kodo_factory_t factory)
+kodo_coder_t kodo_factory_build_coder(kodo_factory_t factory)
 {
     auto api = (kodo::api::final_interface*) factory;
     assert(api);
@@ -613,4 +613,3 @@ uint32_t kodo_factory_max_inner_symbols(kodo_factory_t factory)
     assert(api);
     return kodo::fulcrum::api::max_inner_symbols(api);
 }
-

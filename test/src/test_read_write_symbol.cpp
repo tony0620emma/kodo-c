@@ -20,8 +20,8 @@ void test_read_write_symbol(uint32_t symbols, uint32_t symbol_size,
     kodo_factory_t decoder_factory =
         kodo_new_decoder_factory(code_type, finite_field, symbols, symbol_size);
 
-    kodo_coder_t encoder = kodo_factory_new_coder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_new_coder(decoder_factory);
+    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
+    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
 
     EXPECT_EQ(symbols, kodo_factory_max_symbols(encoder_factory));
     EXPECT_EQ(symbol_size, kodo_factory_max_symbol_size(encoder_factory));
