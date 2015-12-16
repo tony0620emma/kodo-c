@@ -58,8 +58,8 @@
                              kodo_trace_enabled);
 
     // Create the coders
-    kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
+    kodo_coder_t encoder = kodo_factory_new_coder(encoder_factory);
+    kodo_coder_t decoder = kodo_factory_new_coder(decoder_factory);
 
     // Generate the data
     uint32_t payload_size = kodo_payload_size(encoder);

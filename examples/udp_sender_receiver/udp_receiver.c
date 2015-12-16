@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
                                                max_symbols, max_symbol_size);
 
     kodo_factory_set_symbols(decoder_factory, symbols);
-    decoder = kodo_factory_new_decoder(decoder_factory);
+    decoder = kodo_factory_build_coder(decoder_factory);
 
     // Create the buffer needed for the payload
     payload_size = kodo_payload_size(decoder);

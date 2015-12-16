@@ -14,6 +14,10 @@
 #include <kodo_fulcrum/api/expansion.hpp>
 #include <kodo_fulcrum/api/max_expansion.hpp>
 #include <kodo_fulcrum/api/set_expansion.hpp>
+#include <kodo_fulcrum/api/inner_symbols.hpp>
+#include <kodo_fulcrum/api/max_inner_symbols.hpp>
+#include <kodo_fulcrum/api/nested_symbols.hpp>
+#include <kodo_fulcrum/api/nested_symbol_size.hpp>
 #include <kodo_rlnc/api/pre_charging.hpp>
 #include <kodo_rlnc/api/pseudo_systematic.hpp>
 #include <kodo_rlnc/api/set_pre_charging.hpp>
@@ -152,14 +156,7 @@ void kodo_factory_set_symbol_size(kodo_factory_t factory, uint32_t symbol_size)
     set_symbol_size(api, symbol_size);
 }
 
-kodo_coder_t kodo_factory_new_encoder(kodo_factory_t factory)
-{
-    auto api = (kodo::api::final_interface*) factory;
-    assert(api);
-    return (kodo_coder_t) build(api)->keep_alive();
-}
-
-kodo_coder_t kodo_factory_new_decoder(kodo_factory_t factory)
+kodo_coder_t kodo_factory_build_coder(kodo_factory_t factory)
 {
     auto api = (kodo::api::final_interface*) factory;
     assert(api);
@@ -561,11 +558,35 @@ void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio)
 // FULCRUM CODER API
 //------------------------------------------------------------------
 
-uint8_t kodo_expansion(kodo_coder_t coder)
+uint32_t kodo_expansion(kodo_coder_t coder)
 {
     auto api = (kodo::api::final_interface*) coder;
     assert(api);
     return kodo::fulcrum::api::expansion(api);
+}
+
+uint32_t kodo_inner_symbols(kodo_coder_t coder)
+{
+    auto api = (kodo::api::final_interface*) coder;
+    assert(api);
+    return kodo::fulcrum::api::inner_symbols(api);
+}
+
+//------------------------------------------------------------------
+// FULCRUM ENCODER API
+//------------------------------------------------------------------
+uint32_t kodo_nested_symbols(kodo_coder_t encoder)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    return kodo::fulcrum::api::nested_symbols(api);
+}
+
+uint32_t kodo_nested_symbol_size(kodo_coder_t encoder)
+{
+    auto api = (kodo::api::final_interface*) encoder;
+    assert(api);
+    return kodo::fulcrum::api::nested_symbol_size(api);
 }
 
 //------------------------------------------------------------------
@@ -584,4 +605,11 @@ void kodo_factory_set_expansion(kodo_factory_t factory, uint32_t expansion)
     auto api = (kodo::api::final_interface*) factory;
     assert(api);
     kodo::fulcrum::api::set_expansion(api, expansion);
+}
+
+uint32_t kodo_factory_max_inner_symbols(kodo_factory_t factory)
+{
+    auto api = (kodo::api::final_interface*) factory;
+    assert(api);
+    return kodo::fulcrum::api::max_inner_symbols(api);
 }

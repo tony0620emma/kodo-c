@@ -172,19 +172,11 @@ void kodo_factory_set_symbols(kodo_factory_t factory, uint32_t symbols);
 KODOC_API
 void kodo_factory_set_symbol_size(kodo_factory_t factory, uint32_t symbol_size);
 
-/// Builds a new encoder using the specified factory
-/// @param factory The encoder factory which should be used to
-///        build the encoder
-/// @return The new encoder
+/// Builds a new encoder or decoder using the specified factory
+/// @param factory The coder factory which should be used to build the coder
+/// @return The new coder
 KODOC_API
-kodo_coder_t kodo_factory_new_encoder(kodo_factory_t factory);
-
-/// Builds a new decoder using the specified factory
-/// @param factory The decoder factory which should be used to
-///        build the decoder
-/// @return The new decoder
-KODOC_API
-kodo_coder_t kodo_factory_new_decoder(kodo_factory_t factory);
+kodo_coder_t kodo_factory_build_coder(kodo_factory_t factory);
 
 /// Deallocates and releases the memory consumed by a coder
 /// @param coder The coder which should be deallocated
@@ -589,7 +581,26 @@ void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio);
 /// Get the number of expansion symbols on a fulcrum coder
 /// @param coder The coder to use
 KODOC_API
-uint8_t kodo_expansion(kodo_coder_t coder);
+uint32_t kodo_expansion(kodo_coder_t coder);
+
+/// Get the number of inner symbols on a fulcrum coder
+/// @param coder The coder to use
+KODOC_API
+uint32_t kodo_inner_symbols(kodo_coder_t coder);
+
+//------------------------------------------------------------------
+// FULCRUM ENCODER API
+//------------------------------------------------------------------
+
+/// Get the number of nested symbols on a fulcrum encoder
+/// @param encoder The encoder to use
+KODOC_API
+uint32_t kodo_nested_symbols(kodo_coder_t encoder);
+
+/// Get the number of nested symbol_size on a fulcrum encoder
+/// @param encoder The encoder to use
+KODOC_API
+uint32_t kodo_nested_symbol_size(kodo_coder_t encoder);
 
 //------------------------------------------------------------------
 // FULCRUM FACTORY API
@@ -599,6 +610,11 @@ uint8_t kodo_expansion(kodo_coder_t coder);
 /// @param factory The factory to use
 KODOC_API
 uint32_t kodo_factory_max_expansion(kodo_factory_t factory);
+
+/// Get the maximum number of inner symbols for a fulcrum factory
+/// @param factory The factory to use
+KODOC_API
+uint32_t kodo_factory_max_inner_symbols(kodo_factory_t factory);
 
 /// Set the number of expansion symbols for a fulcrum factory
 /// @param factory The factory to use

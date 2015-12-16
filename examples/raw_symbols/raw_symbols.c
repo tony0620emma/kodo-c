@@ -44,8 +44,8 @@ int main()
     // We can however not exceed the maximum values which were used when
     // building the factory.
 
-    kodo_coder_t encoder = kodo_factory_new_encoder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_new_decoder(decoder_factory);
+    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
+    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
 
     // In this example, we do not use systematic coding. The original symbols
     // will be transferred to the decoder without using kodo.
