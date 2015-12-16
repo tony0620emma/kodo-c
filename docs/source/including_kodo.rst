@@ -1,7 +1,9 @@
-Including Kodo Example
-======================
+.. including_kodo:
 
-This example shows how to include and use the Kodo C bindings in a library.
+Including Kodo in Your Application
+==================================
+
+This guide shows how to include and use the Kodo C bindings in a library.
 Further it is shown how to use this library in applications on the
 following platforms:
 

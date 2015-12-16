@@ -1,12 +1,16 @@
 License
 -------
 
-To obtain a valid Kodo license **you must fill out the license request** form_.
+A valid Kodo license is required if you wish to use this project.
+Please request a license by **filling out the license request** form_.
 
-Kodo is available under a research- and education-friendly license, see the
-details in the LICENSE.rst file.
+Kodo is available under a research- and education-friendly license,
+you can see the details here_.
+
+If you try to configure without a valid license, then you will get an error!
 
 .. _form: http://steinwurf.com/license/
+.. _here: http://steinwurf.com/research-license/
 
 About
 -----
@@ -27,5 +31,23 @@ us at our developer mailing list (hosted at Google Groups):
 Documentation
 -------------
 
-To get started, see the kodo-c manual here:
+To get started, read the kodo-c manual here:
 http://kodo-c.readthedocs.org
+
+Quick Start
+-----------
+
+If you already installed a C++11 compiler, git and python on your system,
+then you can clone this repository to a suitable folder::
+
+  git clone git@github.com:steinwurf/kodo-c.git
+
+Configure and build the project::
+
+  cd kodo-c
+  python waf configure
+  python waf build
+
+Run the unit tests::
+
+  python waf --run_tests
