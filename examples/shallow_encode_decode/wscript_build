@@ -8,6 +8,6 @@ if not bld.is_mkspec_platform('windows'):
 
 bld.program(features='c',
             source='shallow_encode_decode.c',
-            target='shallow_encode_decode',
+            target='../../shallow_encode_decode',
             rpath=search_path,
             use=['kodoc'])

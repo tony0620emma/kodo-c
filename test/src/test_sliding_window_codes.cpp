@@ -112,7 +112,8 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
 
         // Pass that packet to the decoder
         kodo_read_payload(decoder, payload);
-        EXPECT_TRUE(kodo_is_partial_complete(decoder) != 0);
+        // All payloads must be innovative due to the perfect feedback
+        EXPECT_TRUE(kodo_is_partially_complete(decoder) != 0);
 
         kodo_write_feedback(decoder, feedback);
         kodo_read_feedback(encoder, feedback);
@@ -140,6 +141,9 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
 
 TEST(test_sliding_window_codes, invoke_api)
 {
+    if (kodo_has_codec(kodo_sliding_window) == false)
+        return;
+
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 

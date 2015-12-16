@@ -24,8 +24,9 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     test_coder(decoder, symbols, symbol_size, code_type);
 
     // Decoder methods
-    // Seed-based codecs do not provide write_payload, i.e. recoding
-    if (code_type == kodo_seed || code_type == kodo_sparse_seed)
+    // Some codecs do not provide write_payload, i.e. recoding
+    if (code_type == kodo_seed || code_type == kodo_sparse_seed ||
+        code_type == kodo_fulcrum || code_type == kodo_reed_solomon)
     {
         EXPECT_TRUE(kodo_has_write_payload(decoder) == 0);
     }
@@ -35,16 +36,16 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     }
 
     EXPECT_EQ(0U, kodo_symbols_uncoded(decoder));
-    EXPECT_EQ(0U, kodo_symbols_seen(decoder));
+    EXPECT_EQ(0U, kodo_symbols_partially_decoded(decoder));
 
     if (code_type == kodo_on_the_fly ||
         code_type == kodo_sliding_window)
     {
-        EXPECT_TRUE(kodo_has_partial_decoding_tracker(decoder) != 0);
+        EXPECT_TRUE(kodo_has_partial_decoding_interface(decoder) != 0);
     }
     else if (code_type == kodo_full_vector)
     {
-        EXPECT_TRUE(kodo_has_partial_decoding_tracker(decoder) == 0);
+        EXPECT_TRUE(kodo_has_partial_decoding_interface(decoder) == 0);
     }
 
     kodo_delete_coder(decoder);

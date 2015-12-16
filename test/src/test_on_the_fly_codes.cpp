@@ -66,14 +66,14 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
         // Check the decoder rank and symbol counters
         EXPECT_GE(kodo_rank(encoder), kodo_rank(decoder));
         EXPECT_GE(kodo_rank(decoder), kodo_symbols_uncoded(decoder));
-        EXPECT_GE(kodo_rank(decoder), kodo_symbols_seen(decoder));
+        EXPECT_GE(kodo_rank(decoder), kodo_symbols_partially_decoded(decoder));
+        EXPECT_EQ(kodo_symbols(decoder) - kodo_rank(decoder),
+                  kodo_symbols_missing(decoder));
 
         // Check the decoder whether it is partially complete
-        // For on-the-fly decoding the decoder has to support the partial
-        // decoding tracker.
-
-        if (kodo_has_partial_decoding_tracker(decoder) &&
-            kodo_is_partial_complete(decoder))
+        // The decoder has to support the partial decoding tracker
+        if (kodo_has_partial_decoding_interface(decoder) &&
+            kodo_is_partially_complete(decoder))
         {
             for (uint32_t i = 0; i < kodo_symbols(decoder); ++i)
             {
@@ -82,6 +82,11 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
                 {
                     // All uncoded symbols must have a pivot
                     EXPECT_TRUE(kodo_is_symbol_pivot(decoder, i) != 0);
+                    // The uncoded symbols cannot be missing
+                    EXPECT_TRUE(kodo_is_symbol_missing(decoder, i) == 0);
+                    // The uncoded symbols cannot be partially decoded
+                    EXPECT_TRUE(
+                        kodo_is_symbol_partially_decoded(decoder, i) == 0);
 
                     uint8_t* original = data_in + i * symbol_size;
                     uint8_t* target = data_out + i * symbol_size;
@@ -108,6 +113,9 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
 TEST(test_on_the_fly_codes, invoke_api)
 {
+    if (kodo_has_codec(kodo_on_the_fly) == false)
+        return;
+
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 

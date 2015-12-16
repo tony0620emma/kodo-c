@@ -10,14 +10,14 @@
 #include "test_helper.hpp"
 #include "test_basic_api.hpp"
 
-TEST(test_sparse_seed_codes, basic_api)
+TEST(test_reed_solomon_codes, basic_api)
 {
-    if (kodo_has_codec(kodo_sparse_seed) == false)
+    if (kodo_has_codec(kodo_reed_solomon) == false)
         return;
 
-    // Make sure that the decoding can complete with a lower density
-    uint32_t max_symbols = rand_symbols() + 10;
+    uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodo_sparse_seed, max_symbols, max_symbol_size);
+    run_test_basic_api(kodo_reed_solomon, kodo_reed_solomon, kodo_binary8,
+                       max_symbols, max_symbol_size);
 }

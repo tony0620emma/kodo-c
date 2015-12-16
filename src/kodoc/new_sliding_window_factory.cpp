@@ -3,13 +3,15 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#if !defined(KODOC_DISABLE_RLNC) && !defined(KODOC_DISABLE_SLIDING_WINDOW)
+
 #include "kodoc.h"
 
 #include <cstdint>
 
 #include <kodo/api/api.hpp>
-#include <kodo/rlnc/sliding_window_encoder.hpp>
-#include <kodo/rlnc/sliding_window_decoder.hpp>
+#include <kodo_rlnc/sliding_window_encoder.hpp>
+#include <kodo_rlnc/sliding_window_decoder.hpp>
 
 #include "create_factory.hpp"
 #include "runtime_encoder.hpp"
@@ -50,3 +52,5 @@ namespace kodoc
                 finite_field, max_symbols, max_symbol_size);
     }
 }
+
+#endif

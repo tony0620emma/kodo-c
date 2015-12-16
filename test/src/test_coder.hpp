@@ -28,9 +28,8 @@ static void test_coder(kodo_coder_t coder, uint32_t symbols,
         EXPECT_TRUE(kodo_has_feedback_size(coder) == 0);
     }
 
-    EXPECT_TRUE(kodo_has_set_trace_callback(coder) != 0);
-    EXPECT_TRUE(kodo_has_set_trace_stdout(coder) != 0);
-    EXPECT_TRUE(kodo_has_set_trace_off(coder) != 0);
+    EXPECT_TRUE(kodo_has_trace_interface(coder) != 0);
     kodo_set_trace_stdout(coder);
     kodo_set_trace_off(coder);
+    kodo_set_zone_prefix(coder, "prefix");
 }

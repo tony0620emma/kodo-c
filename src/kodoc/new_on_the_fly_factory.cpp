@@ -3,13 +3,15 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#if !defined(KODOC_DISABLE_RLNC) && !defined(KODOC_DISABLE_ON_THE_FLY)
+
 #include "kodoc.h"
 
 #include <cstdint>
 
 #include <kodo/api/api.hpp>
-#include <kodo/rlnc/on_the_fly_decoder.hpp>
-#include <kodo/rlnc/on_the_fly_encoder.hpp>
+#include <kodo_rlnc/on_the_fly_decoder.hpp>
+#include <kodo_rlnc/on_the_fly_encoder.hpp>
 
 #include "create_factory.hpp"
 #include "runtime_decoder.hpp"
@@ -42,3 +44,5 @@ namespace kodoc
                 finite_field, max_symbols, max_symbol_size);
     }
 }
+
+#endif

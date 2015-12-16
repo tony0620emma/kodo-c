@@ -93,6 +93,10 @@ inline void run_test_basic_api(int32_t encoder_type, int32_t decoder_type,
     }
 
     EXPECT_TRUE(kodo_is_complete(decoder) != 0);
+    EXPECT_EQ(symbols, kodo_rank(decoder));
+    EXPECT_EQ(symbols, kodo_symbols_uncoded(decoder));
+    EXPECT_EQ(0U, kodo_symbols_partially_decoded(decoder));
+    EXPECT_EQ(0U, kodo_symbols_missing(decoder));
 
     assert(input_symbols);
     assert(output_symbols);

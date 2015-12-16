@@ -51,26 +51,36 @@ inline void test_combinations(
         kodo_full_vector,
         kodo_on_the_fly,
         kodo_sliding_window,
+        kodo_sparse_full_vector,
         kodo_seed,
         kodo_sparse_seed,
-        kodo_perpetual
-    };
-
-    std::vector<int32_t> fields =
-    {
-        kodo_binary,
-        kodo_binary4,
-        kodo_binary8
+        kodo_perpetual,
+        kodo_fulcrum,
+        kodo_reed_solomon
     };
 
     for (auto& code : code_types)
     {
-        for (auto& field : fields)
+        SCOPED_TRACE(testing::Message() << "code_type = " << code);
+
+        if (kodo_has_codec(code) == false)
+            continue;
+
+        if (code != kodo_reed_solomon)
         {
-            if (coder_test)
-            {
-                coder_test(max_symbols, max_symbol_size, code, field);
-            }
+            SCOPED_TRACE(testing::Message() << "field = binary");
+            coder_test(max_symbols, max_symbol_size, code, kodo_binary);
+        }
+
+        if (code != kodo_reed_solomon)
+        {
+            SCOPED_TRACE(testing::Message() << "field = binary4");
+            coder_test(max_symbols, max_symbol_size, code, kodo_binary4);
+        }
+
+        {
+            SCOPED_TRACE(testing::Message() << "field = binary8");
+            coder_test(max_symbols, max_symbol_size, code, kodo_binary8);
         }
     }
 }

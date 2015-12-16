@@ -19,6 +19,8 @@ namespace kodoc
     kodo_factory_t new_sliding_window_decoder_factory(int32_t, uint32_t,
         uint32_t);
     kodo_factory_t new_sparse_seed_decoder_factory(int32_t, uint32_t, uint32_t);
+    kodo_factory_t new_reed_solomon_decoder_factory(int32_t, uint32_t,
+        uint32_t);
 }
 
 kodo_factory_t kodo_new_decoder_factory(
@@ -29,43 +31,77 @@ kodo_factory_t kodo_new_decoder_factory(
 
     kodo_factory_t factory = 0;
 
+#if !defined(KODOC_DISABLE_RLNC)
+
+#if !defined(KODOC_DISABLE_FULL_VECTOR)
     if (code_type == kodo_full_vector)
     {
         factory = new_full_vector_decoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_on_the_fly)
+#endif
+#if !defined(KODOC_DISABLE_ON_THE_FLY)
+    if (code_type == kodo_on_the_fly)
     {
         factory = new_on_the_fly_decoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_sliding_window)
+#endif
+#if !defined(KODOC_DISABLE_SLIDING_WINDOW)
+    if (code_type == kodo_sliding_window)
     {
         factory = new_sliding_window_decoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_seed)
+#endif
+#if !defined(KODOC_DISABLE_SPARSE_FULL_VECTOR)
+    if (code_type == kodo_sparse_full_vector)
+    {
+        // The sparse_full_vector codec uses the standard full_vector decoder
+        factory = new_full_vector_decoder_factory(
+            finite_field, max_symbols, max_symbol_size);
+    }
+#endif
+#if !defined(KODOC_DISABLE_SEED)
+    if (code_type == kodo_seed)
     {
         factory = new_seed_decoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_sparse_seed)
+#endif
+#if !defined(KODOC_DISABLE_SPARSE_SEED)
+    if (code_type == kodo_sparse_seed)
     {
         factory = new_sparse_seed_decoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_perpetual)
+#endif
+#if !defined(KODOC_DISABLE_PERPETUAL)
+    if (code_type == kodo_perpetual)
     {
         factory = new_perpetual_decoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
-    else if (code_type == kodo_fulcrum)
+#endif
+
+#endif // !defined(KODOC_DISABLE_RLNC)
+
+#if !defined(KODOC_DISABLE_FULCRUM)
+    if (code_type == kodo_fulcrum)
     {
         factory = new_fulcrum_decoder_factory(
             finite_field, max_symbols, max_symbol_size);
     }
+#endif
 
-    // unkown code type
-    assert(factory && "Unknown code_type");
+#if !defined(KODOC_DISABLE_REED_SOLOMON)
+    if (code_type == kodo_reed_solomon)
+    {
+        factory = new_reed_solomon_decoder_factory(
+            finite_field, max_symbols, max_symbol_size);
+    }
+#endif
+
+    assert(factory && "Requested code_type is unknown or unavailable");
     return factory;
 }

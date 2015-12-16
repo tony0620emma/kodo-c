@@ -3,6 +3,10 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+/// @example use_trace_layers.c
+///
+/// Simple example to show the trace functionality in Kodo.
+
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -11,16 +15,25 @@
 
 #include <kodoc/kodoc.h>
 
-/// @example use_trace_layers.c
-///
-/// Simple example showing how to use some of the trace layers defined
-/// in Kodo.
+// Helper function to determine if a string ends with a certain suffix
+int ends_with(const char* str, const char* suffix)
+{
+    if (!str || !suffix) return 0;
+    size_t len_str = strlen(str);
+    size_t len_suffix = strlen(suffix);
+    if (len_suffix >  len_str) return 0;
+    return strncmp(str + len_str - len_suffix, suffix, len_suffix) == 0;
+}
 
+// This callback function will be called when the decoder produces trace output
 void trace_callback(const char* zone, const char* data, void* context)
 {
     (void) context;
-    if (strcmp(zone, "decoder_state") == 0 ||
-        strcmp(zone, "input_symbol_coefficients") == 0)
+    // The zone string starts with our custom prefix, so it is easier to
+    // check if the zone ends with a given suffix
+    if (ends_with(zone, "decoder_state") ||
+        ends_with(zone, "symbol_coefficients_before_read_symbol") ||
+        ends_with(zone, "symbol_index_before_read_uncoded_symbol"))
     {
         printf("%s:\n", zone);
         printf("%s\n", data);
@@ -34,8 +47,8 @@ int main()
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 6;
-    uint32_t max_symbol_size = 32;
+    uint32_t max_symbols = 3;
+    uint32_t max_symbol_size = 16;
 
     int32_t code_type = kodo_full_vector;
     int32_t finite_field = kodo_binary8;
@@ -78,11 +91,18 @@ int main()
         data_in[i] = rand() % 256;
     }
 
-    // Install the stdout trace function for encoder
+    // Install the stdout trace function for the encoder (everything will
+    // be printed to stdout without filtering)
     kodo_set_trace_stdout(encoder);
+    // Set a custom zone prefix for the encoder (this helps to differentiate
+    // the trace output of the encoder and the decoder)
+    kodo_set_zone_prefix(encoder, "Encoder");
 
-    // Install a custom trace function for the decoder if tracing is enabled
+    // Install a custom trace function for the decoder (we can process and
+    // filter the data in our trace callback)
     kodo_set_trace_callback(decoder, trace_callback, NULL);
+    // Set a custom zone prefix for the decoder
+    kodo_set_zone_prefix(decoder, "Decoder");
 
     kodo_set_const_symbols(encoder, data_in, block_size);
 
@@ -100,7 +120,6 @@ int main()
 
         kodo_read_payload(decoder, payload);
     }
-
 
     if (memcmp(data_in, data_out, block_size) == 0)
     {

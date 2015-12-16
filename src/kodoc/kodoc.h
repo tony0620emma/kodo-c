@@ -70,9 +70,22 @@ typedef enum
     kodo_seed,
     kodo_sparse_seed,
     kodo_perpetual,
-    kodo_fulcrum
+    kodo_fulcrum,
+    kodo_reed_solomon
 }
 kodo_code_type;
+
+//------------------------------------------------------------------
+// CONFIGURATION API
+//------------------------------------------------------------------
+
+/// Checks whether a given codec is available in the current configuration.
+/// It is possible to enable or disable specific codecs when configuring kodo-c.
+/// To see the relevant options, execute "python waf --help"
+/// @param code_type The codec type that should be checked
+/// @return Non-zero value if the codec is available, otherwise 0
+KODOC_API
+uint8_t kodo_has_codec(int32_t code_type);
 
 //------------------------------------------------------------------
 // FACTORY API
@@ -285,7 +298,7 @@ uint8_t kodo_is_complete(kodo_coder_t decoder);
 /// @param decoder The decoder to query
 /// @return Non-zero value if the decoding is partially complete, otherwise 0
 KODOC_API
-uint8_t kodo_is_partial_complete(kodo_coder_t decoder);
+uint8_t kodo_is_partially_complete(kodo_coder_t decoder);
 
 /// The rank of a decoder indicates how many symbols have been decoded
 /// or partially decoded. The rank of an encoder indicates how many symbols
@@ -322,36 +335,54 @@ void kodo_read_feedback(kodo_coder_t encoder, uint8_t* feedback);
 KODOC_API
 uint32_t kodo_write_feedback(kodo_coder_t decoder, uint8_t* feedback);
 
-/// Indicates whether a symbol is defined in the coding matrix
-/// of an encoder/decoder. A symbol with a pivot element might not be fully
-/// decoded in the coding matrix of a decoder, therefore use the
-/// kodo_is_symbol_uncoded() function to check if a symbol is fully decoded.
-/// @param coder The encoder/decoder to query
+/// Indicates if a symbol is partially or fully decoded. A symbol with
+/// a pivot element is defined in the coding matrix of a decoder.
+/// @param coder The decoder to query
 /// @param index Index of the symbol whose state should be checked
 /// @return Non-zero value if the symbol is defined, otherwise 0
 KODOC_API
-uint8_t kodo_is_symbol_pivot(kodo_coder_t coder, uint32_t index);
+uint8_t kodo_is_symbol_pivot(kodo_coder_t decoder, uint32_t index);
+
+/// Indicates whether a symbol is missing at a decoder.
+/// @param coder The decoder to query
+/// @param index Index of the symbol whose state should be checked
+/// @return Non-zero value if the symbol is missing, otherwise 0
+KODOC_API
+uint8_t kodo_is_symbol_missing(kodo_coder_t decoder, uint32_t index);
+
+/// Indicates whether a symbol has been partially decoded at a decoder.
+/// @param coder The decoder to query
+/// @param index Index of the symbol whose state should be checked
+/// @return Non-zero value if the symbol has been partially decoded,
+///         otherwise 0
+KODOC_API
+uint8_t kodo_is_symbol_partially_decoded(kodo_coder_t decoder, uint32_t index);
 
 /// Indicates whether a symbol is available in an uncoded (i.e. fully decoded)
-/// form in an encoder or decoder.
+/// form at the decoder.
 /// @param coder The decoder to query
 /// @param index Index of the symbol whose state should be checked
 /// @return Non-zero value if the symbol is uncoded, otherwise 0
 KODOC_API
 uint8_t kodo_is_symbol_uncoded(kodo_coder_t decoder, uint32_t index);
 
-/// Returns the number of uncoded symbols.
+/// Returns the number of missing symbols.
 /// @param coder The decoder to query
-/// @return The number of uncoded symbols in the decoder
+/// @return The number of missing symbols at the decoder
+KODOC_API
+uint32_t kodo_symbols_missing(kodo_coder_t decoder);
+
+/// Returns the number of partially decoded symbols.
+/// @param coder The decoder to query
+/// @return The number of partially decoded symbols at the decoder
+KODOC_API
+uint32_t kodo_symbols_partially_decoded(kodo_coder_t decoder);
+
+/// Returns the number of uncoded (i.e. fully decoded) symbols.
+/// @param coder The decoder to query
+/// @return The number of uncoded symbols at the decoder
 KODOC_API
 uint32_t kodo_symbols_uncoded(kodo_coder_t decoder);
-
-/// Returns the number of seen symbols.
-/// @param coder The decoder to query
-/// @return The number of symbols seen by the decoder. The seen symbols might
-///         not be fully decoded.
-KODOC_API
-uint32_t kodo_symbols_seen(kodo_coder_t decoder);
 
 /// Reads and decodes an encoded symbol according to the coding
 /// coefficients stored in the corresponding symbol_id.
@@ -399,19 +430,19 @@ uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
 /// Check whether the decoder supports partial decoding. This means
 /// means that the decoder will be able to decode symbols on-the-fly.
 /// If the decoder supports the partial decoding tracker, then the
-/// kodo_is_partial_complete() function can be used to determine if some of
+/// kodo_is_partially_complete() function can be used to determine if some of
 /// the symbols are fully decoded and therefore can be copied out of the
 /// decoder.
 /// @param coder The decoder to query
 /// @return Non-zero if the decoder supports partial decoding, otherwise 0
 KODOC_API
-uint8_t kodo_has_partial_decoding_tracker(kodo_coder_t decoder);
+uint8_t kodo_has_partial_decoding_interface(kodo_coder_t decoder);
 
 /// Returns whether an encoder has systematic capabilities
 /// @param encoder The encoder
 /// @return Non-zero if the encoder supports the systematic mode, otherwise 0
 KODOC_API
-uint8_t kodo_has_set_systematic_off(kodo_coder_t encoder);
+uint8_t kodo_has_systematic_interface(kodo_coder_t encoder);
 
 /// Returns whether the encoder is in the systematic mode, i.e. if it will
 /// initially send the original source symbols with a simple header.
@@ -434,23 +465,11 @@ void kodo_set_systematic_off(kodo_coder_t encoder);
 // TRACE API
 //------------------------------------------------------------------
 
-/// Returns whether an encoder or decoder has set trace callback capabilities
+/// Returns whether an encoder or decoder supports the trace interface
 /// @param coder The encoder/decoder to query
 /// @return Non-zero value if tracing is supported, otherwise 0
 KODOC_API
-uint8_t kodo_has_set_trace_callback(kodo_coder_t coder);
-
-/// Returns whether an encoder or decoder has stdout trace capabilities
-/// @param coder The encoder/decoder to query
-/// @return Non-zero value if tracing is supported, otherwise 0
-KODOC_API
-uint8_t kodo_has_set_trace_stdout(kodo_coder_t coder);
-
-/// Returns whether an encoder or decoder has set trace off capabilities
-/// @param coder The encoder/decoder to query
-/// @return Non-zero value if tracing is supported, otherwise 0
-KODOC_API
-uint8_t kodo_has_set_trace_off(kodo_coder_t coder);
+uint8_t kodo_has_trace_interface(kodo_coder_t coder);
 
 /// Enables the trace function of the encoder/decoder, which prints
 /// to the standard output.
@@ -476,6 +495,14 @@ void kodo_set_trace_callback(
 /// @param coder The encoder/decoder to use
 KODOC_API
 void kodo_set_trace_off(kodo_coder_t coder);
+
+/// Sets the zone prefix that should be used for the trace output of
+/// a particular encoder/decoder instance. The zone prefix can help to
+/// differentiate the output that is coming from various coder instances.
+/// @param coder The encoder/decoder to use
+/// @param prefix The zone prefix for the trace output
+KODOC_API
+void kodo_set_zone_prefix(kodo_coder_t coder, const char* prefix);
 
 //------------------------------------------------------------------
 // SPARSE ENCODER API

@@ -90,7 +90,7 @@ int main()
         // simulate that we are loosing 50% of the packets
         if (rand() % 2)
         {
-            printf("packet dropped\n");
+            printf("Packet dropped\n");
             continue;
         }
 
@@ -106,16 +106,13 @@ int main()
         // For on-the-fly decoding the decoder has to support the partial
         // decoding tracker.
 
-        if (kodo_has_partial_decoding_tracker(decoder) &&
-            kodo_is_partial_complete(decoder))
+        if (kodo_has_partial_decoding_interface(decoder) &&
+            kodo_is_partially_complete(decoder))
         {
             uint32_t i = 0;
             for (; i < kodo_symbols(decoder); ++i)
             {
-                if (!kodo_is_symbol_uncoded(decoder, i))
-                    continue;
-
-                if (!decoded[i])
+                if (!decoded[i] && kodo_is_symbol_uncoded(decoder, i))
                 {
                     uint32_t size = kodo_symbol_size(encoder);
                     uint8_t* original = data_in + i * size;
@@ -145,7 +142,7 @@ int main()
     }
     else
     {
-        printf("Unexpected failure to decode please file a bug report :)\n");
+        printf("Unexpected failure to decode, please file a bug report :)\n");
     }
 
     free(data_in);
