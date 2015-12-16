@@ -20,7 +20,7 @@ usage of the C API.
 * `Kodo-C Source Code`_
 * `Build and Test Status`_
 
-.. _Kodo Source Code: https://github.com/steinwurf/kodo-c
+.. _Kodo-C Source Code: https://github.com/steinwurf/kodo-c
 .. _Build and Test Status: http://buildbot.steinwurf.com
 
 
@@ -36,6 +36,6 @@ Documentation
    overview
    getting_started
    including_kodo
-
+   cross_compile
 
 

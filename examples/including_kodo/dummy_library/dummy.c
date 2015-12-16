@@ -33,8 +33,8 @@ uint8_t run_kodo()
                                  max_symbols, max_symbol_size);
 
     // Create the coders
-    kodo_coder_t encoder = kodo_factory_new_coder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_new_coder(decoder_factory);
+    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
+    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
 
     // Generate the data
     uint32_t payload_size = kodo_payload_size(encoder);
@@ -56,8 +56,8 @@ uint8_t run_kodo()
     // Run the decoding
     while (!kodo_is_complete(decoder))
     {
-        kodo_encode(encoder, payload);
-        kodo_decode(decoder, payload);
+        kodo_write_payload(encoder, payload);
+        kodo_read_payload(decoder, payload);
     }
 
     // Check if the decoding was successful

@@ -2,6 +2,7 @@ License
 -------
 
 A valid Kodo license is required if you wish to use this project.
+
 Please request a license by **filling out the license request** form_.
 
 Kodo is available under a research- and education-friendly license,
