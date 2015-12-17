@@ -7,7 +7,7 @@ if not bld.is_mkspec_platform('windows'):
     search_path = ['.']
 
 bld.program(features='c',
-            source='raw_symbols.c',
-            target='../../raw_symbols',
+            source='reed_solomon.c',
+            target='../../reed_solomon',
             rpath=search_path,
             use=['kodoc'])

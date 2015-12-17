@@ -7,7 +7,7 @@ if not bld.is_mkspec_platform('windows'):
     search_path = ['.']
 
 bld.program(features='c',
-            source='shallow_encode_decode.c',
-            target='../../shallow_encode_decode',
+            source='uncoded_symbols.c',
+            target='../../uncoded_symbols',
             rpath=search_path,
             use=['kodoc'])

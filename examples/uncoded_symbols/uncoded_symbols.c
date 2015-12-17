@@ -11,21 +11,11 @@
 
 #include <kodoc/kodoc.h>
 
-/// @example shallow_encode_decode.c
+/// @example uncoded_symbols.c
 ///
-/// Example showing how to encode and decode symbols that are stored in
-/// non-contiguous memory buffers.
-
-void trace_callback(const char* zone, const char* data, void* context)
-{
-    (void) context;
-
-    if (strcmp(zone, "decoder_state") == 0)
-    {
-        printf("%s:\n", zone);
-        printf("%s\n", data);
-    }
-}
+/// Example showing how to process original symbols that were transmitted
+/// without kodo headers. These symbols are inserted manually to the decoder
+/// before the coded packets are processed.
 
 int main()
 {
@@ -37,18 +27,15 @@ int main()
     uint32_t symbols = 10;
     uint32_t symbol_size = 100;
 
-    // Here we select the coding code_type we wish to use
-    int32_t code_type = kodo_full_vector;
-
-    // Here we select the finite field to use common choices are
-    // kodo_binary, kodo_binary8, kodo_binary16
+    // Here we select the finite field to use.
+    // Some common choices are: kodo_binary, kodo_binary4, kodo_binary8
     int32_t finite_field = kodo_binary;
 
-    kodo_factory_t encoder_factory =
-        kodo_new_encoder_factory(code_type, finite_field, symbols, symbol_size);
+    kodo_factory_t encoder_factory = kodo_new_encoder_factory(
+        kodo_sparse_full_vector, finite_field, symbols, symbol_size);
 
-    kodo_factory_t decoder_factory =
-        kodo_new_decoder_factory(code_type, finite_field, symbols, symbol_size);
+    kodo_factory_t decoder_factory = kodo_new_decoder_factory(
+        kodo_full_vector, finite_field, symbols, symbol_size);
 
     // If we wanted to build an encoder of decoder with a smaller number of
     // symbols or a different symbol size, then this can be adjusted using the
@@ -60,6 +47,20 @@ int main()
     kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
 
+    // In this example, we do not use systematic coding. The original symbols
+    // will be transferred to the decoder without using kodo.
+    //
+    // We explicitly turn off the systematic mode on the encoder:
+    if (kodo_has_systematic_interface(encoder))
+    {
+        kodo_set_systematic_off(encoder);
+    }
+    printf("Systematic encoding disabled\n");
+
+    // Set the coding vector density on the encoder
+    kodo_set_density(encoder, 0.2);
+    printf("Coding vector density: %3.2f\n", kodo_density(encoder));
+
     uint32_t bytes_used;
     uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
@@ -69,6 +70,7 @@ int main()
     uint8_t** output_symbols = (uint8_t**) malloc(symbols * sizeof(uint8_t*));
 
     uint32_t i, j;
+    // Create the original symbols and store them in the encoder
     for (i = 0; i < symbols; ++i)
     {
         // Create the individual symbols for the encoder
@@ -80,49 +82,36 @@ int main()
 
         // Store the symbol pointer in the encoder
         kodo_set_const_symbol(encoder, i, input_symbols[i], symbol_size);
+    }
 
+    // Transfer the original symbols to the decoder with some losses
+    uint32_t lost_symbols = 0;
+    for (i = 0; i < symbols; ++i)
+    {
         // Create the output symbol buffers for the decoder
         output_symbols[i] = (uint8_t*) malloc(symbol_size);
 
         // Specify the output buffers used for decoding
         kodo_set_mutable_symbol(decoder, i, output_symbols[i], symbol_size);
+
+        // Simulate a channel with a 50% loss rate
+        if (rand() % 2)
+        {
+            lost_symbols++;
+            printf("Symbol %d lost on channel\n\n", i);
+            continue;
+        }
+
+        // If the symbol was not lost, then insert that symbol into the decoder
+        // using the raw symbol data (no additional headers are needed)
+        // This will copy the data from input_symbols[i] to output_symbols[i]
+        kodo_read_uncoded_symbol(decoder, input_symbols[i], i);
     }
 
-    // Most of the network coding algorithms supports a mode of operation
-    // which is known as systematic coding. This basically means that
-    // initially all symbols are sent once un-coded. The rationale behind this
-    // is that if no errors occur during the transmission we will not have
-    // performed any unnecessary coding operations. An encoder will exit the
-    // systematic phase automatically once all symbols have been sent un-coded
-    // once.
-    //
-    // With Kodo we can ask an encoder whether it supports systematic encoding
-    // or not using the following functions:
+    printf("Number of lost symbols: %d\n", lost_symbols);
 
-    if (kodo_is_systematic_on(encoder))
-    {
-        printf("Systematic encoding enabled\n");
-    }
-    else
-    {
-        printf("Systematic encoding disabled\n");
-    }
-
-    // If we do not wish to use systematic encoding, but to do full coding
-    // from the beginning we can turn systematic coding off using the following
-    // API:
-    //
-    // if (kodo_has_set_systematic_off(encoder))
-    // {
-    //    kodo_set_systematic_off(encoder);
-    // }
-
-    // Install a custom trace function for the decoder (if tracing is enabled)
-    if (kodo_has_trace_interface(decoder))
-    {
-        kodo_set_trace_callback(decoder, trace_callback, NULL);
-    }
-
+    // Now we generate coded packets with the encoder in order to recover the
+    // lost packets on the decoder side
     while (!kodo_is_complete(decoder))
     {
         // The encoder will use a certain amount of bytes of the payload
@@ -132,15 +121,7 @@ int main()
         printf("Payload generated by encoder, rank = %d, bytes used = %d\n",
                kodo_rank(encoder), bytes_used);
 
-        // Simulate a channel with a 50% loss rate to demonstrate the
-        // recovery of lost symbols
-        if (rand() % 2)
-        {
-            printf("Packet dropped on channel\n\n");
-            continue;
-        }
-
-        // Pass the generated packet to the decoder
+        // Pass the coded packet to the decoder
         kodo_read_payload(decoder, payload);
         printf("Payload processed by decoder, current rank = %d\n\n",
                kodo_rank(decoder));
@@ -164,7 +145,6 @@ int main()
     {
         printf("Data decoded correctly\n");
     }
-
 
     free(input_symbols);
     free(output_symbols);
