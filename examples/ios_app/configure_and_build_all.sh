@@ -3,8 +3,6 @@
 # Target architectures
 ARCHS="i386 x86_64 armv7 armv7s arm64"
 
-DIRECTORY=$PWD
-
 cd ../../
 
 for ARCH in $ARCHS; do
@@ -13,5 +11,3 @@ for ARCH in $ARCHS; do
     rm -rf /tmp/$ARCH/
     python waf install --install_path=/tmp/$ARCH/ --install_static_libs
 done
-
-cd $DIRECTORY
