@@ -28,11 +28,11 @@ int main()
     // terminology) and the size of a symbol in bytes
     uint32_t max_symbols = 10;
     uint32_t max_symbol_size = 100;
-    // Here we select the coding code_type we wish to use
+    // Here we select the code_type we wish to use
     int32_t code_type = kodo_on_the_fly;
 
-    // Here we select the finite field to use common choices are
-    // kodo_binary, kodo_binary8, kodo_binary16
+    // Here we select the finite field to use.
+    // Some common choices are: kodo_binary, kodo_binary4, kodo_binary8
     int32_t finite_field = kodo_binary8;
 
     kodo_factory_t encoder_factory = kodo_new_encoder_factory(code_type,

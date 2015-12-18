@@ -1,4 +1,4 @@
-// Copyright Steinwurf ApS 2014.
+// Copyright Steinwurf ApS 2015.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
@@ -11,16 +11,17 @@
 
 #include <kodoc/kodoc.h>
 
-/// @example encode_decode_simple.c
+/// @example reed_solomon.c
 ///
 /// Simple example showing how to encode and decode a block
-/// of memory.
+/// of memory using a Reed-Solomon codec.
 
 void trace_callback(const char* zone, const char* data, void* context)
 {
     (void) context;
 
-    if (strcmp(zone, "decoder_state") == 0)
+    if (strcmp(zone, "decoder_state") == 0 ||
+        strcmp(zone, "symbol_coefficients_before_read_symbol") == 0)
     {
         printf("%s:\n", zone);
         printf("%s\n", data);
@@ -32,20 +33,17 @@ int main()
     // Seed the random number generator to produce different data every time
     srand(time(NULL));
 
-    // Set the number of symbols (i.e. the generation size in RLNC
-    // terminology) and the size of a symbol in bytes
+    // Set the number of symbols and the symbol size
     uint32_t max_symbols = 10;
     uint32_t max_symbol_size = 100;
 
     // Here we select the code_type we wish to use
-    int32_t code_type = kodo_full_vector;
+    int32_t code_type = kodo_reed_solomon;
 
     // Here we select the finite field to use.
-    // Some common choices are: kodo_binary, kodo_binary4, kodo_binary8
-    int32_t finite_field = kodo_binary;
+    // For the Reed-Solomon codec, we need to choose kodo_binary8
+    int32_t finite_field = kodo_binary8;
 
-    // First, we create an encoder & decoder factory.
-    // The factories are used to build actual encoders/decoders
     kodo_factory_t encoder_factory =
         kodo_new_encoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size);
@@ -54,78 +52,59 @@ int main()
         kodo_new_decoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size);
 
-    // If we wanted to build an encoder or decoder with a smaller number of
-    // symbols or a different symbol size, then this can be adjusted using the
-    // following functions:
-    // kodo_factory_set_symbols(...) and kodo_factory_set_symbol_size(...)
-    // We can however not exceed the maximum values that were used when
-    // creating the factory.
-
     kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
 
+    // Allocate some storage for a "payload". The payload is what we would
+    // eventually send over a network.
     uint32_t bytes_used;
     uint32_t payload_size = kodo_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
+    // Allocate input and output data buffers
     uint32_t block_size = kodo_block_size(encoder);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
     uint8_t* data_out = (uint8_t*) malloc(block_size);
 
+    // Fill the input buffer with random data
     uint32_t i = 0;
     for(; i < block_size; ++i)
         data_in[i] = rand() % 256;
 
+    // Assign the data buffers to the encoder and decoder
     kodo_set_const_symbols(encoder, data_in, block_size);
     kodo_set_mutable_symbols(decoder, data_out, block_size);
-
-    // Most of the network coding algorithms supports a mode of operation
-    // which is known as systematic coding. This basically means that
-    // initially all symbols are sent once un-coded. The rational behind this
-    // is that if no errors occur during the transmission we will not have
-    // performed any unnecessary coding operations. An encoder will exit the
-    // systematic phase automatically once all symbols have been sent un-coded
-    // once.
-    //
-    // With Kodo we can ask an encoder whether it supports systematic encoding
-    // or not using the following functions:
-
-    if (kodo_is_systematic_on(encoder))
-    {
-        printf("Systematic encoding enabled\n");
-    }
-    else
-    {
-        printf("Systematic encoding disabled\n");
-    }
-
-    // If we do not wish to use systematic encoding, but to do full coding
-    // from the beginning we can turn systematic coding off using the following
-    // API:
-    //
-    // if (kodo_has_set_systematic_off(encoder))
-    // {
-    //    kodo_set_systematic_off(encoder);
-    // }
 
     // Install a custom trace function for the decoder
     kodo_set_trace_callback(decoder, trace_callback, NULL);
 
+    uint32_t lost_payloads = 0;
+    uint32_t received_payloads = 0;
     while (!kodo_is_complete(decoder))
     {
-        // The encoder will use a certain amount of bytes of the payload
-        // buffer. It will never use more than payload_size, but it might
-        // use less.
+        // The encoder will use a certain amount of bytes of the payload buffer
         bytes_used = kodo_write_payload(encoder, payload);
-        printf("Payload generated by encoder, rank = %d, bytes used = %d\n",
-               kodo_rank(encoder), bytes_used);
+        printf("Payload generated by encoder, bytes used = %d\n", bytes_used);
+
+        // Simulate a channel with a 50% loss rate
+        if (rand() % 2)
+        {
+            lost_payloads++;
+            printf("Symbol lost on channel\n\n");
+            continue;
+        }
 
         // Pass the generated packet to the decoder
+        received_payloads++;
         kodo_read_payload(decoder, payload);
-        printf("Payload processed by decoder, current rank = %d\n",
+        printf("Payload processed by decoder, current rank = %d\n\n",
                kodo_rank(decoder));
     }
 
+    printf("Number of lost payloads: %d\n", lost_payloads);
+    printf("Number of received payloads: %d\n", received_payloads);
+
+    // Check that we properly decoded the data
     if (memcmp(data_in, data_out, block_size) == 0)
     {
         printf("Data decoded correctly\n");
@@ -135,6 +114,7 @@ int main()
         printf("Unexpected failure to decode, please file a bug report :)\n");
     }
 
+    // Free the allocated buffers and the kodo objects
     free(data_in);
     free(data_out);
     free(payload);

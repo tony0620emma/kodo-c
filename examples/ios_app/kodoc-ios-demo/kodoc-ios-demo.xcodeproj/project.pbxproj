@@ -1,0 +1,492 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B308E431A71465A0011A0CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B308E421A71465A0011A0CF /* main.m */; };
+		0B308E461A71465A0011A0CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B308E451A71465A0011A0CF /* AppDelegate.m */; };
+		0B308E491A71465A0011A0CF /* kodoc_ios_demo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B308E471A71465A0011A0CF /* kodoc_ios_demo.xcdatamodeld */; };
+		0B308E4C1A71465A0011A0CF /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0B308E4B1A71465A0011A0CF /* ViewController.mm */; };
+		0B308E4F1A71465A0011A0CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B308E4D1A71465A0011A0CF /* Main.storyboard */; };
+		0B308E511A71465A0011A0CF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B308E501A71465A0011A0CF /* Images.xcassets */; };
+		0B308E541A71465A0011A0CF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B308E521A71465A0011A0CF /* LaunchScreen.xib */; };
+		0B308E601A71465A0011A0CF /* kodoc_ios_demoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B308E5F1A71465A0011A0CF /* kodoc_ios_demoTests.m */; };
+		0BDC4B721A77C5B000CEEA8B /* libkodoc_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BDC4B711A77C5B000CEEA8B /* libkodoc_static.a */; };
+		0BDC4B741A77C5C400CEEA8B /* libcpuid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BDC4B731A77C5C400CEEA8B /* libcpuid.a */; };
+		0BDC4B761A77C5CF00CEEA8B /* libfifi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BDC4B751A77C5CF00CEEA8B /* libfifi.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0B308E5A1A71465A0011A0CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B308E351A7146590011A0CF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B308E3C1A7146590011A0CF;
+			remoteInfo = "kodoc-ios-demo";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0B308E3D1A7146590011A0CF /* kodoc-ios-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "kodoc-ios-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B308E411A71465A0011A0CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B308E421A71465A0011A0CF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0B308E441A71465A0011A0CF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0B308E451A71465A0011A0CF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0B308E481A71465A0011A0CF /* kodoc_ios_demo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = kodoc_ios_demo.xcdatamodel; sourceTree = "<group>"; };
+		0B308E4A1A71465A0011A0CF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0B308E4B1A71465A0011A0CF /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		0B308E4E1A71465A0011A0CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0B308E501A71465A0011A0CF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0B308E531A71465A0011A0CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		0B308E591A71465A0011A0CF /* kodoc-ios-demoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "kodoc-ios-demoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B308E5E1A71465A0011A0CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B308E5F1A71465A0011A0CF /* kodoc_ios_demoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kodoc_ios_demoTests.m; sourceTree = "<group>"; };
+		0BDC4B711A77C5B000CEEA8B /* libkodoc_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libkodoc_static.a; path = ../libkodoc_static.a; sourceTree = "<group>"; };
+		0BDC4B731A77C5C400CEEA8B /* libcpuid.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcpuid.a; path = ../libcpuid.a; sourceTree = "<group>"; };
+		0BDC4B751A77C5CF00CEEA8B /* libfifi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfifi.a; path = ../libfifi.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0B308E3A1A7146590011A0CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BDC4B761A77C5CF00CEEA8B /* libfifi.a in Frameworks */,
+				0BDC4B741A77C5C400CEEA8B /* libcpuid.a in Frameworks */,
+				0BDC4B721A77C5B000CEEA8B /* libkodoc_static.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0B308E561A71465A0011A0CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0B308E341A7146590011A0CF = {
+			isa = PBXGroup;
+			children = (
+				0BDC4B751A77C5CF00CEEA8B /* libfifi.a */,
+				0BDC4B731A77C5C400CEEA8B /* libcpuid.a */,
+				0BDC4B711A77C5B000CEEA8B /* libkodoc_static.a */,
+				0B308E3F1A7146590011A0CF /* kodoc-ios-demo */,
+				0B308E5C1A71465A0011A0CF /* kodoc-ios-demoTests */,
+				0B308E3E1A7146590011A0CF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0B308E3E1A7146590011A0CF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0B308E3D1A7146590011A0CF /* kodoc-ios-demo.app */,
+				0B308E591A71465A0011A0CF /* kodoc-ios-demoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0B308E3F1A7146590011A0CF /* kodoc-ios-demo */ = {
+			isa = PBXGroup;
+			children = (
+				0B308E441A71465A0011A0CF /* AppDelegate.h */,
+				0B308E451A71465A0011A0CF /* AppDelegate.m */,
+				0B308E4A1A71465A0011A0CF /* ViewController.h */,
+				0B308E4B1A71465A0011A0CF /* ViewController.mm */,
+				0B308E4D1A71465A0011A0CF /* Main.storyboard */,
+				0B308E501A71465A0011A0CF /* Images.xcassets */,
+				0B308E521A71465A0011A0CF /* LaunchScreen.xib */,
+				0B308E471A71465A0011A0CF /* kodoc_ios_demo.xcdatamodeld */,
+				0B308E401A71465A0011A0CF /* Supporting Files */,
+			);
+			path = "kodoc-ios-demo";
+			sourceTree = "<group>";
+		};
+		0B308E401A71465A0011A0CF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0B308E411A71465A0011A0CF /* Info.plist */,
+				0B308E421A71465A0011A0CF /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0B308E5C1A71465A0011A0CF /* kodoc-ios-demoTests */ = {
+			isa = PBXGroup;
+			children = (
+				0B308E5F1A71465A0011A0CF /* kodoc_ios_demoTests.m */,
+				0B308E5D1A71465A0011A0CF /* Supporting Files */,
+			);
+			path = "kodoc-ios-demoTests";
+			sourceTree = "<group>";
+		};
+		0B308E5D1A71465A0011A0CF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0B308E5E1A71465A0011A0CF /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0B308E3C1A7146590011A0CF /* kodoc-ios-demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B308E631A71465A0011A0CF /* Build configuration list for PBXNativeTarget "kodoc-ios-demo" */;
+			buildPhases = (
+				0B308E391A7146590011A0CF /* Sources */,
+				0B308E3A1A7146590011A0CF /* Frameworks */,
+				0B308E3B1A7146590011A0CF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "kodoc-ios-demo";
+			productName = "kodoc-ios-demo";
+			productReference = 0B308E3D1A7146590011A0CF /* kodoc-ios-demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0B308E581A71465A0011A0CF /* kodoc-ios-demoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B308E661A71465A0011A0CF /* Build configuration list for PBXNativeTarget "kodoc-ios-demoTests" */;
+			buildPhases = (
+				0B308E551A71465A0011A0CF /* Sources */,
+				0B308E561A71465A0011A0CF /* Frameworks */,
+				0B308E571A71465A0011A0CF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0B308E5B1A71465A0011A0CF /* PBXTargetDependency */,
+			);
+			name = "kodoc-ios-demoTests";
+			productName = "kodoc-ios-demoTests";
+			productReference = 0B308E591A71465A0011A0CF /* kodoc-ios-demoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0B308E351A7146590011A0CF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = Steinwurf;
+				TargetAttributes = {
+					0B308E3C1A7146590011A0CF = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					0B308E581A71465A0011A0CF = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = 0B308E3C1A7146590011A0CF;
+					};
+				};
+			};
+			buildConfigurationList = 0B308E381A7146590011A0CF /* Build configuration list for PBXProject "kodoc-ios-demo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0B308E341A7146590011A0CF;
+			productRefGroup = 0B308E3E1A7146590011A0CF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0B308E3C1A7146590011A0CF /* kodoc-ios-demo */,
+				0B308E581A71465A0011A0CF /* kodoc-ios-demoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0B308E3B1A7146590011A0CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B308E4F1A71465A0011A0CF /* Main.storyboard in Resources */,
+				0B308E541A71465A0011A0CF /* LaunchScreen.xib in Resources */,
+				0B308E511A71465A0011A0CF /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0B308E571A71465A0011A0CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0B308E391A7146590011A0CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B308E461A71465A0011A0CF /* AppDelegate.m in Sources */,
+				0B308E431A71465A0011A0CF /* main.m in Sources */,
+				0B308E4C1A71465A0011A0CF /* ViewController.mm in Sources */,
+				0B308E491A71465A0011A0CF /* kodoc_ios_demo.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0B308E551A71465A0011A0CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B308E601A71465A0011A0CF /* kodoc_ios_demoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0B308E5B1A71465A0011A0CF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0B308E3C1A7146590011A0CF /* kodoc-ios-demo */;
+			targetProxy = 0B308E5A1A71465A0011A0CF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0B308E4D1A71465A0011A0CF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0B308E4E1A71465A0011A0CF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0B308E521A71465A0011A0CF /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0B308E531A71465A0011A0CF /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0B308E611A71465A0011A0CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0B308E621A71465A0011A0CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0B308E641A71465A0011A0CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					armv7s,
+					armv7,
+					arm64,
+					i386,
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../../../src,
+				);
+				INFOPLIST_FILE = "kodoc-ios-demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					..,
+				);
+				OTHER_CFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0B308E651A71465A0011A0CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					armv7s,
+					armv7,
+					arm64,
+					i386,
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../../../src,
+				);
+				INFOPLIST_FILE = "kodoc-ios-demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					..,
+				);
+				OTHER_CFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		0B308E671A71465A0011A0CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "kodoc-ios-demoTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/kodoc-ios-demo.app/kodoc-ios-demo";
+			};
+			name = Debug;
+		};
+		0B308E681A71465A0011A0CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "kodoc-ios-demoTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/kodoc-ios-demo.app/kodoc-ios-demo";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0B308E381A7146590011A0CF /* Build configuration list for PBXProject "kodoc-ios-demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B308E611A71465A0011A0CF /* Debug */,
+				0B308E621A71465A0011A0CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0B308E631A71465A0011A0CF /* Build configuration list for PBXNativeTarget "kodoc-ios-demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B308E641A71465A0011A0CF /* Debug */,
+				0B308E651A71465A0011A0CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0B308E661A71465A0011A0CF /* Build configuration list for PBXNativeTarget "kodoc-ios-demoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B308E671A71465A0011A0CF /* Debug */,
+				0B308E681A71465A0011A0CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		0B308E471A71465A0011A0CF /* kodoc_ios_demo.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0B308E481A71465A0011A0CF /* kodoc_ios_demo.xcdatamodel */,
+			);
+			currentVersion = 0B308E481A71465A0011A0CF /* kodoc_ios_demo.xcdatamodel */;
+			path = kodoc_ios_demo.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 0B308E351A7146590011A0CF /* Project object */;
+}

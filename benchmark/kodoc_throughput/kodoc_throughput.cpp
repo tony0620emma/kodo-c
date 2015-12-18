@@ -49,7 +49,7 @@ results run_coding_test(int32_t finite_field, uint32_t symbols,
     // Set the random seed to randomize encoded data
     srand((uint32_t)time(NULL));
 
-    // Here we select the coding code_type we wish to use
+    // Here we select the code_type we wish to use
     int32_t code_type = kodo_full_vector;
 
     bc::high_resolution_clock::time_point start, stop;
