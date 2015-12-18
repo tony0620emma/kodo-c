@@ -36,6 +36,17 @@ run_benchmark
 
         python waf build --run_benchmark=my_benchmark
 
+enable_codecs
+    You can configure kodo-c to only enable some desired codecs and disable
+    all others. For example::
+
+        python waf configure --enable_codecs=full_vector
+
+    Run ``python waf --help`` to list the available codecs. You can even
+    select multiple codecs with a comma-separated list::
+
+        python waf configure --enable_codecs=full_vector,seed,sparse_seed
+
 
 Cross-compilation options
 -------------------------

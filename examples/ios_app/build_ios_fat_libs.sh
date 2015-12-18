@@ -17,7 +17,7 @@ lipo -create $LIPO_ARGS_KODOC -output libkodoc_static.a
 lipo -create $LIPO_ARGS_FIFI -output libfifi.a
 lipo -create $LIPO_ARGS_CPUID -output libcpuid.a
 
-echo "######## Created fat static libs with archs: $ARCHS:"
+echo "######## Created fat static libs with archs $ARCHS:"
 echo $(du -h libkodoc_static.a) $(lipo -info libkodoc_static.a)
 echo $(du -h libfifi.a) $(lipo -info libfifi.a)
 echo $(du -h libcpuid.a) $(lipo -info libcpuid.a)

@@ -247,14 +247,14 @@ Provided that you have the `Tools Needed`_ installed.
 
        python waf --run_tests
 
-   You can find the compiled library and executables in the waf build folder
+   You can find the compiled library and executables in the waf build folder,
    which depends on your operating system:
 
    a. **Linux**: ``./build/linux``
 
    b. **Mac OSX**: ``./build/darwin``
 
-   c. **Windows**: ``build/win32``
+   c. **Windows**: ``./build/win32``
 
    You can directly run the executables here.
 

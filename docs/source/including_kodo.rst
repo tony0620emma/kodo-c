@@ -28,7 +28,7 @@ in your code. The following command demonstrates the necessary flags for the
 gcc/g++ compiler (other compilers require similar settings)::
 
     gcc myapp.c -o myapp -Ipath_to_kodoc_h -Lpath_to_shared_lib \
-    -Wl,-Bdynamic -lkodoc -lstdc++
+    -Wl,-Bdynamic -lkodoc -lstdc++ -Wl,-rpath .
 
 Substitute ``path_to_kodoc_h`` with the path to ``kodoc.h``. Similarly,
 substitute ``path_to_shared_lib`` with the path where you installed the
@@ -38,7 +38,7 @@ If you dynamically link your application with the shared library, then you
 have to copy the shared library to a folder where your system can find it
 when you execute your application. On Windows, you typically place the DLL
 in the same folder as your executable. On Unix systems, you can set the
-rpath of an executable or you can adjust ``LD_LIBRARY_PATH`` to include
+``rpath`` of your executable or you can adjust ``LD_LIBRARY_PATH`` to include
 the path where you installed the shared library.
 
 Static Library
@@ -61,7 +61,7 @@ demonstrates the necessary flags for the gcc/g++ compiler (other compilers
 require similar settings)::
 
     gcc myapp.c -o myapp -Ipath_to_kodoc_h -Wl,-Bstatic -Lpath_to_static_libs \
-    -lkodoc_static -lfifi -lcpuid -Wl,-Bdynamic -lstdc++
+    -lkodoc_static -lfifi -lcpuid -Wl,-Bdynamic -lm -lstdc++
 
 Substitute ``path_to_kodoc_h`` with the path to ``kodoc.h``. Similarly,
 substitute ``path_to_static_libs`` with the path where you installed the
@@ -133,10 +133,29 @@ You can generate JNI headers for any class in your project.
 iOS
 ---
 
-This section describes how to compile kodo-c for iOS and how to include it
-in an iOS application.
+The ``examples/ios_app/kodoc-ios-demo`` folder contains an iOS demo
+project that can be opened in XCode. This project uses the iOS multi-arch
+libraries that can be compiled by running the following helper scripts::
 
-Helper scripts are provided (see below) to automate this process, but you
+    cd examples/ios_app
+    sh configure_and_build_all.sh
+    sh build_ios_fat_libs.sh
+
+This project should work on all architectures (device and simulator)
+after you execute the helper scripts.
+
+If you want to include kodo-c in your own Xcode project, then please set
+the library and include path options as follows:
+
+- Specify the library path and dependencies in "Link Binary with Libraries"
+  under "Build Phases" in the project navigator.
+- Specify the include path in "Header Search Paths" under "Search Paths",
+  in the "Build Settings".
+
+Manual compilation
+..................
+
+The helper scripts provided above can automate the build process, but you
 can also configure and compile kodo-c manually for your desired architecture by
 executing the following commands from the root of the kodo-c repository::
 
@@ -146,27 +165,15 @@ executing the following commands from the root of the kodo-c repository::
 
 The ``{arch}`` placeholder defines the target architecture. Currently
 ``armv7``, ``armv7s``, ``arm64``, ``i386``, and ``x86_64`` are available
-(the latter two are used for the iOS simulator builds).
+(the latter two are needed for the iOS simulator builds).
 
 The ``install_path`` option determines where the static libraries will be
 installed. Here, we install the static libraries to ``/tmp/{arch}``. This
 means 5 target folders for the 5 supported architectures.
 
-To automatically run the above steps for the mentioned architectures,
-execute the following script::
-
-    cd examples/ios_app
-    sh configure_and_build_all.sh
-
-Building multi-arch static libraries
-....................................
-
-It may be desirable to build a multi-architecture static library for iOS.
-In order to do this, the above configure, build and install steps must be
-completed for each supported architecture.
-
-After this, the static libraries can be combined to a "fat" multi-arch static
-library using the ``lipo`` command::
+After completing the above steps for each architecture, the static libraries
+can be combined into a "fat", multi-arch static library using the ``lipo``
+command::
 
   lipo -create /tmp/{arch1}/libkodoc_static.a /tmp/{arch2}/libkodoc_static.a \
   -output libkodoc_static.a
@@ -174,24 +181,16 @@ library using the ``lipo`` command::
 Several input libraries can be included in the multi-arch lib, e.g. all the
 above-mentioned architectures.
 
-To create the fat static libs including all 5 architectures, execute the
-following script (after you have executed ``configure_and_build_all.sh``)::
+You can use the ``file`` command to check if all the desired architectures
+are included in the fat library::
 
-    cd examples/ios_app
-    sh build_ios_fat_libs.sh
+    file libkodoc_static.a
 
-iOS demo project (Xcode)
-........................
+This should output something like this::
 
-The ``examples/ios_app/kodoc-ios-demo`` folder contains an iOS demo
-project that can be opened in XCode. This project will work
-fine after you execute the ``configure_and_build_all.sh`` and
-``build_ios_fat_libs.sh`` scripts mentioned above.
-
-If you want to include kodo-c in your own Xcode project, then please set
-the library and include path options as follows:
-
-- Specify the library path and dependencies in "Link Binary with Libraries"
-  under "Build Phases" in the project navigator.
-- Specify the include path in "Header Search Paths" under "Search Paths",
-  in the "Build Settings".
+    libkodoc_static.a: Mach-O universal binary with 5 architectures
+    libkodoc_static.a (for architecture i386):      current ar archive random library
+    libkodoc_static.a (for architecture x86_64):    current ar archive random library
+    libkodoc_static.a (for architecture armv7):     current ar archive random library
+    libkodoc_static.a (for architecture armv7s):    current ar archive random library
+    libkodoc_static.a (for architecture arm64):     current ar archive random library

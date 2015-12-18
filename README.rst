@@ -41,14 +41,27 @@ Quick Start
 If you already installed a C++11 compiler, git and python on your system,
 then you can clone this repository to a suitable folder::
 
-  git clone git@github.com:steinwurf/kodo-c.git
+    git clone git@github.com:steinwurf/kodo-c.git
 
 Configure and build the project::
 
-  cd kodo-c
-  python waf configure
-  python waf build
+    cd kodo-c
+    python waf configure
+    python waf build
 
 Run the unit tests::
 
   python waf --run_tests
+
+Special Options
+---------------
+
+With the ``enable_codecs`` option, you can configure kodo-c to only enable
+some desired codecs and disable all others. For example::
+
+    python waf configure --enable_codecs=full_vector
+
+Run ``python waf --help`` to list the available codecs. You can even
+select multiple codecs with a comma-separated list::
+
+    python waf configure --enable_codecs=full_vector,seed,sparse_seed
