@@ -11,10 +11,10 @@
 
 #include <kodoc/kodoc.h>
 
-/// @example reed_solomon.c
+/// @example perpetual.c
 ///
-/// Simple example showing how to encode and decode a block
-/// of memory using a Reed-Solomon codec.
+/// Example showing how to use the additional settings and parameters supported
+/// by the perpetual code.
 
 void trace_callback(const char* zone, const char* data, void* context)
 {
@@ -38,12 +38,14 @@ int main()
     uint32_t max_symbol_size = 100;
 
     // Here we select the code_type we wish to use
-    int32_t code_type = kodo_reed_solomon;
+    int32_t code_type = kodo_perpetual;
 
     // Here we select the finite field to use.
-    // For the Reed-Solomon codec, we need to choose kodo_binary8
+    // kodo_binary8 is common choice for the perpetual codec
     int32_t finite_field = kodo_binary8;
 
+    // First, we create an encoder & decoder factory.
+    // The factories are used to build actual encoders/decoders
     kodo_factory_t encoder_factory =
         kodo_new_encoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size);
@@ -54,6 +56,52 @@ int main()
 
     kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
+
+    // The perpetual encoder supports three operation modes:
+    //
+    // 1) Random pivot mode (default):
+    //    The pivot element is drawn at random
+    // 2) Pseudo-systematic
+    //    Pivot elements are generated with indices 0,1,2,...,n
+    //    After that, the pivots are drawn at random.
+    // 3) Pre-charging
+    //    For the first "width" symbols, the pivot index is 0. After that,
+    ///   the pseudo-systematic mode is used. Finally, pivots are drawn at
+    ///   random. The resulting indices: 0(width times),1,2,...,n
+    //
+    // The operation mode is set with the following API.
+    // Note that if both pre-charging and pseudo-systematic is enabled,
+    // pre-charging takes precedence.
+
+    // Enable the pseudo-systematic operation mode - faster
+    kodo_set_pseudo_systematic(encoder, 1);
+
+    // Enable the pre-charing operation mode - even faster
+    //kodo_set_pre_charging(encoder, 1);
+
+    printf("Pseudo-systematic flag: %d\n", kodo_pseudo_systematic(encoder));
+    printf("Pre-charging flag: %d\n", kodo_pre_charging(encoder));
+
+    // The width of the perpetual code can be set either as a number of symbols
+    // using kodo_set_width(), or as a ratio of the number of symbols using
+    // kodo_set_width_ratio().
+    //
+    // The default width is set to 10% of the number of symbols.
+    printf("The width ratio defaults to: %0.2f"
+           " (therefore the calculated width is %d)\n",
+           kodo_width_ratio(encoder), kodo_width(encoder));
+
+    /// When modifying the width, the width ratio will change as well
+    kodo_set_width(encoder, 4);
+    printf("The width was set to: %d "
+           " (therefore the calculated width ratio is %0.2f)\n",
+           kodo_width(encoder), kodo_width_ratio(encoder));
+
+    /// When modifying the width ratio, the width will change as well
+    kodo_set_width_ratio(encoder, 0.2);
+    printf("The width ratio was set to: %0.2f"
+           " (therefore the calculated width is %d)\n",
+           kodo_width_ratio(encoder), kodo_width(encoder));
 
     // Allocate some storage for a "payload". The payload is what we would
     // eventually send over a network.

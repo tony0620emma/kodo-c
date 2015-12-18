@@ -11,10 +11,14 @@
 
 #include <kodoc/kodoc.h>
 
-/// @example reed_solomon.c
+/// @example sparse_seed.c
 ///
-/// Simple example showing how to encode and decode a block
-/// of memory using a Reed-Solomon codec.
+/// Simple example showing how to encode and decode a block of memory using
+/// the sparse seed codec. The coding coefficients are not sent directly
+/// in the coded packets. The packet header includes a random seed and a
+/// coefficient density value, and the decoder reconstructs the original
+/// coding coefficients using these values. The maximum size of the header
+/// is 9 bytes, which yields minimal overhead for a large number of symbols.
 
 void trace_callback(const char* zone, const char* data, void* context)
 {
@@ -38,10 +42,11 @@ int main()
     uint32_t max_symbol_size = 100;
 
     // Here we select the code_type we wish to use
-    int32_t code_type = kodo_reed_solomon;
+    int32_t code_type = kodo_sparse_seed;
 
     // Here we select the finite field to use.
-    // For the Reed-Solomon codec, we need to choose kodo_binary8
+    // For the sparse seed codec, we can choose kodo_binary, kodo_binary4 or
+    // kodo_binary8 (kodo_binary is recommended for high performance)
     int32_t finite_field = kodo_binary8;
 
     kodo_factory_t encoder_factory =
@@ -54,6 +59,16 @@ int main()
 
     kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
+
+    // The coding vector density on the encoder is set with
+    // kodo_set_density().
+    // Note: the density can be adjusted at any time. This feature can be used
+    // to adapt to changing network conditions.
+    printf("The density defaults to: %0.2f\n", kodo_density(encoder));
+    kodo_set_density(encoder, 0.4);
+    printf("The density was set to: %0.2f\n", kodo_density(encoder));
+    // A low density setting can lead to a large number of redundant symbols.
+    // In practice, the value should be tuned to the specific scenario.
 
     // Allocate some storage for a "payload". The payload is what we would
     // eventually send over a network.

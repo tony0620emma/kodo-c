@@ -11,10 +11,12 @@
 
 #include <kodoc/kodoc.h>
 
-/// @example reed_solomon.c
+/// @example fulcrum.c
 ///
-/// Simple example showing how to encode and decode a block
-/// of memory using a Reed-Solomon codec.
+/// Simple example showing how to encode and decode a block of data using
+/// the Fulcrum codec.
+/// For a detailed description of the Fulcrum codec see the following paper
+/// on arxiv: http://arxiv.org/abs/1404.6620 by Lucani et. al.
 
 void trace_callback(const char* zone, const char* data, void* context)
 {
@@ -38,22 +40,44 @@ int main()
     uint32_t max_symbol_size = 100;
 
     // Here we select the code_type we wish to use
-    int32_t code_type = kodo_reed_solomon;
+    int32_t code_type = kodo_fulcrum;
 
     // Here we select the finite field to use.
-    // For the Reed-Solomon codec, we need to choose kodo_binary8
+    // For the Fulcrum codec, it is best to choose kodo_binary8
     int32_t finite_field = kodo_binary8;
 
+    // First, we create an encoder & decoder factory.
+    // The factories are used to build actual encoders/decoders
     kodo_factory_t encoder_factory =
         kodo_new_encoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size);
+
+    // We query the maximum number of expansion symbols for the fulcrum factory
+    printf("Max expansion of the encoder factory: %d\n",
+           kodo_factory_max_expansion(encoder_factory));
 
     kodo_factory_t decoder_factory =
         kodo_new_decoder_factory(code_type, finite_field,
                                  max_symbols, max_symbol_size);
 
+    // We query the maximum number of expansion symbols for the fulcrum factory
+    printf("Max expansion of the decoder factory: %d\n",
+           kodo_factory_max_expansion(decoder_factory));
+
+    // Before building the encoder/decoder, you can change the number of
+    // expansion symbols like this:
+    //
+    // kodo_factory_set_expansion(encoder_factory, 2);
+    // kodo_factory_set_expansion(decoder_factory, 2);
+
     kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
+
+    // Get the number of expansion symbols on the fulcrum encoder & decoder
+    printf("Expansion symbols on the fulcrum encoder: %d\n",
+           kodo_expansion(encoder));
+    printf("Expansion symbols on the fulcrum decoder: %d\n",
+           kodo_expansion(decoder));
 
     // Allocate some storage for a "payload". The payload is what we would
     // eventually send over a network.

@@ -37,13 +37,6 @@ int main()
     kodo_factory_t decoder_factory = kodo_new_decoder_factory(
         kodo_full_vector, finite_field, symbols, symbol_size);
 
-    // If we wanted to build an encoder of decoder with a smaller number of
-    // symbols or a different symbol size, then this can be adjusted using the
-    // following functions:
-    // kodo_factory_set_symbols(...) and kodo_factory_set_symbol_size(...)
-    // We can however not exceed the maximum values which were used when
-    // building the factory.
-
     kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
     kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
 
@@ -85,7 +78,7 @@ int main()
     }
 
     // Transfer the original symbols to the decoder with some losses
-    uint32_t lost_symbols = 0;
+    uint32_t lost_payloads = 0;
     for (i = 0; i < symbols; ++i)
     {
         // Create the output symbol buffers for the decoder
@@ -97,7 +90,7 @@ int main()
         // Simulate a channel with a 50% loss rate
         if (rand() % 2)
         {
-            lost_symbols++;
+            lost_payloads++;
             printf("Symbol %d lost on channel\n\n", i);
             continue;
         }
@@ -108,7 +101,7 @@ int main()
         kodo_read_uncoded_symbol(decoder, input_symbols[i], i);
     }
 
-    printf("Number of lost symbols: %d\n", lost_symbols);
+    printf("Number of lost payloads: %d\n", lost_payloads);
 
     // Now we generate coded packets with the encoder in order to recover the
     // lost packets on the decoder side
