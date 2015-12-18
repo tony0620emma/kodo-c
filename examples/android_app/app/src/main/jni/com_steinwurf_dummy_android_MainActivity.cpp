@@ -3,11 +3,10 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include "dummy.h"
+#include "com_steinwurf_dummy_android_MainActivity.h"
 
-#include <kodoc/kodoc.h>
-
-uint8_t run_kodo()
+JNIEXPORT
+jboolean JNICALL Java_com_steinwurf_dummy_1android_MainActivity_runKodo(JNIEnv* env, jobject thiz)
 {
     // Seed random number generator to produce different results every time
     srand(time(NULL));
@@ -61,9 +60,9 @@ uint8_t run_kodo()
     }
 
     // Check if the decoding was successful
-    uint8_t success = 0;
+    bool success = false;
     if (memcmp(data_in, data_out, block_size) == 0)
-        success = 1;
+        success = true;
 
     // Clean up
     free(data_in);

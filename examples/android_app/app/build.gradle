@@ -11,7 +11,17 @@ android {
         versionCode 1
         versionName "1.0"
         ndk {
-            moduleName "android_dummy"
+            moduleName "android_test"
+            stl "stlport_static"
+        }
+
+        splits {
+            abi {
+                enable true
+                reset()
+                include 'armeabi', 'armeabi-v7a'
+                universalApk false
+            }
         }
     }
     buildTypes {

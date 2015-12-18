@@ -3,126 +3,146 @@
 Including Kodo in Your Application
 ==================================
 
-This guide shows how to include and use the Kodo C bindings in a library.
-Further it is shown how to use this library in applications on the
-following platforms:
+This guide shows how to include the Kodo C library in your application.
 
-* Desktop (Linux, Mac OSX and Windows)
-* Android
-* iOS
+First of all, you need to build kodo-c following the :ref:`getting_started`
+guide. If you want to cross-compile for your target platform (e.g. Android,
+iOS, Raspberry Pi), please follow the :ref:`cross_compile` section.
 
-The Dummy Library
------------------
+In principle, you can use the library with any build system. Basically,
+you can choose between the shared library and the static library.
 
-The dummy library is a simple library which uses the Kodo C API. The
-library implements a single function which runs a simple encoding/decoding
-example and returns whether the test was successful or not.
+Shared Library
+--------------
 
-Desktop
--------
-
-This section explains how to use kodo-c for your desktop application.
-The desktop example application is a simple console application which uses
-the dummy library to determine which string to print, either
-``Data decoded correctly`` or ``Data decoding failed``.
-
-In the following subsections, it will be explained how to build the application
-on various platforms.
-
-Common for all platforms is that you need to build the kodo-c bindings.
-By using the Steinwurf build system, dependencies and compiler configuration is
-handled automatically.
-
-Simply go to the root of this repository and execute the following command::
-
-    python waf configure
-
-This will attempt to download the kodo-c dependencies and find the necessary
-build tools on your machine.
-
-If the configure step was successful, you can try to build kodo-c::
-
-    python waf build
-
-If the build succeeded, you can install the kodo-c static libraries with the
-following command::
-
-    python waf install --install_path="./static_libs" --install_static_libs
-
-This command also installs the static libraries from the kodo-c dependencies.
-You can link with these static libraries using your own build system. The
-following script demonstrates the necessary steps and settings for the gcc/g++
-compiler (other compilers require similar settings)::
-
-    cd examples/including_kodo
-    sh compile_dummy_example.sh
-
-In many cases, it can be easier to include kodo-c as *shared* library in
+In many cases, it is easier to include kodo-c as a *shared* library in
 your application. With the following command, you can copy the compiled
-*.so, *.dylib or *.dll file (the extension depends on your platform)
-to the folder specified by the ``install_path`` option::
+shared library to the target folder specified by the ``install_path`` option::
 
-    python waf install --install_path="./shared_libs" --install_shared_libs
+    python waf install --install_shared_libs --install_path="/path/to/my_folder"
 
-If you dynamically link your application with this shared library, then you
+The kodo-c shared library is called ``libkodoc.so`` on Linux, ``kodoc.dll`` on
+Windows and ``libkodoc.dylib`` on Mac OSX. You can link with this shared
+library using your own build system. You also need to include ``kodoc.h``
+in your code. The following command demonstrates the necessary flags for the
+gcc/g++ compiler (other compilers require similar settings)::
+
+    gcc myapp.c -o myapp -Ipath_to_kodoc_h -Lpath_to_shared_lib \
+    -Wl,-Bdynamic -lkodoc -lstdc++
+
+Substitute ``path_to_kodoc_h`` with the path to ``kodoc.h``. Similarly,
+substitute ``path_to_shared_lib`` with the path where you installed the
+shared library.
+
+If you dynamically link your application with the shared library, then you
 have to copy the shared library to a folder where your system can find it
-when you execute your application.
+when you execute your application. On Windows, you typically place the DLL
+in the same folder as your executable. On Unix systems, you can set the
+rpath of an executable or you can adjust ``LD_LIBRARY_PATH`` to include
+the path where you installed the shared library.
+
+Static Library
+--------------
+
+After building kodo-c, you can install the static libraries to your target
+folder with the following command (the ``install_path`` option specifies
+the target folder)::
+
+    python waf install --install_static_libs --install_path="/path/to/my_folder"
+
+The kodo-c static library is called ``libkodoc_static.a`` on Linux and Mac and
+``kodoc_static.lib`` on Windows. The install command also installs the static
+libraries from the kodo-c dependencies (you will need the ``fifi``and ``cpuid``
+libraries as well).
+
+You can link with these static libraries using your own build system. Of course,
+you will need to include ``kodoc.h`` in your code. The following command
+demonstrates the necessary flags for the gcc/g++ compiler (other compilers
+require similar settings)::
+
+    gcc myapp.c -o myapp -Ipath_to_kodoc_h -Wl,-Bstatic -Lpath_to_static_libs \
+    -lkodoc_static -lfifi -lcpuid -Wl,-Bdynamic -lstdc++
+
+Substitute ``path_to_kodoc_h`` with the path to ``kodoc.h``. Similarly,
+substitute ``path_to_static_libs`` with the path where you installed the
+static libraries.
+
+It is important to note that you need to link with the C++ standard library
+(by using ``-lstdc++`` above), because the kodo-c library actually wraps a
+C++ library (kodo) that uses the C++ standard library. However, you can omit
+this flag if you link your application with g++ instead of gcc (g++
+automatically includes the stdc++)::
+
+    g++ myapp.c -o myapp -Ipath_to_kodoc_h -Wl,-Bstatic -Lpath_to_static_libs \
+    -lkodoc_static -lfifi -lcpuid -Wl,-Bdynamic
+
 
 Android
 -------
 
-This section describes how to include the kodo-c bindings in an Android
-application.
-The guide has been made for Android Studio, running on Linux. However the
-steps should be fairly universal.
+The ``examples/android_app`` folder contains an Android Studio demo project
+for including the kodo-c bindings in an Android application.
 
-First we need to configure and build kodo-c using the android NDK. Go to the
-root of the kodo-c repository and run the following command::
+First we need to configure and build kodo-c using the Android NDK. Go to the
+root of the kodo-c repository and run the following commands::
 
   python waf configure --cxx_mkspec=cxx_android_gxx48_armv7 \
   --android_sdk_dir={android-sdk} --android_ndk_dir={android-ndk}
+  python waf build
 
 Where ``{android-sdk}`` and ``{android-ndk}`` should be replaced with your
 path to the Android SDK and a standalone version of the Android NDK.
+
+After building kodo-c with the specified mkspec, you can install the generated
+static libraries to ``examples/android_app/app/src/main/jni/libs/armeabi-v7a``.
+It is also recommended to copy the ``kodoc.h`` header to
+``examples/android_app/app/src/main/jni/kodoc/kodoc.h``.
+After this, you need to adjust the build settings in
+``examples/android_app/app/src/main/jni/Android.mk``. The preconfigured
+solution shows how to link with the static libraries: ``kodoc fifi cpuid``.
+
+.. note:: If you want to use the generated static libraries with ``ndk-build``,
+          then make sure that you process at least one C++ source file (.cpp)
+          with ``ndk-build`` (this might be a dummy cpp file). Otherwise you
+          will get a lot of linkage issues, because ``ndk-build`` does not link
+          with the C++ standard library by default.
+
+Creating a new project
+......................
 
 First, create a new project using the Android Studio wizard.
 
 Now add the path to the Android NDK to local.properties
 
-Right click in the Project panel and go into the menu New -> Folder -> JNI Folder
+Right click in the Project panel, then select: New -> Folder -> JNI Folder.
 
 This will create a folder called C in the project panel
-(note: the actual name of this folder in the filesystem is ``jni``).
+(note: the actual name of this folder on the filesystem is ``jni``).
 
 Go to this newly generated directory and use ``javah`` to generate the
-jni headers, using the following command::
+JNI headers, using the following command::
 
     javah -cp {android-sdk}/platforms/android-16/android.jar:../java {class}
 
-Please replace ``{android-sdk}`` with the path to the Android SDK on your
+Replace ``{android-sdk}`` with the path to the Android SDK on your
 machine, and ``{class}`` with the name of the class. In the ``dummy_android``
 sample project, this would be ``com.steinwurf.dummy_android.MainActivity``.
+You can generate JNI headers for any class in your project.
 
-.. note:: If you want to use the generated static libraries with ``ndk-build``,
-          then make sure that you process at least one C++ source file (.cpp)
-          with ``ndk-build`` (this can be a dummy cpp file). Otherwise you
-          will get a lot of linkage issues, because ``ndk-build`` does not link
-          with the C++ standard library by default.
 
 iOS
 ---
 
 This section describes how to compile kodo-c for iOS and how to include it
-in an iOS application. We assume that the developer is using a recent version
-of Mac OS X with Xcode 6.0 or later.
+in an iOS application.
 
 Helper scripts are provided (see below) to automate this process, but you
 can also configure and compile kodo-c manually for your desired architecture by
 executing the following commands from the root of the kodo-c repository::
 
-  python waf configure --cxx_mkspec=cxx_ios70_apple_llvm_{arch}
-  python waf build
-  python waf install --install_path=/tmp/{arch} --install_static_libs
+    python waf configure --cxx_mkspec=cxx_ios70_apple_llvm_{arch}
+    python waf build
+    python waf install --install_path=/tmp/{arch} --install_static_libs
 
 The ``{arch}`` placeholder defines the target architecture. Currently
 ``armv7``, ``armv7s``, ``arm64``, ``i386``, and ``x86_64`` are available
@@ -135,39 +155,36 @@ means 5 target folders for the 5 supported architectures.
 To automatically run the above steps for the mentioned architectures,
 execute the following script::
 
-    cd examples/including_kodo/ios
+    cd examples/ios_app
     sh configure_and_build_all.sh
 
 Building multi-arch static libraries
 ....................................
 
 It may be desirable to build a multi-architecture static library for iOS.
-In order to do this, the above configure, build, and install steps must be
+In order to do this, the above configure, build and install steps must be
 completed for each supported architecture.
 
-After this, the static libraries can be combined to a "fat" multiarch static
+After this, the static libraries can be combined to a "fat" multi-arch static
 library using the ``lipo`` command::
 
   lipo -create /tmp/{arch1}/libkodoc_static.a /tmp/{arch2}/libkodoc_static.a \
   -output libkodoc_static.a
 
-The fat static lib is then located in the current directory. Several input
-libraries can be included in the multi arch lib, e.g. all the above-mentioned
-architectures. Multi-arch libraries for the ``fifi`` and ``cpuid`` dependencies
-should also be created. Architecture-specific variants of these are installed
-alongside libkodoc_static.a in the specified ``install_path``.
+Several input libraries can be included in the multi-arch lib, e.g. all the
+above-mentioned architectures.
 
-To create the fat static libs for the mentioned architectures, execute the
+To create the fat static libs including all 5 architectures, execute the
 following script (after you have executed ``configure_and_build_all.sh``)::
 
-    cd examples/including_kodo/ios
+    cd examples/ios_app
     sh build_ios_fat_libs.sh
 
 iOS demo project (Xcode)
 ........................
 
-The ``examples/including_kodo/ios/kodoc-ios-demo`` folder contains an iOS demo
-project for including kodo-c in an iOS application. This project will work
+The ``examples/ios_app/kodoc-ios-demo`` folder contains an iOS demo
+project that can be opened in XCode. This project will work
 fine after you execute the ``configure_and_build_all.sh`` and
 ``build_ios_fat_libs.sh`` scripts mentioned above.
 

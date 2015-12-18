@@ -1,9 +1,6 @@
 #!/bin/bash
 
-# INCLUDEPATHS
-KODOC=../../../src
-
-# Build Target Architectures
+# Target architectures
 ARCHS="i386 x86_64 armv7 armv7s arm64"
 
 LIPO_ARGS_KODOC=""
