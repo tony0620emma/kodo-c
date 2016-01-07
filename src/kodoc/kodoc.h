@@ -61,6 +61,7 @@ kodo_finite_field;
 /// Enum specifying the available code types
 /// Note: the size of the enum type cannot be guaranteed, so the int32_t type
 /// is used in the API calls to pass the enum values
+/// Note: The code types should also be listed in the wscript!
 typedef enum
 {
     kodo_full_vector,

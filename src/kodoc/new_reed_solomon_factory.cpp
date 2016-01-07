@@ -9,7 +9,7 @@
 
 #include <cstdint>
 
-#include <kodo/api/api.hpp>
+#include <kodo_core/api/api.hpp>
 #include <kodo_reed_solomon/codes.hpp>
 
 #include "create_factory.hpp"
@@ -23,8 +23,8 @@ namespace kodoc
     {
         return create_factory<
             runtime_encoder<
-            kodo::reed_solomon::encoder,
-            kodo::api::systematic_binding>>(
+            kodo_reed_solomon::encoder,
+            kodo_core::api::systematic_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 
@@ -33,7 +33,7 @@ namespace kodoc
     {
         return create_factory<
             runtime_decoder<
-            kodo::reed_solomon::decoder>>(
+            kodo_reed_solomon::decoder>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 }

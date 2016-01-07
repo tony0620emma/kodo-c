@@ -9,7 +9,7 @@
 
 #include <cstdint>
 
-#include <kodo/api/api.hpp>
+#include <kodo_core/api/api.hpp>
 #include <kodo_rlnc/on_the_fly_decoder.hpp>
 #include <kodo_rlnc/on_the_fly_encoder.hpp>
 
@@ -24,22 +24,22 @@ namespace kodoc
     {
         return create_factory<
             runtime_encoder<
-            kodo::rlnc::on_the_fly_encoder,
-            kodo::api::systematic_binding>>(
+            kodo_rlnc::on_the_fly_encoder,
+            kodo_core::api::systematic_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 
     template<class Stack>
     using on_the_fly_decoder_binding =
-        kodo::api::partial_decoding_binding<
-        kodo::api::write_payload_binding<Stack>>;
+        kodo_core::api::partial_decoding_binding<
+        kodo_core::api::write_payload_binding<Stack>>;
 
     kodo_factory_t new_on_the_fly_decoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<
             runtime_decoder<
-            kodo::rlnc::on_the_fly_decoder,
+            kodo_rlnc::on_the_fly_decoder,
             on_the_fly_decoder_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }

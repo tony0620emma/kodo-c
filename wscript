@@ -1,11 +1,11 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-APPNAME = 'kodoc'
-VERSION = '7.0.1'
-
+import os
 import waflib.extras.wurf_options
 
+APPNAME = 'kodoc'
+VERSION = '7.0.1'
 
 codecs = ['full_vector', 'on_the_fly', 'sliding_window',
           'sparse_full_vector', 'seed', 'sparse_seed',
@@ -31,24 +31,24 @@ def resolve(ctx):
     ctx.add_dependency(resolve.ResolveVersion(
         name='kodo-core',
         git_repository='github.com/steinwurf/kodo-core.git',
-        major=1))
+        major=2))
 
     ctx.add_dependency(resolve.ResolveVersion(
         name='kodo-rlnc',
         git_repository='github.com/steinwurf/kodo-rlnc.git',
-        major=1),
+        major=2),
         optional=True)
 
     ctx.add_dependency(resolve.ResolveVersion(
         name='kodo-fulcrum',
         git_repository='github.com/steinwurf/kodo-fulcrum.git',
-        major=1),
+        major=2),
         optional=True)
 
     ctx.add_dependency(resolve.ResolveVersion(
         name='kodo-reed-solomon',
         git_repository='github.com/steinwurf/kodo-reed-solomon.git',
-        major=1),
+        major=2),
         optional=True)
 
     # Internal dependencies
@@ -180,3 +180,11 @@ def build(bld):
         bld.recurse('examples/uncoded_symbols')
         bld.recurse('examples/use_trace_layers')
         bld.recurse('benchmark/kodoc_throughput')
+
+        # Install kodoc.h to the 'include' folder
+        if bld.has_tool_option('install_path'):
+            install_path = bld.get_tool_option('install_path')
+            start_dir = bld.path.find_dir('src')
+            bld.install_files(os.path.join(install_path, 'include'),
+                              ['kodoc/kodoc.h'],
+                              cwd=start_dir, relative_trick=True)

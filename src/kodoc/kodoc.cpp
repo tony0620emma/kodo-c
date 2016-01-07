@@ -10,7 +10,7 @@
 #include <cassert>
 #include <string>
 
-#include <kodo/api/api.hpp>
+#include <kodo_core/api/api.hpp>
 #include <kodo_fulcrum/api/expansion.hpp>
 #include <kodo_fulcrum/api/max_expansion.hpp>
 #include <kodo_fulcrum/api/set_expansion.hpp>
@@ -30,9 +30,9 @@
 struct kodo_factory { };
 struct kodo_coder { };
 
-using namespace kodo::api;
-using namespace kodo::rlnc::api;
-using namespace kodo::fulcrum::api;
+using namespace kodo_core::api;
+using namespace kodo_rlnc::api;
+using namespace kodo_fulcrum::api;
 
 //------------------------------------------------------------------
 // CONFIGURATION API
