@@ -46,41 +46,41 @@ inline void test_combinations(
     SCOPED_TRACE(testing::Message() << "symbols = " << max_symbols);
     SCOPED_TRACE(testing::Message() << "symbol_size = " << max_symbol_size);
 
-    std::vector<int32_t> code_types =
+    std::vector<int32_t> codecs =
     {
-        kodo_full_vector,
-        kodo_on_the_fly,
-        kodo_sliding_window,
-        kodo_sparse_full_vector,
-        kodo_seed,
-        kodo_sparse_seed,
-        kodo_perpetual,
-        kodo_fulcrum,
-        kodo_reed_solomon
+        kodoc_full_vector,
+        kodoc_on_the_fly,
+        kodoc_sliding_window,
+        kodoc_sparse_full_vector,
+        kodoc_seed,
+        kodoc_sparse_seed,
+        kodoc_perpetual,
+        kodoc_fulcrum,
+        kodoc_reed_solomon
     };
 
-    for (auto& code : code_types)
+    for (auto& codec : codecs)
     {
-        SCOPED_TRACE(testing::Message() << "code_type = " << code);
+        SCOPED_TRACE(testing::Message() << "codec = " << codec);
 
-        if (kodo_has_codec(code) == false)
+        if (kodoc_has_codec(codec) == false)
             continue;
 
-        if (code != kodo_reed_solomon)
+        if (codec != kodoc_reed_solomon)
         {
             SCOPED_TRACE(testing::Message() << "field = binary");
-            coder_test(max_symbols, max_symbol_size, code, kodo_binary);
+            coder_test(max_symbols, max_symbol_size, codec, kodoc_binary);
         }
 
-        if (code != kodo_reed_solomon)
+        if (codec != kodoc_reed_solomon)
         {
             SCOPED_TRACE(testing::Message() << "field = binary4");
-            coder_test(max_symbols, max_symbol_size, code, kodo_binary4);
+            coder_test(max_symbols, max_symbol_size, codec, kodoc_binary4);
         }
 
         {
             SCOPED_TRACE(testing::Message() << "field = binary8");
-            coder_test(max_symbols, max_symbol_size, code, kodo_binary8);
+            coder_test(max_symbols, max_symbol_size, codec, kodoc_binary8);
         }
     }
 }

@@ -9,27 +9,27 @@
 
 #include <gtest/gtest.h>
 
-static void test_coder(kodo_coder_t coder, uint32_t symbols,
-                       uint32_t symbol_size, int32_t code_type)
+static void test_coder(kodoc_coder_t coder, uint32_t symbols,
+                       uint32_t symbol_size, int32_t codec)
 {
-    EXPECT_EQ(symbols, kodo_symbols(coder));
-    EXPECT_EQ(symbol_size, kodo_symbol_size(coder));
-    EXPECT_EQ(symbols * symbol_size, kodo_block_size(coder));
-    EXPECT_GT(kodo_payload_size(coder), symbol_size);
-    EXPECT_EQ(0U, kodo_rank(coder));
+    EXPECT_EQ(symbols, kodoc_symbols(coder));
+    EXPECT_EQ(symbol_size, kodoc_symbol_size(coder));
+    EXPECT_EQ(symbols * symbol_size, kodoc_block_size(coder));
+    EXPECT_GT(kodoc_payload_size(coder), symbol_size);
+    EXPECT_EQ(0U, kodoc_rank(coder));
 
-    if (code_type == kodo_sliding_window)
+    if (codec == kodoc_sliding_window)
     {
-        EXPECT_TRUE(kodo_has_feedback_size(coder) != 0);
-        EXPECT_GT(kodo_feedback_size(coder), 0U);
+        EXPECT_TRUE(kodoc_has_feedback_size(coder) != 0);
+        EXPECT_GT(kodoc_feedback_size(coder), 0U);
     }
     else
     {
-        EXPECT_TRUE(kodo_has_feedback_size(coder) == 0);
+        EXPECT_TRUE(kodoc_has_feedback_size(coder) == 0);
     }
 
-    EXPECT_TRUE(kodo_has_trace_interface(coder) != 0);
-    kodo_set_trace_stdout(coder);
-    kodo_set_trace_off(coder);
-    kodo_set_zone_prefix(coder, "prefix");
+    EXPECT_TRUE(kodoc_has_trace_interface(coder) != 0);
+    kodoc_set_trace_stdout(coder);
+    kodoc_set_trace_off(coder);
+    kodoc_set_zone_prefix(coder, "prefix");
 }

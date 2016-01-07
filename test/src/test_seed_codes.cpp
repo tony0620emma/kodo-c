@@ -12,11 +12,11 @@
 
 TEST(test_seed_codes, basic_api)
 {
-    if (kodo_has_codec(kodo_seed) == false)
+    if (kodoc_has_codec(kodoc_seed) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodo_seed, max_symbols, max_symbol_size);
+    test_basic_api(kodoc_seed, max_symbols, max_symbol_size);
 }

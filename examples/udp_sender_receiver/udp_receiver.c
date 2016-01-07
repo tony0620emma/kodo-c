@@ -51,11 +51,11 @@ int main(int argc, char* argv[])
 
     uint32_t symbols = 0;
 
-    int32_t code_type = kodo_on_the_fly;
-    int32_t finite_field = kodo_binary8;
+    int32_t codec = kodoc_on_the_fly;
+    int32_t finite_field = kodoc_binary8;
 
-    kodo_factory_t decoder_factory = 0;
-    kodo_coder_t decoder = 0;
+    kodoc_factory_t decoder_factory = 0;
+    kodoc_coder_t decoder = 0;
 
     // The buffer used to receive incoming packets
     uint32_t payload_size = 0;
@@ -125,19 +125,19 @@ int main(int argc, char* argv[])
     }
 
     // Create the encoder factory
-    decoder_factory = kodo_new_decoder_factory(code_type, finite_field,
+    decoder_factory = kodoc_new_decoder_factory(codec, finite_field,
                                                max_symbols, max_symbol_size);
 
-    kodo_factory_set_symbols(decoder_factory, symbols);
-    decoder = kodo_factory_build_coder(decoder_factory);
+    kodoc_factory_set_symbols(decoder_factory, symbols);
+    decoder = kodoc_factory_build_coder(decoder_factory);
 
     // Create the buffer needed for the payload
-    payload_size = kodo_payload_size(decoder);
+    payload_size = kodoc_payload_size(decoder);
     payload = (uint8_t*) malloc(payload_size);
 
-    uint32_t block_size = kodo_block_size(decoder);
+    uint32_t block_size = kodoc_block_size(decoder);
     uint8_t* data_out = (uint8_t*) malloc(block_size);
-    kodo_set_mutable_symbols(decoder, data_out, block_size);
+    kodoc_set_mutable_symbols(decoder, data_out, block_size);
 
     // Zero initialize the decoded array */
     memset(decoded, '\0', sizeof(uint8_t) * max_symbols);
@@ -145,7 +145,7 @@ int main(int argc, char* argv[])
     printf("%s: waiting for data on UDP port %u\n", argv[0], atoi(argv[1]));
 
     // Receiver loop
-    while (!kodo_is_complete(decoder))
+    while (!kodoc_is_complete(decoder))
     {
         // Receive message
         remote_address_size = sizeof(remote_address);
@@ -169,22 +169,22 @@ int main(int argc, char* argv[])
         ++rx_packets;
 
         // Packet got through - pass that packet to the decoder
-        kodo_read_payload(decoder, payload);
+        kodoc_read_payload(decoder, payload);
 
-        if (kodo_has_partial_decoding_interface(decoder) &&
-            kodo_is_partially_complete(decoder))
+        if (kodoc_has_partial_decoding_interface(decoder) &&
+            kodoc_is_partially_complete(decoder))
         {
             uint32_t i = 0;
-            for (; i < kodo_symbols(decoder); ++i)
+            for (; i < kodoc_symbols(decoder); ++i)
             {
-                if (!kodo_is_symbol_uncoded(decoder, i))
+                if (!kodoc_is_symbol_uncoded(decoder, i))
                     continue;
 
                 if (!decoded[i])
                 {
                     // Update that this symbol now has been decoded,
                     // in a real application we could copy out the symbol
-                    // using the kodo_copy_from_symbol(..) or use the data_out
+                    // using the kodoc_copy_from_symbol(..) or use the data_out
                     // directly.
                     printf("Symbol %d was decoded\n", i);
                     decoded[i] = 1;
@@ -199,8 +199,8 @@ int main(int argc, char* argv[])
     free(decoded);
     free(payload);
 
-    kodo_delete_coder(decoder);
-    kodo_delete_factory(decoder_factory);
+    kodoc_delete_coder(decoder);
+    kodoc_delete_factory(decoder_factory);
 
     return 0;
 }

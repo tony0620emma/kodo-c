@@ -30,38 +30,38 @@ int main()
     uint8_t max_symbols = 10;
     uint8_t max_symbol_size = 100;
 
-    int32_t code_type = kodo_full_vector;
-    int32_t finite_field = kodo_binary8;
+    int32_t codec = kodoc_full_vector;
+    int32_t finite_field = kodoc_binary8;
 
     // In the following we will make an encoder/decoder factory.
     // The factories are used to build actual encoders/decoder
-    kodo_factory_t encoder_factory =
-        kodo_new_encoder_factory(code_type, finite_field,
+    kodoc_factory_t encoder_factory =
+        kodoc_new_encoder_factory(codec, finite_field,
                                  max_symbols, max_symbol_size);
 
-    kodo_factory_t decoder_factory =
-        kodo_new_decoder_factory(code_type, finite_field,
+    kodoc_factory_t decoder_factory =
+        kodoc_new_decoder_factory(codec, finite_field,
                                  max_symbols, max_symbol_size);
 
     // If we wanted to build an encoder or decoder with a smaller number of
     // symbols or a different symbol size, then this can be adjusted using the
     // following functions:
-    //      kodo_factory_set_symbols(...)
-    //      kodo_factory_set_symbol_size(...)
+    //      kodoc_factory_set_symbols(...)
+    //      kodoc_factory_set_symbol_size(...)
     // We cannot exceed the maximum values which was used when building
     // the factory.
-    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
+    kodoc_coder_t encoder = kodoc_factory_build_coder(encoder_factory);
+    kodoc_coder_t decoder = kodoc_factory_build_coder(decoder_factory);
 
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network
-    uint32_t payload_size = kodo_payload_size(encoder);
+    uint32_t payload_size = kodoc_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
     // Allocate some data to encode. In this case we make a buffer
     // with the same size as the encoder's block size (the max.
     // amount a single encoder can encode)
-    uint32_t block_size = kodo_block_size(encoder);
+    uint32_t block_size = kodoc_block_size(encoder);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
 
     // Just for fun - fill the data with random data
@@ -71,35 +71,35 @@ int main()
         data_in[i] = rand() % 256;
     }
 
-    kodo_set_const_symbols(encoder, data_in, block_size);
+    kodoc_set_const_symbols(encoder, data_in, block_size);
 
     uint8_t* data_out = (uint8_t*) malloc(block_size);
-    kodo_set_mutable_symbols(decoder, data_out, block_size);
+    kodoc_set_mutable_symbols(decoder, data_out, block_size);
 
     printf("Starting encoding / decoding\n");
-    while (!kodo_is_complete(decoder))
+    while (!kodoc_is_complete(decoder))
     {
         // If the chosen codec stack supports systematic coding
-        if (kodo_has_systematic_interface(encoder))
+        if (kodoc_has_systematic_interface(encoder))
         {
             // With 50% probability toggle systematic
             if ((rand() % 2) == 0)
             {
-                if (kodo_is_systematic_on(encoder))
+                if (kodoc_is_systematic_on(encoder))
                 {
                     printf("Turning systematic OFF\n");
-                    kodo_set_systematic_off(encoder);
+                    kodoc_set_systematic_off(encoder);
                 }
                 else
                 {
                     printf("Turn systematic ON\n");
-                    kodo_set_systematic_on(encoder);
+                    kodoc_set_systematic_on(encoder);
                 }
             }
         }
 
         // Encode a packet into the payload buffer
-        kodo_write_payload(encoder, payload);
+        kodoc_write_payload(encoder, payload);
 
         if ((rand() % 2) == 0)
         {
@@ -108,14 +108,14 @@ int main()
         }
 
         // Pass that packet to the decoder
-        kodo_read_payload(decoder, payload);
+        kodoc_read_payload(decoder, payload);
 
-        printf("Rank of decoder %d\n", kodo_rank(decoder));
+        printf("Rank of decoder %d\n", kodoc_rank(decoder));
 
         // Symbols that were received in the systematic phase correspond
         // to the original source symbols and are therefore marked as
         // decoded
-        printf("Symbols decoded %d\n", kodo_symbols_uncoded(decoder));
+        printf("Symbols decoded %d\n", kodoc_symbols_uncoded(decoder));
     }
 
     if (memcmp(data_in, data_out, block_size) == 0)
@@ -130,11 +130,11 @@ int main()
     free(data_in);
     free(payload);
 
-    kodo_delete_coder(encoder);
-    kodo_delete_coder(decoder);
+    kodoc_delete_coder(encoder);
+    kodoc_delete_coder(decoder);
 
-    kodo_delete_factory(encoder_factory);
-    kodo_delete_factory(decoder_factory);
+    kodoc_delete_factory(encoder_factory);
+    kodoc_delete_factory(decoder_factory);
 
     return 0;
 }

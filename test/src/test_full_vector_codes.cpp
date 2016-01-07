@@ -12,11 +12,11 @@
 
 TEST(test_full_vector_codes, basic_api)
 {
-    if (kodo_has_codec(kodo_full_vector) == false)
+    if (kodoc_has_codec(kodoc_full_vector) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodo_full_vector, max_symbols, max_symbol_size);
+    test_basic_api(kodoc_full_vector, max_symbols, max_symbol_size);
 }

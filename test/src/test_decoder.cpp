@@ -13,43 +13,43 @@
 #include "test_coder.hpp"
 
 static void test_decoder(uint32_t symbols, uint32_t symbol_size,
-                         int32_t code_type, int32_t finite_field)
+                         int32_t codec, int32_t finite_field)
 {
-    kodo_factory_t decoder_factory = kodo_new_decoder_factory(
-        code_type, finite_field, symbols, symbol_size);
+    kodoc_factory_t decoder_factory = kodoc_new_decoder_factory(
+        codec, finite_field, symbols, symbol_size);
 
-    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
+    kodoc_coder_t decoder = kodoc_factory_build_coder(decoder_factory);
 
     // Coder methods
-    test_coder(decoder, symbols, symbol_size, code_type);
+    test_coder(decoder, symbols, symbol_size, codec);
 
     // Decoder methods
     // Some codecs do not provide write_payload, i.e. recoding
-    if (code_type == kodo_seed || code_type == kodo_sparse_seed ||
-        code_type == kodo_fulcrum || code_type == kodo_reed_solomon)
+    if (codec == kodoc_seed || codec == kodoc_sparse_seed ||
+        codec == kodoc_fulcrum || codec == kodoc_reed_solomon)
     {
-        EXPECT_TRUE(kodo_has_write_payload(decoder) == 0);
+        EXPECT_TRUE(kodoc_has_write_payload(decoder) == 0);
     }
     else
     {
-        EXPECT_TRUE(kodo_has_write_payload(decoder) != 0);
+        EXPECT_TRUE(kodoc_has_write_payload(decoder) != 0);
     }
 
-    EXPECT_EQ(0U, kodo_symbols_uncoded(decoder));
-    EXPECT_EQ(0U, kodo_symbols_partially_decoded(decoder));
+    EXPECT_EQ(0U, kodoc_symbols_uncoded(decoder));
+    EXPECT_EQ(0U, kodoc_symbols_partially_decoded(decoder));
 
-    if (code_type == kodo_on_the_fly ||
-        code_type == kodo_sliding_window)
+    if (codec == kodoc_on_the_fly ||
+        codec == kodoc_sliding_window)
     {
-        EXPECT_TRUE(kodo_has_partial_decoding_interface(decoder) != 0);
+        EXPECT_TRUE(kodoc_has_partial_decoding_interface(decoder) != 0);
     }
-    else if (code_type == kodo_full_vector)
+    else if (codec == kodoc_full_vector)
     {
-        EXPECT_TRUE(kodo_has_partial_decoding_interface(decoder) == 0);
+        EXPECT_TRUE(kodoc_has_partial_decoding_interface(decoder) == 0);
     }
 
-    kodo_delete_coder(decoder);
-    kodo_delete_factory(decoder_factory);
+    kodoc_delete_coder(decoder);
+    kodoc_delete_factory(decoder_factory);
 }
 
 TEST(test_decoder, invoke_api)

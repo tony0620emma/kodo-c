@@ -49,22 +49,22 @@ results run_coding_test(int32_t finite_field, uint32_t symbols,
     // Set the random seed to randomize encoded data
     srand((uint32_t)time(NULL));
 
-    // Here we select the code_type we wish to use
-    int32_t code_type = kodo_full_vector;
+    // Here we select the codec we wish to use
+    int32_t codec = kodoc_full_vector;
 
     bc::high_resolution_clock::time_point start, stop;
 
     // First, we measure the combined setup time for the encoder and decoder
     start = bc::high_resolution_clock::now();
 
-    kodo_factory_t encoder_factory =
-        kodo_new_encoder_factory(code_type, finite_field, symbols, symbol_size);
+    kodoc_factory_t encoder_factory =
+        kodoc_new_encoder_factory(codec, finite_field, symbols, symbol_size);
 
-    kodo_factory_t decoder_factory =
-        kodo_new_decoder_factory(code_type, finite_field, symbols, symbol_size);
+    kodoc_factory_t decoder_factory =
+        kodoc_new_decoder_factory(codec, finite_field, symbols, symbol_size);
 
-    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
+    kodoc_coder_t encoder = kodoc_factory_build_coder(encoder_factory);
+    kodoc_coder_t decoder = kodoc_factory_build_coder(decoder_factory);
 
     // Stop the setup timer
     stop = bc::high_resolution_clock::now();
@@ -73,18 +73,18 @@ results run_coding_test(int32_t finite_field, uint32_t symbols,
         (double)(bc::duration_cast<bc::microseconds>(stop - start).count());
 
     // We measure pure coding, so we always turn off the systematic mode
-    if (kodo_has_systematic_interface(encoder))
+    if (kodoc_has_systematic_interface(encoder))
     {
-        kodo_set_systematic_off(encoder);
+        kodoc_set_systematic_off(encoder);
     }
 
-    uint32_t block_size = kodo_block_size(encoder);
+    uint32_t block_size = kodoc_block_size(encoder);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
     uint8_t* data_out = (uint8_t*) malloc(block_size);
 
     // Allocate payloads in a contiguous buffer
-    uint32_t payload_size = kodo_payload_size(encoder);
-    // Generate an ample number of coded symbols (considering kodo_binary)
+    uint32_t payload_size = kodoc_payload_size(encoder);
+    // Generate an ample number of coded symbols (considering kodoc_binary)
     uint32_t payload_count = 2 * symbols;
     uint8_t* payload_buffer = (uint8_t*) malloc(payload_size * payload_count);
     uint8_t** payloads = (uint8_t**) malloc(payload_count * sizeof(uint8_t*));
@@ -101,15 +101,15 @@ results run_coding_test(int32_t finite_field, uint32_t symbols,
         data_in[i] = rand() % 256;
 
     // Set the input and output symbol buffers
-    kodo_set_const_symbols(encoder, data_in, block_size);
-    kodo_set_mutable_symbols(decoder, data_out, block_size);
+    kodoc_set_const_symbols(encoder, data_in, block_size);
+    kodoc_set_mutable_symbols(decoder, data_out, block_size);
 
     // Start the encoding timer
     start = bc::high_resolution_clock::now();
     // Generate coded symbols with the encoder
     for (i = 0; i < payload_count; ++i)
     {
-        kodo_write_payload(encoder, payloads[i]);
+        kodoc_write_payload(encoder, payloads[i]);
     }
     // Stop the encoding timer
     stop = bc::high_resolution_clock::now();
@@ -124,9 +124,9 @@ results run_coding_test(int32_t finite_field, uint32_t symbols,
     // Start the decoding timer
     start = bc::high_resolution_clock::now();
     // Feed the coded symbols to the decoder
-    for (i = 0; !kodo_is_complete(decoder) && i < payload_count; ++i)
+    for (i = 0; !kodoc_is_complete(decoder) && i < payload_count; ++i)
     {
-        kodo_read_payload(decoder, payloads[i]);
+        kodoc_read_payload(decoder, payloads[i]);
     }
     // Stop the decoding timer
     stop = bc::high_resolution_clock::now();
@@ -152,11 +152,11 @@ results run_coding_test(int32_t finite_field, uint32_t symbols,
     free(payload_buffer);
     free(payloads);
 
-    kodo_delete_coder(encoder);
-    kodo_delete_coder(decoder);
+    kodoc_delete_coder(encoder);
+    kodoc_delete_coder(decoder);
 
-    kodo_delete_factory(encoder_factory);
-    kodo_delete_factory(decoder_factory);
+    kodoc_delete_factory(encoder_factory);
+    kodoc_delete_factory(decoder_factory);
 
     return run;
 }
@@ -176,15 +176,15 @@ int main(int argc, const char* argv[])
     int32_t field;
     if (strcmp(argv[1], "binary") == 0)
     {
-        field = kodo_binary;
+        field = kodoc_binary;
     }
     else if (strcmp(argv[1], "binary4") == 0)
     {
-        field = kodo_binary4;
+        field = kodoc_binary4;
     }
     else if (strcmp(argv[1], "binary8") == 0)
     {
-        field = kodo_binary8;
+        field = kodoc_binary8;
     }
     else
     {

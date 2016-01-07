@@ -37,25 +37,25 @@ int main()
     uint32_t max_symbols = 10;
     uint32_t max_symbol_size = 100;
 
-    // Here we select the code_type we wish to use
-    int32_t code_type = kodo_perpetual;
+    // Here we select the codec we wish to use
+    int32_t codec = kodoc_perpetual;
 
     // Here we select the finite field to use.
-    // kodo_binary8 is common choice for the perpetual codec
-    int32_t finite_field = kodo_binary8;
+    // kodoc_binary8 is common choice for the perpetual codec
+    int32_t finite_field = kodoc_binary8;
 
     // First, we create an encoder & decoder factory.
     // The factories are used to build actual encoders/decoders
-    kodo_factory_t encoder_factory =
-        kodo_new_encoder_factory(code_type, finite_field,
+    kodoc_factory_t encoder_factory =
+        kodoc_new_encoder_factory(codec, finite_field,
                                  max_symbols, max_symbol_size);
 
-    kodo_factory_t decoder_factory =
-        kodo_new_decoder_factory(code_type, finite_field,
+    kodoc_factory_t decoder_factory =
+        kodoc_new_decoder_factory(codec, finite_field,
                                  max_symbols, max_symbol_size);
 
-    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
+    kodoc_coder_t encoder = kodoc_factory_build_coder(encoder_factory);
+    kodoc_coder_t decoder = kodoc_factory_build_coder(decoder_factory);
 
     // The perpetual encoder supports three operation modes:
     //
@@ -74,43 +74,43 @@ int main()
     // pre-charging takes precedence.
 
     // Enable the pseudo-systematic operation mode - faster
-    kodo_set_pseudo_systematic(encoder, 1);
+    kodoc_set_pseudo_systematic(encoder, 1);
 
     // Enable the pre-charing operation mode - even faster
-    //kodo_set_pre_charging(encoder, 1);
+    //kodoc_set_pre_charging(encoder, 1);
 
-    printf("Pseudo-systematic flag: %d\n", kodo_pseudo_systematic(encoder));
-    printf("Pre-charging flag: %d\n", kodo_pre_charging(encoder));
+    printf("Pseudo-systematic flag: %d\n", kodoc_pseudo_systematic(encoder));
+    printf("Pre-charging flag: %d\n", kodoc_pre_charging(encoder));
 
     // The width of the perpetual code can be set either as a number of symbols
-    // using kodo_set_width(), or as a ratio of the number of symbols using
-    // kodo_set_width_ratio().
+    // using kodoc_set_width(), or as a ratio of the number of symbols using
+    // kodoc_set_width_ratio().
     //
     // The default width is set to 10% of the number of symbols.
     printf("The width ratio defaults to: %0.2f"
            " (therefore the calculated width is %d)\n",
-           kodo_width_ratio(encoder), kodo_width(encoder));
+           kodoc_width_ratio(encoder), kodoc_width(encoder));
 
     /// When modifying the width, the width ratio will change as well
-    kodo_set_width(encoder, 4);
+    kodoc_set_width(encoder, 4);
     printf("The width was set to: %d "
            " (therefore the calculated width ratio is %0.2f)\n",
-           kodo_width(encoder), kodo_width_ratio(encoder));
+           kodoc_width(encoder), kodoc_width_ratio(encoder));
 
     /// When modifying the width ratio, the width will change as well
-    kodo_set_width_ratio(encoder, 0.2);
+    kodoc_set_width_ratio(encoder, 0.2);
     printf("The width ratio was set to: %0.2f"
            " (therefore the calculated width is %d)\n",
-           kodo_width_ratio(encoder), kodo_width(encoder));
+           kodoc_width_ratio(encoder), kodoc_width(encoder));
 
     // Allocate some storage for a "payload". The payload is what we would
     // eventually send over a network.
     uint32_t bytes_used;
-    uint32_t payload_size = kodo_payload_size(encoder);
+    uint32_t payload_size = kodoc_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
     // Allocate input and output data buffers
-    uint32_t block_size = kodo_block_size(encoder);
+    uint32_t block_size = kodoc_block_size(encoder);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
     uint8_t* data_out = (uint8_t*) malloc(block_size);
 
@@ -120,18 +120,18 @@ int main()
         data_in[i] = rand() % 256;
 
     // Assign the data buffers to the encoder and decoder
-    kodo_set_const_symbols(encoder, data_in, block_size);
-    kodo_set_mutable_symbols(decoder, data_out, block_size);
+    kodoc_set_const_symbols(encoder, data_in, block_size);
+    kodoc_set_mutable_symbols(decoder, data_out, block_size);
 
     // Install a custom trace function for the decoder
-    kodo_set_trace_callback(decoder, trace_callback, NULL);
+    kodoc_set_trace_callback(decoder, trace_callback, NULL);
 
     uint32_t lost_payloads = 0;
     uint32_t received_payloads = 0;
-    while (!kodo_is_complete(decoder))
+    while (!kodoc_is_complete(decoder))
     {
         // The encoder will use a certain amount of bytes of the payload buffer
-        bytes_used = kodo_write_payload(encoder, payload);
+        bytes_used = kodoc_write_payload(encoder, payload);
         printf("Payload generated by encoder, bytes used = %d\n", bytes_used);
 
         // Simulate a channel with a 50% loss rate
@@ -144,9 +144,9 @@ int main()
 
         // Pass the generated packet to the decoder
         received_payloads++;
-        kodo_read_payload(decoder, payload);
+        kodoc_read_payload(decoder, payload);
         printf("Payload processed by decoder, current rank = %d\n\n",
-               kodo_rank(decoder));
+               kodoc_rank(decoder));
     }
 
     printf("Number of lost payloads: %d\n", lost_payloads);
@@ -167,11 +167,11 @@ int main()
     free(data_out);
     free(payload);
 
-    kodo_delete_coder(encoder);
-    kodo_delete_coder(decoder);
+    kodoc_delete_coder(encoder);
+    kodoc_delete_coder(decoder);
 
-    kodo_delete_factory(encoder_factory);
-    kodo_delete_factory(decoder_factory);
+    kodoc_delete_factory(encoder_factory);
+    kodoc_delete_factory(decoder_factory);
 
     return 0;
 }

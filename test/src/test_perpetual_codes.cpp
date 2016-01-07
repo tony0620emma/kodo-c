@@ -12,48 +12,48 @@
 
 TEST(test_perpetual_codes, basic_api)
 {
-    if (kodo_has_codec(kodo_perpetual) == false)
+    if (kodoc_has_codec(kodoc_perpetual) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodo_perpetual, max_symbols, max_symbol_size);
+    test_basic_api(kodoc_perpetual, max_symbols, max_symbol_size);
 }
 
 TEST(test_perpetual_codes, perpetual_api)
 {
-    if (kodo_has_codec(kodo_perpetual) == false)
+    if (kodoc_has_codec(kodoc_perpetual) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    kodo_factory_t encoder_factory = kodo_new_encoder_factory(
-        kodo_perpetual, kodo_binary8, max_symbols, max_symbol_size);
+    kodoc_factory_t encoder_factory = kodoc_new_encoder_factory(
+        kodoc_perpetual, kodoc_binary8, max_symbols, max_symbol_size);
 
-    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
+    kodoc_coder_t encoder = kodoc_factory_build_coder(encoder_factory);
     EXPECT_TRUE(encoder != 0);
 
-    EXPECT_FALSE(kodo_pseudo_systematic(encoder) != 0);
+    EXPECT_FALSE(kodoc_pseudo_systematic(encoder) != 0);
     uint8_t pseudo_systematic = true;
-    kodo_set_pseudo_systematic(encoder, pseudo_systematic);
-    EXPECT_TRUE(kodo_pseudo_systematic(encoder) != 0);
+    kodoc_set_pseudo_systematic(encoder, pseudo_systematic);
+    EXPECT_TRUE(kodoc_pseudo_systematic(encoder) != 0);
 
-    EXPECT_FALSE(kodo_pre_charging(encoder));
+    EXPECT_FALSE(kodoc_pre_charging(encoder));
     uint8_t pre_charging = true;
-    kodo_set_pre_charging(encoder, pre_charging);
-    EXPECT_TRUE(kodo_pre_charging(encoder) != 0);
+    kodoc_set_pre_charging(encoder, pre_charging);
+    EXPECT_TRUE(kodoc_pre_charging(encoder) != 0);
 
     // width must be < symbols
     uint32_t width = max_symbols - 1;
-    kodo_set_width(encoder, width);
-    EXPECT_EQ(width, kodo_width(encoder));
+    kodoc_set_width(encoder, width);
+    EXPECT_EQ(width, kodoc_width(encoder));
 
     double width_ratio = 1.0;
-    kodo_set_width_ratio(encoder, width_ratio);
-    EXPECT_EQ(width_ratio, kodo_width_ratio(encoder));
+    kodoc_set_width_ratio(encoder, width_ratio);
+    EXPECT_EQ(width_ratio, kodoc_width_ratio(encoder));
 
-    kodo_delete_coder(encoder);
-    kodo_delete_factory(encoder_factory);
+    kodoc_delete_coder(encoder);
+    kodoc_delete_factory(encoder_factory);
 }

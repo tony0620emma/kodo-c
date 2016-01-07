@@ -27,8 +27,8 @@
 #include <kodo_rlnc/api/width.hpp>
 #include <kodo_rlnc/api/width_ratio.hpp>
 
-struct kodo_factory { };
-struct kodo_coder { };
+struct kodoc_factory { };
+struct kodoc_coder { };
 
 using namespace kodo_core::api;
 using namespace kodo_rlnc::api;
@@ -38,50 +38,50 @@ using namespace kodo_fulcrum::api;
 // CONFIGURATION API
 //------------------------------------------------------------------
 
-uint8_t kodo_has_codec(int32_t code_type)
+uint8_t kodoc_has_codec(int32_t codec)
 {
     bool available = false;
 
 #if !defined(KODOC_DISABLE_RLNC)
 
 #if !defined(KODOC_DISABLE_FULL_VECTOR)
-    if (code_type == kodo_full_vector)
+    if (codec == kodoc_full_vector)
     {
         available = true;
     }
 #endif
 #if !defined(KODOC_DISABLE_ON_THE_FLY)
-    if (code_type == kodo_on_the_fly)
+    if (codec == kodoc_on_the_fly)
     {
         available = true;
     }
 #endif
 #if !defined(KODOC_DISABLE_SLIDING_WINDOW)
-    if (code_type == kodo_sliding_window)
+    if (codec == kodoc_sliding_window)
     {
         available = true;
     }
 #endif
 #if !defined(KODOC_DISABLE_SPARSE_FULL_VECTOR)
-    if (code_type == kodo_sparse_full_vector)
+    if (codec == kodoc_sparse_full_vector)
     {
         available = true;
     }
 #endif
 #if !defined(KODOC_DISABLE_SEED)
-    if (code_type == kodo_seed)
+    if (codec == kodoc_seed)
     {
         available = true;
     }
 #endif
 #if !defined(KODOC_DISABLE_SPARSE_SEED)
-    if (code_type == kodo_sparse_seed)
+    if (codec == kodoc_sparse_seed)
     {
         available = true;
     }
 #endif
 #if !defined(KODOC_DISABLE_PERPETUAL)
-    if (code_type == kodo_perpetual)
+    if (codec == kodoc_perpetual)
     {
         available = true;
     }
@@ -90,14 +90,14 @@ uint8_t kodo_has_codec(int32_t code_type)
 #endif // !defined(KODOC_DISABLE_RLNC)
 
 #if !defined(KODOC_DISABLE_FULCRUM)
-    if (code_type == kodo_fulcrum)
+    if (codec == kodoc_fulcrum)
     {
         available = true;
     }
 #endif
 
 #if !defined(KODOC_DISABLE_REED_SOLOMON)
-    if (code_type == kodo_reed_solomon)
+    if (codec == kodoc_reed_solomon)
     {
         available = true;
     }
@@ -111,63 +111,64 @@ uint8_t kodo_has_codec(int32_t code_type)
 // FACTORY API
 //------------------------------------------------------------------
 
-void kodo_delete_factory(kodo_factory_t factory)
+void kodoc_delete_factory(kodoc_factory_t factory)
 {
     auto api = (final_interface*) factory;
     assert(api);
     api->reset();
 }
 
-uint32_t kodo_factory_max_symbols(kodo_factory_t factory)
+uint32_t kodoc_factory_max_symbols(kodoc_factory_t factory)
 {
     auto api = (final_interface*) factory;
     assert(api);
     return max_symbols(api);
 }
 
-uint32_t kodo_factory_max_symbol_size(kodo_factory_t factory)
+uint32_t kodoc_factory_max_symbol_size(kodoc_factory_t factory)
 {
     auto api = (final_interface*) factory;
     assert(api);
     return max_symbol_size(api);
 }
 
-uint32_t kodo_factory_max_block_size(kodo_factory_t factory)
+uint32_t kodoc_factory_max_block_size(kodoc_factory_t factory)
 {
     auto api = (final_interface*) factory;
     assert(api);
     return max_block_size(api);
 }
 
-uint32_t kodo_factory_max_payload_size(kodo_factory_t factory)
+uint32_t kodoc_factory_max_payload_size(kodoc_factory_t factory)
 {
     auto api = (final_interface*) factory;
     assert(api);
     return max_payload_size(api);
 }
 
-void kodo_factory_set_symbols(kodo_factory_t factory, uint32_t symbols)
+void kodoc_factory_set_symbols(kodoc_factory_t factory, uint32_t symbols)
 {
     auto api = (final_interface*) factory;
     assert(api);
     set_symbols(api, symbols);
 }
 
-void kodo_factory_set_symbol_size(kodo_factory_t factory, uint32_t symbol_size)
+void kodoc_factory_set_symbol_size(
+    kodoc_factory_t factory, uint32_t symbol_size)
 {
     auto api = (final_interface*) factory;
     assert(api);
     set_symbol_size(api, symbol_size);
 }
 
-kodo_coder_t kodo_factory_build_coder(kodo_factory_t factory)
+kodoc_coder_t kodoc_factory_build_coder(kodoc_factory_t factory)
 {
     auto api = (final_interface*) factory;
     assert(api);
-    return (kodo_coder_t) build(api)->keep_alive();
+    return (kodoc_coder_t) build(api)->keep_alive();
 }
 
-void kodo_delete_coder(kodo_coder_t coder)
+void kodoc_delete_coder(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
@@ -178,28 +179,28 @@ void kodo_delete_coder(kodo_coder_t coder)
 // PAYLOAD API
 //------------------------------------------------------------------
 
-uint32_t kodo_payload_size(kodo_coder_t coder)
+uint32_t kodoc_payload_size(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
     return payload_size(api);
 }
 
-void kodo_read_payload(kodo_coder_t decoder, uint8_t* payload)
+void kodoc_read_payload(kodoc_coder_t decoder, uint8_t* payload)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     read_payload(api, payload);
 }
 
-uint32_t kodo_write_payload(kodo_coder_t coder, uint8_t* payload)
+uint32_t kodoc_write_payload(kodoc_coder_t coder, uint8_t* payload)
 {
     auto api = (final_interface*) coder;
     assert(api);
     return write_payload(api, payload);
 }
 
-uint8_t kodo_has_write_payload(kodo_coder_t coder)
+uint8_t kodoc_has_write_payload(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
@@ -210,51 +211,52 @@ uint8_t kodo_has_write_payload(kodo_coder_t coder)
 // SYMBOL STORAGE API
 //------------------------------------------------------------------
 
-uint32_t kodo_block_size(kodo_coder_t coder)
+uint32_t kodoc_block_size(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
     return block_size(api);
 }
 
-void kodo_set_const_symbols(kodo_coder_t coder, uint8_t* data, uint32_t size)
+void kodoc_set_const_symbols(kodoc_coder_t coder, uint8_t* data, uint32_t size)
 {
     auto api = (final_interface*) coder;
     assert(api);
     set_const_symbols(api, sak::storage(data, size));
 }
 
-void kodo_set_const_symbol(kodo_coder_t coder, uint32_t index, uint8_t* data,
-                           uint32_t size)
+void kodoc_set_const_symbol(
+    kodoc_coder_t coder, uint32_t index, uint8_t* data, uint32_t size)
 {
     auto api = (final_interface*) coder;
     assert(api);
     set_const_symbol(api, index, sak::storage(data, size));
 }
 
-void kodo_set_mutable_symbols(kodo_coder_t coder, uint8_t* data, uint32_t size)
+void kodoc_set_mutable_symbols(
+    kodoc_coder_t coder, uint8_t* data, uint32_t size)
 {
     auto api = (final_interface*) coder;
     assert(api);
     set_mutable_symbols(api, sak::storage(data, size));
 }
 
-void kodo_set_mutable_symbol(kodo_coder_t coder, uint32_t index, uint8_t* data,
-                             uint32_t size)
+void kodoc_set_mutable_symbol(
+    kodoc_coder_t coder, uint32_t index, uint8_t* data, uint32_t size)
 {
     auto api = (final_interface*) coder;
     assert(api);
     set_mutable_symbol(api, index, sak::storage(data, size));
 }
 
-uint32_t kodo_symbol_size(kodo_coder_t coder)
+uint32_t kodoc_symbol_size(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
     return symbol_size(api);
 }
 
-uint32_t kodo_symbols(kodo_coder_t coder)
+uint32_t kodoc_symbols(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
@@ -265,105 +267,105 @@ uint32_t kodo_symbols(kodo_coder_t coder)
 // CODEC API
 //------------------------------------------------------------------
 
-uint8_t kodo_is_complete(kodo_coder_t decoder)
+uint8_t kodoc_is_complete(kodoc_coder_t decoder)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return is_complete(api);
 }
 
-uint8_t kodo_is_partially_complete(kodo_coder_t decoder)
+uint8_t kodoc_is_partially_complete(kodoc_coder_t decoder)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return is_partially_complete(api);
 }
 
-uint8_t kodo_has_feedback_size(kodo_coder_t coder)
+uint8_t kodoc_has_feedback_size(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
     return has_interface<feedback_size_interface>(api);
 }
 
-uint8_t kodo_feedback_size(kodo_coder_t coder)
+uint8_t kodoc_feedback_size(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
     return feedback_size(api);
 }
 
-void kodo_read_feedback(kodo_coder_t encoder, uint8_t* feedback)
+void kodoc_read_feedback(kodoc_coder_t encoder, uint8_t* feedback)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     read_feedback(api, feedback);
 }
 
-uint32_t kodo_write_feedback(kodo_coder_t decoder, uint8_t* feedback)
+uint32_t kodoc_write_feedback(kodoc_coder_t decoder, uint8_t* feedback)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return write_feedback(api, feedback);
 }
 
-uint32_t kodo_rank(kodo_coder_t coder)
+uint32_t kodoc_rank(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
     return rank(api);
 }
 
-uint8_t kodo_is_symbol_pivot(kodo_coder_t decoder, uint32_t index)
+uint8_t kodoc_is_symbol_pivot(kodoc_coder_t decoder, uint32_t index)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return is_symbol_pivot(api, index);
 }
 
-uint8_t kodo_is_symbol_missing(kodo_coder_t decoder, uint32_t index)
+uint8_t kodoc_is_symbol_missing(kodoc_coder_t decoder, uint32_t index)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return is_symbol_missing(api, index);
 }
 
-uint8_t kodo_is_symbol_partially_decoded(kodo_coder_t decoder, uint32_t index)
+uint8_t kodoc_is_symbol_partially_decoded(kodoc_coder_t decoder, uint32_t index)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return is_symbol_partially_decoded(api, index);
 }
 
-uint8_t kodo_is_symbol_uncoded(kodo_coder_t decoder, uint32_t index)
+uint8_t kodoc_is_symbol_uncoded(kodoc_coder_t decoder, uint32_t index)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return is_symbol_uncoded(api, index);
 }
 
-uint32_t kodo_symbols_missing(kodo_coder_t decoder)
+uint32_t kodoc_symbols_missing(kodoc_coder_t decoder)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return symbols_missing(api);
 }
 
-uint32_t kodo_symbols_partially_decoded(kodo_coder_t decoder)
+uint32_t kodoc_symbols_partially_decoded(kodoc_coder_t decoder)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return symbols_partially_decoded(api);
 }
 
-uint32_t kodo_symbols_uncoded(kodo_coder_t decoder)
+uint32_t kodoc_symbols_uncoded(kodoc_coder_t decoder)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return symbols_uncoded(api);
 }
 
-void kodo_read_symbol(kodo_coder_t decoder, uint8_t* symbol_data,
+void kodoc_read_symbol(kodoc_coder_t decoder, uint8_t* symbol_data,
                       uint8_t* coefficients)
 {
     auto api = (final_interface*) decoder;
@@ -371,24 +373,24 @@ void kodo_read_symbol(kodo_coder_t decoder, uint8_t* symbol_data,
     return read_symbol(api, symbol_data, coefficients);
 }
 
-void kodo_read_uncoded_symbol(kodo_coder_t decoder, uint8_t* symbol_data,
-                              uint32_t index)
+void kodoc_read_uncoded_symbol(
+    kodoc_coder_t decoder, uint8_t* symbol_data, uint32_t index)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return read_uncoded_symbol(api, symbol_data, index);
 }
 
-uint32_t kodo_write_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
-                           uint8_t* coefficients)
+uint32_t kodoc_write_symbol(
+    kodoc_coder_t encoder, uint8_t* symbol_data, uint8_t* coefficients)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     return write_symbol(api, symbol_data, coefficients);
 }
 
-uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
-                                   uint32_t index)
+uint32_t kodoc_write_uncoded_symbol(
+    kodoc_coder_t encoder, uint8_t* symbol_data, uint32_t index)
 {
     auto api = (final_interface*) encoder;
     assert(api);
@@ -399,35 +401,35 @@ uint32_t kodo_write_uncoded_symbol(kodo_coder_t encoder, uint8_t* symbol_data,
 // GENERIC API
 //------------------------------------------------------------------
 
-uint8_t kodo_has_partial_decoding_interface(kodo_coder_t decoder)
+uint8_t kodoc_has_partial_decoding_interface(kodoc_coder_t decoder)
 {
     auto api = (final_interface*) decoder;
     assert(api);
     return has_interface<partial_decoding_interface>(api);
 }
 
-uint8_t kodo_has_systematic_interface(kodo_coder_t encoder)
+uint8_t kodoc_has_systematic_interface(kodoc_coder_t encoder)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     return has_interface<systematic_interface>(api);
 }
 
-uint8_t kodo_is_systematic_on(kodo_coder_t encoder)
+uint8_t kodoc_is_systematic_on(kodoc_coder_t encoder)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     return is_systematic_on(api);
 }
 
-void kodo_set_systematic_on(kodo_coder_t encoder)
+void kodoc_set_systematic_on(kodoc_coder_t encoder)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     set_systematic_on(api);
 }
 
-void kodo_set_systematic_off(kodo_coder_t encoder)
+void kodoc_set_systematic_off(kodoc_coder_t encoder)
 {
     auto api = (final_interface*) encoder;
     assert(api);
@@ -438,15 +440,15 @@ void kodo_set_systematic_off(kodo_coder_t encoder)
 // TRACE API
 //------------------------------------------------------------------
 
-uint8_t kodo_has_trace_interface(kodo_coder_t coder)
+uint8_t kodoc_has_trace_interface(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
     return has_interface<trace_interface>(api);
 }
 
-void kodo_set_trace_callback(
-    kodo_coder_t coder, kodo_trace_callback_t c_callback, void* context)
+void kodoc_set_trace_callback(
+    kodoc_coder_t coder, kodoc_trace_callback_t c_callback, void* context)
 {
     assert(c_callback);
     auto api = (final_interface*) coder;
@@ -459,21 +461,21 @@ void kodo_set_trace_callback(
     set_trace_callback(api, callback);
 }
 
-void kodo_set_trace_stdout(kodo_coder_t coder)
+void kodoc_set_trace_stdout(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
     set_trace_stdout(api);
 }
 
-void kodo_set_trace_off(kodo_coder_t coder)
+void kodoc_set_trace_off(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
     set_trace_off(api);
 }
 
-void kodo_set_zone_prefix(kodo_coder_t coder, const char* prefix)
+void kodoc_set_zone_prefix(kodoc_coder_t coder, const char* prefix)
 {
     auto api = (final_interface*) coder;
     assert(api);
@@ -484,14 +486,14 @@ void kodo_set_zone_prefix(kodo_coder_t coder, const char* prefix)
 // SPARSE ENCODER API
 //------------------------------------------------------------------
 
-double kodo_density(kodo_coder_t encoder)
+double kodoc_density(kodoc_coder_t encoder)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     return density(api);
 }
 
-void kodo_set_density(kodo_coder_t encoder, double density)
+void kodoc_set_density(kodoc_coder_t encoder, double density)
 {
     auto api = (final_interface*) encoder;
     assert(api);
@@ -502,56 +504,57 @@ void kodo_set_density(kodo_coder_t encoder, double density)
 // PERPETUAL ENCODER API
 //------------------------------------------------------------------
 
-uint8_t kodo_pseudo_systematic(kodo_coder_t encoder)
+uint8_t kodoc_pseudo_systematic(kodoc_coder_t encoder)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     return pseudo_systematic(api);
 }
 
-void kodo_set_pseudo_systematic(kodo_coder_t encoder, uint8_t pseudo_systematic)
+void kodoc_set_pseudo_systematic(
+    kodoc_coder_t encoder, uint8_t pseudo_systematic)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     set_pseudo_systematic(api, pseudo_systematic != 0);
 }
 
-uint8_t kodo_pre_charging(kodo_coder_t encoder)
+uint8_t kodoc_pre_charging(kodoc_coder_t encoder)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     return pre_charging(api);
 }
 
-void kodo_set_pre_charging(kodo_coder_t encoder, uint8_t pre_charging)
+void kodoc_set_pre_charging(kodoc_coder_t encoder, uint8_t pre_charging)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     set_pre_charging(api, pre_charging != 0);
 }
 
-uint32_t kodo_width(kodo_coder_t encoder)
+uint32_t kodoc_width(kodoc_coder_t encoder)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     return width(api);
 }
 
-void kodo_set_width(kodo_coder_t encoder, uint32_t width)
+void kodoc_set_width(kodoc_coder_t encoder, uint32_t width)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     set_width(api, width);
 }
 
-double kodo_width_ratio(kodo_coder_t encoder)
+double kodoc_width_ratio(kodoc_coder_t encoder)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     return width_ratio(api);
 }
 
-void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio)
+void kodoc_set_width_ratio(kodoc_coder_t encoder, double width_ratio)
 {
     auto api = (final_interface*) encoder;
     assert(api);
@@ -562,14 +565,14 @@ void kodo_set_width_ratio(kodo_coder_t encoder, double width_ratio)
 // FULCRUM CODER API
 //------------------------------------------------------------------
 
-uint32_t kodo_expansion(kodo_coder_t coder)
+uint32_t kodoc_expansion(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
     return expansion(api);
 }
 
-uint32_t kodo_inner_symbols(kodo_coder_t coder)
+uint32_t kodoc_inner_symbols(kodoc_coder_t coder)
 {
     auto api = (final_interface*) coder;
     assert(api);
@@ -579,14 +582,14 @@ uint32_t kodo_inner_symbols(kodo_coder_t coder)
 //------------------------------------------------------------------
 // FULCRUM ENCODER API
 //------------------------------------------------------------------
-uint32_t kodo_nested_symbols(kodo_coder_t encoder)
+uint32_t kodoc_nested_symbols(kodoc_coder_t encoder)
 {
     auto api = (final_interface*) encoder;
     assert(api);
     return nested_symbols(api);
 }
 
-uint32_t kodo_nested_symbol_size(kodo_coder_t encoder)
+uint32_t kodoc_nested_symbol_size(kodoc_coder_t encoder)
 {
     auto api = (final_interface*) encoder;
     assert(api);
@@ -597,21 +600,21 @@ uint32_t kodo_nested_symbol_size(kodo_coder_t encoder)
 // FULCRUM FACTORY API
 //------------------------------------------------------------------
 
-uint32_t kodo_factory_max_expansion(kodo_factory_t factory)
+uint32_t kodoc_factory_max_expansion(kodoc_factory_t factory)
 {
     auto api = (final_interface*) factory;
     assert(api);
     return max_expansion(api);
 }
 
-void kodo_factory_set_expansion(kodo_factory_t factory, uint32_t expansion)
+void kodoc_factory_set_expansion(kodoc_factory_t factory, uint32_t expansion)
 {
     auto api = (final_interface*) factory;
     assert(api);
     set_expansion(api, expansion);
 }
 
-uint32_t kodo_factory_max_inner_symbols(kodo_factory_t factory)
+uint32_t kodoc_factory_max_inner_symbols(kodoc_factory_t factory)
 {
     auto api = (final_interface*) factory;
     assert(api);

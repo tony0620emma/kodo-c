@@ -25,7 +25,7 @@ namespace kodoc
         kodo_core::api::feedback_size_binding<
         kodo_core::api::systematic_binding<Stack>>>;
 
-    kodo_factory_t new_sliding_window_encoder_factory(int32_t finite_field,
+    kodoc_factory_t new_sliding_window_encoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<
@@ -42,7 +42,7 @@ namespace kodoc
         kodo_core::api::partial_decoding_binding<
         kodo_core::api::write_payload_binding<Stack>>>>;
 
-    kodo_factory_t new_sliding_window_decoder_factory(int32_t finite_field,
+    kodoc_factory_t new_sliding_window_decoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<

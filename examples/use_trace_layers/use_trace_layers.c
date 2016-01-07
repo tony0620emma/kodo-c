@@ -50,38 +50,38 @@ int main()
     uint32_t max_symbols = 3;
     uint32_t max_symbol_size = 16;
 
-    int32_t code_type = kodo_full_vector;
-    int32_t finite_field = kodo_binary8;
+    int32_t codec = kodoc_full_vector;
+    int32_t finite_field = kodoc_binary8;
 
     // In the following we will make an encoder/decoder factory.
     // The factories are used to build actual encoders/decoder
-    kodo_factory_t encoder_factory =
-        kodo_new_encoder_factory(code_type, finite_field,
+    kodoc_factory_t encoder_factory =
+        kodoc_new_encoder_factory(codec, finite_field,
                                  max_symbols, max_symbol_size);
 
-    kodo_factory_t decoder_factory =
-        kodo_new_decoder_factory(code_type, finite_field,
+    kodoc_factory_t decoder_factory =
+        kodoc_new_decoder_factory(codec, finite_field,
                                  max_symbols, max_symbol_size);
 
     // If we wanted to build an encoder or decoder with a smaller number of
     // symbols or a different symbol size, then this can be adjusted using the
     // following functions:
-    //      kodo_factory_set_symbols(...)
-    //      kodo_factory_set_symbol_size(...)
+    //      kodoc_factory_set_symbols(...)
+    //      kodoc_factory_set_symbol_size(...)
     // We cannot exceed the maximum values which was used when building
     // the factory.
-    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
+    kodoc_coder_t encoder = kodoc_factory_build_coder(encoder_factory);
+    kodoc_coder_t decoder = kodoc_factory_build_coder(decoder_factory);
 
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network
-    uint32_t payload_size = kodo_payload_size(encoder);
+    uint32_t payload_size = kodoc_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
     // Allocate some data to encode. In this case we make a buffer
     // with the same size as the encoder's block size (the max.
     // amount a single encoder can encode)
-    uint32_t block_size = kodo_block_size(encoder);
+    uint32_t block_size = kodoc_block_size(encoder);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
 
     // Just for fun - fill the data with random data
@@ -93,32 +93,32 @@ int main()
 
     // Install the stdout trace function for the encoder (everything will
     // be printed to stdout without filtering)
-    kodo_set_trace_stdout(encoder);
+    kodoc_set_trace_stdout(encoder);
     // Set a custom zone prefix for the encoder (this helps to differentiate
     // the trace output of the encoder and the decoder)
-    kodo_set_zone_prefix(encoder, "Encoder");
+    kodoc_set_zone_prefix(encoder, "Encoder");
 
     // Install a custom trace function for the decoder (we can process and
     // filter the data in our trace callback)
-    kodo_set_trace_callback(decoder, trace_callback, NULL);
+    kodoc_set_trace_callback(decoder, trace_callback, NULL);
     // Set a custom zone prefix for the decoder
-    kodo_set_zone_prefix(decoder, "Decoder");
+    kodoc_set_zone_prefix(decoder, "Decoder");
 
-    kodo_set_const_symbols(encoder, data_in, block_size);
+    kodoc_set_const_symbols(encoder, data_in, block_size);
 
     uint8_t* data_out = (uint8_t*) malloc(block_size);
-    kodo_set_mutable_symbols(decoder, data_out, block_size);
+    kodoc_set_mutable_symbols(decoder, data_out, block_size);
 
-    while (!kodo_is_complete(decoder))
+    while (!kodoc_is_complete(decoder))
     {
-        kodo_write_payload(encoder, payload);
+        kodoc_write_payload(encoder, payload);
 
         if ((rand() % 2) == 0)
         {
             continue;
         }
 
-        kodo_read_payload(decoder, payload);
+        kodoc_read_payload(decoder, payload);
     }
 
     if (memcmp(data_in, data_out, block_size) == 0)
@@ -134,11 +134,11 @@ int main()
     free(data_out);
     free(payload);
 
-    kodo_delete_coder(encoder);
-    kodo_delete_coder(decoder);
+    kodoc_delete_coder(encoder);
+    kodoc_delete_coder(decoder);
 
-    kodo_delete_factory(encoder_factory);
-    kodo_delete_factory(decoder_factory);
+    kodoc_delete_factory(encoder_factory);
+    kodoc_delete_factory(decoder_factory);
 
     return 0;
 }

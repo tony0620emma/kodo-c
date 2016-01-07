@@ -12,12 +12,12 @@
 
 TEST(test_reed_solomon_codes, basic_api)
 {
-    if (kodo_has_codec(kodo_reed_solomon) == false)
+    if (kodoc_has_codec(kodoc_reed_solomon) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    run_test_basic_api(kodo_reed_solomon, kodo_reed_solomon, kodo_binary8,
+    run_test_basic_api(kodoc_reed_solomon, kodoc_reed_solomon, kodoc_binary8,
                        max_symbols, max_symbol_size);
 }
