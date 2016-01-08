@@ -12,81 +12,81 @@
 #include "test_helper.hpp"
 
 void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
-                     int32_t code_type, int32_t finite_field)
+                     int32_t codec, int32_t finite_field)
 {
-    kodo_factory_t encoder_factory = kodo_new_encoder_factory(
-        code_type, finite_field, max_symbols, max_symbol_size);
+    kodoc_factory_t encoder_factory = kodoc_new_encoder_factory(
+        codec, finite_field, max_symbols, max_symbol_size);
 
-    kodo_factory_t decoder_factory = kodo_new_decoder_factory(
-        code_type, finite_field, max_symbols, max_symbol_size);
+    kodoc_factory_t decoder_factory = kodoc_new_decoder_factory(
+        codec, finite_field, max_symbols, max_symbol_size);
 
-    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
+    kodoc_coder_t encoder = kodoc_factory_build_coder(encoder_factory);
+    kodoc_coder_t decoder = kodoc_factory_build_coder(decoder_factory);
 
-    uint32_t symbol_size = kodo_symbol_size(encoder);
-    uint32_t payload_size = kodo_payload_size(encoder);
+    uint32_t symbol_size = kodoc_symbol_size(encoder);
+    uint32_t payload_size = kodoc_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
-    uint32_t block_size = kodo_block_size(encoder);
+    uint32_t block_size = kodoc_block_size(encoder);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
     uint8_t* data_out = (uint8_t*) malloc(block_size);
 
     for (uint32_t i = 0; i < block_size; ++i)
         data_in[i] = rand() % 256;
 
-    kodo_set_mutable_symbols(decoder, data_out, block_size);
+    kodoc_set_mutable_symbols(decoder, data_out, block_size);
 
-    EXPECT_TRUE(kodo_is_complete(decoder) == 0);
+    EXPECT_TRUE(kodoc_is_complete(decoder) == 0);
 
-    while (!kodo_is_complete(decoder))
+    while (!kodoc_is_complete(decoder))
     {
-        EXPECT_GE(kodo_rank(encoder), kodo_rank(decoder));
+        EXPECT_GE(kodoc_rank(encoder), kodoc_rank(decoder));
 
         // The rank of an encoder indicates how many symbols have been added,
         // i.e. how many symbols are available for encoding
-        uint32_t encoder_rank = kodo_rank(encoder);
+        uint32_t encoder_rank = kodoc_rank(encoder);
 
         // Randomly choose to add a new symbol (with 50% probability)
         // if the encoder rank is less than the maximum number of symbols
-        if ((rand() % 2) && encoder_rank < kodo_symbols(encoder))
+        if ((rand() % 2) && encoder_rank < kodoc_symbols(encoder))
         {
             // Calculate the offset to the next symbol to insert
             uint8_t* symbol = data_in + (encoder_rank * symbol_size);
-            kodo_set_const_symbol(encoder, encoder_rank, symbol, symbol_size);
+            kodoc_set_const_symbol(encoder, encoder_rank, symbol, symbol_size);
         }
         // Generate an encoded packet
-        kodo_write_payload(encoder, payload);
+        kodoc_write_payload(encoder, payload);
 
         // Simulate that 50% of the packets are lost
         if (rand() % 2) continue;
 
         // Packet got through - pass that packet to the decoder
-        kodo_read_payload(decoder, payload);
+        kodoc_read_payload(decoder, payload);
 
         // Check the decoder rank and symbol counters
-        EXPECT_GE(kodo_rank(encoder), kodo_rank(decoder));
-        EXPECT_GE(kodo_rank(decoder), kodo_symbols_uncoded(decoder));
-        EXPECT_GE(kodo_rank(decoder), kodo_symbols_partially_decoded(decoder));
-        EXPECT_EQ(kodo_symbols(decoder) - kodo_rank(decoder),
-                  kodo_symbols_missing(decoder));
+        EXPECT_GE(kodoc_rank(encoder), kodoc_rank(decoder));
+        EXPECT_GE(kodoc_rank(decoder), kodoc_symbols_uncoded(decoder));
+        EXPECT_GE(kodoc_rank(decoder), kodoc_symbols_partially_decoded(decoder));
+        EXPECT_EQ(kodoc_symbols(decoder) - kodoc_rank(decoder),
+                  kodoc_symbols_missing(decoder));
 
         // Check the decoder whether it is partially complete
         // The decoder has to support the partial decoding tracker
-        if (kodo_has_partial_decoding_interface(decoder) &&
-            kodo_is_partially_complete(decoder))
+        if (kodoc_has_partial_decoding_interface(decoder) &&
+            kodoc_is_partially_complete(decoder))
         {
-            for (uint32_t i = 0; i < kodo_symbols(decoder); ++i)
+            for (uint32_t i = 0; i < kodoc_symbols(decoder); ++i)
             {
                 // Go through all symbols that are already decoded
-                if (kodo_is_symbol_uncoded(decoder, i))
+                if (kodoc_is_symbol_uncoded(decoder, i))
                 {
                     // All uncoded symbols must have a pivot
-                    EXPECT_TRUE(kodo_is_symbol_pivot(decoder, i) != 0);
+                    EXPECT_TRUE(kodoc_is_symbol_pivot(decoder, i) != 0);
                     // The uncoded symbols cannot be missing
-                    EXPECT_TRUE(kodo_is_symbol_missing(decoder, i) == 0);
+                    EXPECT_TRUE(kodoc_is_symbol_missing(decoder, i) == 0);
                     // The uncoded symbols cannot be partially decoded
                     EXPECT_TRUE(
-                        kodo_is_symbol_partially_decoded(decoder, i) == 0);
+                        kodoc_is_symbol_partially_decoded(decoder, i) == 0);
 
                     uint8_t* original = data_in + i * symbol_size;
                     uint8_t* target = data_out + i * symbol_size;
@@ -104,27 +104,27 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
     free(data_out);
     free(payload);
 
-    kodo_delete_coder(encoder);
-    kodo_delete_coder(decoder);
+    kodoc_delete_coder(encoder);
+    kodoc_delete_coder(decoder);
 
-    kodo_delete_factory(encoder_factory);
-    kodo_delete_factory(decoder_factory);
+    kodoc_delete_factory(encoder_factory);
+    kodoc_delete_factory(decoder_factory);
 }
 
 TEST(test_on_the_fly_codes, invoke_api)
 {
-    if (kodo_has_codec(kodo_on_the_fly) == false)
+    if (kodoc_has_codec(kodoc_on_the_fly) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
     test_on_the_fly(max_symbols, max_symbol_size,
-                    kodo_on_the_fly, kodo_binary);
+                    kodoc_on_the_fly, kodoc_binary);
 
     test_on_the_fly(max_symbols, max_symbol_size,
-                    kodo_on_the_fly, kodo_binary4);
+                    kodoc_on_the_fly, kodoc_binary4);
 
     test_on_the_fly(max_symbols, max_symbol_size,
-                    kodo_on_the_fly, kodo_binary8);
+                    kodoc_on_the_fly, kodoc_binary8);
 }

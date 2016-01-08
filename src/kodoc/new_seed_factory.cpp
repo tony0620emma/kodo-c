@@ -9,7 +9,7 @@
 
 #include <cstdint>
 
-#include <kodo/api/api.hpp>
+#include <kodo_core/api/api.hpp>
 #include <kodo_rlnc/seed_encoder.hpp>
 #include <kodo_rlnc/seed_decoder.hpp>
 
@@ -19,22 +19,22 @@
 
 namespace kodoc
 {
-    kodo_factory_t new_seed_encoder_factory(int32_t finite_field,
+    kodoc_factory_t new_seed_encoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<
             runtime_encoder<
-            kodo::rlnc::seed_encoder,
-            kodo::api::systematic_binding>>(
+            kodo_rlnc::seed_encoder,
+            kodo_core::api::systematic_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 
-    kodo_factory_t new_seed_decoder_factory(int32_t finite_field,
+    kodoc_factory_t new_seed_decoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<
             runtime_decoder<
-            kodo::rlnc::seed_decoder>>(
+            kodo_rlnc::seed_decoder>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 }

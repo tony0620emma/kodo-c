@@ -21,31 +21,30 @@
 
 namespace kodoc
 {
-
     template<class Stack>
     using fulcrum_encoder_binding =
-        kodo::fulcrum::api::fulcrum_binding<
-        kodo::fulcrum::api::fulcrum_nested_stack_binding<Stack>>;
+        kodo_fulcrum::api::fulcrum_binding<
+        kodo_fulcrum::api::fulcrum_nested_stack_binding<Stack>>;
 
-    kodo_factory_t new_fulcrum_encoder_factory(int32_t finite_field,
+    kodoc_factory_t new_fulcrum_encoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<
             runtime_encoder<
-            kodo::fulcrum::fulcrum_encoder,
+            kodo_fulcrum::fulcrum_encoder,
             fulcrum_encoder_binding,
-            kodo::fulcrum::api::fulcrum_config_binding>>(
+            kodo_fulcrum::api::fulcrum_config_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 
-    kodo_factory_t new_fulcrum_decoder_factory(int32_t finite_field,
+    kodoc_factory_t new_fulcrum_decoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<
             runtime_decoder<
-            kodo::fulcrum::fulcrum_combined_decoder,
-            kodo::fulcrum::api::fulcrum_binding,
-            kodo::fulcrum::api::fulcrum_config_binding>>(
+            kodo_fulcrum::fulcrum_combined_decoder,
+            kodo_fulcrum::api::fulcrum_binding,
+            kodo_fulcrum::api::fulcrum_config_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 }

@@ -9,7 +9,7 @@
 
 #include <cstdint>
 
-#include <kodo/api/api.hpp>
+#include <kodo_core/api/api.hpp>
 #include <kodo_rlnc/perpetual_encoder.hpp>
 #include <kodo_rlnc/perpetual_decoder.hpp>
 #include <kodo_rlnc/api/perpetual_encoder_binding.hpp>
@@ -20,23 +20,23 @@
 
 namespace kodoc
 {
-    kodo_factory_t new_perpetual_encoder_factory(int32_t finite_field,
+    kodoc_factory_t new_perpetual_encoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<
             runtime_encoder<
-            kodo::rlnc::perpetual_encoder,
-            kodo::rlnc::api::perpetual_encoder_binding>>(
+            kodo_rlnc::perpetual_encoder,
+            kodo_rlnc::api::perpetual_encoder_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 
-    kodo_factory_t new_perpetual_decoder_factory(int32_t finite_field,
+    kodoc_factory_t new_perpetual_decoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<
             runtime_decoder<
-            kodo::rlnc::perpetual_decoder,
-            kodo::api::write_payload_binding>>(
+            kodo_rlnc::perpetual_decoder,
+            kodo_core::api::write_payload_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 }

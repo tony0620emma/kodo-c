@@ -11,7 +11,7 @@
 
 #include <cstdint>
 
-#include <kodo/api/api.hpp>
+#include <kodo_core/api/api.hpp>
 #include <kodo_rlnc/full_vector_decoder.hpp>
 #include <kodo_rlnc/full_vector_encoder.hpp>
 #include <kodo_rlnc/sparse_full_vector_encoder.hpp>
@@ -22,38 +22,38 @@
 
 namespace kodoc
 {
-    kodo_factory_t new_full_vector_encoder_factory(int32_t finite_field,
+    kodoc_factory_t new_full_vector_encoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<
             runtime_encoder<
-            kodo::rlnc::full_vector_encoder,
-            kodo::api::systematic_binding>>(
+            kodo_rlnc::full_vector_encoder,
+            kodo_core::api::systematic_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 
     template<class Stack>
     using sparse_full_vector_encoder_binding =
-        kodo::api::sparse_encoder_binding<
-        kodo::api::systematic_binding<Stack>>;
+        kodo_core::api::sparse_encoder_binding<
+        kodo_core::api::systematic_binding<Stack>>;
 
-    kodo_factory_t new_sparse_full_vector_encoder_factory(int32_t finite_field,
+    kodoc_factory_t new_sparse_full_vector_encoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<
             runtime_encoder<
-            kodo::rlnc::sparse_full_vector_encoder,
+            kodo_rlnc::sparse_full_vector_encoder,
             sparse_full_vector_encoder_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 
-    kodo_factory_t new_full_vector_decoder_factory(int32_t finite_field,
+    kodoc_factory_t new_full_vector_decoder_factory(int32_t finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         return create_factory<
             runtime_decoder<
-            kodo::rlnc::full_vector_decoder,
-            kodo::api::write_payload_binding>>(
+            kodo_rlnc::full_vector_decoder,
+            kodo_core::api::write_payload_binding>>(
                 finite_field, max_symbols, max_symbol_size);
     }
 }

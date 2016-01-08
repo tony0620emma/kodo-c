@@ -42,44 +42,44 @@ int main()
     uint8_t max_symbols = 6;
     uint8_t max_symbol_size = 100;
 
-    int32_t code_type = kodo_sliding_window;
-    int32_t finite_field = kodo_binary8;
+    int32_t codec = kodoc_sliding_window;
+    int32_t finite_field = kodoc_binary8;
 
     // In the following we will make an encoder/decoder factory.
     // The factories are used to build actual encoders/decoders
-    kodo_factory_t encoder_factory =
-        kodo_new_encoder_factory(code_type, finite_field,
+    kodoc_factory_t encoder_factory =
+        kodoc_new_encoder_factory(codec, finite_field,
                                  max_symbols, max_symbol_size);
 
-    kodo_factory_t decoder_factory =
-        kodo_new_decoder_factory(code_type, finite_field,
+    kodoc_factory_t decoder_factory =
+        kodoc_new_decoder_factory(codec, finite_field,
                                  max_symbols, max_symbol_size);
 
     // If we wanted to build an encoder or decoder with a smaller number of
     // symbols or a different symbol size, then this can be adjusted using the
     // following functions:
-    //      kodo_factory_set_symbols(...)
-    //      kodo_factory_set_symbol_size(...)
+    //      kodoc_factory_set_symbols(...)
+    //      kodoc_factory_set_symbol_size(...)
     // We cannot exceed the maximum values which was used when building
     // the factory.
-    kodo_coder_t encoder = kodo_factory_build_coder(encoder_factory);
-    kodo_coder_t decoder = kodo_factory_build_coder(decoder_factory);
+    kodoc_coder_t encoder = kodoc_factory_build_coder(encoder_factory);
+    kodoc_coder_t decoder = kodoc_factory_build_coder(decoder_factory);
 
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network
-    uint32_t payload_size = kodo_payload_size(encoder);
+    uint32_t payload_size = kodoc_payload_size(encoder);
     uint8_t* payload = (uint8_t*) malloc(payload_size);
 
     // Allocate some data to encode. In this case we make a buffer
     // with the same size as the encoder's block size (the max.
     // amount a single encoder can encode)
-    uint32_t block_size = kodo_block_size(encoder);
+    uint32_t block_size = kodoc_block_size(encoder);
     uint8_t* data_in = (uint8_t*) malloc(block_size);
 
     uint8_t* data_out = (uint8_t*) malloc(block_size);
-    kodo_set_mutable_symbols(decoder, data_out, block_size);
+    kodoc_set_mutable_symbols(decoder, data_out, block_size);
 
-    uint8_t feedback_size = (uint8_t) kodo_feedback_size(encoder);
+    uint8_t feedback_size = (uint8_t) kodoc_feedback_size(encoder);
     uint8_t* feedback = (uint8_t*) malloc(feedback_size);
 
     uint32_t i = 0;
@@ -91,27 +91,27 @@ int main()
     }
 
     // Install a custom trace function for the decoder
-    kodo_set_trace_callback(decoder, trace_callback, NULL);
+    kodoc_set_trace_callback(decoder, trace_callback, NULL);
 
-    while (!kodo_is_complete(decoder))
+    while (!kodoc_is_complete(decoder))
     {
         // Insert a new symbol until the encoder is full
-        if (kodo_rank(encoder) < max_symbols)
+        if (kodoc_rank(encoder) < max_symbols)
         {
-            uint32_t rank = kodo_rank(encoder);
+            uint32_t rank = kodoc_rank(encoder);
             uint8_t* symbol = data_in + (rank * max_symbol_size);
-            kodo_set_const_symbol(encoder, rank, symbol, max_symbol_size);
+            kodoc_set_const_symbol(encoder, rank, symbol, max_symbol_size);
             printf("Symbol %d added to the encoder\n", rank);
         }
 
         // Only send packets if the encoder has more data than the decoder
-        if (kodo_rank(encoder) == kodo_rank(decoder))
+        if (kodoc_rank(encoder) == kodoc_rank(decoder))
         {
             continue;
         }
 
         // Write an encoded packet into the payload buffer
-        kodo_write_payload(encoder, payload);
+        kodoc_write_payload(encoder, payload);
         printf("Encoded packet generated\n");
 
         // Here we simulate that we are losing 50% of the packets
@@ -124,22 +124,22 @@ int main()
         printf("Decoder received packet\n");
 
         // Packet got through - pass that packet to the decoder
-        kodo_read_payload(decoder, payload);
+        kodoc_read_payload(decoder, payload);
 
-        printf("Encoder rank = %d\n", kodo_rank(encoder));
-        printf("Decoder rank = %d\n", kodo_rank(decoder));
+        printf("Encoder rank = %d\n", kodoc_rank(encoder));
+        printf("Decoder rank = %d\n", kodoc_rank(decoder));
 
-        printf("Decoder uncoded = %d\n", kodo_symbols_uncoded(decoder));
+        printf("Decoder uncoded = %d\n", kodoc_symbols_uncoded(decoder));
         printf("Decoder partially decoded = %d\n",
-               kodo_symbols_partially_decoded(decoder));
+               kodoc_symbols_partially_decoded(decoder));
 
         // Transmit the feedback
-        kodo_write_feedback(decoder, feedback);
+        kodoc_write_feedback(decoder, feedback);
 
         // Note that the feedback packets can also be lost in a real network,
         // but here we deliver all of them for the sake of simplicity
         printf("Received feedback from decoder\n\n");
-        kodo_read_feedback(encoder, feedback);
+        kodoc_read_feedback(encoder, feedback);
     }
 
     if (memcmp(data_in, data_out, block_size) == 0)
@@ -156,11 +156,11 @@ int main()
     free(payload);
     free(feedback);
 
-    kodo_delete_coder(encoder);
-    kodo_delete_coder(decoder);
+    kodoc_delete_coder(encoder);
+    kodoc_delete_coder(decoder);
 
-    kodo_delete_factory(encoder_factory);
-    kodo_delete_factory(decoder_factory);
+    kodoc_delete_factory(encoder_factory);
+    kodoc_delete_factory(decoder_factory);
 
     return 0;
 }

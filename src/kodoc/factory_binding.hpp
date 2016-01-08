@@ -5,13 +5,13 @@
 
 #pragma once
 
-#include <kodo/api/api.hpp>
+#include <kodo_core/api/api.hpp>
 
 namespace kodoc
 {
     template<class Factory>
     using factory_binding =
-        kodo::api::storage_block_info_binding<
-        kodo::api::max_payload_size_binding<
-        kodo::api::final_binding<Factory>>>;
+        kodo_core::api::storage_block_info_binding<
+        kodo_core::api::max_payload_size_binding<
+        kodo_core::api::final_binding<Factory>>>;
 }

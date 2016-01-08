@@ -17,22 +17,35 @@ Shared Library
 
 In many cases, it is easier to include kodo-c as a *shared* library in
 your application. With the following command, you can copy the compiled
-shared library to the target folder specified by the ``install_path`` option::
+shared library to the target folder specified by the ``install_path`` option.
+In this example, we will create the ``shared_test`` folder for this purpose::
 
-    python waf install --install_shared_libs --install_path="/path/to/my_folder"
+    python waf install --install_shared_libs --install_path="./shared_test"
 
 The kodo-c shared library is called ``libkodoc.so`` on Linux, ``kodoc.dll`` on
 Windows and ``libkodoc.dylib`` on Mac OSX. You can link with this shared
 library using your own build system. You also need to include ``kodoc.h``
-in your code. The following command demonstrates the necessary flags for the
-gcc/g++ compiler (other compilers require similar settings)::
+in your code. This header file is installed to the ``include`` folder within
+the specified ``install_path``.
 
-    gcc myapp.c -o myapp -Ipath_to_kodoc_h -Lpath_to_shared_lib \
-    -Wl,-Bdynamic -lkodoc -lstdc++ -Wl,-rpath .
+Now we copy an existing kodo-c example (encode_decode_simple) to the
+``shared_test`` folder and we compile it to a binary called ``myapp``::
 
-Substitute ``path_to_kodoc_h`` with the path to ``kodoc.h``. Similarly,
-substitute ``path_to_shared_lib`` with the path where you installed the
-shared library.
+    cp examples/encode_decode_simple/encode_decode_simple.c shared_test/myapp.c
+    cd shared_test
+
+The following command demonstrates the necessary flags for the gcc/g++ compiler
+(other compilers require similar settings)::
+
+    gcc myapp.c -o myapp -I./include -L. -Wl,-Bdynamic -lkodoc -lstdc++ \
+    -Wl,-rpath .
+
+In practice, you should set the ``-I`` and ``-L`` flags to the path where you
+installed the shared library.
+
+Now you should be able to run the new binary::
+
+    ./myapp
 
 If you dynamically link your application with the shared library, then you
 have to copy the shared library to a folder where your system can find it
@@ -46,9 +59,9 @@ Static Library
 
 After building kodo-c, you can install the static libraries to your target
 folder with the following command (the ``install_path`` option specifies
-the target folder)::
+the target folder which will be ``static_test`` in this example)::
 
-    python waf install --install_static_libs --install_path="/path/to/my_folder"
+    python waf install --install_static_libs --install_path="./static_test"
 
 The kodo-c static library is called ``libkodoc_static.a`` on Linux and Mac and
 ``kodoc_static.lib`` on Windows. The install command also installs the static
@@ -56,16 +69,28 @@ libraries from the kodo-c dependencies (you will need the ``fifi``and ``cpuid``
 libraries as well).
 
 You can link with these static libraries using your own build system. Of course,
-you will need to include ``kodoc.h`` in your code. The following command
-demonstrates the necessary flags for the gcc/g++ compiler (other compilers
-require similar settings)::
+you will need to include ``kodoc.h`` in your code (which is installed to the
+``include`` folder within the specified ``install_path``).
 
-    gcc myapp.c -o myapp -Ipath_to_kodoc_h -Wl,-Bstatic -Lpath_to_static_libs \
-    -lkodoc_static -lfifi -lcpuid -Wl,-Bdynamic -lm -lstdc++
+Now we copy an existing kodo-c example (encode_decode_simple) to the
+``static_test`` folder and we compile it to a binary called ``myapp``::
 
-Substitute ``path_to_kodoc_h`` with the path to ``kodoc.h``. Similarly,
-substitute ``path_to_static_libs`` with the path where you installed the
-static libraries.
+    cp examples/encode_decode_simple/encode_decode_simple.c static_test/myapp.c
+    cd static_test
+
+The following command demonstrates the necessary flags for the gcc/g++ compiler
+(other compilers require similar settings)::
+
+    gcc myapp.c -o myapp -I./include -Wl,-Bstatic -L. -lkodoc_static -lfifi \
+    -lcpuid -Wl,-Bdynamic -lm -lstdc++
+
+In practice, you should set the ``-I`` and ``-L`` flags to the path where you
+installed the static libraries.
+
+Now you should be able to run the new binary (note that this binary will
+be quite large, since it includes all the static libraries)::
+
+    ./myapp
 
 It is important to note that you need to link with the C++ standard library
 (by using ``-lstdc++`` above), because the kodo-c library actually wraps a
@@ -73,8 +98,8 @@ C++ library (kodo) that uses the C++ standard library. However, you can omit
 this flag if you link your application with g++ instead of gcc (g++
 automatically includes the stdc++)::
 
-    g++ myapp.c -o myapp -Ipath_to_kodoc_h -Wl,-Bstatic -Lpath_to_static_libs \
-    -lkodoc_static -lfifi -lcpuid -Wl,-Bdynamic
+    g++ myapp.c -o myapp -I./include -Wl,-Bstatic -L. -lkodoc_static -lfifi \
+    -lcpuid -Wl,-Bdynamic
 
 
 Android
