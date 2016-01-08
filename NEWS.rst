@@ -6,6 +6,9 @@ of every change, see the Git log.
 
 Latest
 ------
+* Major: The ``kodo_`` prefix was changed to ``kodoc_`` in all functions,
+  types and enums. The old prefix caused name collisions with symbols defined
+  in the main kodo repositories.
 * Major: Replaced ``kodo_factory_new_encoder`` and ``kodo_factory_new_decoder``
   with ``kodo_factory_build_coder``.
 * Minor: Added the ``enable_codecs`` option to only enable specific codecs

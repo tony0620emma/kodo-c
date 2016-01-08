@@ -99,8 +99,6 @@ uint8_t kodoc_has_codec(int32_t codec);
 ///        built with this factory.
 /// @param max_symbol_size The maximum symbol size in bytes supported by
 ///        encoders built using the returned factory
-/// @param trace_mode Determines which trace mode should be used.
-/// @param storage_mode @todo
 /// @return A new factory capable of building encoders using the
 ///         selected parameters.
 KODOC_API
@@ -115,8 +113,6 @@ kodoc_factory_t kodoc_new_encoder_factory(
 ///        built with this factory.
 /// @param max_symbol_size The maximum symbol size in bytes supported by
 ///        decoders built using the returned factory
-/// @param trace_mode Determines which trace mode should be used.
-/// @param storage_mode @todo
 /// @return A new factory capable of building decoders using the
 ///         selected parameters.
 KODOC_API
@@ -166,7 +162,7 @@ void kodoc_factory_set_symbols(kodoc_factory_t factory, uint32_t symbols);
 
 /// Sets the symbol size which should be used for the subsequent
 /// encoders / decoders built with the specified factory. The value must
-/// be below the max symbols used for the specific factory.
+/// be below the max symbol size used for the specific factory.
 /// @param factory The factory which should be configured
 /// @param symbol_size The symbol size used for the next encoder/decoder
 ///        built with the factory.
@@ -200,8 +196,8 @@ uint32_t kodoc_payload_size(kodoc_coder_t coder);
 /// updated during this operation.
 /// @param decoder The decoder to use.
 /// @param payload The buffer storing the payload of an encoded symbol.
-///        The payload buffer may be changed by the decode function,
-///        an cannot be reused. If the payload is needed in several places
+///        The payload buffer may be changed by this operation,
+///        so it cannot be reused. If the payload is needed at several places,
 ///        make sure to keep a copy of the original payload.
 KODOC_API
 void kodoc_read_payload(kodoc_coder_t decoder, uint8_t* payload);
@@ -257,7 +253,7 @@ void kodoc_set_const_symbol(
 /// symbols. This will specify the storage for all symbols. If this is not
 /// desired, then the symbols can be specified individually.
 /// @param decoder The decoder which will decode the data
-/// @param data The buffer containing the data to be decoded
+/// @param data The buffer that should contain the decoded symbols
 /// @param size The size of the buffer to be decoded
 KODOC_API
 void kodoc_set_mutable_symbols(
@@ -266,7 +262,7 @@ void kodoc_set_mutable_symbols(
 /// Specifies the data buffer where the decoder should store a given symbol.
 /// @param decoder The decoder which will decode the symbol
 /// @param index The index of the symbol in the coding block
-/// @param data The buffer containing the data to be decoded
+/// @param data The buffer that should contain the decoded symbol
 /// @param size The size of the symbol buffer
 KODOC_API
 void kodoc_set_mutable_symbol(
@@ -293,6 +289,16 @@ uint32_t kodoc_symbols(kodoc_coder_t coder);
 /// @return Non-zero value if the decoding is complete, otherwise 0
 KODOC_API
 uint8_t kodoc_is_complete(kodoc_coder_t decoder);
+
+/// Check whether the decoder supports partial decoding. This means
+/// means that the decoder will be able to decode symbols on-the-fly.
+/// If the decoder supports the partial decoding tracker, then the
+/// kodoc_is_partially_complete() function can be used to determine if some of
+/// the symbols are fully decoded.
+/// @param coder The decoder to query
+/// @return Non-zero if the decoder supports partial decoding, otherwise 0
+KODOC_API
+uint8_t kodoc_has_partial_decoding_interface(kodoc_coder_t decoder);
 
 /// Check whether decoding is partially complete. This means that some
 /// symbols in the decoder are fully decoded. You can use the
@@ -339,21 +345,21 @@ uint32_t kodoc_write_feedback(kodoc_coder_t decoder, uint8_t* feedback);
 
 /// Indicates if a symbol is partially or fully decoded. A symbol with
 /// a pivot element is defined in the coding matrix of a decoder.
-/// @param coder The decoder to query
+/// @param decoder The decoder to query
 /// @param index Index of the symbol whose state should be checked
 /// @return Non-zero value if the symbol is defined, otherwise 0
 KODOC_API
 uint8_t kodoc_is_symbol_pivot(kodoc_coder_t decoder, uint32_t index);
 
 /// Indicates whether a symbol is missing at a decoder.
-/// @param coder The decoder to query
+/// @param decoder The decoder to query
 /// @param index Index of the symbol whose state should be checked
 /// @return Non-zero value if the symbol is missing, otherwise 0
 KODOC_API
 uint8_t kodoc_is_symbol_missing(kodoc_coder_t decoder, uint32_t index);
 
 /// Indicates whether a symbol has been partially decoded at a decoder.
-/// @param coder The decoder to query
+/// @param decoder The decoder to query
 /// @param index Index of the symbol whose state should be checked
 /// @return Non-zero value if the symbol has been partially decoded,
 ///         otherwise 0
@@ -363,36 +369,36 @@ uint8_t kodoc_is_symbol_partially_decoded(
 
 /// Indicates whether a symbol is available in an uncoded (i.e. fully decoded)
 /// form at the decoder.
-/// @param coder The decoder to query
+/// @param decoder The decoder to query
 /// @param index Index of the symbol whose state should be checked
 /// @return Non-zero value if the symbol is uncoded, otherwise 0
 KODOC_API
 uint8_t kodoc_is_symbol_uncoded(kodoc_coder_t decoder, uint32_t index);
 
 /// Returns the number of missing symbols.
-/// @param coder The decoder to query
+/// @param decoder The decoder to query
 /// @return The number of missing symbols at the decoder
 KODOC_API
 uint32_t kodoc_symbols_missing(kodoc_coder_t decoder);
 
 /// Returns the number of partially decoded symbols.
-/// @param coder The decoder to query
+/// @param decoder The decoder to query
 /// @return The number of partially decoded symbols at the decoder
 KODOC_API
 uint32_t kodoc_symbols_partially_decoded(kodoc_coder_t decoder);
 
 /// Returns the number of uncoded (i.e. fully decoded) symbols.
-/// @param coder The decoder to query
+/// @param decoder The decoder to query
 /// @return The number of uncoded symbols at the decoder
 KODOC_API
 uint32_t kodoc_symbols_uncoded(kodoc_coder_t decoder);
 
-/// Reads and decodes an encoded symbol according to the coding
-/// coefficients stored in the corresponding symbol_id.
+/// Reads and decodes an encoded symbol according to the provided coding
+/// coefficients.
 /// @param decoder The decoder to use.
 /// @param symbol_data The encoded symbol
-/// @param coefficients The coding coefficients used to
-///        create the encoded symbol
+/// @param coefficients The coding coefficients that were used to
+///        calculate the encoded symbol
 KODOC_API
 void kodoc_read_symbol(
     kodoc_coder_t decoder, uint8_t* symbol_data, uint8_t* coefficients);
@@ -409,8 +415,8 @@ void kodoc_read_uncoded_symbol(
 /// Writes an encoded symbol according to the provided symbol coefficients.
 /// @param encoder The encoder to use.
 /// @param symbol_data The destination buffer for the encoded symbol
-/// @param coefficients At this point the symbol id should be
-///        initialized with the desired coding coefficients.
+/// @param coefficients The desired coding coefficients that should
+///        be used to calculate the encoded symbol.
 /// @return The number of bytes used.
 KODOC_API
 uint32_t kodoc_write_symbol(
@@ -427,19 +433,8 @@ uint32_t kodoc_write_uncoded_symbol(
     kodoc_coder_t encoder, uint8_t* symbol_data, uint32_t index);
 
 //------------------------------------------------------------------
-// GENERIC API
+// SYSTEMATIC API
 //------------------------------------------------------------------
-
-/// Check whether the decoder supports partial decoding. This means
-/// means that the decoder will be able to decode symbols on-the-fly.
-/// If the decoder supports the partial decoding tracker, then the
-/// kodoc_is_partially_complete() function can be used to determine if some of
-/// the symbols are fully decoded and therefore can be copied out of the
-/// decoder.
-/// @param coder The decoder to query
-/// @return Non-zero if the decoder supports partial decoding, otherwise 0
-KODOC_API
-uint8_t kodoc_has_partial_decoding_interface(kodoc_coder_t decoder);
 
 /// Returns whether an encoder has systematic capabilities
 /// @param encoder The encoder
@@ -511,13 +506,13 @@ void kodoc_set_zone_prefix(kodoc_coder_t coder, const char* prefix);
 // SPARSE ENCODER API
 //------------------------------------------------------------------
 
-/// Returns the current coding vector density of an encoder.
+/// Returns the current coding vector density of a sparse encoder.
 /// @param coder The encoder to query
 /// @return The coding vector density (0.0 < density <= 1.0)
 KODOC_API
 double kodoc_density(kodoc_coder_t encoder);
 
-/// Sets the coding vector density of an encoder.
+/// Sets the coding vector density of a sparse encoder.
 /// @param encoder The encoder to use
 /// @param density The density value (0.0 < density <= 1.0)
 KODOC_API
@@ -558,10 +553,10 @@ void kodoc_set_pre_charging(kodoc_coder_t encoder, uint8_t pre_charging);
 KODOC_API
 uint32_t kodoc_width(kodoc_coder_t encoder);
 
-/// Set the number of non-zero coefficients after the pivot.
-/// Width ratio is recalculated from this value
+/// Set the perpetual width, i.e. the number of non-zero coefficients after the
+/// pivot. The width_ratio is calculated from this value.
 /// @param encoder The encoder to use
-/// @param width the width
+/// @param width the perpetual width (0 <= width < symbols)
 KODOC_API
 void kodoc_set_width(kodoc_coder_t encoder, uint32_t width);
 
@@ -574,7 +569,7 @@ double kodoc_width_ratio(kodoc_coder_t encoder);
 /// Set the ratio that is used to calculate the number of non-zero
 /// coefficients after the pivot (i.e. the width)
 /// @param encoder The encoder to use
-/// @param ratio the width ratio
+/// @param width_ratio the width ratio (0.0 < width_ratio <= 1.0)
 KODOC_API
 void kodoc_set_width_ratio(kodoc_coder_t encoder, double width_ratio);
 
