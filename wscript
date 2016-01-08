@@ -184,6 +184,7 @@ def build(bld):
         # Install kodoc.h to the 'include' folder
         if bld.has_tool_option('install_path'):
             install_path = bld.get_tool_option('install_path')
+            install_path = os.path.abspath(os.path.expanduser(install_path))
             start_dir = bld.path.find_dir('src')
             bld.install_files(os.path.join(install_path, 'include'),
                               ['kodoc/kodoc.h'],
