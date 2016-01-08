@@ -6,6 +6,10 @@ of every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+8.0.0
+-----
 * Major: The ``kodo_`` prefix was changed to ``kodoc_`` in all functions,
   types and enums. The old prefix caused name collisions with symbols defined
   in the main kodo repositories.
