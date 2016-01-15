@@ -11,13 +11,8 @@
 #include <string>
 
 #include <kodo_core/api/api.hpp>
-#include <kodo_fulcrum/api/expansion.hpp>
-#include <kodo_fulcrum/api/max_expansion.hpp>
-#include <kodo_fulcrum/api/set_expansion.hpp>
-#include <kodo_fulcrum/api/inner_symbols.hpp>
-#include <kodo_fulcrum/api/max_inner_symbols.hpp>
-#include <kodo_fulcrum/api/nested_symbols.hpp>
-#include <kodo_fulcrum/api/nested_symbol_size.hpp>
+
+#if !defined(KODOC_DISABLE_RLNC)
 #include <kodo_rlnc/api/pre_charging.hpp>
 #include <kodo_rlnc/api/pseudo_systematic.hpp>
 #include <kodo_rlnc/api/set_pre_charging.hpp>
@@ -26,13 +21,22 @@
 #include <kodo_rlnc/api/set_width_ratio.hpp>
 #include <kodo_rlnc/api/width.hpp>
 #include <kodo_rlnc/api/width_ratio.hpp>
+#endif // !defined(KODOC_DISABLE_RLNC)
+
+#if !defined(KODOC_DISABLE_FULCRUM)
+#include <kodo_fulcrum/api/expansion.hpp>
+#include <kodo_fulcrum/api/max_expansion.hpp>
+#include <kodo_fulcrum/api/set_expansion.hpp>
+#include <kodo_fulcrum/api/inner_symbols.hpp>
+#include <kodo_fulcrum/api/max_inner_symbols.hpp>
+#include <kodo_fulcrum/api/nested_symbols.hpp>
+#include <kodo_fulcrum/api/nested_symbol_size.hpp>
+#endif // !defined(KODOC_DISABLE_FULCRUM)
 
 struct kodoc_factory { };
 struct kodoc_coder { };
 
 using namespace kodo_core::api;
-using namespace kodo_rlnc::api;
-using namespace kodo_fulcrum::api;
 
 //------------------------------------------------------------------
 // CONFIGURATION API
@@ -506,59 +510,99 @@ void kodoc_set_density(kodoc_coder_t encoder, double density)
 
 uint8_t kodoc_pseudo_systematic(kodoc_coder_t encoder)
 {
+#if !defined(KODOC_DISABLE_RLNC)
     auto api = (final_interface*) encoder;
     assert(api);
-    return pseudo_systematic(api);
+    return kodo_rlnc::api::pseudo_systematic(api);
+#else
+    (void)encoder;
+    return 0;
+#endif
 }
 
 void kodoc_set_pseudo_systematic(
     kodoc_coder_t encoder, uint8_t pseudo_systematic)
 {
+#if !defined(KODOC_DISABLE_RLNC)
     auto api = (final_interface*) encoder;
     assert(api);
-    set_pseudo_systematic(api, pseudo_systematic != 0);
+    kodo_rlnc::api::set_pseudo_systematic(api, pseudo_systematic != 0);
+#else
+    (void)encoder;
+    (void)pseudo_systematic;
+#endif
 }
 
 uint8_t kodoc_pre_charging(kodoc_coder_t encoder)
 {
+#if !defined(KODOC_DISABLE_RLNC)
     auto api = (final_interface*) encoder;
     assert(api);
-    return pre_charging(api);
+    return kodo_rlnc::api::pre_charging(api);
+#else
+    (void)encoder;
+    return 0;
+#endif
 }
 
 void kodoc_set_pre_charging(kodoc_coder_t encoder, uint8_t pre_charging)
 {
+#if !defined(KODOC_DISABLE_RLNC)
     auto api = (final_interface*) encoder;
     assert(api);
-    set_pre_charging(api, pre_charging != 0);
+    kodo_rlnc::api::set_pre_charging(api, pre_charging != 0);
+#else
+    (void)encoder;
+    (void)pre_charging;
+#endif
 }
 
 uint32_t kodoc_width(kodoc_coder_t encoder)
 {
+#if !defined(KODOC_DISABLE_RLNC)
     auto api = (final_interface*) encoder;
     assert(api);
-    return width(api);
+    return kodo_rlnc::api::width(api);
+#else
+    (void)encoder;
+    return 0;
+#endif
 }
 
 void kodoc_set_width(kodoc_coder_t encoder, uint32_t width)
 {
+#if !defined(KODOC_DISABLE_RLNC)
     auto api = (final_interface*) encoder;
     assert(api);
-    set_width(api, width);
+    kodo_rlnc::api::set_width(api, width);
+#else
+    (void)encoder;
+    (void)width;
+#endif
 }
 
 double kodoc_width_ratio(kodoc_coder_t encoder)
 {
+#if !defined(KODOC_DISABLE_RLNC)
     auto api = (final_interface*) encoder;
     assert(api);
-    return width_ratio(api);
+    return kodo_rlnc::api::width_ratio(api);
+#else
+    (void)encoder;
+    return 0.0;
+#endif
 }
 
 void kodoc_set_width_ratio(kodoc_coder_t encoder, double width_ratio)
 {
+#if !defined(KODOC_DISABLE_RLNC)
     auto api = (final_interface*) encoder;
     assert(api);
-    set_width_ratio(api, width_ratio);
+    kodo_rlnc::api::set_width_ratio(api, width_ratio);
+#else
+    (void)encoder;
+    (void)width_ratio;
+#endif
 }
 
 //------------------------------------------------------------------
@@ -567,16 +611,26 @@ void kodoc_set_width_ratio(kodoc_coder_t encoder, double width_ratio)
 
 uint32_t kodoc_expansion(kodoc_coder_t coder)
 {
+#if !defined(KODOC_DISABLE_FULCRUM)
     auto api = (final_interface*) coder;
     assert(api);
-    return expansion(api);
+    return kodo_fulcrum::api::expansion(api);
+#else
+    (void)coder;
+    return 0;
+#endif
 }
 
 uint32_t kodoc_inner_symbols(kodoc_coder_t coder)
 {
+#if !defined(KODOC_DISABLE_FULCRUM)
     auto api = (final_interface*) coder;
     assert(api);
-    return inner_symbols(api);
+    return kodo_fulcrum::api::inner_symbols(api);
+#else
+    (void)coder;
+    return 0;
+#endif
 }
 
 //------------------------------------------------------------------
@@ -584,16 +638,26 @@ uint32_t kodoc_inner_symbols(kodoc_coder_t coder)
 //------------------------------------------------------------------
 uint32_t kodoc_nested_symbols(kodoc_coder_t encoder)
 {
+#if !defined(KODOC_DISABLE_FULCRUM)
     auto api = (final_interface*) encoder;
     assert(api);
-    return nested_symbols(api);
+    return kodo_fulcrum::api::nested_symbols(api);
+#else
+    (void)encoder;
+    return 0;
+#endif
 }
 
 uint32_t kodoc_nested_symbol_size(kodoc_coder_t encoder)
 {
+#if !defined(KODOC_DISABLE_FULCRUM)
     auto api = (final_interface*) encoder;
     assert(api);
-    return nested_symbol_size(api);
+    return kodo_fulcrum::api::nested_symbol_size(api);
+#else
+    (void)encoder;
+    return 0;
+#endif
 }
 
 //------------------------------------------------------------------
@@ -602,21 +666,36 @@ uint32_t kodoc_nested_symbol_size(kodoc_coder_t encoder)
 
 uint32_t kodoc_factory_max_expansion(kodoc_factory_t factory)
 {
+#if !defined(KODOC_DISABLE_FULCRUM)
     auto api = (final_interface*) factory;
     assert(api);
-    return max_expansion(api);
+    return kodo_fulcrum::api::max_expansion(api);
+#else
+    (void)factory;
+    return 0;
+#endif
 }
 
 void kodoc_factory_set_expansion(kodoc_factory_t factory, uint32_t expansion)
 {
+#if !defined(KODOC_DISABLE_FULCRUM)
     auto api = (final_interface*) factory;
     assert(api);
-    set_expansion(api, expansion);
+    kodo_fulcrum::api::set_expansion(api, expansion);
+#else
+    (void)factory;
+    (void)expansion;
+#endif
 }
 
 uint32_t kodoc_factory_max_inner_symbols(kodoc_factory_t factory)
 {
+#if !defined(KODOC_DISABLE_FULCRUM)
     auto api = (final_interface*) factory;
     assert(api);
-    return max_inner_symbols(api);
+    return kodo_fulcrum::api::max_inner_symbols(api);
+#else
+    (void)factory;
+    return 0;
+#endif
 }

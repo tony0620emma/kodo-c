@@ -141,9 +141,14 @@ def build(bld):
         'DEFINES_STEINWURF_VERSION',
         'STEINWURF_KODOC_VERSION="{}"'.format(VERSION))
 
-    use_flags = ['kodo_core_includes', 'kodo_reed_solomon_includes',
-                 'kodo_rlnc_includes', 'kodo_fulcrum_includes',
-                 'KODOC_COMMON']
+    use_flags = ['kodo_core_includes', 'KODOC_COMMON']
+
+    if 'KODOC_DISABLE_REED_SOLOMON' not in bld.env['DEFINES_KODOC_COMMON']:
+        use_flags += ['kodo_reed_solomon_includes']
+    if 'KODOC_DISABLE_RLNC' not in bld.env['DEFINES_KODOC_COMMON']:
+        use_flags += ['kodo_rlnc_includes']
+    if 'KODOC_DISABLE_FULCRUM' not in bld.env['DEFINES_KODOC_COMMON']:
+        use_flags += ['kodo_fulcrum_includes']
 
     # Build the kodo-c static library
     bld.stlib(
