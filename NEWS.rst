@@ -6,7 +6,8 @@ of every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Patch: Disable the rlnc and fulcrum API when the corresponding repositories
+  are not available.
 
 8.0.0
 -----
