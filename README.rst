@@ -32,8 +32,8 @@ us at our developer mailing list (hosted at Google Groups):
 Documentation
 -------------
 
-To get started, read the kodo-c manual here:
-http://kodo-c.readthedocs.org
+To get started, see the manual here:
+http://docs.steinwurf.com
 
 Quick Start
 -----------
