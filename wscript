@@ -173,6 +173,8 @@ def build(bld):
     if bld.is_toplevel():
 
         bld.recurse('test')
+        bld.recurse('examples/servercoding')
+        bld.recurse('examples/clientcoding')
         bld.recurse('examples/encode_decode_on_the_fly')
         bld.recurse('examples/encode_decode_simple')
         bld.recurse('examples/fulcrum')
